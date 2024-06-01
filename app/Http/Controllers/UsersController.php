@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Traits\Get;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+class UsersController extends Controller
+{
+    use Get;
+    public function index()  {
+        $users = $this->GetAll('users');
+        $publieeUsers = User::paginate(10);
+        return Inertia::render('usersIndex', $users);
+    }
+    public function show($id){
+        $user = User::find($id);
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return Inertia::render('usersShow', [$user,$roles,$permissions]);
+    }
+    public function edit($id){
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('users.edit', compact( ['user','roles','permissions']));
+    }
+    public function assignRole(Request $request, User $user){
+        if ($user->hasRole($request->role)) {
+            return back()->with('message', 'Role exists.');
+        }
+        $user->assignRole($request->role);
+        return back()->with('message', 'Role assigned.');
+    }
+    public function removeRole(User $user, Role $role){
+        if ($user->hasRole($role)) {
+            $user->removeRole($role);
+            return back()->with('message', 'Role removed.');
+        }
+        return back()->with('message', 'Role not exists.');
+    }
+    public function givePermission(Request $request, User $user){
+        if ($user->hasPermissionTo($request->permission)) {
+            return back()->with('message', 'Permission exists.');
+        }
+        $user->givePermissionTo($request->permission);
+        return back()->with('message', 'Permission added.');
+    }
+    public function revokePermission(User $user, Permission $permission){
+        if ($user->hasPermissionTo($permission)) {
+            $user->revokePermissionTo($permission);
+            return back()->with('message', 'Permission revoked.');
+        }
+        return back()->with('message', 'Permission does not exists.');
+    }
+}
