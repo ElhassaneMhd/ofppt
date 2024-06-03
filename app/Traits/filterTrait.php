@@ -4,10 +4,8 @@ namespace App\Traits;
 use App\Models\User;
 use App\Models\Filier;
 use App\Models\Article;
-use App\Models\Secteur;
-use App\Models\Categorie;
 use App\Models\Evenement;
-use App\Models\AnneeFormation;
+use App\Models\Year;
 
 trait filterTrait {
     protected function filterData($request, $model)
@@ -15,9 +13,7 @@ trait filterTrait {
         $rowsNum = $request->rowsNum ? $request->rowsNum : 5;
         $sort = $request->sort ? $request->sort : null;
         $searchedValue = $request->search ? $request->search : null;
-        $allCategories = Categorie::all();
-        $categorie = Categorie::all();
-        $anneeFormation = AnneeFormation::all();
+        $Year = Year::all();
 
         switch($model){
             case 'App\Models\Article':
@@ -31,10 +27,10 @@ trait filterTrait {
                 $date_from;
                 $date_to;
 
-                if (!$request->categorie && !$request->auteur && (!$request->date_from || !$request->date_to) && !$request->search && !$request->annee_formation) return redirect()->back();
+                if (!$request->categorie && !$request->auteur && (!$request->date_from || !$request->date_to) && !$request->search && !$request->year) return redirect()->back();
 
                 if (isset($searchedValue)){
-                    $filteredData = $filteredData->where('titre','like', "%$searchedValue%");
+                    $filteredData = $filteredData->where('title','like', "%$searchedValue%");
                 };
 
                 if (isset($request->categorie)){
@@ -63,8 +59,8 @@ trait filterTrait {
                     $filteredData = $filteredData->whereBetween('date', [$date_from, $date_to]);
                 };
 
-                if(isset($request->annee_formation)){
-                $filteredData = $filteredData->whereIn('annee_formation_id', [...$request->annee_formation]);
+                if(isset($request->year)){
+                $filteredData = $filteredData->whereIn('year_id', [...$request->year]);
                 }
 
                 if(isset($sort)){
@@ -73,7 +69,7 @@ trait filterTrait {
                 
                 $filteredData = $filteredData->paginate($rowsNum)->withQueryString();
                 
-                return view("articles.articles", compact(["publieeArticles","trashedArticles", 'allPubliee',"allTrashed", "allCategories", 'filteredData', "rowsNum", "sort", "admins", "anneeFormation"]));
+                return view("articles.articles", compact(["publieeArticles","trashedArticles", 'allPubliee',"allTrashed", 'filteredData', "rowsNum", "sort", "admins", "Year"]));
             break;
             case 'App\Models\Evenement':
                 $filteredData = Evenement::where('id', '>', 0);
@@ -81,26 +77,26 @@ trait filterTrait {
                 $publieeEvenements = Evenement::paginate($rowsNum)->withQueryString();
                 $allTrashed = Evenement::onlyTrashed()->get();
                 $trashedEvenements = Evenement::onlyTrashed()->paginate($rowsNum)->withQueryString();
-                $places = Evenement::groupBy('titre')->pluck('titre')->all();
+                $places = Evenement::groupBy('title')->pluck('title')->all();
                 $date_from;
                 $date_to;
 
-                if (!$request->search && !$request->duree && (!$request->date_from || !$request->date_to) && !$request->lieu && !$request->annee_formation && !$request->etat) return redirect()->back();
+                if (!$request->search && !$request->duree && (!$request->date_from || !$request->date_to) && !$request->location && !$request->year && !$request->status) return redirect()->back();
 
                 if(isset($request->search)){
-                    $filteredData = $filteredData->where('titre', "like", "%$searchedValue%");
+                    $filteredData = $filteredData->where('title', "like", "%$searchedValue%");
                 };
 
                 if(isset($request->duree)){
                     $filteredData = $filteredData->where('duree', $request->duree);
                 };
 
-                if(isset($request->lieu)){
-                    $filteredData = $filteredData->whereBetween('lieu', [...$request->lieu]);
+                if(isset($request->location)){
+                    $filteredData = $filteredData->whereBetween('location', [...$request->location]);
                 };
 
-                if(isset($request->annee_formation)){
-                    $filteredData = $filteredData->whereBetween('annee_formation', [...$request->annee_formation]);
+                if(isset($request->year)){
+                    $filteredData = $filteredData->whereBetween('year', [...$request->year]);
                 };
 
                 if(isset($request->date_from) && isset($request->date_to)){
@@ -109,8 +105,8 @@ trait filterTrait {
                     $filteredData = $filteredData->whereBetween('date', [$date_from, $date_to]);
                 };
 
-                if(isset($request->etat)){
-                    $filteredData = $filteredData->where('etat', $request->etat);
+                if(isset($request->status)){
+                    $filteredData = $filteredData->where('status', $request->status);
                 };
 
                 if(isset($sort)){
@@ -119,7 +115,7 @@ trait filterTrait {
 
                 $filteredData = $filteredData->paginate($rowsNum)->withQueryString();
 
-                return view("evenements.evenements", compact(["publieeEvenements","trashedEvenements", 'allPubliee', "allTrashed","anneeFormation",'categorie', 'rowsNum', 'sort', 'places', 'filteredData']));
+                return view("evenements.evenements", compact(["publieeEvenements","trashedEvenements", 'allPubliee', "allTrashed","Year",'categorie', 'rowsNum', 'sort', 'places', 'filteredData']));
             break;
             case 'App\Models\Filier':
                 $filteredData = Filier::where('id', '>', 0);
@@ -127,10 +123,9 @@ trait filterTrait {
                 $allTrashed = Filier::onlyTrashed()->get();
                 $publieeFiliers = Filier::paginate($rowsNum)->withQueryString();
                 $trashedFiliers = Filier::onlyTrashed()->paginate($rowsNum)->withQueryString();
-                $secteurs = Secteur::all();
 
                 if(isset($request->search)){
-                $filteredData = $filteredData->where('titre', 'like', $searchedValue);
+                $filteredData = $filteredData->where('title', 'like', $searchedValue);
                 };
 
                 if(isset($request->max_stagiaires)){
@@ -145,8 +140,8 @@ trait filterTrait {
                 $filteredData = $filteredData->whereIn('secteur_id', [...$request->secteur]);
                 };
 
-                if(isset($request->annee_formation)){
-                $filteredData = $filteredData->whereIn('annee_formation_id', [...$request->annee_formation]);
+                if(isset($request->year)){
+                $filteredData = $filteredData->whereIn('year_id', [...$request->year]);
                 };
 
                 if(isset($sort)){
@@ -155,7 +150,7 @@ trait filterTrait {
 
                 $filteredData = $filteredData->paginate($rowsNum)->withQueryString();
                 
-                return view("filiers.filiers", compact(["publieeFiliers","trashedFiliers", 'allPubliee', 'allTrashed','anneeFormation','categorie', 'rowsNum', 'sort', 'secteurs']));
+                return view("filiers.filiers", compact(["publieeFiliers","trashedFiliers", 'allPubliee', 'allTrashed','Year','categorie', 'rowsNum', 'sort', 'secteurs']));
             break;
         }
 

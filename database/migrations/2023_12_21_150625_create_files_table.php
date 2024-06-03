@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->string('url');
+            $table->morphs('fileable');
             $table->timestamps();
-            $table->string('name');
-            $table->morphs('taggable');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('files');
     }
 };

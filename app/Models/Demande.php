@@ -10,5 +10,5 @@ class Demande extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=['name','email','phoneNumber','subject','details'];
+    protected $fillable=['name','email','phone','subject','details'];
 }

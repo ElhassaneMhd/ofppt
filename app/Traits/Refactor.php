@@ -3,69 +3,43 @@ namespace App\Traits;
 trait Refactor {
 
   protected function refactorUser($user){
-     $refactored = [
+     return [
                 "id"=>$user->id,
                 "firstName"=>$user->firstName,
                 "lastName"=>$user->lastName,
-                'created_at'=>$user->created_at->format('Y-m-d H:i:s'),
-                'updated_at'=>$user->updated_at->format('Y-m-d H:i:s'),
-                "gender"=>$user->gender,
+                'created_at'=>$user->created_at,
+                'updated_at'=>$user->updated_at,
                 "email"=>$user->email,
                 "phone"=>$user->phone,
-                "role"=>$user->getRoleNames()[0],
+               // "role"=>$user->getRoleNames()[0],
             ];
-    return $refactored;
   }
   protected function refactorArticle($article){
-    $article->Categories;
-    $article->tags;
-    $article->AnneeFormations;
-    $article->Admin->name;
-
-    foreach($article->tags as $key ) {
-      $tags[]= $key['name'];
-    };
-
-    $images = $this->getElementFiles($article);
     return [
-       "id"=> $article->id,
-      "title"=> $article->titre,
-      "content"=> $article->details, 
-      "author"=> $article->Admin->name,
-      "AnneeFormation"=>$article->AnneeFormations->nom,
+      "id"=> $article->id,
+      "title"=> $article->title,
+      "details"=> $article->details, 
       "date"=>$article->date,
-      "tags"=>$tags,
-      'cover'=>$images
+      "tags"=> str_split($article->tags, 3)??[],
+      "files"=>$this->getElementFiles($article)??[]
     ];
   }
-  protected function refactorEvent($item){
-      $item->Categories;
-      $item->tags;
-      $item->Admin;
-      $item->AnneeFormations;
-          foreach($item->tags as $key ) {
-            $tags[]= $key['name'];
-          };
-          $images = $this->getElementFiles($item);
-          return [ 
-            "id"=> $item->id,
-            "title"=> $item->titre,
-            "AnneeFormation"=>$item->AnneeFormations->nom,
-            "content"=> $item->details,
-            "author"=> $item->Admin->name,
-            "date"=>$item->date,
-            'lieu'=>$item->lieu,
-            'upcoming'=>$item->etat,
-            "duree"=>$item->duree,
-            "tags"=>$tags,
-            'cover'=>$images
-        ];
+  protected function refactorEvent($event){   
+      return [ 
+        "id"=> $event->id,
+        "title"=> $event->title,
+        "Year"=>$event->year->year,
+        "content"=> $event->details,
+        "author"=> $event->Admin->name,
+        "date"=>$event->date,
+        'location'=>$event->location,
+        'upcoming'=>$event->status,
+        "duree"=>$event->duree,
+        "tags"=> str_split($event->tags, ',')??[],
+        "files"=>$this->getElementFiles($event)??[]
+      ];
   }
   protected function refactorFilier($filier){
-          $filier->Secteur;
-          $filier->tags;
-          $filier->Admin;
-          $filier->AnneeFormations;
 
           foreach($filier->tags as $key ) {
             $tags[]= $key['name'];
@@ -74,10 +48,10 @@ trait Refactor {
           $images = $this->getElementFiles($filier);
         return  [
             "id"=> $filier->id,
-            "name"=> $filier->titre,
-            "AnneeFormation"=>$filier->AnneeFormations->nom,
+            "name"=> $filier->title,
+            "Year"=>$filier->Years->nom,
             "description"=> $filier->details,
-            "secteur"=>$filier->Secteur->name,
+            "secteur"=>$filier->Secteur,
             "tags"=>$tags,
             'max_stagiaires'=>$filier->max_stagiaires,
             'cover'=>$images

@@ -5,15 +5,12 @@ use App\Traits\Get;
 use DOMDocument;
 use App\Models\User;
 use App\Models\Article;
-use App\Models\Categorie;
 use Illuminate\Http\File;
-use App\Models\PieceJointe;
 use App\Traits\filterTrait;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\AnneeFormation;
+use App\Models\Year;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\destroyTrait;
@@ -38,16 +35,15 @@ public function index(Request $request){
     }
 public function create(){
 //form to add article
-        $AnneeFormation = AnneeFormation::all();
+        $Year = Year::all();
         $admins = User::all();
-        $Categorie = Categorie::all();
-         $activeAnneeFormations = AnneeFormation::active()->get()[0];
-        if  (session::missing('anneeFormationActive')) {
-        session(['anneeFormationActive' => $activeAnneeFormations]);
+         $activeYears = Year::active()->get()[0];
+        if  (session::missing('YearActive')) {
+        session(['YearActive' => $activeYears]);
         }
-        return view('articles.ajouter_article',compact(["Categorie",'AnneeFormation','admins']));
+        return view('articles.ajouter_article',compact(['Year','admins']));
     }
-public function store(ArticleRequest $request){
+public function store(Request $request){
 //store article in DB
 
     $description = $request->description;
@@ -67,13 +63,13 @@ public function store(ArticleRequest $request){
         $description = $dom->saveHTML();
 
     $article = new Article();
-    $article->titre = $request->titre;
+    $article->title = $request->title;
     $article->details = $description;
     $article->date = $request->date_publication;
     $article->user_id = auth()->user()->id;
     $article->visibility =true;
     $article->categorie_id = $request->categorie;
-    $article->annee_formation_id = Session::get('anneeFormationActive')->id;
+    $article->year_id = Session::get('YearActive')->id;
     $article->save();
 //store files
         if ($request->has('images') && count($request->images) > 0) {
@@ -81,8 +77,8 @@ public function store(ArticleRequest $request){
             // dd($image);
             $imageURL = str_contains($image->getClientOriginalName(), '.') ? explode('.', $image->getClientOriginalName())[0] . time() . '.png' : $image->getClientOriginalName() . time() . '.png';
             // dd($imageURL);
-            $article->pieceJointes()->create([
-                'nom'=>$request->titre,
+            $article->files()->create([
+                'nom'=>$request->title,
                 'taille'=> 11,
                 'emplacement'=>'file:///C:/laravel/OFPPT/public/images/articles',
                 'URL'=>$imageURL,
@@ -102,10 +98,9 @@ public function store(ArticleRequest $request){
 public function show(Article $article){
 //showArticle           
         $article['details']=Str::markdown($article->details);
-        $pieceJointes=$article->pieceJointes;
-        $anneeFormation=$article->AnneeFormations;
-        $Categorie=$article->Categories;
-        return view('articles.show_article', compact( ['article','anneeFormation','Categorie','pieceJointes']));
+        $files=$article->files;
+        $Year=$article->Years;
+        return view('articles.show_article', compact( ['article','Year','files']));
     }
 public function cacher(Request $request ,string $id){
 //casher article
@@ -119,14 +114,13 @@ public function cacher(Request $request ,string $id){
     return to_route('articles.index');}
 public function edit(Article $article){
 //GET ARTICLE TO MODIFIE
-        $pieceJointes=$article->pieceJointes;
-        $anneeFormation = AnneeFormation::all();
+        $files=$article->files;
+        $Year = Year::all();
         $admins = User::all();
-        $Categorie = Categorie::all();
-        return view('articles.edit_article', compact( ['article','admins','anneeFormation','Categorie','pieceJointes']));
+        return view('articles.edit_article', compact( ['article','admins','Year',,'files']));
     }
 
-public function update(ArticleRequest $request, string $id){
+public function update(Request $request, string $id){
 //MODIFIE ARTICLE
         $article = Article::findOrfail($id);
 
@@ -168,7 +162,7 @@ public function update(ArticleRequest $request, string $id){
 
         $description = $newDom->saveHTML();
 
-        $article->titre = $request->titre;
+        $article->title = $request->title;
         $article->details = $request->description;
         $article->date = $request->date_publication;
         if(isset($request->user)){
@@ -177,11 +171,11 @@ public function update(ArticleRequest $request, string $id){
             $article->user_id = Session::get('user')->id;
         }
         $article->categorie_id = $request->categorie;
-        $article->annee_formation_id = $request->annee_formation;
+        $article->year_id = $request->year;
         $article->save();
 //modify old files
         if ($request->has('oldImages')){
-            foreach($article->pieceJointes as $pj) {
+            foreach($article->files as $pj) {
                 if (in_array( $pj->id, $request->oldImages)===false){
                     $filePath = public_path('images/article/'. $pj->URL);
                     if (File::exists($filePath)) {
@@ -191,14 +185,14 @@ public function update(ArticleRequest $request, string $id){
                 }
             }
         } else {
-            foreach($article->pieceJointes as $pj) {$pj->delete();}
+            foreach($article->files as $pj) {$pj->delete();}
         }
 //add new file
           if ($request->hasfile('images') && count($request->images) > 0) {
             foreach ($request->images as $image) {
             $imageURL =$image->getClientOriginalName();
-            $article->pieceJointes()->create([
-                'nom'=>$request->titre,
+            $article->files()->create([
+                'nom'=>$request->title,
                 'taille'=> 11,
                 'emplacement'=>'file:///C:/laravel/OFPPT/public/images/articles',
                 'URL'=>$imageURL,
@@ -229,13 +223,12 @@ public function trash(Request $request){
         $allPubliee = Article::all();
         $user = Auth::user();
         $admins = User::all();
-        $anneeFormation = AnneeFormation::all();
-        $allCategories = Categorie::all();
-        $activeAnneeFormations = AnneeFormation::active()->get()[0];
+        $Year = Year::all();
+        $activeYears = Year::active()->get()[0];
         $allTrashed = Article::onlyTrashed()->get();
         $publieeArticles = Article::paginate(5);
         $trashedArticles = Article::onlyTrashed()->paginate(5);
-        return view('articles.trash', compact(['publieeArticles','trashedArticles', 'user','activeAnneeFormations','allPubliee', 'allTrashed', "admins", "allCategories", "anneeFormation", "rowsNum", "sort"]));
+        return view('articles.trash', compact(['publieeArticles','trashedArticles', 'user','activeYears','allPubliee', 'allTrashed', "admins", "Year", "rowsNum", "sort"]));
     }
 
 public function forceDelete(string $id){

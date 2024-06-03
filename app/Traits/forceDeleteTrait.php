@@ -21,10 +21,10 @@ trait forceDeleteTrait {
                     }
                 }
     
-                foreach ($modelInstance->pieceJointes as $pieceJointe) {
-                    $pieceJointeName = "images/$folderName/" . $pieceJointe->URL ;
-                    if(Storage::disk('public')->exists($pieceJointeName)){
-                        Storage::delete($pieceJointeName);
+                foreach ($modelInstance->files as $file) {
+                    $fileName = "images/$folderName/" . $file->URL ;
+                    if(Storage::disk('public')->exists($fileName)){
+                        Storage::delete($fileName);
                     }
                 }
     
@@ -45,16 +45,16 @@ trait forceDeleteTrait {
                     }
                 }
     
-                foreach ($modelInstance->pieceJointes as $pieceJointe) {
-                    $pieceJointeName = "images/$folderName/" . $pieceJointe->URL ;
-                    if(Storage::disk('public')->exists($pieceJointeName)){
-                        Storage::delete($pieceJointeName);
+                foreach ($modelInstance->files as $file) {
+                    $fileName = "images/$folderName/" . $file->URL ;
+                    if(Storage::disk('public')->exists($fileName)){
+                        Storage::delete($fileName);
                     }
                 }
     
             $modelInstance->forceDelete();
         }
-            foreach($modelInstance->pieceJointes as $pj) {
+            foreach($modelInstance->files as $pj) {
                 $pj->delete();
             }
     }

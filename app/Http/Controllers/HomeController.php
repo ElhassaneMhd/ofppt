@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AnneeFormation;
+use App\Models\Year;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 // Retrieve the currently authenticated user...
@@ -15,36 +15,36 @@ class HomeController extends Controller
     }
 public function index(Request $request){
 //home view
-    $annesFormation = AnneeFormation::all();
-    $activeAnneeFormations = AnneeFormation::active()->get()[0];
+    $year = Year::all();
+    $activeYears = Year::active()->get()[0];
     $user = Auth::user();
-    if  (session::missing('anneeFormationActive')) {
-        session(['anneeFormationActive' => $activeAnneeFormations]);
+    if  (session::missing('YearActive')) {
+        session(['YearActive' => $activeYears]);
         }
     session(['user'=>$user]);
-    return view('home',compact(['annesFormation']));
+    return view('home',compact(['year']));
     }
 public function getAf(){
 //get all AF to settings 
-    $annesFormation = AnneeFormation::all();
-    return view('settings.index',compact(['annesFormation']));
+    $year = Year::all();
+    return view('settings.index',compact(['year']));
     }
 public function setActiveAF(Request $request){
-//set active annee formation to front end web sites
-        $anneeFormation = AnneeFormation::findOrfail($request->annee_formation_id);
-        $anneesFormation=AnneeFormation::all();
-        foreach ($anneesFormation as $af) {
+//set active year formation to front end web sites
+        $Year = Year::findOrfail($request->year_id);
+        $years=Year::all();
+        foreach ($years as $af) {
             $af->active=0;
             $af->save();
         }
-        $anneeFormation->active=1;
-        $anneeFormation->save();
+        $Year->active=1;
+        $Year->save();
         return to_route('home');
     }
 public function setActivInSession(Request $request){
-//set active annee formation in session
-    $request->session()->forget('anneeFormationActive');
-    session(['anneeFormationActive'=>AnneeFormation::find($request->annee_formation_id)]);
+//set active year formation in session
+    $request->session()->forget('YearActive');
+    session(['YearActive'=>Year::find($request->year_id)]);
     return to_route('home');
     }
 }

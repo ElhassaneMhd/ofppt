@@ -10,20 +10,15 @@ class Filier extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable=["titre","details",'Active',"Max_Stagiaires",'image',];
-    public function pieceJointes() {
- 	    return $this->morphMany(PieceJointe::class, 'PieceJointeable'); 
+    protected $fillable=["title","details",'isActive',"maxStg",'visibility','secteur'];
+    public function files() {
+ 	    return $this->morphMany(File::class, 'Fileable'); 
 	}
-    public function tags() {
- 	    return $this->morphMany(Tag::class, 'taggable'); 
-	}
-     public function AnneeFormations(){
-    return $this->belongsTo(AnneeFormation::class,'annee_formation_id');
+     public function year(){
+    return $this->belongsTo(Year::class,'year_id');
   }
-      public function Admin(){
-    return $this->belongsTo(User::class,'user_id');
+      public function user(){
+    return $this->belongsTo(User::class);
   }
-      public function Secteur(){
-    return $this->belongsTo(Secteur::class,'secteur_id');
-  }
+
 }

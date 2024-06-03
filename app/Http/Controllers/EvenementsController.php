@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evenement;
-use App\Models\PieceJointe;
-use App\Models\Categorie;
-use App\Models\AnneeFormation;
+use App\Models\File;
+use App\Models\Year;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventsRequest;
@@ -29,26 +28,25 @@ public function index(Request $request){
         $rowsNum = $request->rowsNum ? $request->rowsNum : 5;
         $sort = $request->sort ? $request->sort : null;
         $allPubliee = Evenement::all();
-        $anneeFormation = [];
+        $Year = [];
         foreach ($allPubliee as $article) {
-            array_push($anneeFormation,$article->AnneeFormations);
+            array_push($Year,$article->Years);
         }
-        $anneeFormation=array_unique($anneeFormation);
-        $categorie = Categorie::all();
+        $Year=array_unique($Year);
         $allTrashed = Evenement::onlyTrashed()->get();
         $publieeEvenements = Evenement::paginate(5);
         $trashedEvenements = Evenement::onlyTrashed()->paginate(5);
-        $places = Evenement::groupBy('titre')->pluck('titre')->all();
-        return view("evenements.evenements", compact(["publieeEvenements","trashedEvenements", 'allPubliee', "allTrashed","anneeFormation",'categorie', 'rowsNum', 'sort', 'places']));
+        $places = Evenement::groupBy('title')->pluck('title')->all();
+        return view("evenements.evenements", compact(["publieeEvenements","trashedEvenements", 'allPubliee', "allTrashed","Year",'categorie', 'rowsNum', 'sort', 'places']));
     }
 
 public function create(){
-        $AnneeFormation = AnneeFormation::all();
-        $activeAnneeFormations = AnneeFormation::active()->get()[0];
-        if  (session::missing('anneeFormationActive')) {
-        session(['anneeFormationActive' => $activeAnneeFormations]);
+        $Year = Year::all();
+        $activeYears = Year::active()->get()[0];
+        if  (session::missing('YearActive')) {
+        session(['YearActive' => $activeYears]);
         }
-        return view("evenements.ajouter_evenement",compact(['AnneeFormation']));
+        return view("evenements.ajouter_evenement",compact(['Year']));
     }
 
 public function store(EventsRequest $request){
@@ -70,22 +68,22 @@ public function store(EventsRequest $request){
         $description = $dom->saveHTML();
         
         $evenement = new Evenement();
-        $evenement->titre = $request->titre;
+        $evenement->title = $request->title;
         $evenement->details = $description;
         $evenement->date = $request->date_evenement;
-        $evenement->lieu = $request->lieu;
+        $evenement->location = $request->location;
         $evenement->duree = $request->duree;
-        $evenement->etat = $request->etat;   
+        $evenement->status = $request->status;   
         $evenement->user_id = auth()->user()->id;
         $evenement->visibility =true;
-        $evenement->annee_formation_id = Session::get('anneeFormationActive')->id;
+        $evenement->year_id = Session::get('YearActive')->id;
         $evenement->save();
 //store event's files
         if ($request->hasfile('images') && count($request->images) > 0) {
             foreach ($request->images as $image) {
                 $imageURL =$image->getClientOriginalName();
-                $evenement->pieceJointes()->create([
-                    'nom'=>$request->titre,
+                $evenement->files()->create([
+                    'nom'=>$request->title,
                     'taille'=> 11,
                     'emplacement'=>public_path('images/evenement'),
                     'URL'=>$imageURL,
@@ -125,25 +123,25 @@ public function cacher(Request $request ,string $id){
 public function edit(string $id){
 //get element by id to modify it
         $evenement = Evenement::findOrFail($id);
-        $anneeFormation = AnneeFormation::all();
-        return view('evenements.edit_evenement', compact('evenement','anneeFormation'));
+        $Year = Year::all();
+        return view('evenements.edit_evenement', compact('evenement','Year'));
     }
 
 public function update(Request $request, string $id) {
        // dd($request->all());
 //update event info
         $evenement = Evenement::findOrFail($id);
-        $evenement->titre = $request->titre;
+        $evenement->title = $request->title;
         $evenement->details = $request->description;
         $evenement->date = $request->date_evenement;
-        $evenement->lieu = $request->lieu;
+        $evenement->location = $request->location;
         $evenement->duree = $request->duree;
-        $evenement->etat = $request->etat;
-        $evenement->annee_formation_id = $request->annee_formation;
+        $evenement->status = $request->status;
+        $evenement->year_id = $request->year;
         $evenement->save();
 //modify old files
          if ($request->has('oldImages')){
-            foreach($evenement->pieceJointes as $pj) {
+            foreach($evenement->files as $pj) {
                 if (in_array( $pj->id, $request->oldImages)===false){
                     $filePath = public_path('images/evenement/'. $pj->URL);
                     if (File::exists($filePath)) {
@@ -153,14 +151,14 @@ public function update(Request $request, string $id) {
                 }
             }
         } else {
-            foreach($evenement->pieceJointes as $pj) {$pj->delete();}
+            foreach($evenement->files as $pj) {$pj->delete();}
         }
 //add new files
         if ($request->hasfile('images') && count($request->images) > 0) {
             foreach ($request->images as $image) {
                 $imageURL =$image->getClientOriginalName();
-                $evenement->pieceJointes()->create([
-                    'nom'=>$request->titre,
+                $evenement->files()->create([
+                    'nom'=>$request->title,
                     'taille'=> 11,
                     'emplacement'=>public_path('images/evenement'),
                     'URL'=>$imageURL,

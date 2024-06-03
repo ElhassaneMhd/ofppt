@@ -10,18 +10,15 @@ class Evenement extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable=["titre","details",'lieu','duree','date','image','etat'];
-       public function pieceJointes() {
- 	    return $this->morphMany(PieceJointe::class, 'PieceJointeable'); 
+    protected $fillable=["title","details",'location','duree','date','status','visibility'];
+       public function files() {
+ 	    return $this->morphMany(File::class, 'Fileable'); 
 	}
-      public function tags() {
- 	    return $this->morphMany(Tag::class, 'taggable'); 
-	}
-    public function AnneeFormations(){
-    return $this->belongsTo(AnneeFormation::class,'annee_formation_id');
+    public function year(){
+    return $this->belongsTo(Year::class);
   }
-    public function Admin(){
-    return $this->belongsTo(User::class,'user_id');
+    public function user(){
+    return $this->belongsTo(User::class);
   }
 
 }

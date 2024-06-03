@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('secteurs', function (Blueprint $table) {
+        Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('year');
+            $table->date('startDate');
+            $table->date('endDate');
+            $table->boolean('isActive');
+            $table->date('inscriptionStartDate');
+            $table->date('inscriptionEndDate');
+            $table->boolean('inscriptionStatus');
             $table->timestamps();
         });
     }
@@ -23,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('secteurs');
+        Schema::dropIfExists('years');
     }
 };

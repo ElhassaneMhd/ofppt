@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Filier;
-use App\Models\AnneeFormation;
-use App\Models\Secteur;
-use App\Models\Categorie;
+use App\Models\Year;
 use Illuminate\Http\Request;
-use App\Http\Requests\FiliersRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\filterTrait;
@@ -31,47 +28,44 @@ public function index(Request $request)
         $rowsNum = $request->rowsNum ? $request->rowsNum : 5;
         $sort = $request->sort ? $request->sort : null;
         $allPubliee = Filier::all();
-        $anneeFormation = [];
+        $Year = [];
         foreach ($allPubliee as $article) {
-            array_push($anneeFormation,$article->AnneeFormations);
+            array_push($Year,$article->Years);
         }
-        $anneeFormation=array_unique($anneeFormation);
-        $categorie = Categorie::all();
+        $Year=array_unique($Year);
         $allTrashed = Filier::onlyTrashed()->get();
         $publieeFiliers = Filier::paginate(5);
         $trashedFiliers = Filier::onlyTrashed()->paginate(5);
-        $secteurs = Secteur::all();
-        return view("filiers.filiers", compact(["publieeFiliers","trashedFiliers", 'allPubliee', 'allTrashed','anneeFormation','categorie', 'rowsNum', 'sort', 'secteurs']));
+        return view("filiers.filiers", compact(["publieeFiliers","trashedFiliers", 'allPubliee', 'allTrashed','Year','categorie', 'rowsNum', 'sort', 'secteurs']));
     }
 
 public function create(){
-     $activeAnneeFormations = AnneeFormation::active()->get()[0];
-     $secteurs =Secteur::all();
-        if  (session::missing('anneeFormationActive')) {
-        session(['anneeFormationActive' => $activeAnneeFormations]);
+     $activeYears = Year::active()->get()[0];
+     if  (session::missing('YearActive')) {
+        session(['YearActive' => $activeYears]);
         }
-        $AnneeFormation = AnneeFormation::all();
-        return view("filiers.ajouter_filier",compact(['AnneeFormation','secteurs']));
+        $Year = Year::all();
+        return view("filiers.ajouter_filier",compact(['Year','secteurs']));
     }
 
-public function store(FiliersRequest $request){
+public function store(Request $request){
 //store filier in DB
         $filier = new Filier();
-        $filier->titre = $request->titre;
+        $filier->title = $request->title;
         $filier->details = $request->description;
         $filier->max_stagiaires = $request->max_stagiaires;
         $filier->active = $request->Active;
         $filier->visibility =true;
         $filier->user_id = auth()->user()->id;
         $filier->secteur_id = $request->secteur;
-        $filier->annee_formation_id = Session::get('anneeFormationActive')->id;
+        $filier->year_id = Session::get('YearActive')->id;
         $filier->save();     
 //STORE filier files
         if ($request->has('images') && count($request->images) > 0) {
         foreach ($request->images as $image) {
             $imageURL =$image->getClientOriginalName();
-            $filier->pieceJointes()->create([
-                'nom'=>$request->titre,
+            $filier->files()->create([
+                'nom'=>$request->title,
                 'taille'=> 11,
                 'emplacement'=>public_path('images/filier'),
                 'URL'=>$imageURL,
@@ -92,18 +86,17 @@ public function store(FiliersRequest $request){
 public function show(string $id)
     {
         $filier =   Filier::findOrFail($id);
-        $pieceJointes=$filier->pieceJointes;
-        $anneeFormation=$filier->AnneeFormations;
-        $secteur=$filier->Secteur      ;
-          return view('filiers.show_filier', compact( ['filier','anneeFormation','pieceJointes','secteur']));
+        $files=$filier->files;
+        $Year=$filier->Years;
+          return view('filiers.show_filier', compact( ['filier','Year','files','secteur']));
 
     }
 
     public function edit(string $id) {
         $filier = Filier::findOrfail($id);
-        $anneeFormation = AnneeFormation::all();
-        $pieceJointes =$filier->pieceJointes;
-        return view("filiers.edit_filier", compact("filier",'anneeFormation','pieceJointes'));
+        $Year = Year::all();
+        $files =$filier->files;
+        return view("filiers.edit_filier", compact("filier",'Year','files'));
     }
 public function cacher(Request $request ,string $id){
 //casher Filier
@@ -117,17 +110,17 @@ public function cacher(Request $request ,string $id){
     return to_route('filiers.index');
     }
 
-public function update(FiliersRequest $request, string $id) {
+public function update(Request $request, string $id) {
 //update fillier
         $filier = Filier::findOrfail($id);
-        $filier->titre = $request->titre;
+        $filier->title = $request->title;
         $filier->details = $request->description;
         $filier->max_stagiaires = $request->max_stagiaires;
         $filier->active = $request->active;
-        $filier->annee_formation_id = $request->annee_formation;
+        $filier->year_id = $request->year;
 //modify old files
         if ($request->has('oldImages')){
-            foreach($filier->pieceJointes as $pj) {
+            foreach($filier->files as $pj) {
                 if (in_array( $pj->id, $request->oldImages)===false){
                     $filePath = public_path('images/fillier/'. $pj->URL);
                     if (File::exists($filePath)) {
@@ -137,15 +130,15 @@ public function update(FiliersRequest $request, string $id) {
                 }
             }
         } else {
-            foreach($filier->pieceJointes as $pj) {$pj->delete();}
+            foreach($filier->files as $pj) {$pj->delete();}
         }
         $filier->save();
 //add new files
         if ($request->hasfile('images') && count($request->images) > 0) {
             foreach ($request->images as $image) {
                 $imageURL =$image->getClientOriginalName();
-                $filier->pieceJointes()->create([
-                    'nom'=>$request->titre,
+                $filier->files()->create([
+                    'nom'=>$request->title,
                     'taille'=> 11,
                     'emplacement'=>public_path('images/fillier'),
                     'URL'=>$imageURL,
@@ -174,10 +167,10 @@ public function trash() {
         $allPubliee = Filier::all();
         $allTrashed = Filier::onlyTrashed()->get();
         $user = Auth::user();
-        $activeAnneeFormations = AnneeFormation::active()->get()[0];
+        $activeYears = Year::active()->get()[0];
         $publieeFiliers = Filier::paginate(5);
         $trashedFiliers = Filier::onlyTrashed()->paginate(5);
-        return view('filiers.trash', compact(['publieeFiliers','trashedFiliers','user','activeAnneeFormations', 'allPubliee', 'allTrashed']));
+        return view('filiers.trash', compact(['publieeFiliers','trashedFiliers','user','activeYears', 'allPubliee', 'allTrashed']));
     }
 public function forceDelete(string $id) {
         //forcee delete from trash
