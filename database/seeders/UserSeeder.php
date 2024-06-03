@@ -11,10 +11,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $profile = new User;
-        $profile->firstName = 'Bahae';
+        $profile->firstName = 'Abdo';
         $profile->lastName = 'Halim';
-        $profile->email = 'Bahae.Halim@gmail.com';
-        $profile->password = Hash::make('Bahae123');
+        $profile->email = 'abdo.Halim@gmail.com';
+        $profile->password = Hash::make('abdo123');
         $profile->phone = '0677552200';
         $profile->assignRole('super-admin');
         $profile->save();

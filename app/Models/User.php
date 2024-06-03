@@ -33,7 +33,7 @@ class User extends Authenticatable
         ];
     }
     public function articles(){
-        return $this->hasMany(Article::class);
+     return $this->hasMany(Article::class);
     }
     public function filiers(){
         return $this->hasMany(Filier::class);

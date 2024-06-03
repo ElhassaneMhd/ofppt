@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
 {
-    use SoftDeletes, HasFactory;
-    protected $fillable=["title","details",'date','tags','categorie','visibility'];
+  use SoftDeletes, HasFactory;
+  protected $fillable=["title","details",'date','tags','categorie','visibility'];
 
-    public function files() {
-        return $this->morphMany(File::class, 'fileable'); 
-    }
+  public function files() {
+      return $this->morphMany(File::class, 'fileable'); 
+  }
   public function year(){
     return $this->belongsTo(Year::class);
   }
   public function user(){
-    return $this->belongsTo(User::class);
+      return $this->belongsTo(User::class);
   }
 }
