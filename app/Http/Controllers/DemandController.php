@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Demand;
+use App\Traits\Refactor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 
 class DemandController extends Controller
 {
+    use Refactor;
     public function index()   {
         $demands = Demand::all();
-        return Inertia::render('Demands/Index', [$demands]);
+        $demands = $this->refactorManyElements($demands,'demands');
+        return Inertia::render('Demands/Index', compact('demands'));
     }
-      public function trash(){
+    public function trash(){
         $demands =Demand::onlyTrashed()->get();
-        return Inertia::render('Demands/Trash', [$demands]);
+        return Inertia::render('Demands/Trash', compact('demands'));
     }
     public function storeDemand(Request $request){
            $validatedData = $request->validate([
@@ -31,20 +34,17 @@ class DemandController extends Controller
         }
     }
     public function show(Demand $demand){
-        return Inertia::render('Demands/Show', [$demand]);
-    }
-    public function edit(Demand $demand){
-        return Inertia::render('Demands/Edit', [$demand]);
+        $demand = $this->refactorDemand($demand);
+        return Inertia::render('Demands/Show', compact('demand'));
     }
     public function destroy(Demand $demand){
         $demand->delete();
-        $demands = Demand::all();
-        return view('demands.demands',compact('demands'));
-    } 
+        return to_route('articles.index');
+    }
     public function restore($id){
         $demand=Demand::onlyTrashed()->findOrFail($id);
         $demand->restore();
         $demands=Demand::onlyTrashed()->get();
-        return view('demands.trash',compact('demands'));
+        return Inertia::render('Demands/Trash', compact('demands'));
     }
 }

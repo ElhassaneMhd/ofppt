@@ -1,7 +1,17 @@
 <?php
 namespace App\Traits;
 trait Refactor {
-
+  protected function refactorManyElements($elements,$data){
+    foreach($elements as $element){
+                 ($data === 'users')&& $all[]= $this->refactorUser($element);
+                 ($data === 'articles')&& $all[]= $this->refactorArticle($element);
+                 ($data === 'filiers')&& $all[]= $this->refactorFilier($element);
+                 ($data === 'evenements')&& $all[]= $this->refactorEvent($element);
+                 ($data === 'demands')&& $all[]= $this->refactorDemand($element);
+                 ($data === 'years')&& $all[]= $this->refactorYear($element);
+            }
+        return $all ?? [];
+  }
   protected function refactorUser($user){
      return [
          "id"=>$user->id,
@@ -18,7 +28,7 @@ trait Refactor {
     return [
       "id"=> $article->id,
       "title"=> $article->title,
-      "details"=> $article->details, 
+      "details"=> $article->details,
       "author"=> $article->user->firstName,
       "Year"=>$article->year->year,
       "date"=>$article->date,
@@ -27,8 +37,8 @@ trait Refactor {
       "created_at"=>$article->created_at
     ];
   }
-  protected function refactorEvent($event){   
-      return [ 
+  protected function refactorEvent($event){
+      return [
         "id"=> $event->id,
         "title"=> $event->title,
         "Year"=>$event->year->year,
@@ -43,7 +53,7 @@ trait Refactor {
         "created_at"=>$event->created_at
       ];
   }
-  protected function refactorFilier($filier){ 
+  protected function refactorFilier($filier){
         return  [
             "id"=> $filier->id,
             "name"=> $filier->title,

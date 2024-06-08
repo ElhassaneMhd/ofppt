@@ -5,6 +5,8 @@ use App\Traits\Delete;
 use App\Traits\Get;
 use App\Traits\Restore;
 use App\Traits\Store;
+use App\Traits\Update;
+use App\Traits\Refactor;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
@@ -15,13 +17,15 @@ use Inertia\Inertia;
 
 class ArticlesController extends Controller
 {
-    use  Get,Store,Restore,Delete;
+    use  Get,Store,Restore,Delete,Update;
 
     public function index(Request $request){
         //table all articles
         $articles = $this->GetAll('articles');
+        $articles = $this->refactorManyElements($articles,'articles');
         $trashedArticles = Article::onlyTrashed()->get();
-        return Inertia::render('Articles/Index', [$articles,$trashedArticles]);
+        $trashedArticles = $this->refactorManyElements($trashedArticles,'articles');
+        return Inertia::render('Articles/Index', compact('articles','trashedArticles'));
     }
     public function create(){
     //form to add article
@@ -31,27 +35,30 @@ class ArticlesController extends Controller
         if  (session::missing('YearActive')) {
         session(['YearActive' => $activeYears]);
         }
-        return Inertia::render('Articles/Create', [$years,$users,$activeYears]);
+        return Inertia::render('Articles/Create', compact('years','users','activeYears'));
     }
     public function store(Request $request){
         $this->storeArticle($request);
         return response()->json(['message' => 'article stored successffuly']);
         }
     public function show($id){
-    //showArticle           
+    //showArticle
         $article = $this->GetByDataId('articles',$id);
-        return Inertia::render('Articles/Show', [$article]);
+        $article = $this->refactorArticle($article);
+        return Inertia::render('Articles/Show',compact( 'article'));
     }
     public function edit($id){
     //GET ARTICLE TO MODIFIE
         $article = $this->GetByDataId('articles',$id);
+        $article = $this->refactorArticle($article);
         $years = Year::all();
         $users = User::all();
-        return Inertia::render('Articles/Edit', [$article,$years,$users]);
+        return Inertia::render('Articles/Edit', compact('article','years','users'));
     }
     public function update(Request $request, string $id){
-    //MODIFIE ARTICLE
-        return response()->json(['message' => 'article updated successffuly']);
+        $article = Article::findOrfail($id);
+        $this->updateArticle($request, $article);
+           return to_route('articles.index');
     }
     public function destroy(string $id){
         $this->destroyElement(Article::class, $id);
@@ -60,11 +67,11 @@ class ArticlesController extends Controller
     public function trash(Request $request){
         $articles = Article::all();
         $trashedArticles = Article::onlyTrashed()->get();
-        return Inertia::render('Articles/Trash', [$articles,$trashedArticles]);
+        return Inertia::render('Articles/Trash', compact('articles','trashedArticles'));
     }
     public function forceDelete(string $id){
         $this->forceDeleteData(Article::class, $id);
-        return redirect()->route('articles.trash');
+           return to_route('articles.index');
     }
     public function restore(string $id){
         $this->restoreData(Article::class, $id);
