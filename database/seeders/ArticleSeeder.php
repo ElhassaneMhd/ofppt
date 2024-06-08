@@ -20,7 +20,7 @@ class ArticleSeeder extends Seeder
             'details' => $faker->text,
             'visibility' => $faker->randomElement(['true', 'false']),
             'categorie' => $faker->word,
-            'tags' => $faker->sentence,
+            'tags' => $faker->word .','.$faker->word,
             'user_id' =>1,
             'year_id' =>1,
             'deleted_at' => $faker->randomElement([null, $faker->dateTime]),

@@ -1,6 +1,5 @@
 <?php
 namespace App\Traits;
-use App\Models\Article;
 trait Refactor {
 
   protected function refactorUser($user){
@@ -12,7 +11,7 @@ trait Refactor {
          'updated_at'=>$user->updated_at,
          "email"=>$user->email,
          "phone"=>$user->phone,
-        // "role"=>$user->getRoleNames()[0],
+         "role"=>$user->getRoleNames()[0],
       ];
   }
   protected function refactorArticle($article){
@@ -23,8 +22,9 @@ trait Refactor {
       "author"=> $article->user->firstName,
       "Year"=>$article->year->year,
       "date"=>$article->date,
-      "tags"=> str_split($article->tags, 3)??[],
-      "files"=>$this->getElementFiles($article)??[]
+      "tags"=> explode(',',$article->tags)??[],
+      "files"=>$this->getElementFiles($article)??[],
+      "created_at"=>$article->created_at
     ];
   }
   protected function refactorEvent($event){   
@@ -38,8 +38,9 @@ trait Refactor {
         'location'=>$event->location,
         'upcoming'=>$event->status,
         "duree"=>$event->duree,
-        "tags"=> str_split($event->tags, 3)??[],
-        "files"=>$this->getElementFiles($event)??[]
+      "tags"=> explode(',',$event->tags)??[],
+        "files"=>$this->getElementFiles($event)??[],
+        "created_at"=>$event->created_at
       ];
   }
   protected function refactorFilier($filier){ 
@@ -48,10 +49,37 @@ trait Refactor {
             "name"=> $filier->title,
             "Year"=>$filier->year->year,
             "description"=> $filier->details,
-            "secteur"=>$filier->Secteur,
-            "tags"=> str_split($filier->tags, 3)??[],
+            "sector"=>$filier->sector,
+            "tags"=> explode(',',$filier->tags)??[],
             'max_stagiaires'=>$filier->maxStg,
-            "files"=>$this->getElementFiles($filier)??[]
-        ];
+            "files"=>$this->getElementFiles($filier)??[],
+            "created_at"=>$filier->created_at
+          ];
+  }
+  protected function refactorYear($year){
+    $articles = $year->articles()->count();
+    $filiers = $year->filiers()->count();
+    $evenements = $year->evenements()->count();
+    return [
+      'year' => $year->year,
+      'startDate'=>$year->startDate,
+      'endDate'=>$year->endDate,
+      'isActive'=>$year->isActive,
+      'inscriptionStartDate'=>$year->inscriptionStartDate,
+      'inscriptionEndDate'=>$year->inscriptionEndDate,
+      'inscriptionStatus'=>$year->inscriptionStatus,
+      'articles'=>$articles,
+      'filiers'=>$filiers,
+      'evenements'=>$evenements,
+    ];
+  }
+  protected function refactorDemand($demand){
+    return [
+      'fullName' => $demand->fullName,
+      'email' => $demand->email,
+      'phone' => $demand->phone,
+      'subject' => $demand->subject,
+      'message' => $demand->message
+    ];
   }
 }

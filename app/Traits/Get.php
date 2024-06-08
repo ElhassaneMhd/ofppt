@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Traits;
-use App\Models\Article;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 trait Get
 {
     use Refactor;
     public function GetAll($data){
         $all = [];
         if(in_array($data,['users','articles','filiers','evenements','years'])){
-            $collections = DB::table($data)->get();
-             foreach ($collections as $collection) {
+            $model = 'App\\Models\\' . ucfirst(Str::singular($data));
+            $collections = $model::all();   
+          foreach ($collections as $collection) {
                  ($data === 'users')&& $all[]= $this->refactorUser($collection);
                  ($data === 'articles')&& $all[]= $this->refactorArticle($collection);
                  ($data === 'filiers')&& $all[]= $this->refactorFilier($collection);
@@ -29,7 +30,8 @@ trait Get
     }
     public function GetByDataId($data,$id){
         if (in_array($data, ['users', 'articles', 'filiers', 'evenements'])) {
-            $collection = DB::table($data)->find($id);
+            $model = 'App\\Models\\' . ucfirst(Str::singular($data));
+            $collection = $model::find($id);   
             if($collection){
                 ($data === 'users') && $results = $this->refactorUser($collection);
                 ($data === 'articles') && $results = $this->refactorArticle($collection);

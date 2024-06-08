@@ -19,9 +19,10 @@ return new class extends Migration
             $table->boolean('isActive')->nullable();
             $table->string('visibility')->nullable();
             $table->integer('maxStg');
+            $table->text('tags')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('year_id')->constrained()->onDelete('cascade');
-            $table->string('secteur');
+            $table->string('sector');
             $table->softDeletes();
             $table->timestamps();
         });

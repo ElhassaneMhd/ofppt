@@ -7,23 +7,23 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
-
-class FilierSeeder extends Seeder
+class EventSeeder extends Seeder
 {
-
-    public function run(Faker $faker)
-    {
-        DB::table('filiers')->insert([
+    /**
+     * Run the database seeds.
+     */
+    public function run(Faker $faker): void{
+          DB::table('evenements')->insert([
             'title' => $faker->sentence,
+            'date' => $faker->date,
+            'location' => $faker->city,
+            'duree' => $faker->numberBetween(1, 10),
             'details' => $faker->text,
-            'isActive' => $faker->boolean,
             'tags' => $faker->word .','.$faker->word,
+            'status' => $faker->randomElement(['active', 'inactive']),
             'visibility' => $faker->randomElement(['true', 'false']),
-            'maxStg' => $faker->numberBetween(1, 100),
-            'user_id' => 1,
+            'user_id' =>1,
             'year_id' => 1,
-            'sector' => $faker->word,
         ]);
     }
 }
-    

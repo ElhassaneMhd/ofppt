@@ -35,12 +35,6 @@ class setUp extends Command
         $this->call('db:seed');
 
         $this->info('Database migrations and seeding completed successfully!');
-        $folderName = 'attestation';
-        $path = public_path($folderName);
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
-            $this->info("Directory '$folderName' created in public folder.");
-        }
         return 0;
     }
 }
