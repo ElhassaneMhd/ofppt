@@ -4,7 +4,7 @@ export const ROUTES = (() => {
   const routes = {
     filieres: ['filieres', 'filieres/:id'],
     articles: ['articles', 'articles/:id'],
-    applications: ['applications', 'applications/:id'],
+    demands: ['demands', 'demands/:id'],
     events: ['events', 'events/:id'],
     users: ['users', 'users/:id'],
     roles: ['roles'],
@@ -17,11 +17,10 @@ export const ROUTES = (() => {
   };
 
   return {
-    'super-admin': generate(['filieres', 'articles', 'applications', 'events', 'users', 'roles']),
-    admin: generate(['filieres', 'articles', 'applications', 'events', 'users', 'roles']),
+    'super-admin': generate(['filieres', 'articles', 'demands', 'events', 'users', 'roles']),
+    admin: generate(['filieres', 'articles', 'demands', 'events', 'users', 'roles']),
     supervisor: generate(['projects', 'sessions']),
     intern: generate(['projects', 'sessions']),
-    user: routes.applications,
   };
 })();
 

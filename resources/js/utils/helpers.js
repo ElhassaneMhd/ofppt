@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react';
 import { clsx } from 'clsx';
 import { DateTime, Interval } from 'luxon';
 import { twMerge } from 'tailwind-merge';
@@ -112,6 +113,7 @@ const intervals = [
     time: 'past',
   },
 ];
+
 export const checkDateInIntervals = (date, dateInterval) => {
   const interval = intervals.find((d) => d.name === dateInterval).interval;
   return Interval.fromDateTimes(interval.start, interval.end).contains(getIsoDate(date));
@@ -184,13 +186,6 @@ export const filterObject = (obj, keys, keysType) => {
   return filtered;
 };
 
-export const getIncrementedID = (array) => {
-  const ids = array.map((item) => item.id);
-  return ids.length > 0 ? Math.max(...ids) + 1 : 1;
-};
-
-export const changeTitle = (title) => (document.title = title || 'Loading...');
-
 export const capitalize = (string) => string?.charAt(0).toUpperCase() + string?.slice(1);
 
 export const getProgress = (ratio) => +(ratio ? (ratio % 1 === 0 ? Math.floor(ratio) : ratio.toFixed(1)) : 0);
@@ -200,7 +195,16 @@ export const getFile = (data, type) => {
   return file ? `/assets${file}` : null;
 };
 
+export const setSearchParams = (endpoint, queryParams, options = {}) => {
+  const inertiaOptions = {
+    preserveState: true,
+    replace: true,
+    // only: ['dataNeededForTheComponent'],
+    ...options, 
+  };
 
+  router.get(endpoint, queryParams, inertiaOptions);
+};
 
 // Filter
 export const getFilter = (data, key, checked) =>
@@ -215,13 +219,4 @@ export const getIntervals = (key, returned = ['past', 'present', 'future'], excl
       value: { value: interval, condition: (el) => checkDateInIntervals(el[key], interval) },
       checked: false,
     }));
-};
-
-export const checkIsOverdue = (el, type) => {
-  const startDate = type === 'task' ? el.created_at : el.startDate;
-  const endDate = type === 'task' ? el.dueDate : el.endDate;
-  const { isOverdue } = getTimelineDates(startDate, endDate);
-
-  if (type === 'task') return isOverdue && el.status !== 'Done';
-  return isOverdue && el.status !== 'Completed';
 };

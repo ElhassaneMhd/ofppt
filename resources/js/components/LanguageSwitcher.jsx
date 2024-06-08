@@ -1,8 +1,8 @@
 import { Button, DropDown } from './ui';
 import { useTranslation } from 'react-i18next';
-import { IoChevronDownOutline, IoLanguageOutline } from 'react-icons/io5';
+import { IoChevronDownOutline, IoChevronUpOutline, IoLanguageOutline } from 'react-icons/io5';
 
-export function LanguageSwitcher({ size, layout }) {
+export function LanguageSwitcher({ size, layout,iconDirection ='down'}) {
   const { t, i18n } = useTranslation();
 
   return (
@@ -12,7 +12,7 @@ export function LanguageSwitcher({ size, layout }) {
           <Button size={size} display='with-icon' color='tertiary'>
             <IoLanguageOutline />
             <span className='flex-1 text-start capitalize'>{t(`header.languages.${i18n.language}`)}</span>
-            <IoChevronDownOutline />
+            {iconDirection === 'down' ? <IoChevronDownOutline /> : <IoChevronUpOutline />}
           </Button>
         ) : (
           <Button size={size} shape='icon'>
@@ -20,6 +20,9 @@ export function LanguageSwitcher({ size, layout }) {
           </Button>
         )
       }
+      options={{
+        className : 'w-24'
+      }}
     >
       {['en', 'fr', 'ar'].map((lang) => (
         <DropDown.Option key={lang} onClick={() => i18n.changeLanguage(lang)} isCurrent={i18n.language === lang}>

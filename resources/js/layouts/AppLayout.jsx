@@ -1,35 +1,28 @@
-import { useState } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import Sidebar from '../components/Sidebar';
-// import Settings from "../features/settings/Settings";
-import AppBar from '../components/AppBar';
-import '@/styles/app.css';
 import { Toaster } from 'sonner';
+import Sidebar from '../components/Sidebar';
 import { FaSpinner } from 'react-icons/fa';
 import { useTheme } from '@/hooks';
 
+import '@/styles/app.css';
+
 export function AppLayout({ children }) {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { theme } = useTheme();
   const [parent] = useAutoAnimate({ duration: 300 });
 
   return (
     <>
       <div className='flex size-full'>
-        <Sidebar openSettings={() => setIsSettingsOpen(true)} />
-        <div className='ml-14 flex flex-1 flex-col overflow-hidden bg-background-secondary p-1.5 md:ml-0'>
-          <AppBar />
+        <Sidebar  />
+        <div className='ml-14 flex flex-1 flex-col overflow-hidden bg-background-secondary md:ml-0'>
           <main
-            className='flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden rounded-xl bg-background-primary p-3 sm:rounded-2xl sm:px-5'
+            className='flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden bg-background-primary p-3  sm:px-5'
             ref={parent}
           >
             {children}
           </main>
         </div>
-        {/* <Settings
-                isOpen={isSettingsOpen}
-                onClose={() => setIsSettingsOpen(false)}
-            /> */}
+       
       </div>
       <Toaster
         icons={{

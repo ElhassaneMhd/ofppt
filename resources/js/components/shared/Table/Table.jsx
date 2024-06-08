@@ -3,7 +3,6 @@ import { cloneElement, useRef } from 'react';
 import { Sort } from './Sort';
 import { useTable } from './useTable';
 import { CheckBox, Status } from '@/components/ui/';
-import { useNavigateWithQuery } from '@/hooks/useNavigateWithQuery';
 
 export function Table({ actions, canView, hideRowActions, hiddenActionsContent }) {
   const { columns, rows, error, selected, onSelect, isLoading, query, appliedFiltersNumber, data } = useTable();
@@ -21,7 +20,7 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
   if (!isLoading && rows?.length === 0 && !query && !appliedFiltersNumber('all')) {
     return (
       <div className='absolute grid h-full w-full place-content-center place-items-center gap-5 pt-5'>
-        <img src='/SVG/no-applications.svg' alt='' className='w-[100px]' />
+        <img src='/images/empty.svg' alt='' className='w-[100px]' />
         <div className='space-y-2 text-center'>
           <h2 className='font-medium text-text-primary'>
             {data?.length === 0 ? 'No Data Available' : 'Page Not Found'}{' '}
@@ -93,7 +92,7 @@ function Column({ column, hide }) {
 
 function Row({ row, visibleColumns, actions, canView = true, selected, hideRowActions, hiddenActionsContent }) {
   const { disabled, onSelect, isSelecting } = useTable();
-  const navigate = useNavigateWithQuery();
+  // const navigate = useNavigateWithQuery();
   const [parent] = useAutoAnimate({ duration: 500 });
 
   // Define the class names for the row
@@ -110,7 +109,7 @@ function Row({ row, visibleColumns, actions, canView = true, selected, hideRowAc
       onSelect(row.profile_id || row.id);
     }
     if (canView && !disabled && !isSelecting) {
-      navigate(row.id);
+      // navigate(row.id);
     }
   };
 

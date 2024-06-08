@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Table } from './Table';
 import { Search } from './Search';
 import { View } from './View';
@@ -11,7 +10,62 @@ import { Actions } from './Actions';
 import { NewRecord } from './NewRecord';
 import { Selected } from './Selected';
 import { TableContext } from './useTable';
-import { getAppliedFiltersNumber, getIsDisabled, onFilter } from '../Operations/Operations';
+import { usePage } from '@inertiajs/react';
+import { getIsoDate, setSearchParams } from '@/utils/helpers';
+
+Array.prototype.customFilter = function (filters, filterCondition) {
+  if (!filters) return this;
+
+  const conditions = Object.entries(filters)
+    .map(([field, filter]) => ({
+      field,
+      value: filter.filter(({ checked }) => checked).map(({ value }) => value),
+    }))
+    .filter(({ value }) => value.length);
+
+  if (!conditions.length) return this;
+
+  return this.filter((el) => {
+    const conditionFn = (c) =>
+      c.value.some((val) => (val.condition ? val.condition(el) : c.value.includes(el[c.field])));
+    return filterCondition === 'AND' ? conditions.every(conditionFn) : conditions.some(conditionFn);
+  });
+};
+
+Array.prototype.customSort = function (sortBy, direction, sortOptions) {
+  if (!sortOptions) return this;
+
+  const stringFields = sortOptions.filter((c) => c.type === 'string').map((c) => c.key);
+  const numberFields = sortOptions.filter((c) => c.type === 'number').map((c) => c.key);
+  const dateFields = sortOptions.filter((c) => c.type === 'date').map((c) => c.key);
+  const customFields = sortOptions.filter((c) => c.type === 'custom').map((c) => c.key);
+
+  return this.toSorted((a, b) => {
+    if (numberFields.includes(sortBy))
+      return direction === 'asc' ? a?.[sortBy] - b?.[sortBy] : b?.[sortBy] - a?.[sortBy];
+
+    if (stringFields.includes(sortBy)) {
+      return direction === 'asc' ? a?.[sortBy]?.localeCompare(b?.[sortBy]) : b?.[sortBy]?.localeCompare(a?.[sortBy]);
+    }
+
+    if (dateFields.includes(sortBy)) {
+      return direction === 'asc'
+        ? getIsoDate(a?.[sortBy]) - getIsoDate(b?.[sortBy])
+        : getIsoDate(b?.[sortBy]) - getIsoDate(a?.[sortBy]);
+    }
+
+    if (customFields.includes(sortBy)) return sortOptions.find((c) => c.key === sortBy)?.fn(a, b, direction);
+  });
+};
+
+Array.prototype.search = function (query, fieldsToSearch) {
+  if (!query || !fieldsToSearch) return this;
+
+  return this.filter((el) => {
+    const valueToSearch = fieldsToSearch.map((field) => el[field]).join(' ');
+    return valueToSearch?.trim().toLowerCase().includes(query?.trim().toLowerCase());
+  });
+};
 
 Array.prototype.paginate = function (page, limit) {
   const start = (page - 1) * limit;
@@ -75,20 +129,33 @@ export function TableProvider({
     deleteOptions: defaultSelectedOptions?.deleteOptions,
   });
   const [filters, setFilters] = useState({});
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const query = searchParams.get('search');
-  const page = Number(searchParams.get('page')) || 1;
-  const limit = Number(searchParams.get('limit')) || PAGE_LIMIT;
-  const sortBy = searchParams.get('sort') || defaultSortBy;
-  const direction = searchParams.get('dir') || defaultDirection;
+  const { props } = usePage();
+  const query = props.search || '';
+  const page = Number(props.page) || 1;
+  const limit = Number(props.limit) || PAGE_LIMIT;
+  const sortBy = props.sort || defaultSortBy;
+  const direction = props.dir || defaultDirection;
 
   // Variables
+  console.log(data);
   const rows = data?.search(query, fieldsToSearch).customFilter(filters, 'AND').customSort(sortBy, direction, columns);
 
   const totalItems = rows?.length;
   const totalPages = Math.ceil(totalItems / limit);
-  const appliedFiltersNumber = getAppliedFiltersNumber(filters);
+
+  const appliedFiltersNumber = (filter) => {
+    if (filter === 'all')
+      return Object.values(filters)
+        .flat()
+        .filter((f) => f.checked).length;
+
+    if (!filters[filter]) return;
+
+    return Object.values(filters[filter])
+      .flat()
+      .filter((f) => f.checked).length;
+  };
 
   const excludedFields = columns.filter((c) => !c.visible).map((c) => c.displayLabel);
 
@@ -107,15 +174,15 @@ export function TableProvider({
     confirmText: 'Delete',
   };
 
-  useEffect(() => {
-    if (page === 1) searchParams.delete('page');
-    if (sortBy === defaultSortBy && direction === defaultDirection) {
-      searchParams.delete('sort');
-      searchParams.delete('dir');
-    }
-    if (!query) searchParams.delete('search');
-    setSearchParams(searchParams);
-  }, [direction, page, searchParams, sortBy, query, setSearchParams, defaultSortBy, defaultDirection]);
+  // useEffect(() => {
+  //   if (page === 1) searchParams.delete('page');
+  //   if (sortBy === defaultSortBy && direction === defaultDirection) {
+  //     searchParams.delete('sort');
+  //     searchParams.delete('dir');
+  //   }
+  //   if (!query) searchParams.delete('search');
+  //   setSearchParams(searchParams);
+  // }, [direction, page, searchParams, sortBy, query, setSearchParams, defaultSortBy, defaultDirection]);
 
   useEffect(() => {
     setColumns(tableColumns);
@@ -165,6 +232,13 @@ export function TableProvider({
     setSearchParams(searchParams);
   };
 
+  const onFilter = (filters, setFilters, initialFilters) => (key, value, reset) => {
+    if (reset) return setFilters(initialFilters);
+
+    const filter = filters[key].map((f) => (f.value === value ? { ...f, checked: !f.checked } : f));
+    setFilters({ ...filters, [key]: filter });
+  };
+
   const showForm = (options) => {
     setFormOptions((prev) => ({
       ...prev,
@@ -204,15 +278,7 @@ export function TableProvider({
     tableColumns,
     columns,
     rows: displayAllData ? rows : rows?.paginate(page, limit),
-    disabled: getIsDisabled({
-      isLoading,
-      error,
-      initialData: data,
-      query,
-      page,
-      totalPages,
-      appliedFiltersNumber,
-    }),
+    disabled: isLoading || error || data?.length === 0 || (page > totalPages && !query && !appliedFiltersNumber('all')),
     // Selection
     selected,
     isSelecting: selected.length > 0,

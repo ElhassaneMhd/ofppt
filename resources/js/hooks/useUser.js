@@ -1,20 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import {
-  login,
-  register,
-  logout,
-  getUser,
-  updateProfile,
-  updatePassword,
-  getSettings,
-  updateSettings,
-  uploadFile,
-} from '@/services/usersAPI';
 import { useMutate } from './useMutate';
 import { filterObject, getFile } from '@/utils/helpers';
 import { useConfirmationModal } from './useConfirmationModal';
 import { router } from '@inertiajs/react';
+
+const login = () => {};
+const register = () => {};
+const logout = () => {};
+const getUser = () => {};
+const getSettings = () => {};
+const updateProfile = () => {};
+const uploadFile = () => {};
 
 const useRedirect = () => {
   return (message) => {
@@ -52,51 +49,37 @@ export function useRegister() {
 }
 
 export function useLogout() {
-  const { mutate, isPending, error } = useMutation({
-    mutationKey: ['logout'],
-    mutationFn: logout,
-    onSuccess: () => {
-      localStorage.removeItem('in');
-      location.assign('/');
-    },
-    onError: (error) => toast.error(error.message),
-  });
   const { openModal } = useConfirmationModal();
 
-  const logoutFn = () =>
+  const logout = () =>
     openModal({
       message: 'You are about to log out. Do you wish to proceed?',
       title: 'Logout',
       confirmText: 'Logout',
-      onConfirm: mutate,
+      onConfirm: () => {
+        localStorage.removeItem('in');
+        location.assign('/');
+      },
     });
 
-  return { logout: logoutFn, isLoggingOut: isPending, error };
+  return { logout };
 }
 
-
-export function useUser(reason) {
-  const { data, error, isPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUser,
-    retry: 1,
-    enabled: localStorage.getItem('in') === 'true' || reason === 'detect',
-  });
+export function useUser() {
+  // const { data, error, isPending } = useQuery({
+  //   queryKey: ['user'],
+  //   queryFn: getUser,
+  //   retry: 1,
+  //   enabled: localStorage.getItem('in') === 'true' || reason === 'detect',
+  // });
 
   return {
-    user: data
-      ? {
-          ...data,
-          fullName: `${data?.firstName} ${data?.lastName}`,
-          avatar: { src: data?.avatar, file: null },
-        }
-      : {
-          fullName: 'Walid Za',
-          role: 'super-admin',
-          gender : 'M'
-        },
-    isLoading: isPending,
-    error,
+    user: {
+      fullName: 'Walid Za',
+      email: 'Walid.za@gmail.com',
+      role: 'super-admin',
+      gender: 'M',
+    },
   };
 }
 
@@ -151,15 +134,5 @@ export function useUpdatePassword() {
     mutationFn: (passwords) => updatePassword(user?.profile_id, passwords),
     loadingMessage: 'Updating password...',
     successMessage: 'Password updated successfully',
-  });
-}
-
-export function useUpdateSettings() {
-  return useMutate({
-    queryKey: ['settings', 'update'],
-    mutationFn: updateSettings,
-    loadingMessage: 'Updating settings...',
-    successMessage: 'Settings updated successfully',
-    errorMessage: 'Failed to update settings',
   });
 }

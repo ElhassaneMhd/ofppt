@@ -3,7 +3,6 @@ import { Button } from '.';
 
 export function ErrorScreen({ error }) {
   const [showDetails, setShowDetails] = useState(false);
-  console.log(error);
 
   return (
     <div className='flex h-screen w-full max-w-screen-xl items-center justify-center bg-background-primary px-4 md:px-8'>

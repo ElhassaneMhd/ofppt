@@ -20,26 +20,29 @@ class DemandController extends Controller
         $demands =Demand::onlyTrashed()->get();
         return Inertia::render('Demands/Trash', compact('demands'));
     }
-    public function storeDemand(Request $request){
-           $validatedData = $request->validate([
+    public function storeDemand(Request $request)
+    {
+        $validatedData = $request->validate([
             'name' => 'required',
             "email" => 'required',
             'subject' => 'required',
             'phoneNumber' => 'required',
             'details' => 'required'
         ]);
-        if ($validatedData){
+        if ($validatedData) {
             Demand::create($validatedData);
-            return response()->json(["status"=>"succsses","message"=>"demand sended"]);
+            return response()->json(["status" => "succsses", "message" => "demand sended"]);
         }
     }
     public function show(Demand $demand){
         $demand = $this->refactorDemand($demand);
         return Inertia::render('Demands/Show', compact('demand'));
     }
-    public function destroy(Demand $demand){
+    public function destroy(Demand $demand)
+    {
         $demand->delete();
-        return to_route('articles.index');
+        $demands = Demand::all();
+        return view('demands.demands',compact('demands'));
     }
     public function restore($id){
         $demand=Demand::onlyTrashed()->findOrFail($id);
