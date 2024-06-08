@@ -23,8 +23,8 @@ trait Store{
         $article->visibility =$request->visibility;
         $article->categorie = $request->categorie;
         $article->tags = $request->tags??'';
-        $article->user_id = auth()->user()->id;
-        $article->year_id = Session::get('YearActive')->id;
+        $article->user_id = auth()->user()->id??1;
+        $article->year_id = Session::get('YearActive')->id??1;
         $article->save();
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {

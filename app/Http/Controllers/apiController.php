@@ -7,8 +7,7 @@ class apiController extends Controller
 
 {
     use Get;
-
-     public function index($data){
+    public function index($data){
         return $this->GetAll($data);
     }
     public function show($data,$id){

@@ -8,7 +8,7 @@ trait Get
     use Refactor;
     public function GetAll($data){
         $all = [];
-        if(in_array($data,['users','articles','filiers','evenements','years'])){
+        if(in_array($data,['users','articles','filiers','evenements','years','demands'])){
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
             $collections = $model::all();   
           foreach ($collections as $collection) {
@@ -16,6 +16,7 @@ trait Get
                  ($data === 'articles')&& $all[]= $this->refactorArticle($collection);
                  ($data === 'filiers')&& $all[]= $this->refactorFilier($collection);
                  ($data === 'evenements')&& $all[]= $this->refactorEvent($collection);
+                 ($data === 'demands')&& $all[]= $this->refactorDemand($collection);
                  ($data === 'years')&& $all[]= $this->refactorYear($collection);
             }
         }else{

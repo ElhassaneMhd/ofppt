@@ -15,4 +15,12 @@ trait Delete{
             }
         }
     }
+    protected function destroyElement($model, $id){
+        $element = $model::findOrFail(($id));
+        $element->delete();
+    }     
+    protected function forceDeleteData($model, $id){
+        $element = $model::findOrFail(($id));
+        $element->forceDelete();
+    }     
 }
