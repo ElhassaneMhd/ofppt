@@ -1,0 +1,161 @@
+{
+  "header": {
+    "navbar": {
+      "home": "Home",
+      "offers": "Offers",
+      "contact": "Contact",
+      "about": "About Us"
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Sign Up",
+      "logout": "Logout",
+      "dashboard": "Dashboard"
+    },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    },
+    "languages": {
+      "en": "English",
+      "fr": "French",
+      "ar": "Arabic"
+    }
+  },
+  "form": {
+    "acceptTerms": "Accept the terms of information access law",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "register": "Register",
+    "submit": "Submit",
+    "login": "Login",
+    "welcome": "Welcome To ",
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Email Address"
+    },
+    "fullName": {
+      "label": "Full Name",
+      "placeholder": "Full Name"
+    },
+    "firstName": {
+      "label": "First Name",
+      "placeholder": "First Name"
+    },
+    "lastName": {
+      "label": "Last Name",
+      "placeholder": "First Name"
+    },
+    "phone": {
+      "label": "Phone Number",
+      "placeholder": "Phone Number"
+    },
+    "establishment": {
+      "label": "Establishment",
+      "placeholder": "Establishment"
+    },
+    "academicLevel": {
+      "label": "Academic Level",
+      "placeholder": ""
+    },
+    "specialty": {
+      "label": "Specialty",
+      "placeholder": "Specialty"
+    },
+    "birthday": {
+      "label": "Birthday",
+      "placeholder": "Birthday"
+    },
+    "city": {
+      "label": "City",
+      "placeholder": ""
+    },
+    "password": {
+      "label": "Password ",
+      "placeholder": "Password"
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Confirm Password"
+    }
+  },
+  "hero": {
+    "title1": "Find an",
+    "title2": "Internship",
+    "title3": "Matching Your Interests and Skills",
+    "paragraph": "Kickstart your career with an internship that matches your passion. Find your ideal opportunity.",
+    "placeholder": "Search for an internship",
+    "categories": "Categories"
+  },
+  "offers": {
+    "recent": "Recent Internship Offers",
+    "exploreMore": "Explore More Offers",
+    "internshipOffers": "Internship Offers",
+    "apply": "Apply",
+    "alreadyApplied": "Already Applied"
+  },
+  "about": {
+    "title": "About Us",
+    "phone": "Phone",
+    "email": "Email",
+    "location": "Location",
+    "description": "Description"
+  },
+  "overview": {
+    "title": "Overview",
+    "interns": "Interns",
+    "supervisors": "Supervisors",
+    "admins": "Admins",
+    "offers": "Offers",
+    "applications": "Applications",
+    "projects": "Projects",
+    "totalApplications": "Total Applications",
+    "totalOffers": "Total Offers",
+    "totalProjects": "Total Projects",
+    "totalPersonnel": "Total Personnel",
+    "pendingApplications": "Pending Applications",
+    "applicationsStatus": "Applications Status",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "latestOffers": "Latest Offers",
+    "completedInternship": "Completed Internship",
+    "noCompletedInternship": "No interns have finished their internship yet."
+  },
+  "actions": {
+    "duration": "Duration",
+    "Urgency": "Urgency",
+    "publicationDate": "Publication Date",
+    "experience": "Experience",
+    "search": "Search",
+    "close": "Close",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "showAll": "Show All",
+    "update": "Update",
+    "download": "Download",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "reset": "Reset",
+    "sortBby": "Sort By",
+    "orderBy": "Order By",
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+  "app": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "filieres": "Filieres",
+      "articles": "Articles",
+      "applications": "Applications",
+      "events": "Events",
+      "users": "Users",
+      "roles": "Roles",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  }
+}
