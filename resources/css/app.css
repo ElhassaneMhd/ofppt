@@ -1,3 +1,147 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url(./libraries.css);
+
+.sidebar-element {
+  @apply grid cursor-pointer grid-cols-[30px_auto] items-center rounded-lg  p-3 transition-colors duration-200 hover:bg-background-tertiary;
+  &.active {
+    @apply bg-background-tertiary;
+  }
+  &.active span {
+    @apply font-bold;
+  }
+  & svg {
+    @apply text-lg text-text-secondary;
+  }
+  & span {
+    @apply text-start;
+  }
+
+  &:is(:hover, .active) .count {
+    @apply bg-background-primary;
+  }
+}
+.dropdown-option {
+  @apply relative flex w-full cursor-pointer items-center gap-3 overflow-hidden rounded-md bg-background-primary px-3 py-2 font-medium text-text-secondary transition-colors duration-200 hover:bg-background-secondary hover:text-text-primary;
+
+  & span {
+    @apply flex-1;
+  }
+
+  & > svg {
+    @apply w-5 text-start text-lg;
+  }
+
+  &.small {
+    @apply px-1.5 py-1 text-xs;
+  }
+
+  &.current {
+    @apply bg-primary text-white;
+  }
+
+  &:not(.disabled).delete {
+    @apply hover:bg-red-500 hover:text-white;
+  }
+
+  &.disabled {
+    @apply cursor-default bg-background-disabled text-text-disabled;
+  }
+}
+.dropdown-toggler {
+  @apply flex min-w-28 cursor-pointer items-center justify-between rounded-lg border border-border bg-background-secondary p-2 text-start  text-sm text-text-secondary transition-colors  duration-200 hover:bg-background-tertiary  focus:outline-none !important;
+}
+.project-date {
+  transform-style: preserve-3d;
+  -webkit-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+  border-radius: 10px;
+
+  .side {
+    @apply cursor-pointer rounded-md px-1.5 py-1 text-center text-xs font-medium;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .side:last-child {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+
+  &:hover {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+}
+.input-field {
+  & input,
+  textarea {
+    @apply w-full resize-none bg-transparent text-sm text-text-primary  outline-none transition-colors duration-300 placeholder:text-sm read-only:cursor-auto read-only:bg-background-disabled disabled:cursor-not-allowed disabled:bg-background-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled;
+  }
+}
+
+#themeToggler div {
+  @apply absolute grid w-full grid-cols-[30px_auto] transition-transform duration-500 !important;
+}
+
+.relative {
+  z-index: 5;
+}
+
+.placeholder {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23D6D7D985' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+.progress-ring__circle {
+  transition: stroke-dashoffset 3s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  -webkit-transition: stroke-dashoffset 3s;
+  -moz-transition: stroke-dashoffset 3s;
+  -ms-transition: stroke-dashoffset 3s;
+  -o-transition: stroke-dashoffset 3s;
+}
+
+.sending {
+  width: 20px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side, var(--text-primary) 90%, var(--background-primary)) 0 /
+    calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+  -webkit-animation: l1 1s steps(4) infinite;
+}
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}
+
+.tooltip {
+  @apply rounded-lg border border-border bg-background-secondary p-2 text-xs font-medium text-text-tertiary !important;
+}
+.calendar {
+  @apply m-0 h-fit !important;
+
+  & .css-1t0788u-MuiPickersSlideTransition-root-MuiDayCalendar-slideTransition {
+    @apply min-h-[200px];
+  }
+}
+
+.mobile_header {
+  & > li {
+    @apply opacity-30;
+  }
+
+  &.active > li {
+    @apply scale-110 text-text-secondary opacity-100;
+  }
+}
+.count {
+  @apply rounded-lg border border-border bg-background-secondary px-2 py-1 text-text-primary;
+}
+
+.vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+

@@ -1,6 +1,11 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { AppLayout } from "@/layouts/AppLayout";
 
 export default function Dashboard() {
-    return <div>Dashboard</div>;
+    return (
+        <>
+            <h1 className="text-3xl font-bold">Hey there</h1>
+            <h1></h1>
+        </>
+    );
 }
+
