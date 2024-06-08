@@ -111,7 +111,7 @@
     "supervisors": "Encadrants",
     "admins": "Admins",
     "offers": "Offers",
-    "applications": "Demandes",
+    "applications": "Demands",
     "projects": "Projets",
     "totalApplications": "Total Applicationes",
     "totalOffers": "Total Offers",
@@ -153,10 +153,10 @@
 
   "app": {
     "sidebar": {
-    "dashboard": "Dashboard",
+      "dashboard": "Dashboard",
       "filieres": "Filieres",
       "articles": "Articles",
-      "applications": "Demandes",
+      "applications": "Demands",
       "events": "Evenements",
       "users": "Users",
       "roles": "Roles",

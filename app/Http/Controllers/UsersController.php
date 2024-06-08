@@ -15,20 +15,22 @@ class UsersController extends Controller
     public function index()  {
         $users = $this->GetAll('users');
         $publieeUsers = User::paginate(10);
-        return Inertia::render('usersIndex', $users);
+        return Inertia::render('Users/Index', $users);
     }
     public function show($id){
         $user = User::find($id);
         $roles = Role::all();
         $permissions = Permission::all();
-        return Inertia::render('usersShow', [$user,$roles,$permissions]);
+        return Inertia::render('Users/Show', [$user,$roles,$permissions]);
     }
     public function edit($id){
+        $user = User::find($id);
         $roles = Role::all();
         $permissions = Permission::all();
-        return view('users.edit', compact( ['user','roles','permissions']));
+        return Inertia::render('Users/Edit', [$user,$roles,$permissions]);
     }
-    public function assignRole(Request $request, User $user){
+    public function assignRole(Request $request, $id){
+        $user = User::find($id);
         if ($user->hasRole($request->role)) {
             return back()->with('message', 'Role exists.');
         }
@@ -42,7 +44,8 @@ class UsersController extends Controller
         }
         return back()->with('message', 'Role not exists.');
     }
-    public function givePermission(Request $request, User $user){
+    public function givePermission(Request $request, $id){
+        $user = User::find($id);
         if ($user->hasPermissionTo($request->permission)) {
             return back()->with('message', 'Permission exists.');
         }
