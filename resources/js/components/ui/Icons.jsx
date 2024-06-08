@@ -33,6 +33,7 @@ export {
   PiX,
   PiSortAscending,
   PiCrown,
+  PiTrashLight, PiMoonStars, PiSunDim 
 } from 'react-icons/pi';
 export {
   BsLayoutSidebarInset,

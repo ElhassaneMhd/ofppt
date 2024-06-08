@@ -6,19 +6,22 @@ import {
   RxDashboard,
   BsLayoutSidebarInset,
   BsLayoutSidebarInsetReverse,
-  FiLogOut,
-  IoSettingsOutline,
   IoBriefcaseOutline,
   IoMailOutline,
   GrUserAdmin,
   GrArticle,
   BsCalendar4Event,
   GoPeople,
+  PiMoonStars,
+  PiSunDim,
 } from './ui/Icons';
 
 import { ROUTES } from '../utils/constants';
 import { Button } from './ui';
-import { useLogout, useUser } from '@/hooks/useUser';
+import { useUser } from '@/hooks/useUser';
+import { DropDownProfile } from './DropDownProfile';
+import { useTheme } from '@/hooks';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 const routesIcons = {
   dashboard: <RxDashboard />,
@@ -30,14 +33,11 @@ const routesIcons = {
   roles: <GrUserAdmin />,
 };
 
-export default function Sidebar({ openSettings }) {
+export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(window.matchMedia('(min-width: 1024px)').matches);
   const { user } = useUser();
-  const { logout, isLoggingOut } = useLogout();
   const { t } = useTranslation();
   const { url } = usePage();
-
-  //   const location = useLocation().pathname.split('/');
 
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
     isExpanded ? 'md:scale-100' : 'scale-0'
@@ -53,16 +53,14 @@ export default function Sidebar({ openSettings }) {
 
   return (
     <aside
-      className={`fixed top-0 z-[15] row-span-2 flex h-full flex-col gap-8 overflow-hidden bg-background-secondary pb-2 pt-3 transition-[width] duration-500 md:relative ${
-        isExpanded ? 'w-full px-3 md:w-[250px]' : 'w-14 px-2'
+      className={`fixed top-0 z-[15] row-span-2 flex h-full flex-col gap-8 bg-background-secondary pb-2 pt-3 transition-[width] duration-500 md:relative ${
+        isExpanded ? 'w-full px-3 md:w-[280px]' : 'w-14 px-2'
       }`}
     >
-      <div className='flex items-center justify-between'>
-        <img
-          src='/Logo.svg'
-          alt='Logo'
-          className={`object-contain transition-all duration-500 ${isExpanded ? 'w-20 scale-100' : 'w-0 scale-0'}`}
-        />
+      <div className='z-20 flex items-center justify-between'>
+        <div className={isExpanded ? 'w-20 scale-100 flex-1' : 'w-0 scale-0'}>
+          <DropDownProfile />
+        </div>
         <Button
           shape='icon'
           className={`not-active self-center ${isExpanded ? '' : 'mx-auto'}`}
@@ -87,16 +85,31 @@ export default function Sidebar({ openSettings }) {
           ))}
       </ul>
 
-      <div className='mt-auto'>
-        <button className='sidebar-element group w-full' onClick={openSettings}>
-          <IoSettingsOutline />
-          <span className={spanClass}>{t('app.sidebar.settings')}</span>
-        </button>
-        <button className='sidebar-element group w-full' onClick={logout}>
-          <FiLogOut />
-          <span className={spanClass}>{isLoggingOut ? 'Logging Out...' : t('app.sidebar.logout')}</span>
-        </button>
+      <div className={`mt-auto flex items-center gap-3 ${isExpanded ? '' : 'flex-col'}`}>
+        <ThemeToggler />
+        <LanguageSwitcher layout={isExpanded ? 'long' : ''} iconDirection='up' size={isExpanded ? 'small' : ''} />
       </div>
     </aside>
+  );
+}
+
+function ThemeToggler() {
+  const { theme, changeTheme } = useTheme();
+
+  return (
+    <button
+      onClick={() => changeTheme(theme === 'dark' ? 'light' : 'dark')}
+      className='dropdown-option text-xs'
+      id='themeToggler'
+    >
+      <div className={theme === 'dark' ? 'translate-y-9' : 'translate-y-0'}>
+        <PiMoonStars size={18} />
+        <span>Dark Mode</span>
+      </div>
+      <div className={theme === 'light' ? 'translate-y-9' : 'translate-y-0'}>
+        <PiSunDim size={18} />
+        <span>Light Mode</span>
+      </div>
+    </button>
   );
 }

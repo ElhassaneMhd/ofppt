@@ -1,7 +1,7 @@
 @import url(./libraries.css);
 
 .sidebar-element {
-  @apply grid cursor-pointer grid-cols-[30px_auto] items-center rounded-lg  p-3 transition-colors duration-200 hover:bg-background-tertiary;
+  @apply grid cursor-pointer grid-cols-[30px_auto] items-center rounded-lg p-3 transition-colors duration-200 hover:bg-background-tertiary;
   &.active {
     @apply bg-background-tertiary;
   }
@@ -45,85 +45,30 @@
   &.disabled {
     @apply cursor-default bg-background-disabled text-text-disabled;
   }
+  &#themeToggler {
+    @apply relative bg-transparent py-4 hover:bg-background-tertiary;
+
+    & div {
+      @apply absolute grid w-full items-center grid-cols-[30px_auto] text-start transition-transform duration-500 !important;
+    }
+  }
 }
 .dropdown-toggler {
-  @apply flex min-w-28 cursor-pointer items-center justify-between rounded-lg border border-border bg-background-secondary p-2 text-start  text-sm text-text-secondary transition-colors  duration-200 hover:bg-background-tertiary  focus:outline-none !important;
-}
-.project-date {
-  transform-style: preserve-3d;
-  -webkit-transition: all 0.5s linear;
-  transition: all 0.5s linear;
-  border-radius: 10px;
-
-  .side {
-    @apply cursor-pointer rounded-md px-1.5 py-1 text-center text-xs font-medium;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-
-  .side:last-child {
-    -webkit-transform: rotateY(180deg);
-    transform: rotateY(180deg);
-  }
-
-  &:hover {
-    -webkit-transform: rotateY(180deg);
-    transform: rotateY(180deg);
-  }
+  @apply flex min-w-28 cursor-pointer items-center justify-between rounded-lg border border-border bg-background-secondary p-2 text-start text-sm text-text-secondary transition-colors duration-200 hover:bg-background-tertiary focus:outline-none !important;
 }
 .input-field {
   & input,
   textarea {
-    @apply w-full resize-none bg-transparent text-sm text-text-primary  outline-none transition-colors duration-300 placeholder:text-sm read-only:cursor-auto read-only:bg-background-disabled disabled:cursor-not-allowed disabled:bg-background-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled;
+    @apply w-full resize-none bg-transparent text-sm text-text-primary outline-none transition-colors duration-300 placeholder:text-sm read-only:cursor-auto read-only:bg-background-disabled disabled:cursor-not-allowed disabled:bg-background-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled;
   }
-}
-
-#themeToggler div {
-  @apply absolute grid w-full grid-cols-[30px_auto] transition-transform duration-500 !important;
-}
-
-.relative {
-  z-index: 5;
 }
 
 .placeholder {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23D6D7D985' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 
-.progress-ring__circle {
-  transition: stroke-dashoffset 3s;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-  -webkit-transition: stroke-dashoffset 3s;
-  -moz-transition: stroke-dashoffset 3s;
-  -ms-transition: stroke-dashoffset 3s;
-  -o-transition: stroke-dashoffset 3s;
-}
-
-.sending {
-  width: 20px;
-  aspect-ratio: 4;
-  background: radial-gradient(circle closest-side, var(--text-primary) 90%, var(--background-primary)) 0 /
-    calc(100% / 3) 100% space;
-  clip-path: inset(0 100% 0 0);
-  animation: l1 1s steps(4) infinite;
-  -webkit-animation: l1 1s steps(4) infinite;
-}
-@keyframes l1 {
-  to {
-    clip-path: inset(0 -34% 0 0);
-  }
-}
-
 .tooltip {
   @apply rounded-lg border border-border bg-background-secondary p-2 text-xs font-medium text-text-tertiary !important;
-}
-.calendar {
-  @apply m-0 h-fit !important;
-
-  & .css-1t0788u-MuiPickersSlideTransition-root-MuiDayCalendar-slideTransition {
-    @apply min-h-[200px];
-  }
 }
 
 .mobile_header {
@@ -143,5 +88,3 @@
   writing-mode: vertical-rl;
   text-orientation: mixed;
 }
-
-

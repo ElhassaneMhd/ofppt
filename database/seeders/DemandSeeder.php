@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Demande;
+use App\Models\Demand;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +13,6 @@ class DemandSeeder extends Seeder
      */
     public function run(): void
     {
-        Demande::factory()->count(20)->create();
+        Demand::factory()->count(20)->create();
     }
 }

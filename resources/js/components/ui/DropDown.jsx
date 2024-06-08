@@ -94,11 +94,11 @@ function Option({ children, onClick, className = '', isDeleteButton, size = '', 
   return (
     <li
       className={cn(
+        className,
         'dropdown-option',
         size,
         isDeleteButton && 'delete',
         isCurrent && 'current',
-        className,
         disabled && 'disabled'
       )}
       onClick={(e) => disabled || onClick?.(e)

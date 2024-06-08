@@ -4,7 +4,6 @@ import autoTable from 'jspdf-autotable';
 import { MdDownload, PiFilePdf, PiFileCsv, IoChevronForwardOutline } from '../../ui/Icons';
 import { Button, DropDown } from '../../ui';
 import { useTable } from './useTable';
-import { useIsMutating } from '@tanstack/react-query';
 import {  IoDocumentOutline,  IoDocumentsOutline } from 'react-icons/io5';
 import { HiOutlineClipboardDocumentCheck } from 'react-icons/hi2';
 
@@ -53,8 +52,6 @@ const exportAsPdf = ({ data, config, headers, page }) => {
 
 //* Download
 export function Download() {
-  const { resourceName } = useTable();
-  const disabled = useIsMutating({ mutationKey: [`${resourceName.toLocaleLowerCase()}s`] });
 
   return (
     <DropDown
@@ -64,7 +61,6 @@ export function Download() {
           Download
         </Button>
       }
-      togglerDisabled={disabled}
       options={{
         className: 'w-40',
       }}

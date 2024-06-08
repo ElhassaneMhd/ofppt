@@ -7,15 +7,10 @@ import {
 } from '@/components/ui/Icons';
 import { useTable } from './useTable';
 import { useConfirmationModal } from '@/hooks/useConfirmationModal';
-import { useMutationState } from '@tanstack/react-query';
 
 export function Actions({ onUpdate, onDelete, row, actions }) {
   const { showForm, confirmOptions, resourceName, rows, onPrevPage, formOptions } = useTable();
   const { openModal } = useConfirmationModal();
-  const variables = useMutationState({
-    filters: { mutationKey: [`${resourceName.toLocaleLowerCase()}s`], status: 'pending' },
-    select: (mutation) => mutation.state.variables,
-  })?.[0];
 
   const defaultActions = {
     view: {
@@ -74,13 +69,6 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
           <IoEllipsisHorizontalSharp />
         </Button>
       }
-      togglerDisabled={(() => {
-        console.log(variables);
-        if (!variables) return false;
-        const id = row.profile_id || row.id;
-        if ((Array.isArray(variables) && variables.includes(id)) || variables.id === id || variables === id)
-          return true;
-      })()}
     >
       {getActions()
         .filter((action) => !action.hidden?.(row))
@@ -99,4 +87,3 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
     </DropDown>
   );
 }
-
