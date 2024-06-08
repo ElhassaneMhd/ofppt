@@ -1,20 +1,22 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import {
-  login,
-  register,
-  logout,
-  getUser,
-  updateProfile,
-  updatePassword,
-  getSettings,
-  updateSettings,
-  uploadFile,
-} from '@/services/usersAPI';
 import { useMutate } from './useMutate';
 import { filterObject, getFile } from '@/utils/helpers';
 import { useConfirmationModal } from './useConfirmationModal';
 import { router } from '@inertiajs/react';
+
+
+const login = () => {}
+const register = () => {}
+const logout = () => {}
+const getUser = () => {}
+const getSettings = () => {}
+const updateProfile = () => {}
+const uploadFile = () => {}
+
+
+
+
 
 const useRedirect = () => {
   return (message) => {
@@ -154,12 +156,3 @@ export function useUpdatePassword() {
   });
 }
 
-export function useUpdateSettings() {
-  return useMutate({
-    queryKey: ['settings', 'update'],
-    mutationFn: updateSettings,
-    loadingMessage: 'Updating settings...',
-    successMessage: 'Settings updated successfully',
-    errorMessage: 'Failed to update settings',
-  });
-}

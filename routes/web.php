@@ -4,14 +4,22 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::inertia('/', 'Dashboard');
-Route::inertia('/dashboard', 'Dashboard');
-Route::inertia('/filieres', 'Filieres');
-Route::inertia('/articles', 'Articles');
-Route::inertia('/applications', 'Applications');
-Route::inertia('/events', 'Events');
-Route::inertia('/users', 'Users');
-Route::inertia('/roles', 'Roles');
+Route::get('/', function () {
+    return redirect('/dashboard');
+});
+Route::inertia('/dashboard', 'Dashboard/Dashboard');
+Route::get('/filieres', function () {
+    $filieres = \App\Models\Filier::all();
+    return inertia('Filieres/Index', ['filieres' => $filieres]);
+});
+Route::inertia('/articles', 'Articles/Articles');
+Route::inertia('/demands', function () {
+    $demands = \App\Models\Demande::all();
+    return inertia('Demands/Index', ['demands' => $demands]);
+});
+Route::inertia('/events', 'Events/Events');
+Route::inertia('/users', 'Users/Users');
+Route::inertia('/roles', 'Roles/Roles');
 
 
 Route::fallback(function () {

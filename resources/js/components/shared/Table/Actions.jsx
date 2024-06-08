@@ -7,12 +7,10 @@ import {
 } from '@/components/ui/Icons';
 import { useTable } from './useTable';
 import { useConfirmationModal } from '@/hooks/useConfirmationModal';
-import { useNavigateWithQuery } from '@/hooks/useNavigateWithQuery';
 import { useMutationState } from '@tanstack/react-query';
 
 export function Actions({ onUpdate, onDelete, row, actions }) {
   const { showForm, confirmOptions, resourceName, rows, onPrevPage, formOptions } = useTable();
-  const navigate = useNavigateWithQuery();
   const { openModal } = useConfirmationModal();
   const variables = useMutationState({
     filters: { mutationKey: [`${resourceName.toLocaleLowerCase()}s`], status: 'pending' },
@@ -23,7 +21,7 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
     view: {
       text: 'View',
       icon: <IoEyeOutline />,
-      onClick: () => navigate(row.id),
+      // onClick: () => navigate(row.id),
     },
     edit: {
       text: 'Edit',

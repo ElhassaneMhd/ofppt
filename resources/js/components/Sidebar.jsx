@@ -9,7 +9,7 @@ import {
   FiLogOut,
   IoSettingsOutline,
   IoBriefcaseOutline,
-  IoDocumentsOutline,
+  IoMailOutline,
   GrUserAdmin,
   GrArticle,
   BsCalendar4Event,
@@ -18,7 +18,6 @@ import {
 
 import { ROUTES } from '../utils/constants';
 import { Button } from './ui';
-import { capitalize, changeTitle } from '@/utils/helpers';
 import { useLogout, useUser } from '@/hooks/useUser';
 
 const routesIcons = {
@@ -26,7 +25,7 @@ const routesIcons = {
   filieres: <IoBriefcaseOutline />,
   articles: <GrArticle />,
   events: <BsCalendar4Event />,
-  applications: <IoDocumentsOutline />,
+  demands: <IoMailOutline />,
   users: <GoPeople />,
   roles: <GrUserAdmin />,
 };
@@ -51,10 +50,6 @@ export default function Sidebar({ openSettings }) {
 
     return () => window.removeEventListener('resize', onresize);
   }, [isExpanded]);
-
-  useEffect(() => {
-    if (location.length === 3) changeTitle(capitalize(location[2]));
-  }, []);
 
   return (
     <aside
@@ -81,7 +76,7 @@ export default function Sidebar({ openSettings }) {
           ?.filter((r) => !r.includes('/'))
           .map((route) => (
             <li key={route}>
-              <Link href={route} className={`sidebar-element group ${url === route ? 'active' : ''}`}>
+              <Link href={route} className={`sidebar-element group ${url.slice(1) === route ? 'active' : ''}`}>
                 {routesIcons[route]}
                 <span className={spanClass}>
                   {t(`app.sidebar.${route}`)}
