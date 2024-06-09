@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\DemandController;
-use App\Http\Controllers\EvenementsController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FiliersController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +21,7 @@ $resources = [
     'filieres' => FiliersController::class,
     'articles' => ArticlesController::class,
     'demands' => DemandController::class,
-    'events' => EvenementsController::class,
+    'events' => EventsController::class,
     'users' => UsersController::class,
 ];
 

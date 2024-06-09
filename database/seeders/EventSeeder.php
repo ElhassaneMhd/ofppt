@@ -13,7 +13,7 @@ class EventSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(Faker $faker): void{
-          DB::table('evenements')->insert([
+          DB::table('events')->insert([
             'title' => $faker->sentence,
             'date' => $faker->date,
             'location' => $faker->city,
