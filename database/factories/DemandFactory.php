@@ -24,7 +24,6 @@ class DemandFactory extends Factory
             'message' => fake()->paragraph(),
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'updated_at' => fake()->dateTimeBetween('-1 year', 'now'),
-
         ];
     }
 }

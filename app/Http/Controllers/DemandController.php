@@ -20,8 +20,7 @@ class DemandController extends Controller
         $demands =Demand::onlyTrashed()->get();
         return Inertia::render('Demands/Trash', compact('demands'));
     }
-    public function storeDemand(Request $request)
-    {
+    public function storeDemand(Request $request){
         $validatedData = $request->validate([
             'name' => 'required',
             "email" => 'required',
@@ -41,8 +40,7 @@ class DemandController extends Controller
     public function destroy(Demand $demand)
     {
         $demand->delete();
-        $demands = Demand::all();
-        return view('demands.demands',compact('demands'));
+        return to_route('demands.index');
     }
     public function restore($id){
         $demand=Demand::onlyTrashed()->findOrFail($id);
