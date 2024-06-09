@@ -7,38 +7,24 @@ import {
 } from '@/components/ui/Icons';
 import { useTable } from './useTable';
 import { useConfirmationModal } from '@/hooks/useConfirmationModal';
+import { router } from '@inertiajs/react';
 
-export function Actions({ onUpdate, onDelete, row, actions }) {
-  const { showForm, confirmOptions, resourceName, rows, onPrevPage, formOptions } = useTable();
+export function Actions({ row, actions }) {
+  const { confirmOptions, rows, page, onPaginate } = useTable();
   const { openModal } = useConfirmationModal();
+
+  const endpoint = `${router?.page?.url}/${row.id}`;
 
   const defaultActions = {
     view: {
       text: 'View',
       icon: <IoEyeOutline />,
-      // onClick: () => navigate(row.id),
+      onClick: () => router.get(endpoint),
     },
     edit: {
       text: 'Edit',
       icon: <MdDriveFileRenameOutline />,
-      onClick: () => {
-        showForm({
-          fields: formOptions.fields.map((field) =>
-            field.name.includes('password') ? { ...field, rules: { ...field.rules, required: false } } : field
-          ),
-          defaultValues: { ...formOptions.defaultValues, ...row },
-          onSubmit: (data) => onUpdate({ id: row.profile_id, data }),
-          isOpen: true,
-          submitButtonText: 'Save Changes',
-          heading: (
-            <>
-              Update {resourceName} <span className='text-primary'>#</span>
-              {row.id}
-            </>
-          ),
-          type: 'update',
-        });
-      },
+      onClick: () => router.get(`${endpoint}/edit`),
     },
     delete: {
       text: 'Delete',
@@ -47,8 +33,8 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
         openModal({
           ...confirmOptions,
           onConfirm: () => {
-            onDelete(row.profile_id || row.id);
-            rows?.length === 1 && onPrevPage();
+            router.delete(endpoint);
+            rows?.length === 1 && onPaginate(page - 1);
           },
         });
       },

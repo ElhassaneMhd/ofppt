@@ -9,7 +9,7 @@ export default function Index({ demands = [] }) {
         <title>Demands</title>
       </Head>
       <Heading count={demands.length}>Demands</Heading>
-      <DemandsList demands={demands} />
+      <DemandsList demands={demands.map((d, i) => ({ ...d, id: i + 1 }))} />
     </>
   );
 }

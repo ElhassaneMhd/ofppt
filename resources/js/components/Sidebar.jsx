@@ -58,7 +58,7 @@ export default function Sidebar() {
       }`}
     >
       <div className='z-20 flex items-center justify-between'>
-        <div className={isExpanded ? 'w-20 scale-100 flex-1' : 'w-0 scale-0'}>
+        <div className={isExpanded ? 'w-20 flex-1 scale-100' : 'h-0 w-0 scale-0'}>
           <DropDownProfile />
         </div>
         <Button
@@ -74,7 +74,7 @@ export default function Sidebar() {
           ?.filter((r) => !r.includes('/'))
           .map((route) => (
             <li key={route}>
-              <Link href={route} className={`sidebar-element group ${url.slice(1) === route ? 'active' : ''}`}>
+              <Link href={route} className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}>
                 {routesIcons[route]}
                 <span className={spanClass}>
                   {t(`app.sidebar.${route}`)}

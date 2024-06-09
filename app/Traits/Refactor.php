@@ -89,7 +89,8 @@ trait Refactor {
       'email' => $demand->email,
       'phone' => $demand->phone,
       'subject' => $demand->subject,
-      'message' => $demand->message
+      'message' => $demand->message,
+      "created_at"=>$demand->created_at
     ];
   }
 }

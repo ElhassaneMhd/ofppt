@@ -5,7 +5,7 @@ import { useTable } from './useTable';
 import { CheckBox, Status } from '@/components/ui/';
 
 export function Table({ actions, canView, hideRowActions, hiddenActionsContent }) {
-  const { columns, rows, error, selected, onSelect, isLoading, query, appliedFiltersNumber, data } = useTable();
+  const { columns, rows,  selected, onSelect,  query, appliedFiltersNumber, data } = useTable();
   const table = useRef();
   const [parent] = useAutoAnimate({ duration: 500 });
 
@@ -16,8 +16,7 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
       .map((r) => r.profile_id || r.id)
       .every((id) => selected.includes(id));
 
-  if (error) return <Status status='error' message={error?.message} />;
-  if (!isLoading && rows?.length === 0 && !query && !appliedFiltersNumber('all')) {
+  if (rows?.length === 0 && !query && !appliedFiltersNumber('all')) {
     return (
       <div className='absolute grid h-full w-full place-content-center place-items-center gap-5 pt-5'>
         <img src='/images/empty.svg' alt='' className='w-[100px]' />
@@ -37,15 +36,15 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
 
   return (
     <div className='relative flex-1 overflow-x-auto' ref={table}>
-      {rows?.length === 0 && !isLoading && (
+      {rows?.length === 0  && (
         <Status status='noResults' heading='No results found' message='Try changing your search query or filters' />
       )}
       <table cellPadding={3} className='w-full overflow-x-auto whitespace-nowrap text-left'>
-        <Skeleton table={table} />
+        {/* <Skeleton table={table} /> */}
         <thead className='sticky top-0 z-10 bg-background-secondary'>
           <tr ref={parent}>
             {/* All Checkbox  visibility*/}
-            {isLoading || !actions || rows?.every((row) => hideRowActions?.(row)) || (
+            { !actions || rows?.every((row) => hideRowActions?.(row)) || (
               <Select
                 checked={checked}
                 onChange={() =>
@@ -66,7 +65,7 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
         <tbody className='h-fit divide-y divide-border text-sm font-medium text-text-primary' ref={parent}>
           {rows?.map((row) => (
             <Row
-              key={row.id}
+              key={row.id || Math.random()}
               row={row}
               visibleColumns={columns.filter((c) => c.visible)}
               actions={actions}
@@ -84,8 +83,8 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
 
 function Column({ column, hide }) {
   return (
-    <th scope='col' className='p-2 '>
-      {hide ? <span className='sr-only '>Actions</span> : <Sort column={column} />}
+    <th scope='col' className='p-2'>
+      {hide ? <span className='sr-only'>Actions</span> : <Sort column={column} />}
     </th>
   );
 }
@@ -152,9 +151,7 @@ function Select({ id, checked, onChange }) {
 }
 
 function Skeleton({ table }) {
-  const { columns, isLoading } = useTable();
-
-  if (!isLoading) return null;
+  const { columns } = useTable();
 
   const tableHeight = table.current?.getBoundingClientRect().height;
   const skeletonHeight = 40;

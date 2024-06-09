@@ -43,4 +43,5 @@ createInertiaApp({
       </ThemeProvider>
     );
   },
+  
 });

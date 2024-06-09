@@ -21,6 +21,7 @@ export function Pagination({ name }) {
             {[5, 10, 15, 20, 30].map((el) => (
               <DropDown.Option
                 key={el}
+                color='tertiary'
                 size='small'
                 className='justify-center'
                 isCurrent={el === limit}

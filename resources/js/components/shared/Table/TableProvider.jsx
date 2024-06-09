@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
+import { usePage, useRemember } from '@inertiajs/react';
 import { Table } from './Table';
 import { Search } from './Search';
 import { View } from './View';
 import { Pagination } from './Pagination';
 import { Download } from './Download';
-import { PAGE_LIMIT } from '../../../utils/constants';
 import { TableRecord } from './TableRecord';
 import { Actions } from './Actions';
-import { NewRecord } from './NewRecord';
 import { Selected } from './Selected';
 import { TableContext } from './useTable';
-import { usePage } from '@inertiajs/react';
-import { getIsoDate, setSearchParams } from '@/utils/helpers';
+import { getIsoDate } from '@/utils/helpers';
+import { PAGE_LIMIT } from '@/utils/constants';
+import { SearchParams } from '@/utils/SearchParams';
 
 Array.prototype.customFilter = function (filters, filterCondition) {
   if (!filters) return this;
@@ -98,12 +98,9 @@ export function TableProvider({
   children,
   data,
   resourceName,
-  isLoading,
-  error,
   columns: tableColumns,
-  formFields,
+  filters: defaultFilters,
   selectedOptions: defaultSelectedOptions,
-  formDefaults,
   fieldsToSearch,
   defaultSortBy = 'id',
   defaultDirection = 'desc',
@@ -112,33 +109,33 @@ export function TableProvider({
 }) {
   const [columns, setColumns] = useState(tableColumns);
   const [selected, setSelected] = useState([]);
-  const [formOptions, setFormOptions] = useState({
-    defaultValues: formDefaults,
-    fields: formFields,
-    onSubmit: () => {},
-    resetToDefault: true,
-    gridLayout: true,
-    submitButtonText: '',
-    heading: '',
-    isOpen: false,
-    type: 'create',
-  });
   const [selectedOptions, setSelectedOptions] = useState({
     isOpen: false,
     actions: defaultSelectedOptions?.actions || [],
     deleteOptions: defaultSelectedOptions?.deleteOptions,
   });
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(defaultFilters);
+  const [state, setState] = useRemember({ checked: {} });
+  const { url } = usePage();
 
-  const { props } = usePage();
-  const query = props.search || '';
-  const page = Number(props.page) || 1;
-  const limit = Number(props.limit) || PAGE_LIMIT;
-  const sortBy = props.sort || defaultSortBy;
-  const direction = props.dir || defaultDirection;
+  const searchParams = new SearchParams({
+    endpoint: url,
+    cleanupConditions: {
+      search: '',
+      page: '1',
+      sort: defaultSortBy,
+      dir: defaultDirection,
+      limit: PAGE_LIMIT,
+    },
+  });
+
+  const query = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  const limit = Number(searchParams.get('limit')) || PAGE_LIMIT;
+  const sortBy = searchParams.get('sort') || defaultSortBy;
+  const direction = searchParams.get('dir') || defaultDirection;
 
   // Variables
-  console.log(data);
   const rows = data?.search(query, fieldsToSearch).customFilter(filters, 'AND').customSort(sortBy, direction, columns);
 
   const totalItems = rows?.length;
@@ -174,45 +171,26 @@ export function TableProvider({
     confirmText: 'Delete',
   };
 
-  // useEffect(() => {
-  //   if (page === 1) searchParams.delete('page');
-  //   if (sortBy === defaultSortBy && direction === defaultDirection) {
-  //     searchParams.delete('sort');
-  //     searchParams.delete('dir');
-  //   }
-  //   if (!query) searchParams.delete('search');
-  //   setSearchParams(searchParams);
-  // }, [direction, page, searchParams, sortBy, query, setSearchParams, defaultSortBy, defaultDirection]);
-
   useEffect(() => {
-    setColumns(tableColumns);
-    setFilters(
-      tableColumns
-        .filter((col) => col.filter)
-        .reduce((acc, col) => {
-          acc[col.key] = col.filter;
-          return acc;
-        }, {}) || {}
-    );
-  }, [tableColumns]);
+    setFilters((prev) => {
+      const updated = {};
+      Object.keys(prev).forEach((key) => {
+        updated[key] = prev[key].map((f) => ({ ...f, checked: state.checked[key]?.includes(f.id) }));
+      });
+      return updated;
+    });
+  }, [state, url]);
 
   // Handlers
 
   const onSearch = (query) => {
     searchParams.set('search', query);
     searchParams.delete('page');
-    setSearchParams(searchParams);
   };
 
-  const onPaginate = (page) => {
-    searchParams.set('page', page);
-    setSearchParams(searchParams);
-  };
+  const onPaginate = (page) => searchParams.set('page', page);
 
-  const onChangeLimit = (limit) => {
-    searchParams.set('limit', limit);
-    setSearchParams(searchParams);
-  };
+  const onChangeLimit = (limit) => searchParams.set('limit', limit);
 
   const onChangeView = (column, showAll) => {
     if (showAll) return setColumns(columns.map((c) => ({ ...c, visible: true })));
@@ -229,30 +207,23 @@ export function TableProvider({
   const onSort = (column, direction) => {
     searchParams.set('sort', column);
     searchParams.set('dir', direction);
-    setSearchParams(searchParams);
   };
 
-  const onFilter = (filters, setFilters, initialFilters) => (key, value, reset) => {
-    if (reset) return setFilters(initialFilters);
+  const onFilter = (key, value) => {
+    const updatedFilters = {
+      ...filters,
+      [key]: filters[key].map((f) => (f.value === value ? { ...f, checked: !f.checked } : f)),
+    };
+    setFilters(updatedFilters);
 
-    const filter = filters[key].map((f) => (f.value === value ? { ...f, checked: !f.checked } : f));
-    setFilters({ ...filters, [key]: filter });
-  };
-
-  const showForm = (options) => {
-    setFormOptions((prev) => ({
+    setState((prev) => ({
       ...prev,
-      ...options,
-      close: () => {
-        setFormOptions((prev) => ({
-          ...prev,
-          isOpen: false,
-          defaultValues: formDefaults,
-          heading: '',
-          submitButtonText: '',
-        }));
-      },
+      checked: Object.keys(updatedFilters).reduce(
+        (acc, key) => ({ ...acc, [key]: updatedFilters[key].filter(({ checked }) => checked).map(({ id }) => id) }),
+        {}
+      ),
     }));
+    if (page !== 1) onPaginate(1);
   };
 
   const onSelect = (id, isAll) => {
@@ -272,13 +243,11 @@ export function TableProvider({
     // data
     data,
     resourceName,
-    isLoading,
-    error,
     // table
     tableColumns,
     columns,
     rows: displayAllData ? rows : rows?.paginate(page, limit),
-    disabled: isLoading || error || data?.length === 0 || (page > totalPages && !query && !appliedFiltersNumber('all')),
+    disabled: data?.length === 0 || (page > totalPages && !query && !appliedFiltersNumber('all')),
     // Selection
     selected,
     isSelecting: selected.length > 0,
@@ -290,7 +259,7 @@ export function TableProvider({
     // filter
     filters,
     appliedFiltersNumber,
-    onFilter: onFilter(filters, setFilters),
+    onFilter,
     // pagination
     totalItems,
     totalPages,
@@ -308,9 +277,6 @@ export function TableProvider({
     csvConfig,
     pdfConfig,
     // other
-    formOptions,
-    formFields,
-    showForm,
     confirmOptions,
   };
 
@@ -322,7 +288,6 @@ TableProvider.Search = Search;
 TableProvider.View = View;
 TableProvider.Download = Download;
 TableProvider.Pagination = Pagination;
-TableProvider.NewRecord = NewRecord;
 TableProvider.TableRecord = TableRecord;
 TableProvider.Actions = Actions;
 TableProvider.Selected = Selected;

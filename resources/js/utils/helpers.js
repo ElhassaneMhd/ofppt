@@ -1,4 +1,3 @@
-import { router } from '@inertiajs/react';
 import { clsx } from 'clsx';
 import { DateTime, Interval } from 'luxon';
 import { twMerge } from 'tailwind-merge';
@@ -195,27 +194,13 @@ export const getFile = (data, type) => {
   return file ? `/assets${file}` : null;
 };
 
-export const setSearchParams = (endpoint, queryParams, options = {}) => {
-  const inertiaOptions = {
-    preserveState: true,
-    replace: true,
-    // only: ['dataNeededForTheComponent'],
-    ...options, 
-  };
-
-  router.get(endpoint, queryParams, inertiaOptions);
-};
-
-// Filter
-export const getFilter = (data, key, checked) =>
-  [...new Set(data?.map((el) => el[key]))].map((f) => ({ value: f, checked: f === checked }));
-
 export const getIntervals = (key, returned = ['past', 'present', 'future'], excluded = []) => {
   return intervals
     .filter((interval) => returned.includes(interval.time))
     .filter((interval) => !excluded.includes(interval.name))
     .map((interval) => interval.name)
     .map((interval) => ({
+      id : interval,
       value: { value: interval, condition: (el) => checkDateInIntervals(el[key], interval) },
       checked: false,
     }));

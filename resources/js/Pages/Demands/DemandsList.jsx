@@ -1,9 +1,7 @@
 import { formatDate, getIntervals } from '@/utils/helpers';
 import { TableLayout } from '@/layouts/TableLayout';
 
-export default function DemandsList({demands}) {
- 
-
+export default function DemandsList({ demands }) {
   return (
     <TableLayout
       data={demands}
@@ -20,7 +18,6 @@ export default function DemandsList({demands}) {
           displayLabel: 'Full Name',
           visible: true,
           type: 'string',
-          format: (val, id) => `${demands?.find((i) => i.id === id)?.gender || 'M'}. ${val}`,
         },
         {
           key: 'email',
@@ -51,22 +48,11 @@ export default function DemandsList({demands}) {
           filter: getIntervals('created_at', ['present', 'past']),
         },
       ]}
+      filters={{ created_at: getIntervals('created_at', ['present', 'past']) }}
       fieldsToSearch={['firstName', 'lastName', 'email']}
-      downloadOptions={{
-        csvFileName: 'Demands',
-        pdfFileName: 'Demands',
-      }}
-      // onDelete={deleteEmail}
-      selectedOptions={{
-        deleteOptions: {
-          resourceName: 'email',
-          onConfirm: (ids) => deleteDemands(ids),
-        },
-      }}
-      layoutOptions={{
-        displayNewRecord: false,
-        actions: (def) => [def.delete],
-      }}
+      downloadOptions={{ csvFileName: 'Demands', pdfFileName: 'Demands' }}
+      selectedOptions={{ deleteOptions: { resourceName: 'email', onConfirm: (ids) => console.log(ids) } }}
+      layoutOptions={{ displayNewRecord: false, actions: (def) => [def.view, def.delete] }}
     />
   );
 }
