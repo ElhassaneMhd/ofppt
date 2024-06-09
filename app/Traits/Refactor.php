@@ -85,6 +85,7 @@ trait Refactor {
   }
   protected function refactorDemand($demand){
     return [
+      'id' => $demand->id,
       'fullName' => $demand->fullName,
       'email' => $demand->email,
       'phone' => $demand->phone,

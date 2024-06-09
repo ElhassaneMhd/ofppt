@@ -5,7 +5,8 @@ export default function DemandsList({ demands }) {
   return (
     <TableLayout
       data={demands}
-      resourceName='Email'
+      resourceName='Demand'
+      routeName='demands'
       columns={[
         {
           key: 'id',

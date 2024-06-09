@@ -200,8 +200,9 @@ export const getIntervals = (key, returned = ['past', 'present', 'future'], excl
     .filter((interval) => !excluded.includes(interval.name))
     .map((interval) => interval.name)
     .map((interval) => ({
-      id : interval,
+      id: interval,
       value: { value: interval, condition: (el) => checkDateInIntervals(el[key], interval) },
       checked: false,
     }));
 };
+

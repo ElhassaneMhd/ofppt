@@ -7,24 +7,23 @@ import {
 } from '@/components/ui/Icons';
 import { useTable } from './useTable';
 import { useConfirmationModal } from '@/hooks/useConfirmationModal';
-import { router } from '@inertiajs/react';
+import { useNavigate } from '@/hooks/useNavigate';
 
 export function Actions({ row, actions }) {
-  const { confirmOptions, rows, page, onPaginate } = useTable();
+  const { confirmOptions, rows, page, onPaginate, routeName } = useTable();
   const { openModal } = useConfirmationModal();
-
-  const endpoint = `${router?.page?.url}/${row.id}`;
+  const navigate = useNavigate();
 
   const defaultActions = {
     view: {
       text: 'View',
       icon: <IoEyeOutline />,
-      onClick: () => router.get(endpoint),
+      onClick: () => navigate({ url: `${routeName}.show`, params: row.id }),
     },
     edit: {
       text: 'Edit',
       icon: <MdDriveFileRenameOutline />,
-      onClick: () => router.get(`${endpoint}/edit`),
+      onClick: () => navigate({ url: `${routeName}.edit`, params: row.id }),
     },
     delete: {
       text: 'Delete',
@@ -33,7 +32,7 @@ export function Actions({ row, actions }) {
         openModal({
           ...confirmOptions,
           onConfirm: () => {
-            router.delete(endpoint);
+            navigate({ url: `${routeName}.destroy`, params: row.id, method: 'delete' });
             rows?.length === 1 && onPaginate(page - 1);
           },
         });

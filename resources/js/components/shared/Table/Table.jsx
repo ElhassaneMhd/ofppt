@@ -3,9 +3,10 @@ import { cloneElement, useRef } from 'react';
 import { Sort } from './Sort';
 import { useTable } from './useTable';
 import { CheckBox, Status } from '@/components/ui/';
+import { useNavigate } from '@/hooks/useNavigate';
 
 export function Table({ actions, canView, hideRowActions, hiddenActionsContent }) {
-  const { columns, rows,  selected, onSelect,  query, appliedFiltersNumber, data } = useTable();
+  const { columns, rows, selected, onSelect, query, appliedFiltersNumber, data } = useTable();
   const table = useRef();
   const [parent] = useAutoAnimate({ duration: 500 });
 
@@ -13,7 +14,7 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
     rows?.length > 0 &&
     rows
       ?.filter((row) => !hideRowActions?.(row))
-      .map((r) => r.profile_id || r.id)
+      .map((r) => r.id)
       .every((id) => selected.includes(id));
 
   if (rows?.length === 0 && !query && !appliedFiltersNumber('all')) {
@@ -36,7 +37,7 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
 
   return (
     <div className='relative flex-1 overflow-x-auto' ref={table}>
-      {rows?.length === 0  && (
+      {rows?.length === 0 && (
         <Status status='noResults' heading='No results found' message='Try changing your search query or filters' />
       )}
       <table cellPadding={3} className='w-full overflow-x-auto whitespace-nowrap text-left'>
@@ -44,12 +45,10 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
         <thead className='sticky top-0 z-10 bg-background-secondary'>
           <tr ref={parent}>
             {/* All Checkbox  visibility*/}
-            { !actions || rows?.every((row) => hideRowActions?.(row)) || (
+            {!actions || rows?.every((row) => hideRowActions?.(row)) || (
               <Select
                 checked={checked}
-                onChange={() =>
-                  rows?.filter((row) => !hideRowActions?.(row)).forEach((r) => onSelect(r.profile_id || r.id, !checked))
-                }
+                onChange={() => rows?.filter((row) => !hideRowActions?.(row)).forEach((r) => onSelect(r.id, !checked))}
               />
             )}
             {rows?.every((row) => hideRowActions?.(row)) && actions && <Column hide={true} />}
@@ -65,14 +64,14 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
         <tbody className='h-fit divide-y divide-border text-sm font-medium text-text-primary' ref={parent}>
           {rows?.map((row) => (
             <Row
-              key={row.id || Math.random()}
+              key={row.id }
               row={row}
               visibleColumns={columns.filter((c) => c.visible)}
               actions={actions}
               hideRowActions={hideRowActions?.(row)}
               hiddenActionsContent={hiddenActionsContent?.(row)}
               canView={canView}
-              selected={selected.includes(row.profile_id || row.id)}
+              selected={selected.includes(row.id)}
             />
           ))}
         </tbody>
@@ -90,9 +89,9 @@ function Column({ column, hide }) {
 }
 
 function Row({ row, visibleColumns, actions, canView = true, selected, hideRowActions, hiddenActionsContent }) {
-  const { disabled, onSelect, isSelecting } = useTable();
-  // const navigate = useNavigateWithQuery();
+  const { disabled, onSelect, isSelecting, routeName } = useTable();
   const [parent] = useAutoAnimate({ duration: 500 });
+  const navigate = useNavigate();
 
   // Define the class names for the row
   const rowClassNames = [
@@ -104,18 +103,14 @@ function Row({ row, visibleColumns, actions, canView = true, selected, hideRowAc
 
   // Define the onClick handler for the row
   const handleRowClick = () => {
-    if (isSelecting && !hideRowActions) {
-      onSelect(row.profile_id || row.id);
-    }
-    if (canView && !disabled && !isSelecting) {
-      // navigate(row.id);
-    }
+    if (isSelecting && !hideRowActions) onSelect(row.id);
+    if (canView && !disabled && !isSelecting) navigate({ url: `${routeName}.show`, params: row.id });
   };
-
+  //
   return (
     <tr ref={parent} className={rowClassNames} onClick={handleRowClick}>
       {/* If actions are provided and not hidden, render a Select component */}
-      {actions && !hideRowActions && <Select id={row.profile_id || row.id} />}
+      {actions && !hideRowActions && <Select id={row.id} />}
       {/* If actions are provided and hidden, render a hidden Column */}
       {actions && hideRowActions && <Column hide={true} />}
 
@@ -150,30 +145,30 @@ function Select({ id, checked, onChange }) {
   );
 }
 
-function Skeleton({ table }) {
-  const { columns } = useTable();
+// function Skeleton({ table }) {
+//   const { columns } = useTable();
 
-  const tableHeight = table.current?.getBoundingClientRect().height;
-  const skeletonHeight = 40;
-  const theadHeight = table.current?.querySelector('thead')?.getBoundingClientRect().height;
+//   const tableHeight = table.current?.getBoundingClientRect().height;
+//   const skeletonHeight = 40;
+//   const theadHeight = table.current?.querySelector('thead')?.getBoundingClientRect().height;
 
-  const length = Math.floor((tableHeight - theadHeight) / skeletonHeight);
-  return (
-    <tbody>
-      {Array.from({ length }).map((_, i) => (
-        <tr className='group animate-pulse' key={i}>
-          {columns
-            .filter((c) => c.visible)
-            .map(({ displayLabel }) => (
-              <td key={displayLabel}>
-                <div className='rounded-md bg-background-secondary px-6 py-4 group-first:first:mt-0.5'></div>
-              </td>
-            ))}
-          <td>
-            <div className='rounded-md bg-background-secondary px-6 py-4'></div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  );
-}
+//   const length = Math.floor((tableHeight - theadHeight) / skeletonHeight);
+//   return (
+//     <tbody>
+//       {Array.from({ length }).map((_, i) => (
+//         <tr className='group animate-pulse' key={i}>
+//           {columns
+//             .filter((c) => c.visible)
+//             .map(({ displayLabel }) => (
+//               <td key={displayLabel}>
+//                 <div className='rounded-md bg-background-secondary px-6 py-4 group-first:first:mt-0.5'></div>
+//               </td>
+//             ))}
+//           <td>
+//             <div className='rounded-md bg-background-secondary px-6 py-4'></div>
+//           </td>
+//         </tr>
+//       ))}
+//     </tbody>
+//   );
+// }
