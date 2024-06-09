@@ -1,14 +1,15 @@
 import { Heading } from "@/components/Heading";
 import { Head } from "@inertiajs/react";
+import EventsList from "./EventsList";
 
-export default function Index({}) {
+export default function Index({events}) {
   return (
     <>
       <Head>
-        <title></title>
+        <title>Events</title>
       </Head>
-      <Heading count={length}></Heading>
-      {/* <List /> */}
+      <Heading count={events.length}>Events</Heading>
+      <EventsList events={events} />
     </>
   );
 }

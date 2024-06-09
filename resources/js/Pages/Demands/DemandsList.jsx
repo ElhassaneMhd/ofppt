@@ -5,7 +5,8 @@ export default function DemandsList({ demands }) {
   return (
     <TableLayout
       data={demands}
-      resourceName='Email'
+      resourceName='Demand'
+      routeName='demands'
       columns={[
         {
           key: 'id',
@@ -49,7 +50,7 @@ export default function DemandsList({ demands }) {
         },
       ]}
       filters={{ created_at: getIntervals('created_at', ['present', 'past']) }}
-      fieldsToSearch={['firstName', 'lastName', 'email']}
+      fieldsToSearch={['fullName', 'subject', 'message']}
       downloadOptions={{ csvFileName: 'Demands', pdfFileName: 'Demands' }}
       selectedOptions={{ deleteOptions: { resourceName: 'email', onConfirm: (ids) => console.log(ids) } }}
       layoutOptions={{ displayNewRecord: false, actions: (def) => [def.view, def.delete] }}

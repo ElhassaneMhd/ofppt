@@ -41,13 +41,13 @@ trait Refactor {
       return [
         "id"=> $event->id,
         "title"=> $event->title,
-        "Year"=>$event->year->year,
+        "year"=>$event->year->year,
         "content"=> $event->details,
-        "author"=> $event->user->firstName,
+        "publisher"=> $event->user->firstName,
         "date"=>$event->date,
         'location'=>$event->location,
         'upcoming'=>$event->status,
-        "duree"=>$event->duree,
+        "duration"=>$event->duree,
       "tags"=> explode(',',$event->tags)??[],
         "files"=>$this->getElementFiles($event)??[],
         "created_at"=>$event->created_at
@@ -56,8 +56,8 @@ trait Refactor {
   protected function refactorFilier($filier){
         return  [
             "id"=> $filier->id,
-            "name"=> $filier->title,
-            "Year"=>$filier->year->year,
+            "title"=> $filier->title,
+            "year"=>$filier->year->year,
             "description"=> $filier->details,
             "sector"=>$filier->sector,
             "tags"=> explode(',',$filier->tags)??[],
@@ -85,6 +85,7 @@ trait Refactor {
   }
   protected function refactorDemand($demand){
     return [
+      'id' => $demand->id,
       'fullName' => $demand->fullName,
       'email' => $demand->email,
       'phone' => $demand->phone,

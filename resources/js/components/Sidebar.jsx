@@ -74,7 +74,10 @@ export default function Sidebar() {
           ?.filter((r) => !r.includes('/'))
           .map((route) => (
             <li key={route}>
-              <Link href={route} className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}>
+              <Link
+                href={`/${route}`}
+                className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}
+              >
                 {routesIcons[route]}
                 <span className={spanClass}>
                   {t(`app.sidebar.${route}`)}

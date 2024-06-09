@@ -76,7 +76,7 @@ function DownloadOption({ type, icon }) {
 
   const download = (downloadType, dataSubset, currentPage = null, selectedRows = null) => {
     const filteredData = selectedRows
-      ? dataSubset.filter((el) => selectedRows.includes(el.profile_id || el.id))
+      ? dataSubset.filter((el) => selectedRows.includes( el.id))
       : dataSubset;
 
     if (downloadType === 'pdf') {

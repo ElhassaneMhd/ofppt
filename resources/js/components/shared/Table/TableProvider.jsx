@@ -98,6 +98,7 @@ export function TableProvider({
   children,
   data,
   resourceName,
+  routeName,
   columns: tableColumns,
   filters: defaultFilters,
   selectedOptions: defaultSelectedOptions,
@@ -243,6 +244,7 @@ export function TableProvider({
     // data
     data,
     resourceName,
+    routeName,
     // table
     tableColumns,
     columns,

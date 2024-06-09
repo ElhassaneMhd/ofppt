@@ -1,12 +1,13 @@
 import { FaPlus } from 'react-icons/fa6';
 import { Button } from '@/components/ui';
 import { useTable } from './useTable';
-import { router } from '@inertiajs/react';
+import { useNavigate } from '@/hooks/useNavigate';
 
 export function NewRecord({ component }) {
-  const { resourceName, disabled } = useTable();
+  const { resourceName, disabled, routeName } = useTable();
+  const navigate = useNavigate();
 
-  const onAdd = () => router.get(`${router?.page?.url}/create`);
+  const onAdd = () => navigate({ url: `${routeName}.create` });
 
   if (component) return component(onAdd);
 
