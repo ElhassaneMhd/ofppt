@@ -13,7 +13,7 @@ class UsersController extends Controller
 {
     use Get;
     public function index()  {
-        $users = $this->GetAll('users');
+        $users = User::all();
         $publieeUsers = User::paginate(10);
         return Inertia::render('Users/Index', $users);
     }

@@ -11,8 +11,8 @@ class Event extends Model
     use SoftDeletes;
     use HasFactory;
     protected $fillable=["title","details",'location','duree','date','status','visibility'];
-       public function files() {
- 	    return $this->morphMany(File::class, 'Fileable'); 
+    public function files() {
+ 	    return $this->morphMany(File::class, 'Fileable');
 	}
     public function year(){
     return $this->belongsTo(Year::class);

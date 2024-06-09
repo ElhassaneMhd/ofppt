@@ -19,8 +19,8 @@ use Inertia\Inertia;
 class FiliersController extends Controller{
     use  Get,Store,Restore,Delete,Refactor,Update;
 
-     public function index(Request $request){
-        $filiers = $this->GetAll('filiers');
+    public function index(Request $request){
+        $filiers = Filier::all();
         $filiers = $this->refactorManyElements($filiers,'filiers');
         $trashedFiliers = Filier::onlyTrashed()->get();
         return Inertia::render('Filiers/Index', [$filiers,$trashedFiliers]);

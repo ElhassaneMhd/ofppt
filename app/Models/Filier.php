@@ -10,15 +10,15 @@ class Filier extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable=["title","details",'isActive',"maxStg",'visibility','secteur'];
+    protected $fillable=["title","details",'isActive',"maxStg",'visibility','sector'];
     public function files() {
- 	    return $this->morphMany(File::class, 'Fileable'); 
+ 	    return $this->morphMany(File::class, 'Fileable');
 	}
-     public function year(){
-    return $this->belongsTo(Year::class,'year_id');
-  }
-      public function user(){
-    return $this->belongsTo(User::class);
-  }
+    public function year(){
+        return $this->belongsTo(Year::class,'year_id');
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
 }

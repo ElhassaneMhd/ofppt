@@ -20,7 +20,7 @@ class ArticlesController extends Controller
 
     public function index(Request $request){
         //table all articles
-        $articles = $this->GetAll('articles');
+        $articles = Article::all();
         $articles = $this->refactorManyElements($articles,'articles');
         $trashedArticles = Article::onlyTrashed()->get();
         $trashedArticles = $this->refactorManyElements($trashedArticles,'articles');

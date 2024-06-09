@@ -6,7 +6,7 @@ trait Refactor {
                  ($data === 'users')&& $all[]= $this->refactorUser($element);
                  ($data === 'articles')&& $all[]= $this->refactorArticle($element);
                  ($data === 'filiers')&& $all[]= $this->refactorFilier($element);
-                 ($data === 'evenements')&& $all[]= $this->refactorEvent($element);
+                 ($data === 'events')&& $all[]= $this->refactorEvent($element);
                  ($data === 'demands')&& $all[]= $this->refactorDemand($element);
                  ($data === 'years')&& $all[]= $this->refactorYear($element);
             }
@@ -55,7 +55,6 @@ trait Refactor {
   }
   protected function refactorFilier($filier){
         return  [
-            "id"=> $filier->id,
             "title"=> $filier->title,
             "year"=>$filier->year->year,
             "description"=> $filier->details,
