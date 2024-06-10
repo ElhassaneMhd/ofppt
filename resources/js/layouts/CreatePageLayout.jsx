@@ -11,20 +11,18 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
   const { options } = useForm({
     ...formOptions,
     onSubmit: (data) => {
-      const formData = new FormData();
-      for (const el in data) {
-        formData.append(
-          el,
-          (() => {
-            if (typeof data[el] === 'object' && Object.prototype.hasOwnProperty.call(data[el], 'src'))
-              return data[el].file;
-            if (el === 'tags') return data[el]?.join(',') || '';
-            return data[el] || '';
-          })()
-        );
-      }
       console.log(data);
-      navigate({ url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`, method: 'post', data: formData });
+      navigate({
+        url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,
+        method: isEdit ? 'put' : 'post',
+        data: {
+          ...data,
+          tags: data.tags?.join(','),
+          image: data?.image?.file,
+          files: [data?.image?.file],
+        },
+        ...(isEdit && { params: [data.id] }),
+      });
     },
   });
   const [editorInstance, setEditorInstance] = useState(null);

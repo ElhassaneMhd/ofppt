@@ -46,7 +46,7 @@ trait Update{
             'year_id' => $request->input('year_id'),
         ]);
     }
-    protected function updateFilier($request,$filiere){
+    protected function updateFiliere($request,$filiere){
         $filiere->update([
                 'title' => $request->input('title'),
                 'details' => $request->input('details'),

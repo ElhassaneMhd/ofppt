@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui';
 export default function Create({
   sectors = [],
   defaultValues = {
-    image: '',
+    image:{src : null,file : null},
     title: '',
     details: '',
     sector: '',
@@ -75,7 +75,7 @@ function Form({ options, details, tags, sectors }) {
           }}
         >
           <button
-            className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-80 ${!getValue('image')?.src ? 'opacity-80' : 'opacity-0'}`}
+            className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-80 ${!getValue('image')?.src ? 'opacity-80 hover:bg-background-tertiary' : 'opacity-0'}`}
             onClick={openFilePicker}
           >
             <FaCamera />
