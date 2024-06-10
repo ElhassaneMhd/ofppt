@@ -13,7 +13,8 @@ class EventsController extends Controller{
             $events = Event::all();
             $events = $this->refactorManyElements($events,'events');
             $trashedEvents = Event::onlyTrashed()->get();
-            return Inertia::render('Events/Index', compact('events','trashedEvents'));
+            $formationYears = Year::all();
+            return Inertia::render('Events/Index', compact('events','trashedEvents','formationYears'));
         }
     public function create(){
             $years = Year::all();
@@ -35,8 +36,8 @@ class EventsController extends Controller{
     public function edit(string $id){
         $event = Event::findOrFail($id);
         $event = $this->refactorEvent($event);
-        $year = Year::all();
-        return Inertia::render('Events/Edit', compact('year','event'));
+        $formationYears = Year::all();
+        return Inertia::render('Events/Edit', compact('formationYears','event'));
     }
     public function update(Request $request, string $id) {
             $event = Event::findOrFail($id);

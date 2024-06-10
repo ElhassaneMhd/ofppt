@@ -1,8 +1,8 @@
 import { TableLayout } from '@/layouts/TableLayout';
 import { useOptions } from '../Shared';
 
-export default function EventsList({ events }) {
-  const { columns, options } = useOptions({ routeName: 'events', resourceName: 'Event' });
+export default function EventsList({ events ,formationYears}) {
+  const { columns, options } = useOptions({ routeName: 'events', resourceName: 'Event',formationYears });
 
   return (
     <TableLayout

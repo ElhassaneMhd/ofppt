@@ -16,7 +16,8 @@ class ArticlesController extends Controller
         $trashedArticles = Article::onlyTrashed()->get();
         $trashedArticles = $this->refactorManyElements($trashedArticles,'articles');
         $categories = $this->getCategories();
-        return Inertia::render('Articles/Index', compact('articles','trashedArticles','categories'));
+        $formationYears = Year::all();
+        return Inertia::render('Articles/Index', compact('articles','trashedArticles','categories','formationYears'));
     }
     public function create(){
     //form to add article
@@ -39,10 +40,10 @@ class ArticlesController extends Controller
     //GET ARTICLE TO MODIFIE
         $article = Article::find($id);
         $article = $this->refactorArticle($article);
-        $years = Year::all();
+        $formationYears = Year::all();
         $users = User::all();
         $categories = $this->getCategories();
-        return Inertia::render('Articles/Edit', compact('article','years','users','categories'));
+        return Inertia::render('Articles/Edit', compact('article','formationYears','users','categories'));
     }
     public function update(Request $request, string $id){
         $article = Article::findOrfail($id);

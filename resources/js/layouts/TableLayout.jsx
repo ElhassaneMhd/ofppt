@@ -21,7 +21,6 @@ export function TableLayout({
   return (
     <div className='flex h-full flex-col gap-5 overflow-auto'>
       <Table {...tableProps}>
-        {( tableProps.data?.length === 0) || (
           <div className='flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center'>
             <div className='flex items-center justify-between gap-3 sm:justify-normal'>
               <Table.Search />
@@ -29,10 +28,9 @@ export function TableLayout({
             </div>
             <div className='flex items-center justify-between gap-3'>
               <Table.Download />
-              {typeof displayNewRecord === 'boolean' && displayNewRecord ? <Table.NewRecord /> : displayNewRecord}
+              {typeof displayNewRecord === 'boolean' && displayNewRecord ? <Table.NewRecord empty={tableProps.data?.length === 0} /> : displayNewRecord}
             </div>
           </div>
-        )}
         <div
           className='relative flex flex-1 flex-col overflow-hidden rounded-lg border border-border shadow-md'
           ref={parent}

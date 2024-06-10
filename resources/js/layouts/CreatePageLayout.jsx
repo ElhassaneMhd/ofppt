@@ -21,7 +21,7 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
           image: data?.image?.file,
           files: [data?.image?.file],
         },
-        ...(isEdit && { params: [data.id] }),
+        ...(isEdit && { params: data.id }),
       });
     },
   });
