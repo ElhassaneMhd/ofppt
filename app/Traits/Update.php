@@ -5,12 +5,7 @@ use Illuminate\Support\Facades\Session;
 
 trait Update{
     protected function updateArticle($request,$article){
-        $article->title = $request->title;
-        $article->details = $request->details;
-        $article->date = $request->date;
-        $article->user_id = auth()->user()->id??null;
-        $article->categorie = $request->categorie;
-        $article->save();
+        $article->update($request->all());
         //modify old files
         if ($request->has('oldImages')){
             foreach($article->files as $file) {
@@ -26,30 +21,25 @@ trait Update{
             foreach($article->files as $pj) {$pj->delete();}
         }
         //add new file
-          if ($request->hasfile('images') && count($request->images) > 0) {
-            foreach ($request->images as $image) {
-                $this->storeOneFile($image, $article, 'pdf');
+        if ($request->hasfile('files') && count($request->files) > 0) {
+            foreach ($request->files as $file) {
+                $this->storeOneFile($file, $article, 'article');
             }
         }
     }
     protected function updateEvent($request,$event){
-        $event->update([
-            'title' => $request->input('title'),
-            'date' => $request->input('date'),
-            'location' => $request->input('location'),
-            'duree' => $request->input('duree'),
-            'details' => $request->input('details'),
-            'status' => $request->input('status'),
-            'visibility' => $request->input('visibility'),
-            'tags' => $request->input('tags'),
-            'user_id' => $request->input('user_id'),
-            'year_id' => $request->input('year_id'),
-        ]);
+        $event->update($request->all());
     }
     protected function updateFiliere($request,$filiere){
         $filiere->update($request->all());
     }
     protected function updateUser($request,$user){
+         $request->validate([
+            'email'=>'email|unique:users,email',
+            'password'=>'confirmed|min:6',
+            'role'=>'exists:roles,name',
+            'permissions.*'=>'exists:permissions,name',
+        ]);
          $user->update([
             'firstName' => $request->input('firstName'),
             'lastName' => $request->input('lastName'),
@@ -58,5 +48,7 @@ trait Update{
             'email_verified_at' => $request->input('email_verified_at'),
             'password' => Hash::make($request->input('password')),
         ]);
+        $user->syncRoles($request->input('role'));
+        $user->syncPermissions($request->input('permissions'));
     }
 }

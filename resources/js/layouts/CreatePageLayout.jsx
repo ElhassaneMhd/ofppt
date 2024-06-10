@@ -3,6 +3,7 @@ import { Switch } from '@/components/ui';
 import { useForm } from '@/hooks';
 import { useNavigate } from '@/hooks/useNavigate';
 import { ModalFormLayout } from '@/layouts/ModalFormLayout';
+import { filterObject } from '@/utils/helpers';
 import { Head } from '@inertiajs/react';
 import { cloneElement, useState } from 'react';
 
@@ -12,15 +13,15 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
     ...formOptions,
     onSubmit: (data) => {
       console.log(data);
+      const newData = {
+        ...data,
+        tags: data.tags?.join(','),
+        files: [data?.image?.file],
+      };
       navigate({
         url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,
         method: isEdit ? 'put' : 'post',
-        data: {
-          ...data,
-          tags: data.tags?.join(','),
-          image: data?.image?.file,
-          files: [data?.image?.file],
-        },
+        data: filterObject(newData, ['image'], 'exclude'),
         ...(isEdit && { params: [data.id] }),
       });
     },
