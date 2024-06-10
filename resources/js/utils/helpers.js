@@ -206,3 +206,6 @@ export const getIntervals = (key, returned = ['past', 'present', 'future'], excl
     }));
 };
 
+export const getFilter = (name, data, field) => ({
+  [name]: data ? data.map((c) => ({ value: field ? c[field] : c, checked: false, id: field ? c[field] : c })) : [],
+});

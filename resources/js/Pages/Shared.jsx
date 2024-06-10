@@ -1,7 +1,7 @@
 import Editor from '@/components/shared/Editor/Editor';
 import { Button, DropDown, InputField, Switch } from '@/components/ui';
 import { useNavigate } from '@/hooks/useNavigate';
-import { formatDate, getIntervals } from '@/utils/helpers';
+import { formatDate, getFilter, getIntervals } from '@/utils/helpers';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useState } from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
@@ -76,7 +76,7 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
       displayLabel: 'Formation Year',
       visible: true,
       type: 'number',
-      filter: formationYears.map(({ year }) => ({ value: year, checked: false,id : year })),
+      filter: true,
     },
     createdAt: {
       key: 'created_at',
@@ -84,7 +84,7 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
       visible: false,
       type: 'date',
       format: (val) => formatDate(val, true),
-      filter: getIntervals('created_at', ['present', 'past']),
+      filter: true,
     },
     date: {
       key: 'date',
@@ -92,7 +92,7 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
       visible: true,
       type: 'date',
       format: (val) => formatDate(val, true),
-      filter: getIntervals('date', ['present', 'past', 'future']),
+      filter: true,
     },
   };
 
@@ -100,7 +100,7 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
     filters: {
       created_at: getIntervals('created_at', ['present', 'past']),
       date: getIntervals('date', ['present', 'past', 'future']),
-      formationYear: formationYears.map(({ year }) => ({ value: year, checked: false,id : year })),
+      ...(formationYears && getFilter('formationYear', formationYears, 'year')),
     },
     selectedOptions: {
       actions: [

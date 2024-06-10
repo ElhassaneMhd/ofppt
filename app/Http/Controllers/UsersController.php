@@ -13,7 +13,9 @@ class UsersController extends Controller
     public function index()  {
         $users = User::all();
         $publieeUsers = User::paginate(10);
-        return Inertia::render('Users/Index', compact('users'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return Inertia::render('Users/Index', compact('users','roles','permissions'));
     }
     public function create(){
         $roles=Role::all();
@@ -28,13 +30,13 @@ class UsersController extends Controller
         $user = User::find($id);
         $roles = Role::all();
         $permissions = Permission::all();
-        return Inertia::render('Users/Show', [$user,$roles,$permissions]);
+        return Inertia::render('Users/Show', compact('user','roles','permissions'));
     }
     public function edit($id){
         $user = User::find($id);
         $roles = Role::all();
         $permissions = Permission::all();
-        return Inertia::render('Users/Edit', [$user,$roles,$permissions]);
+        return Inertia::render('Users/Edit', compact('user','roles','permissions'));
     }
     public function update(Request $request, $id){
         $user = User::find($id);

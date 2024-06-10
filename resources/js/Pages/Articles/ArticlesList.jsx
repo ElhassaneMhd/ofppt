@@ -1,5 +1,6 @@
 import { TableLayout } from '@/layouts/TableLayout';
 import { useOptions } from '../Shared';
+import { getFilter } from '@/utils/helpers';
 
 export default function ArticlesList({ articles, categories, formationYears }) {
   const { columns, options } = useOptions({ routeName: 'articles', resourceName: 'Article', formationYears });
@@ -22,7 +23,7 @@ export default function ArticlesList({ articles, categories, formationYears }) {
           displayLabel: 'Category',
           visible: true,
           type: 'string',
-          filter: { category: categories.map((c) => ({ value: c, checked: false, id: c })) },
+          filter: true,
         },
         {
           ...columns.date,
@@ -34,7 +35,7 @@ export default function ArticlesList({ articles, categories, formationYears }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'location', 'publisher']}
-      filters={{ ...options.filters, category: categories.map((c) => ({ value: c, checked: false, id: c })) }}
+      filters={{ ...options.filters, ...getFilter('Category',categories) }}
     />
   );
 }

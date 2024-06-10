@@ -67,9 +67,9 @@ function Form({ options, details, tags, sectors }) {
 
   return (
     <div className='flex h-full flex-col gap-5'>
-      <div className='grid grid-cols-3 gap-5'>
+      <div className='grid sm:grid-cols-3 gap-5'>
         <div
-          className='group relative h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
+          className='group relative min-h-52 h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
           style={{
             backgroundImage: `url(${getValue('image')?.src})`,
           }}
@@ -81,13 +81,13 @@ function Form({ options, details, tags, sectors }) {
             <FaCamera />
           </button>
         </div>
-        <div className='col-span-2 flex flex-col gap-5'>
+        <div className='sm:col-span-2 flex flex-col gap-5'>
           {formInputs['title']}
           {formInputs['max_stagiaires']}
           {tags}
         </div>
       </div>
-      <div className='grid grid-cols-2 gap-5'>
+      <div className='grid mobile:grid-cols-2 gap-5'>
         <DataDropDown type='sector' getValue={getValue} setValue={setValue} data={sectors} />
         <div className='flex flex-col gap-3'>
           <div className='flex items-center justify-between'>

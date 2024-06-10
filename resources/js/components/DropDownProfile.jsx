@@ -43,7 +43,7 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
 
 function Profile() {
   const { props } = usePage();
-  const { firstName, lastName, role = 'super-admin' } = props.auth.user || {};
+  const { firstName, lastName, role = 'super-admin' } = props.user || {};
 
   const getFallback = (role, gender = 'M') => {
     if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';

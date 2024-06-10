@@ -1,5 +1,6 @@
 import { TableLayout } from '@/layouts/TableLayout';
 import { useOptions } from '../Shared';
+import { getFilter } from '@/utils/helpers';
 
 export default function FilieresList({ filieres, sectors,formationYears }) {
   const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere',formationYears });
@@ -16,7 +17,7 @@ export default function FilieresList({ filieres, sectors,formationYears }) {
           displayLabel: 'Sector',
           visible: true,
           type: 'string',
-          filter: { sector: sectors.map((s) => ({ value: s, checked: false,id : s })) },
+          filter: true,
         },
         {
           key: 'max_stagiaires',
@@ -30,7 +31,7 @@ export default function FilieresList({ filieres, sectors,formationYears }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'sector']}
-      filters={{ ...options.filters, sector: sectors.map((s) => ({ value: s, checked: false,id : s })) }}
+      filters={{ ...options.filters, ...getFilter('Sector',sectors)}}
     />
   );
 }

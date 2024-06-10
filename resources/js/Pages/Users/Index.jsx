@@ -1,10 +1,10 @@
 import UsersList from './UsersList';
 import PageLayout from '@/layouts/PageLayout';
 
-export default function Index({ users = [] }) {
+export default function Index({ users = [], roles=[] }) {
   return (
     <PageLayout title='Users' count={users.length}>
-      <UsersList users={users} />
+      <UsersList users={users} roles={roles} />
     </PageLayout>
   );
 }

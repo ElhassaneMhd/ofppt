@@ -16,6 +16,7 @@ import { NewRecord } from './NewRecord';
 Array.prototype.customFilter = function (filters, filterCondition) {
   if (!filters) return this;
 
+
   const conditions = Object.entries(filters)
     .map(([field, filter]) => ({
       field,
