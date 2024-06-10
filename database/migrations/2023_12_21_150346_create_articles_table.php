@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->date('date');
             $table->mediumText('details');
-            $table->string('visibility')->nullable();
-            $table->string('categorie');
+            $table->string('visibility');
+            $table->string('categories')->nullable();
             $table->text('tags')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('year_id')->nullable()->constrained()->nullOnDelete();

@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Year;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 

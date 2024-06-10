@@ -15,7 +15,7 @@ trait Store{
             'title'=>'required',
             'description'=>'required',
             'date'=>'required|date',
-            'categorie'=>'required',
+            'categories'=>'required',
             'user_id'=>'required|exists:users,id',
             'year_id'=>'required|exists:years,id',
             'files.*' => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf,jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
@@ -25,7 +25,7 @@ trait Store{
         $article->details = $request->description;
         $article->date = $request->date;
         $article->visibility =$request->visibility;
-        $article->categorie = $request->categorie;
+        $article->categories = $request->categories;
         $article->tags = $request->tags??'';
         $article->user_id = auth()->user()->id??1;
         $article->year_id = Session::get('YearActive')->id??1;

@@ -13,7 +13,7 @@ trait Update{
         }else{
             $article->user_id = Session::get('user')->id;
         }
-        $article->categorie = $request->categorie;
+        $article->categories = $request->categories;
         $article->year_id = $request->year_id;
         $article->save();
         //modify old files
