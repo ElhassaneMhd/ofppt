@@ -15,8 +15,8 @@ class ApiController extends Controller{
         return response()->json($sectors);
     }
     public function getCategorie(){
-        $categories = $this->getCategories();
-        return response()->json($categories);
+        $categorie = $this->getCategories();
+        return response()->json($categorie);
     }
 
 }

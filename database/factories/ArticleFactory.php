@@ -21,7 +21,7 @@ class ArticleFactory extends Factory
             'date' => $this->faker->date,
             'details' => $this->faker->paragraph,
             'visibility' => $this->faker->randomElement(['true', 'false']),
-            'categories' => $this->faker->word,
+            'categorie' => $this->faker->word,
             'tags' => $this->faker->word,
             'user_id' =>1,
             'year_id' => 2,

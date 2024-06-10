@@ -4,7 +4,7 @@
 -date
 -details
 -visibility
--categories
+-categorie
 -tags
 -Year
 
@@ -34,4 +34,3 @@
 -details
 
 **anneFormation**
- 
