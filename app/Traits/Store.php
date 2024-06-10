@@ -47,7 +47,6 @@ trait Store{
             'status' => $request->input('status'),
             'visibility' => $request->input('visibility'),
             'tags' => $request->input('tags'),
-            'user_id' => auth()->user()->id??null,
             'year_id' => Session::get('activeYear')->id??null,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
@@ -63,10 +62,9 @@ trait Store{
             'details' => $request->input('details'),
             'isActive' => $request->input('isActive')??0,
             'visibility' => $request->input('visibility'),
-            'maxStg' => $request->input('max_stagiaires'),
+            'max_stagiaires' => $request->input('max_stagiaires'),
             'sector' => $request->input('sector'),
             'tags' => $request->input('tags'),
-            'user_id' => auth()->user()->id??null,
             'year_id' => Session::get('activeYear')->id??1,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
@@ -97,6 +95,7 @@ trait Store{
         }
     }
     public function storeOneFile($file,$element,$fileType){
+        dd($file);
         $name =$file->getClientOriginalName();
         $unique = uniqid();
          $element->files()->create(

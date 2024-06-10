@@ -15,8 +15,8 @@ class YearSeeder extends Seeder
     public function run(): void
     {
         for ($year = 2010; $year <= 2040; $year++) {
-        if ($year+1===getdate()['year']){$active=true;}   
-            else {$active=false;}
+        if ($year+1===getdate()['year']){$active='true';}
+            else {$active='false';}
             $academicYearStart = $year . '-09-01';
             $academicYearEnd = ($year + 1) . '-07-31';
             $data = [

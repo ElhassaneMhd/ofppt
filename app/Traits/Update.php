@@ -47,17 +47,7 @@ trait Update{
         ]);
     }
     protected function updateFiliere($request,$filiere){
-        $filiere->update([
-                'title' => $request->input('title'),
-                'details' => $request->input('details'),
-                'isActive' => $request->input('isActive'),
-                'visibility' => $request->input('visibility'),
-                'maxStg' => $request->input('maxStg'),
-                'tags' => $request->input('tags'),
-                'user_id' => $request->input('user_id'),
-                'year_id' => $request->input('year_id'),
-                'sector' => $request->input('sector'),
-            ]);
+        $filiere->update($request->all());
     }
     protected function updateUser($request,$user){
          $user->update([

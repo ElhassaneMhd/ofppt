@@ -51,7 +51,6 @@ trait Refactor
             "title" => $event->title,
             "formationYear" => $event->year->year,
             "details" => $event->details,
-            "publisher" => $event->user->firstName??"unknown",
             "date" => $event->date,
             "visibility" => $event->visibility,
             'location' => $event->location,
@@ -62,18 +61,17 @@ trait Refactor
             "created_at" => $event->created_at
         ];
     }
-    protected function refactorFiliere($filiere)
-    {
+    protected function refactorFiliere($filiere){
         return  [
             "id" => $filiere->id,
             "title" => $filiere->title,
             "formationYear" => $filiere->year->year,
             "details" => $filiere->details,
-            "publisher" => $filiere->user->firstName??"unknown",
             "sector" => $filiere->sector,
+            "isActive" => $filiere->isActive,
             "visibility" => $filiere->visibility,
             "tags" => explode(',', $filiere->tags) ?? [],
-            'max_stagiaires' => $filiere->maxStg,
+            'max_stagiaires' => $filiere->max_stagiaires,
             "files" => $this->getElementFiles($filiere) ?? [],
             "created_at" => $filiere->created_at
         ];

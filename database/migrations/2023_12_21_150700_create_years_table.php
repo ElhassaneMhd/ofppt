@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('year');
             $table->date('startDate');
             $table->date('endDate');
-            $table->boolean('isActive');
+            $table->string('isActive');
             $table->date('inscriptionStartDate');
             $table->date('inscriptionEndDate');
             $table->boolean('inscriptionStatus');

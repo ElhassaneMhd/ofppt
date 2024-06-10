@@ -20,12 +20,11 @@ class EventFactory extends Factory
             'title' => $this->faker->sentence,
             'date' => $this->faker->date,
             'location' => $this->faker->city,
-            'duree' => $this->faker->randomNumber(2),
+            'duree' => $this->faker->randomNumber(1),
             'details' => $this->faker->paragraph,
             'status' => $this->faker->randomElement(['status1', 'status2', 'status3']),
             'visibility' => $this->faker->randomElement(['true', 'false']),
             'tags' => $this->faker->word,
-            'user_id' => 1,
             'year_id' => 1,
         ];
     }
