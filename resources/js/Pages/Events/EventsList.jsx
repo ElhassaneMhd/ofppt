@@ -11,7 +11,6 @@ export default function EventsList({ events }) {
         columns.id,
         columns.visibility,
         columns.title,
-        columns.details,
         {
           key: 'location',
           displayLabel: 'Location',
@@ -45,7 +44,7 @@ export default function EventsList({ events }) {
             if (isDownload) return val ? 'Yes' : 'No';
             return (
               <span
-                className={`rounded-full px-5 py-1 text-xs font-medium text-white ${val === 'true' ? 'bg-green-500' : 'bg-red-500'}`}
+                className={`rounded-full px-5 py-1 text-xs font-medium text-white ${val === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
               >
                 {val === 'true' ? 'Yes' : 'No'}
               </span>

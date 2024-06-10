@@ -40,13 +40,6 @@ export function useOptions({ routeName, resourceName }) {
       type: 'string',
       format: (val = '') => `${val.slice(0, 30)}${val.slice(20).length ? '...' : ''}`,
     },
-    details: {
-      key: 'details',
-      displayLabel: 'Details',
-      visible: true,
-      type: 'string',
-      format: (val = '') => `${val.slice(0, 30)}${val.slice(20).length ? '...' : ''}`,
-    },
     tags: {
       key: 'tags',
       displayLabel: 'Tags',
@@ -189,13 +182,10 @@ export function DataDropDown({ type, data, getValue, setValue }) {
       <DropDown
         toggler={
           <DropDown.Toggler>
-            <span>{getValue(type)}</span>
+            <span>{getValue(type) || `Select ${type}...`}</span>
           </DropDown.Toggler>
         }
-        options={{
-          className: 'overflow-auto max-h-[300px] w-[230px]',
-          shouldCloseOnClick: false,
-        }}
+        options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
       >
         <DropDown.Title className='capitalize'>New {type}</DropDown.Title>
         <div className='mb-2 flex items-center gap-1'>

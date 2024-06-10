@@ -1,10 +1,10 @@
 import PageLayout from '@/layouts/PageLayout';
 import ArticlesList from './ArticlesList';
 
-export default function Index({ articles = [] }) {
+export default function Index({ articles = [],categories=[] }) {
   return (
     <PageLayout title="Articles" count={articles.length}>
-      <ArticlesList articles={articles} />
+      <ArticlesList articles={articles} categories={categories} />
     </PageLayout>
   );
 }

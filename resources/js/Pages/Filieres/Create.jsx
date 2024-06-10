@@ -2,6 +2,7 @@ import { useUploadFile } from '@/hooks';
 import CreatePageLayout from '@/layouts/CreatePageLayout';
 import { DataDropDown } from '../Shared';
 import { FaCamera } from 'react-icons/fa';
+import { Switch } from '@/components/ui';
 
 export default function Create({
   sectors = [],
@@ -12,8 +13,10 @@ export default function Create({
     sector: '',
     tags: [],
     max_stagiaires: '',
-    visibility: true,
+    visibility: 'true',
+    isActive: 'true',
   },
+  isEdit = false,
 }) {
   return (
     <CreatePageLayout
@@ -50,6 +53,7 @@ export default function Create({
           },
         ],
       }}
+      isEdit={isEdit}
     >
       <Form sectors={sectors} />
     </CreatePageLayout>
@@ -65,7 +69,7 @@ function Form({ options, details, tags, sectors }) {
     <div className='flex h-full flex-col gap-5'>
       <div className='grid grid-cols-3 gap-5'>
         <div
-          className='group relative min-h-52 self-center overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
+          className='group relative h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
           style={{
             backgroundImage: `url(${getValue('image')?.src})`,
           }}
@@ -80,10 +84,26 @@ function Form({ options, details, tags, sectors }) {
         <div className='col-span-2 flex flex-col gap-5'>
           {formInputs['title']}
           {formInputs['max_stagiaires']}
-          <DataDropDown type='sector' getValue={getValue} setValue={setValue} data={sectors} />
+          {tags}
         </div>
       </div>
-      {tags}
+      <div className='grid grid-cols-2 gap-5'>
+        <DataDropDown type='sector' getValue={getValue} setValue={setValue} data={sectors} />
+        <div className='flex flex-col gap-3'>
+          <div className='flex items-center justify-between'>
+            <label className='text-sm font-medium capitalize text-text-tertiary'>Inscription Status </label>
+            <Switch
+              checked={getValue('isActive') === 'true'}
+              onChange={(e) => setValue('isActive', String(e.target.checked))}
+            />
+          </div>
+          <span
+            className={`w-fit rounded-full px-5 py-1 text-xs font-medium text-white ${getValue('isActive') === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
+          >
+            {getValue('isActive') === 'true' ? 'Active' : 'Inactive'}
+          </span>
+        </div>
+      </div>
       {details}
     </div>
   );

@@ -1,7 +1,7 @@
 import { TableLayout } from '@/layouts/TableLayout';
 import { useOptions } from '../Shared';
 
-export default function FilieresList({ filieres }) {
+export default function FilieresList({ filieres, sectors }) {
   const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere' });
 
   return (
@@ -11,12 +11,12 @@ export default function FilieresList({ filieres }) {
         columns.id,
         columns.visibility,
         columns.title,
-        columns.details,
         {
           key: 'sector',
           displayLabel: 'Sector',
           visible: true,
           type: 'string',
+          filter: { sector: sectors.map((s) => ({ value: s, checked: false })) },
         },
         {
           key: 'max_stagiaires',
@@ -30,7 +30,7 @@ export default function FilieresList({ filieres }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'sector']}
-      filters={{ ...options.filters }}
+      filters={{ ...options.filters, sector: sectors.map((s) => ({ value: s, checked: false })) }}
     />
   );
 }
