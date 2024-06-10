@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Article extends Model
 {
   use SoftDeletes, HasFactory;
-  protected $fillable=["title","details",'date','tags','categorie','visibility'];
+  protected $fillable=["title","details",'date','tags','categories','visibility'];
 
   public function files() {
-      return $this->morphMany(File::class, 'fileable'); 
+      return $this->morphMany(File::class, 'fileable');
   }
   public function year(){
     return $this->belongsTo(Year::class);

@@ -19,7 +19,7 @@ class GeneralController extends Controller{
                 $this->destroyElement($model, $id);
             }
         }
-         if( in_array($action ,['hide','show']) ){
+         if( $action ='toggle' ){
             foreach($ids as $id){
                 $element = $model::Find($id);
                 ($element->visibility === 'true') ? $newV = 'false' : $newV = 'true';

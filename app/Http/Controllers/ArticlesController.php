@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Year;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
@@ -16,17 +17,15 @@ class ArticlesController extends Controller
         $articles = $this->refactorManyElements($articles,'articles');
         $trashedArticles = Article::onlyTrashed()->get();
         $trashedArticles = $this->refactorManyElements($trashedArticles,'articles');
-        return Inertia::render('Articles/Index', compact('articles','trashedArticles'));
+        $categories = $this->getCategories();
+        return Inertia::render('Articles/Index', compact('articles','trashedArticles','categories'));
     }
     public function create(){
     //form to add article
         $years = Year::all();
         $users = User::all();
-        $activeYears = Year::active()->get()[0];
-        if  (session::missing('YearActive')) {
-            session(['YearActive' => $activeYears]);
-        }
-        return Inertia::render('Articles/Create', compact('years','users','activeYears'));
+        $categories = $this->getCategories();
+        return Inertia::render('Articles/Create', compact('years','users','categories'));
     }
     public function store(Request $request){
         $this->storeArticle($request);
@@ -44,7 +43,9 @@ class ArticlesController extends Controller
         $article = $this->refactorArticle($article);
         $years = Year::all();
         $users = User::all();
-        return Inertia::render('Articles/Edit', compact('article','years','users'));
+        $categories = $this->getCategories();
+
+        return Inertia::render('Articles/Edit', compact('article','years','users','categories'));
     }
     public function update(Request $request, string $id){
         $article = Article::findOrfail($id);

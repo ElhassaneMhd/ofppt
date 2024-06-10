@@ -9,10 +9,17 @@ use Inertia\Inertia;
 class ApiController extends Controller{
     public function index($data){
         return $this->GetAll($data,false);
-
     }
     public function show($data,$id){
         return $this->GetByDataId($data,$id);
+    }
+    public function getSector(){
+        $sectors = $this->getSectors();
+        return response()->json($sectors);
+    }
+    public function getCategorie(){
+        $categories = $this->getCategories();
+        return response()->json($categories);
     }
 
 }
