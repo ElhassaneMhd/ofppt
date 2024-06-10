@@ -2,7 +2,7 @@ import { Heading } from '@/components/Heading';
 import { Head } from '@inertiajs/react';
 import FilieresList from './FilieresList';
 
-export default function Index({ filiers }) {
+export default function Index({ filiers = []}) {
   return (
     <>
       <Head>

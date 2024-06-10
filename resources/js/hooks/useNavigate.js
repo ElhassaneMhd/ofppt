@@ -6,7 +6,6 @@ export const useNavigate = () =>
     // eslint-disable-next-line no-undef
     const endpoint = route(url, params);
 
-    console.log(endpoint)
 
     switch (method.toLowerCase()) {
       case 'get':

@@ -11,6 +11,9 @@ export function Sort({ column }) {
   const { sortBy, direction, onSort, onFilter, filters, appliedFiltersNumber } = useTable();
   const sort = (dir) => onSort(column.key, dir);
 
+  const onClick = () => !column.unSortable && sort(direction === 'asc' ? 'desc' : 'asc');
+  const icon = column.unSortable ? null : sortBy === column.key ? icons[direction] : <FaSort size={12} />;
+
   if (column.filter)
     return (
       <DropDown
@@ -19,10 +22,10 @@ export function Sort({ column }) {
             color='tertiary'
             type='transparent'
             display='with-icon'
-            onClick={() => sort(direction === 'asc' ? 'desc' : 'asc')}
+            onClick={onClick}
           >
             {column.displayLabel}
-            {sortBy === column.key ? icons[direction] : <FaSort size={12} />}
+            {icon}
             <span
               className={`absolute -right-2 -top-2 h-5 w-5 rounded-full bg-primary text-center text-xs font-bold leading-5 text-white transition-transform duration-300 ${
                 appliedFiltersNumber(column.key) > 0 ? 'scale-100' : 'scale-0'
@@ -61,10 +64,10 @@ export function Sort({ column }) {
       color='tertiary'
       type='transparent'
       display='with-icon'
-      onClick={() => sort(direction === 'asc' ? 'desc' : 'asc')}
-    >
+      onClick={onClick}
+      >
       {column.displayLabel}
-      {sortBy === column.key ? icons[direction] : <FaSort size={12} />}
+      {icon}
     </Button>
   );
 }

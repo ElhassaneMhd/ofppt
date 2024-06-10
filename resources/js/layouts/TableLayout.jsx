@@ -17,6 +17,7 @@ export function TableLayout({
   const [parent] = useAutoAnimate({ duration: 300 });
   const { displayNewRecord, actions } = { ...defaultOptions, ...(layoutOptions && layoutOptions) };
 
+
   return (
     <div className='flex h-full flex-col gap-5 overflow-auto'>
       <Table {...tableProps}>

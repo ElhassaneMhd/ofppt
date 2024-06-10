@@ -14,6 +14,7 @@ export function Actions({ row, actions }) {
   const { openModal } = useConfirmationModal();
   const navigate = useNavigate();
 
+
   const defaultActions = {
     view: {
       text: 'View',

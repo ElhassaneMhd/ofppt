@@ -43,16 +43,20 @@ export default function FilieresList({ filieres }) {
           displayLabel: 'Tags',
           visible: true,
           type: 'string',
-          format: (val = '', id, isDownload) => {
-            if (isDownload) return val;
-            return val.split(',').map((tag) => (
-              <span
-                key={tag}
-                className='mr-1 rounded-full bg-background-secondary px-2 py-1 text-xs font-medium text-gray-700'
-              >
-                {tag}
-              </span>
-            ));
+          format: (val = [], id, isDownload) => {
+            if (isDownload) return val?.join(', ');
+            return (
+              <div className='flex flex-wrap items-center gap-1'>
+                {val?.map((tag) => (
+                  <span
+                    key={tag}
+                    className='rounded-full bg-background-secondary px-2 py-1 text-xs font-medium text-text-secondary'
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            );
           },
         },
       ]}

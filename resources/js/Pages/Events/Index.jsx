@@ -1,8 +1,8 @@
-import { Heading } from "@/components/Heading";
-import { Head } from "@inertiajs/react";
-import EventsList from "./EventsList";
+import { Heading } from '@/components/Heading';
+import { Head } from '@inertiajs/react';
+import EventsList from './EventsList';
 
-export default function Index({events}) {
+export default function Index({ events = [] }) {
   return (
     <>
       <Head>

@@ -5,13 +5,13 @@ import { Search } from './Search';
 import { View } from './View';
 import { Pagination } from './Pagination';
 import { Download } from './Download';
-import { TableRecord } from './TableRecord';
 import { Actions } from './Actions';
 import { Selected } from './Selected';
 import { TableContext } from './useTable';
 import { getIsoDate } from '@/utils/helpers';
 import { PAGE_LIMIT } from '@/utils/constants';
 import { SearchParams } from '@/utils/SearchParams';
+import { NewRecord } from './NewRecord';
 
 Array.prototype.customFilter = function (filters, filterCondition) {
   if (!filters) return this;
@@ -290,6 +290,6 @@ TableProvider.Search = Search;
 TableProvider.View = View;
 TableProvider.Download = Download;
 TableProvider.Pagination = Pagination;
-TableProvider.TableRecord = TableRecord;
+TableProvider.NewRecord = NewRecord;
 TableProvider.Actions = Actions;
 TableProvider.Selected = Selected;

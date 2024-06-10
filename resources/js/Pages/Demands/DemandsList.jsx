@@ -1,7 +1,9 @@
 import { formatDate, getIntervals } from '@/utils/helpers';
 import { TableLayout } from '@/layouts/TableLayout';
+import { useNavigate } from '@/hooks/useNavigate';
 
 export default function DemandsList({ demands }) {
+  const navigate = useNavigate();
   return (
     <TableLayout
       data={demands}
@@ -52,7 +54,17 @@ export default function DemandsList({ demands }) {
       filters={{ created_at: getIntervals('created_at', ['present', 'past']) }}
       fieldsToSearch={['fullName', 'subject', 'message']}
       downloadOptions={{ csvFileName: 'Demands', pdfFileName: 'Demands' }}
-      selectedOptions={{ deleteOptions: { resourceName: 'email', onConfirm: (ids) => console.log(ids) } }}
+      selectedOptions={{
+        deleteOptions: {
+          resourceName: 'demand',
+          onConfirm: (ids) =>
+            navigate({
+              url: 'demands.multiple.delete',
+              method: 'post',
+              data: { ids },
+            }),
+        },
+      }}
       layoutOptions={{ displayNewRecord: false, actions: (def) => [def.view, def.delete] }}
     />
   );
