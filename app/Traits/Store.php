@@ -27,8 +27,8 @@ trait Store{
         $article->visibility =$request->visibility;
         $article->categories = $request->categories;
         $article->tags = $request->tags??'';
-        $article->user_id = auth()->user()->id??1;
-        $article->year_id = Session::get('YearActive')->id??1;
+        $article->user_id = auth()->user()->id??null;
+        $article->year_id = Session::get('YearActive')->id??null;
         $article->save();
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
@@ -56,8 +56,8 @@ trait Store{
             'status' => $request->input('status'),
             'visibility' => $request->input('visibility'),
             'tags' => $request->input('tags'),
-            'user_id' => $request->input('user_id'),
-            'year_id' => $request->input('year_id'),
+            'user_id' => auth()->user()->id??null,
+            'year_id' => Session::get('YearActive')->id??null,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
@@ -72,11 +72,11 @@ trait Store{
             'details' => $request->input('details'),
             'isActive' => $request->input('isActive'),
             'visibility' => $request->input('visibility'),
-            'maxStg' => $request->input('maxStg'),
-            'tags' => $request->input('tags'),
-            'user_id' => $request->input('user_id'),
-            'year_id' => $request->input('year_id'),
+            'maxStg' => $request->input('maxStagiaires'),
             'sector' => $request->input('sector'),
+            'tags' => $request->input('tags'),
+            'user_id' => auth()->user()->id??null,
+            'year_id' => Session::get('YearActive')->id??null,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {

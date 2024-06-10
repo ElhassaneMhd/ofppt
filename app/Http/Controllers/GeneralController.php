@@ -19,7 +19,7 @@ class GeneralController extends Controller{
                 $this->destroyElement($model, $id);
             }
         }
-         if( $action ='toggle' ){
+        if( $action ==='toggle' ){
             foreach($ids as $id){
                 $element = $model::Find($id);
                 ($element->visibility === 'true') ? $newV = 'false' : $newV = 'true';
@@ -27,8 +27,5 @@ class GeneralController extends Controller{
                 $element->save();
             }
         }
-    }
-    public function login(){
-        return Inertia::render('Auth/Login');
     }
 }

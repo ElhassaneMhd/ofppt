@@ -35,7 +35,7 @@ class FilieresController extends Controller{
         $filiere = Filiere::findOrfail($id);
         $filiere = $this->refactorFiliere($filiere);
         $sectors= $this->getSectors();
-        return Inertia::render('Filieres/Show',compact('filiere','sectors'));
+        return Inertia::render('Filieres/Edit',compact('filiere','sectors'));
     }
     public function update(Request $request, string $id) {
     //update fillier

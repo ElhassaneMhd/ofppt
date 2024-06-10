@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
 
 // login a user methods
+    public function formLogin(){
+        return Inertia::render('Auth/Login');
+    }
     public function login(Request $request) {
         $data = $request->validate([
             'email' => 'required|email|exists:users,email',
@@ -27,7 +31,7 @@ class AuthController extends Controller
                 return to_route('formLogin')->with(['message' => "The password you've entered is incorrect. Please check your password and try again."
             ]);
         }
-         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
         }
         else{

@@ -12,7 +12,7 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [GeneralController::class, 'login'])->name('formLogin');
+    Route::get('/login', [AuthController::class, 'formLogin'])->name('formLogin');
     Route::POST('/login', [AuthController::class, 'login'])->name('login');
 });
 
@@ -33,8 +33,8 @@ Route::middleware('auth')->group(function () {
     foreach ($resources as $resource => $controller) {
         Route::resource('/' . $resource, $controller)->names([
             'index' => $resource . '.index',
-            'show' => $resource . '.show',
             'edit' => $resource . '.edit',
+            'show' => $resource . '.show',
             'create' => $resource . '.create',
             'destroy' => $resource . '.destroy',
         ]);
