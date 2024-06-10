@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Traits\Refactor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -33,7 +34,8 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'user' => $this->refactorUser($request->user())
+            'user' => auth()->check() ?$this->refactorUser($request->user()):null,
+            'year'=> Session::get('activeYear'),
         ];
     }
 }
