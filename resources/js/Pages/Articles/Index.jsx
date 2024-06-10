@@ -1,14 +1,10 @@
-import { Heading } from "@/components/Heading";
-import { Head } from "@inertiajs/react";
+import PageLayout from '@/layouts/PageLayout';
+import ArticlesList from './ArticlesList';
 
-export default function Index({}) {
+export default function Index({ articles = [] }) {
   return (
-    <>
-      <Head>
-        <title></title>
-      </Head>
-      <Heading count={length}></Heading>
-      {/* <List /> */}
-    </>
+    <PageLayout title="Articles" count={articles.length}>
+      <ArticlesList articles={articles} />
+    </PageLayout>
   );
 }

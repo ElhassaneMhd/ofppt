@@ -1,15 +1,10 @@
-import { Heading } from '@/components/Heading';
-import { Head } from '@inertiajs/react';
 import EventsList from './EventsList';
+import PageLayout from '@/layouts/PageLayout';
 
 export default function Index({ events = [] }) {
   return (
-    <>
-      <Head>
-        <title>Events</title>
-      </Head>
-      <Heading count={events.length}>Events</Heading>
+    <PageLayout title='Events' count={events.length}>
       <EventsList events={events} />
-    </>
+    </PageLayout>
   );
 }

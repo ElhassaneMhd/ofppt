@@ -1,21 +1,14 @@
-import { formatDate, getIntervals } from '@/utils/helpers';
 import { TableLayout } from '@/layouts/TableLayout';
-import { useNavigate } from '@/hooks/useNavigate';
+import { useOptions } from '../Shared';
 
 export default function DemandsList({ demands }) {
-  const navigate = useNavigate();
+  const { columns, options } = useOptions({ routeName: 'demands', resourceName: 'Demand' });
+
   return (
     <TableLayout
       data={demands}
-      resourceName='Demand'
-      routeName='demands'
       columns={[
-        {
-          key: 'id',
-          displayLabel: 'ID',
-          visible: true,
-          type: 'number',
-        },
+        columns.id,
         {
           key: 'fullName',
           displayLabel: 'Full Name',
@@ -43,28 +36,14 @@ export default function DemandsList({ demands }) {
           format: (val = '') => `${val.slice(0, 30)}${val.slice(20).length ? '...' : ''}`,
         },
         {
-          key: 'created_at',
+          ...columns.createdAt,
           displayLabel: 'Sent Date',
           visible: true,
-          type: 'date',
-          format: (val) => formatDate(val, true),
-          filter: getIntervals('created_at', ['present', 'past']),
         },
       ]}
-      filters={{ created_at: getIntervals('created_at', ['present', 'past']) }}
+      {...options}
       fieldsToSearch={['fullName', 'subject', 'message']}
-      downloadOptions={{ csvFileName: 'Demands', pdfFileName: 'Demands' }}
-      selectedOptions={{
-        deleteOptions: {
-          resourceName: 'demand',
-          onConfirm: (ids) =>
-            navigate({
-              url: 'demands.multiple.delete',
-              method: 'post',
-              data: { ids },
-            }),
-        },
-      }}
+      selectedOptions={{ deleteOptions: options.selectedOptions.deleteOptions }}
       layoutOptions={{ displayNewRecord: false, actions: (def) => [def.view, def.delete] }}
     />
   );

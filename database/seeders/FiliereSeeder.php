@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Filier;
+use App\Models\Filiere;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
-class FilierSeeder extends Seeder
+class FiliereSeeder extends Seeder
 {
 
     public function run(Faker $faker)
     {
-        Filier::factory()->count(20)->create();
+        Filiere::factory()->count(20)->create();
     }
 }
 

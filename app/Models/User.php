@@ -35,7 +35,7 @@ class User extends Authenticatable
     public function articles(){
      return $this->hasMany(Article::class);
     }
-    public function filiers(){
+    public function filieres(){
         return $this->hasMany(Filier::class);
     }
     public function evenements(){

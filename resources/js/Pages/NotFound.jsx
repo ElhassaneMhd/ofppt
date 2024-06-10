@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
 function NotFound() {
   return (
@@ -13,12 +13,12 @@ function NotFound() {
           <p className='text-text-secondary'>
             Sorry, the page you are looking for could not be found or has been removed.
           </p>
-          <Link
-            to={-1}
+          <button
+            onClick={() => window.history.back()}
             className='m-auto block w-fit rounded-lg bg-primary px-4 py-2 font-medium text-white hover:bg-primary-hover'
           >
             Go back
-          </Link>
+          </button>
         </div>
       </div>
     </>

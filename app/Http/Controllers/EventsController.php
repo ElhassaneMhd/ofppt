@@ -20,7 +20,7 @@ class EventsController extends Controller{
             $events = Event::all();
             $events = $this->refactorManyElements($events,'events');
             $trashedEvents = Event::onlyTrashed()->get();
-            return Inertia::render('Events/Index', compact('events'));
+            return Inertia::render('Events/Index', compact('events','trashedEvents'));
         }
     public function create(){
             $years = Year::all();

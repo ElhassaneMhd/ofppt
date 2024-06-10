@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use DB;
-class Filier extends Model
+class Filiere extends Model
 {
     use SoftDeletes;
     use HasFactory;

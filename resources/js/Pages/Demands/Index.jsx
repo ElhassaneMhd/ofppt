@@ -1,15 +1,10 @@
-import { Heading } from '@/components/Heading';
-import { Head } from '@inertiajs/react';
+import PageLayout from '@/layouts/PageLayout';
 import DemandsList from './DemandsList';
 
 export default function Index({ demands = [] }) {
   return (
-    <>
-      <Head>
-        <title>Demands</title>
-      </Head>
-      <Heading count={demands.length}>Demands</Heading>
+    <PageLayout title='Demands' count={demands.length}>
       <DemandsList demands={demands} />
-    </>
+    </PageLayout>
   );
 }

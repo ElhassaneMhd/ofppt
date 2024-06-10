@@ -1,14 +1,10 @@
-import { Heading } from "@/components/Heading";
-import { Head } from "@inertiajs/react";
+import UsersList from './UsersList';
+import PageLayout from '@/layouts/PageLayout';
 
-export default function Index({}) {
+export default function Index({ users = [] }) {
   return (
-    <>
-      <Head>
-        <title></title>
-      </Head>
-      <Heading count={length}></Heading>
-      {/* <List /> */}
-    </>
+    <PageLayout title='Users' count={users.length}>
+      <UsersList users={users} />
+    </PageLayout>
   );
 }

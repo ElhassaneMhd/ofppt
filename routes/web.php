@@ -3,7 +3,7 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\DemandController;
 use App\Http\Controllers\EventsController;
-use App\Http\Controllers\FiliersController;
+use App\Http\Controllers\FilieresController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::inertia('/dashboard', 'Dashboard/Dashboard');
 
 $resources = [
-    'filieres' => FiliersController::class,
+    'filieres' => FilieresController::class,
     'articles' => ArticlesController::class,
     'demands' => DemandController::class,
     'events' => EventsController::class,

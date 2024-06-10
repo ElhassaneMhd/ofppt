@@ -1,0 +1,14 @@
+import { Heading } from '@/components/Heading';
+import { Head } from '@inertiajs/react';
+
+export default function PageLayout({ title, count, children }) {
+  return (
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <Heading count={count}>{title}</Heading>
+      {children}
+    </>
+  );
+}

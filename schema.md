@@ -18,7 +18,7 @@
 -status
 -Year
 
-**filier**
+**filiere**
 -title
 -details
 -isActive

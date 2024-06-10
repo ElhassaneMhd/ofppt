@@ -1,15 +1,10 @@
-import { Heading } from '@/components/Heading';
-import { Head } from '@inertiajs/react';
+import PageLayout from '@/layouts/PageLayout';
 import FilieresList from './FilieresList';
 
-export default function Index({ filiers = []}) {
+export default function Index({ filieres = [] }) {
   return (
-    <>
-      <Head>
-        <title>Filieres</title>
-      </Head>
-      <Heading count={filiers.length}>Filieres</Heading>
-      <FilieresList filieres={filiers} />
-    </>
+    <PageLayout title="Filieres" count={filieres.length}>
+      <FilieresList filieres={filieres} />
+    </PageLayout>
   );
 }

@@ -1,36 +1,33 @@
 import { TableLayout } from '@/layouts/TableLayout';
 import { useOptions } from '../Shared';
 
-export default function FilieresList({ filieres }) {
-  const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere' });
+export default function ArticlesList({ articles }) {
+  const { columns, options } = useOptions({ routeName: 'articles', resourceName: 'Article' });
 
   return (
     <TableLayout
-      data={filieres}
+      data={articles}
       columns={[
         columns.id,
         columns.visibility,
         columns.title,
         columns.details,
         {
-          key: 'sector',
-          displayLabel: 'Sector',
+          key: 'publisher',
+          displayLabel: 'Publisher',
           visible: true,
           type: 'string',
         },
         {
-          key: 'max_stagiaires',
-          displayLabel: 'Max Interns',
-          visible: true,
-          type: 'number',
+          ...columns.date,
+          displayLabel: 'Publication Date',
         },
         columns.formationYear,
         columns.tags,
         columns.createdAt,
       ]}
       {...options}
-      fieldsToSearch={['title', 'details', 'sector']}
-      filters={{ ...options.filters }}
+      fieldsToSearch={['title', 'details', 'location', 'publisher']}
     />
   );
 }

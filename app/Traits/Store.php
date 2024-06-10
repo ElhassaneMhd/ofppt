@@ -65,7 +65,7 @@ trait Store{
         return response()->json(['message' => 'Event created successfully']);
     }
     protected function storeFiliere($request){
-        $filier = Filier::create([
+        $filiere = Filier::create([
             'title' => $request->input('title'),
             'details' => $request->input('details'),
             'isActive' => $request->input('isActive'),
@@ -78,7 +78,7 @@ trait Store{
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$filier,'article');
+                $this->storeOneFile($file,$filiere,'article');
             }
         }
         return response()->json(['message' => 'Filiere created successfully']);

@@ -56,8 +56,8 @@ trait Update{
         return response()->json(['message' => 'Event updated successfully']);
 
     }
-    protected function updateFilier($request,$filier){
-        $filier->update([
+    protected function updateFilier($request,$filiere){
+        $filiere->update([
                 'title' => $request->input('title'),
                 'details' => $request->input('details'),
                 'isActive' => $request->input('isActive'),
