@@ -28,13 +28,7 @@ export function useOptions({ routeName, resourceName }) {
         return (
           <Switch
             checked={val === 'true'}
-            onChange={(e) =>
-              navigate({
-                url: `${routeName}.multiple.${e.target.checked ? 'show' : 'hide'}`,
-                method: 'post',
-                data: { ids: [id] },
-              })
-            }
+            onChange={() => navigate({ url: `${routeName}.multiple.toggle`, method: 'post', data: { ids: [id] } })}
           />
         );
       },
