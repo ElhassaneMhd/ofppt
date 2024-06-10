@@ -1,6 +1,7 @@
 import { DropDown } from '@/components/ui';
 import CreatePageLayout from '@/layouts/CreatePageLayout';
 import { RULES } from '@/utils/constants';
+import { usePage } from '@inertiajs/react';
 
 export default function Create({
   roles = [],
@@ -11,18 +12,19 @@ export default function Create({
     email: '',
     phone: '',
     role: '',
-    permissions: [],
+    // permissions: [],
     password: '',
     password_confirmation: '',
   },
   isEdit = false,
 }) {
+  const { props } = usePage();
 
   return (
     <CreatePageLayout
       name='User'
       formOptions={{
-        defaultValues,
+        defaultValues: { ...defaultValues, role: props.user?.role || 'admin' },
         fields: [
           {
             name: 'firstName',
@@ -50,20 +52,13 @@ export default function Create({
             name: 'password',
             type: 'password',
             label: 'Password',
+            rules: { required: !isEdit },
           },
           {
             name: 'password_confirmation',
             type: 'password',
             label: 'Confirm Password',
-            rules: { ...RULES.passwordConfirmation },
-          },
-          {
-            name: 'role',
-            hidden: true,
-          },
-          {
-            name: 'permissions',
-            hidden: true,
+            rules: { ...RULES.passwordConfirmation, required: !isEdit },
           },
         ],
       }}
@@ -80,7 +75,7 @@ function Form({ options, roles }) {
 
   return (
     <>
-      <div className='grid  mobile:grid-cols-2 gap-5'>
+      <div className='grid gap-5 mobile:grid-cols-2'>
         {formInputs['firstName']}
         {formInputs['lastName']}
         {formInputs['email']}
