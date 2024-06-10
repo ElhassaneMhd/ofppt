@@ -3,8 +3,7 @@ import { DateTime } from 'luxon';
 export const ROUTES = {
   'super-admin': ['filieres', 'articles', 'demands', 'events', 'users', 'roles'],
   admin: ['filieres', 'articles', 'demands', 'events', 'users', 'roles'],
-  supervisor: ['projects', 'sessions'],
-  intern: ['projects', 'sessions'],
+  other: ['filieres', ],
 };
 
 export const PAGE_LIMIT = 10;

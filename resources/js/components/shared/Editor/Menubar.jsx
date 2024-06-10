@@ -100,7 +100,7 @@ const Headings = ({ editor, size }) => {
       {Array.from({ length: 6 }).map((_, i) => (
         <DropDown.Option
           key={i}
-          size='small'
+          size={size}
           isCurrent={editor.isActive('heading', { level: i + 1 })}
           onClick={() =>
             editor
@@ -111,8 +111,8 @@ const Headings = ({ editor, size }) => {
           }
         >
           <span className='flex items-baseline'>
-            <FaHeading size={14} />
-            <span className='text-xs font-bold'>{i + 1}</span>
+            <FaHeading  />
+            <span className='font-bold'>{i + 1}</span>
           </span>
         </DropDown.Option>
       ))}
