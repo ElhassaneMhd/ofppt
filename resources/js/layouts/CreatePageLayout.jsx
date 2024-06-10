@@ -1,11 +1,11 @@
+import { cloneElement, useState } from 'react';
+import { Head } from '@inertiajs/react';
 import { Details, Tags } from '@/Pages/Shared';
 import { Switch } from '@/components/ui';
 import { useForm } from '@/hooks';
 import { useNavigate } from '@/hooks/useNavigate';
 import { ModalFormLayout } from '@/layouts/ModalFormLayout';
 import { filterObject } from '@/utils/helpers';
-import { Head } from '@inertiajs/react';
-import { cloneElement, useState } from 'react';
 
 export default function CreatePageLayout({ children, name, formOptions, isEdit }) {
   const navigate = useNavigate();

@@ -31,7 +31,7 @@ export default function FilieresList({ filieres, sectors,formationYears }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'sector']}
-      filters={{ ...options.filters, ...getFilter('Sector',sectors)}}
+      filters={{ ...options.filters, ...getFilter('sector',sectors)}}
     />
   );
 }

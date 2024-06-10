@@ -30,26 +30,11 @@ export default function Create({
             placeholder: 'Enter title...',
           },
           {
-            name: 'details',
-            label: 'Details',
-            type: 'textarea',
-            placeholder: 'Enter details...',
-            rows: '5',
-          },
-          {
             name: 'max_stagiaires',
             label: 'Max Interns',
             placeholder: 'Enter number...',
             type: 'number',
             rules: { min: { value: 1, message: 'Min value is 1' } },
-          },
-          {
-            name: 'sector',
-            hidden: true,
-          },
-          {
-            name: 'tags',
-            hidden: true,
           },
         ],
       }}

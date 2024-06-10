@@ -23,7 +23,7 @@ export default function ArticlesList({ articles, categories, formationYears }) {
           displayLabel: 'Category',
           visible: true,
           type: 'string',
-          filter: true,
+          filter: true, 
         },
         {
           ...columns.date,
@@ -35,7 +35,7 @@ export default function ArticlesList({ articles, categories, formationYears }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'location', 'publisher']}
-      filters={{ ...options.filters, ...getFilter('Category',categories) }}
+      filters={{ ...options.filters, ...getFilter('category',categories) }}
     />
   );
 }
