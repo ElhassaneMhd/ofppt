@@ -22,7 +22,7 @@ export default function Editor({
   onUpdate ,
   setEditorInstance
 }) {
-  const { element, toggler } = useFullScreen();
+  const { element, toggler } = useFullScreen({size});
 
   const editor = useEditor({
     extensions: [
