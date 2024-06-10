@@ -15,6 +15,15 @@ class UsersController extends Controller
         $publieeUsers = User::paginate(10);
         return Inertia::render('Users/Index', compact('users'));
     }
+    public function create(){
+        $roles=Role::all();
+        $permissions=Permission::all();
+        return Inertia::render('Users/Create', compact('roles','permissions'));
+    }
+    public function store(Request $request){
+        $this->storeUser($request);
+        return redirect()->route('users.index');
+    }
     public function show($id){
         $user = User::find($id);
         $roles = Role::all();

@@ -3,7 +3,9 @@
 namespace App\Traits;
 use App\Models\Article;
 use App\Models\Event;
+use App\Models\User;
 use App\Models\Filiere;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 trait Store{
@@ -82,5 +84,25 @@ trait Store{
             }
         }
         return response()->json(['message' => 'Filiere created successfully']);
+    }
+    protected function storeUser($request){
+        $request->validate([
+            'firstName'=>'required',
+            'lastName'=>'required',
+            'email'=>'required|email|unique:users,email',
+            'password'=>'required|confirmed|min:6',
+            'role'=>'required',
+            'permissions'=>'required',
+        ]);
+        $user = new User();
+        $user->firstName = $request->firstName;
+        $user->lastName = $request->lastName;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        $user->assignRole($request->role);
+        foreach ($request->permissions as $permission) {
+            $user->givePermissionTo($permission);
+        }
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 
-class DemandController extends Controller
+class DemandsController extends Controller
 {
     use Refactor;
     public function index()   {

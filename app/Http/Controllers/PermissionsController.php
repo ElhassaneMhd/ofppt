@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionController extends Controller
+class PermissionsController extends Controller
 {
     public function index(){
         $permissions = Permission::all();
@@ -43,22 +43,5 @@ class PermissionController extends Controller
         $permission->delete();
 
         return back()->with('message', 'Permission deleted.');
-    }
-    public function assignRole(Request $request, Permission $permission){
-        if($request->has('roles')){
-            foreach ($request->roles as $role) {
-                    if ($permission->hasRole($role)===false) {
-                        $permission->assignRole($role);
-                    }
-            }
-         }
-        return back()->with('message', 'Role assigned.');
-    }
-    public function removeRole(Permission $permission, Role $role){
-        if ($permission->hasRole($role)) {
-            $permission->removeRole($role);
-            return back()->with('message', 'Role removed.');
-        }
-        return back()->with('message', 'Role not exists.');
     }
 }

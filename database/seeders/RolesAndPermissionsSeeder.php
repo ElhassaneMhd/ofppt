@@ -22,14 +22,13 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Permission::create(['name' => 'gerer users']);
 
-        Permission::create(['name' => 'gerer roles']);
-        Permission::create(['name' => 'gerer suppression']);
-        // create roles and assign created permissions
 
-        // this can be done as separate statements
+        Permission::create(['name' => 'gerer roles']);
+        Permission::create(['name' => 'gerer permissions']);
+        Permission::create(['name' => 'gerer suppression']);
+
         Role::create(['name' => 'gestionnaire'])->givePermissionTo(['gerer filieres','gerer articles','gerer events']);
 
-        // or may be done by chaining
         Role::create(['name' => 'admin'])->givePermissionTo(['gerer filieres','gerer articles','gerer events','gerer users','gerer suppression']);
 
         Role::create(['name' => 'super-admin'])->givePermissionTo(Permission::all());

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticlesController;
-use App\Http\Controllers\DemandController;
+use App\Http\Controllers\DemandsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\apiController;
 use App\Http\Controllers\FilieresController;
@@ -21,7 +21,7 @@ Route::post('/{data}/multiple/{action}', [apiController::class, 'multipleAction'
 $resources = [
     'filieres' => FilieresController::class,
     'articles' => ArticlesController::class,
-    'demands' => DemandController::class,
+    'demands' => DemandsController::class,
     'events' => EventsController::class,
     'users' => UsersController::class,
 ];
@@ -35,12 +35,15 @@ foreach ($resources as $resource => $controller) {
         'destroy' => $resource . '.destroy',
     ]);
     Route::post('/'.$resource.'/multiple/delete', [apiController::class, 'multipleAction'])->name($resource.'.multiple.delete');
-    Route::post('/'.$resource.'/multiple/show', [apiController::class, 'multipleAction'])->name($resource.'.multiple.show');
-    Route::post('/'.$resource.'/multiple/hide', [apiController::class, 'multipleAction'])->name($resource.'.multiple.hide');
+    if(in_array($resource, ['articles', 'filieres'])){
+        Route::post('/'.$resource.'/multiple/show', [apiController::class, 'multipleAction'])->name($resource.'.multiple.show');
+        Route::post('/'.$resource.'/multiple/hide', [apiController::class, 'multipleAction'])->name($resource.'.multiple.hide');
+    }
 }
-// Route::resource('/roles', RolesController::class);
 
 
 Route::fallback(function () {
     return inertia('NotFound');
 });
+
+require __DIR__.'/spatie.php';
