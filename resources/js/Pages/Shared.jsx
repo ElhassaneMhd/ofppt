@@ -109,32 +109,14 @@ export function useOptions({ routeName, resourceName }) {
     },
     selectedOptions: {
       actions: [
-        ...[
-          {
-            text: 'Show',
-            type: 'public',
-            color: 'green',
-            onClick: (ids) => navigate({ url: `${routeName}.multiple.show`, method: 'post', data: { ids } }),
-            disabledCondition: (selected) => selected.every((s) => s.visibility === 'true'),
-          },
-          {
-            text: 'Hide',
-            type: 'private',
-            color: 'orange',
-            onClick: (ids) => navigate({ url: `${routeName}.multiple.hide`, method: 'post', data: { ids } }),
-            disabledCondition: (selected) => selected.every((s) => s.visibility === 'false'),
-          },
-        ].map((action) => ({
-          ...action,
+        {
+          text: 'Toggle Visibility',
+          color: 'green',
           onClick: (ids, onClose) => {
-            action.onClick(ids);
+            navigate({ url: `${routeName}.multiple.show`, method: 'post', data: { ids } });
             onClose();
           },
-          message: (selected) =>
-            selected.length === 1
-              ? `This ${resourceName} is already ${action.type}`
-              : `These ${resourceName}s are already ${action.type}`,
-        })),
+        },
       ],
 
       deleteOptions: {

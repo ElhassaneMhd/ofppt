@@ -70,22 +70,20 @@ export default function Sidebar() {
         </Button>
       </div>
       <ul className={`relative space-y-1 overflow-y-auto overflow-x-hidden ${isExpanded ? 'pr-2' : 'no_scrollbar'}`}>
-        {ROUTES[user?.role]
-          ?.filter((r) => !r.includes('/'))
-          .map((route) => (
-            <li key={route}>
-              <Link
-                href={`/${route}`}
-                className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}
-              >
-                {routesIcons[route]}
-                <span className={spanClass}>
-                  {t(`app.sidebar.${route}`)}
-                  {/* {route} */}
-                </span>
-              </Link>
-            </li>
-          ))}
+        {ROUTES[user?.role].map((route) => (
+          <li key={route}>
+            <Link
+              href={`/${route}`}
+              className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}
+            >
+              {routesIcons[route]}
+              <span className={spanClass}>
+                {t(`app.sidebar.${route}`)}
+                {/* {route} */}
+              </span>
+            </Link>
+          </li>
+        ))}
       </ul>
 
       <div className={`mt-auto flex items-center gap-3 ${isExpanded ? '' : 'flex-col'}`}>

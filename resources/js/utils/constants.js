@@ -1,28 +1,11 @@
 import { DateTime } from 'luxon';
 
-export const ROUTES = (() => {
-  const routes = {
-    filieres: ['filieres', 'filieres/:id'],
-    articles: ['articles', 'articles/:id'],
-    demands: ['demands', 'demands/:id'],
-    events: ['events', 'events/:id'],
-    users: ['users', 'users/:id'],
-    roles: ['roles'],
-  };
-  const generate = (types) => {
-    return Object.keys(routes).reduce(
-      (acc, key) => (types.includes(key) ? [...acc, ...routes[key]] : acc),
-      ['dashboard']
-    );
-  };
-
-  return {
-    'super-admin': generate(['filieres', 'articles', 'demands', 'events', 'users', 'roles']),
-    admin: generate(['filieres', 'articles', 'demands', 'events', 'users', 'roles']),
-    supervisor: generate(['projects', 'sessions']),
-    intern: generate(['projects', 'sessions']),
-  };
-})();
+export const ROUTES = {
+  'super-admin': ['filieres', 'articles', 'demands', 'events', 'users', 'roles'],
+  admin: ['filieres', 'articles', 'demands', 'events', 'users', 'roles'],
+  supervisor: ['projects', 'sessions'],
+  intern: ['projects', 'sessions'],
+};
 
 export const PAGE_LIMIT = 10;
 
