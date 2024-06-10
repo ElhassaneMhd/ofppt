@@ -1,6 +1,9 @@
 <?php
-use App\Http\Controllers\apiController;
+
+use App\Http\Controllers\ApiController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{data}', [apiController::class, 'index']);
-Route::get('/{data}/{id}', [apiController::class, 'show']);
+
+Route::get('/{data}', [ApiController::class, 'index']);
+Route::get('/{data}/{id}', [ApiController::class, 'show']);
