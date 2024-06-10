@@ -16,11 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('details');
-            $table->boolean('isActive')->nullable();
+            $table->string('isActive')->nullable();
             $table->string('visibility')->nullable();
-            $table->integer('maxStg');
+            $table->integer('max_stagiaires');
             $table->text('tags')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('year_id')->nullable()->constrained()->nullOnDelete();
             $table->string('sector');
             $table->softDeletes();

@@ -32,7 +32,7 @@ trait Store{
         $article->save();
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$article,'articles');
+                $this->storeOneFile($file,$article,'article');
             }
         }
 
@@ -47,12 +47,11 @@ trait Store{
             'status' => $request->input('status'),
             'visibility' => $request->input('visibility'),
             'tags' => $request->input('tags'),
-            'user_id' => auth()->user()->id??null,
             'year_id' => Session::get('activeYear')->id??null,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$event,'events');
+                $this->storeOneFile($file,$event,'event');
             }
         }
         return response()->json(['message' => 'Event created successfully']);
@@ -63,15 +62,15 @@ trait Store{
             'details' => $request->input('details'),
             'isActive' => $request->input('isActive')??0,
             'visibility' => $request->input('visibility'),
-            'maxStg' => $request->input('max_stagiaires'),
+            'max_stagiaires' => $request->input('max_stagiaires'),
             'sector' => $request->input('sector'),
             'tags' => $request->input('tags'),
-            'user_id' => auth()->user()->id??null,
             'year_id' => Session::get('activeYear')->id??1,
+            'files.*' => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf,jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$filiere,'filieres');
+                $this->storeOneFile($file,$filiere,'filiere');
             }
         }
         return response()->json(['message' => 'Filiere created successfully']);

@@ -20,10 +20,9 @@ class FiliereFactory extends Factory
             'title' => $this->faker->sentence,
             'details' => $this->faker->paragraph,
             'isActive' => $this->faker->boolean,
-            'visibility' => $this->faker->randomElement(['public', 'private']),
-            'maxStg' => $this->faker->randomNumber(2),
+            'visibility' => $this->faker->randomElement(['true', 'false']),
+            'max_stagiaires' => $this->faker->randomNumber(2),
             'tags' => $this->faker->word,
-            'user_id' => 1,
             'year_id' => 2,
             'sector' => $this->faker->word,
         ];
