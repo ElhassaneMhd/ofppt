@@ -133,7 +133,7 @@ export function useForm({ fields, defaultValues: def, gridLayout, onSubmit, subm
             value={format?.(values?.[name]) || values?.[name] || ''}
             onChange={(e) => {
               validate(name, e.target.value, getRules(name, label, type, rules));
-              setValue(name, e.target.value);
+              setValue(name, type === 'number' ? +e.target.value : e.target.value);
             }}
             errorMessage={errors?.[name]?.message}
             type={type || 'text'}

@@ -8,7 +8,7 @@ import { HiMiniXMark } from 'react-icons/hi2';
 import { PiCheckBold } from 'react-icons/pi';
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useOptions({ routeName, resourceName }) {
+export function useOptions({ routeName, resourceName, formationYears = [] }) {
   const navigate = useNavigate();
 
   const columns = {
@@ -76,6 +76,7 @@ export function useOptions({ routeName, resourceName }) {
       displayLabel: 'Formation Year',
       visible: true,
       type: 'number',
+      filter: formationYears.map(({ year }) => ({ value: year, checked: false,id : year })),
     },
     createdAt: {
       key: 'created_at',
@@ -99,6 +100,7 @@ export function useOptions({ routeName, resourceName }) {
     filters: {
       created_at: getIntervals('created_at', ['present', 'past']),
       date: getIntervals('date', ['present', 'past', 'future']),
+      formationYear: formationYears.map(({ year }) => ({ value: year, checked: false,id : year })),
     },
     selectedOptions: {
       actions: [

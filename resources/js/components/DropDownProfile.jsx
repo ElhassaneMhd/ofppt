@@ -1,9 +1,9 @@
 import { FiLogOut, IoSettingsOutline, PiTrashLight } from '@/components/ui/Icons';
 import { IoChevronDownOutline } from 'react-icons/io5';
-import { useUser } from '@/hooks/useUser';
 import { DropDown } from './ui';
 import { useNavigate } from '@/hooks/useNavigate';
 import { useConfirmationModal } from '@/hooks';
+import { usePage } from '@inertiajs/react';
 
 export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
   const navigate = useNavigate();
@@ -42,10 +42,10 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
 }
 
 function Profile() {
-  const { user } = useUser();
-  const { fullName, role, gender, avatar } = user || {};
+  const { props } = usePage();
+  const { firstName, lastName, role = 'super-admin' } = props.auth.user || {};
 
-  const getFallback = (role, gender) => {
+  const getFallback = (role, gender = 'M') => {
     if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';
     if (['super-admin', 'admin', 'supervisor'].includes(role))
       return gender === 'M' ? '/images/male-admin.png' : '/images/female-admin.png';
@@ -56,11 +56,11 @@ function Profile() {
       <div className='flex items-center gap-3'>
         <img
           className='h-9 w-9 rounded-full border border-border object-cover text-center text-xs text-text-tertiary'
-          src={avatar?.src || getFallback(role || 'user', gender)}
+          src={getFallback(role || 'user')}
           alt='profile image'
         />
         <div className='flex flex-col text-start'>
-          <span className='text-sm font-semibold text-text-primary'>{fullName}</span>
+          <span className='text-sm font-semibold text-text-primary'>{`${firstName} ${lastName}`}</span>
           <span className='text-xs font-medium capitalize text-text-tertiary'>{role?.replace('-', ' ')}</span>
         </div>
       </div>

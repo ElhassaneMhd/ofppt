@@ -52,6 +52,7 @@ const exportAsPdf = ({ data, config, headers, page }) => {
 
 //* Download
 export function Download() {
+const {rows} = useTable()
 
   return (
     <DropDown
@@ -64,6 +65,7 @@ export function Download() {
       options={{
         className: 'w-40',
       }}
+      togglerDisabled={rows?.length === 0}
     >
       <DownloadOption type='pdf' icon={<PiFilePdf />} />
       <DownloadOption type='csv' icon={<PiFileCsv />} />
