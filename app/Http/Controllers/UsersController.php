@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\Get;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Inertia\Inertia;
@@ -11,7 +10,6 @@ use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
-    use Get;
     public function index()  {
         $users = User::all();
         $publieeUsers = User::paginate(10);
@@ -28,6 +26,15 @@ class UsersController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
         return Inertia::render('Users/Edit', [$user,$roles,$permissions]);
+    }
+    public function update(Request $request, $id){
+        $user = User::find($id);
+        $this->updateUser($request, $user);
+        return to_route('users.index');
+    }
+    public function destroy($id){
+        $this->destroyElement(User::class, $id);
+        return redirect()->route('users.index');
     }
     public function assignRole(Request $request, $id){
         $user = User::find($id);

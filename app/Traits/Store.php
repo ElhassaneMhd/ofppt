@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 use App\Models\Article;
-use App\Models\Evenement;
-use App\Models\Filier;
+use App\Models\Event;
+use App\Models\Filiere;
 use Illuminate\Support\Facades\Session;
 
 trait Store{
@@ -45,7 +45,7 @@ trait Store{
         $file->move(public_path('/'.$fileType),$unique.$name);
     }
     protected function storeEvent($request){
-        $event = Evenement::create([
+        $event = Event::create([
             'title' => $request->input('title'),
             'date' => $request->input('date'),
             'location' => $request->input('location'),
@@ -65,7 +65,7 @@ trait Store{
         return response()->json(['message' => 'Event created successfully']);
     }
     protected function storeFiliere($request){
-        $filiere = Filier::create([
+        $filiere = Filiere::create([
             'title' => $request->input('title'),
             'details' => $request->input('details'),
             'isActive' => $request->input('isActive'),

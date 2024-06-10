@@ -11,11 +11,11 @@ class Year extends Model
       public function articles(){
     return $this->hasMany(Article::class);
   }
-      public function evenements(){
-    return $this->hasMany(Evenement::class);
+      public function events(){
+    return $this->hasMany(Event::class);
   }
       public function filieres(){
-    return $this->hasMany(Filier::class);
+    return $this->hasMany(Filiereclass);
   }
    public function scopeActive($query)
     {

@@ -1,11 +1,9 @@
 <?php
 namespace App\Traits;
-use App\Models\Article;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 trait Update{
-    use Store;
     protected function updateArticle($request,$article){
         $article->title = $request->title;
         $article->details = $request->details;
@@ -38,7 +36,6 @@ trait Update{
                 $this->storeOneFile($image, $article, 'pdf');
             }
         }
-
     }
     protected function updateEvent($request,$event){
         $event->update([
@@ -53,8 +50,6 @@ trait Update{
             'user_id' => $request->input('user_id'),
             'year_id' => $request->input('year_id'),
         ]);
-        return response()->json(['message' => 'Event updated successfully']);
-
     }
     protected function updateFilier($request,$filiere){
         $filiere->update([
@@ -68,7 +63,6 @@ trait Update{
                 'year_id' => $request->input('year_id'),
                 'sector' => $request->input('sector'),
             ]);
-            return response()->json(['message' => 'Filiere updated successfully']);
     }
     protected function updateUser($request,$user){
          $user->update([
@@ -79,6 +73,5 @@ trait Update{
             'email_verified_at' => $request->input('email_verified_at'),
             'password' => Hash::make($request->input('password')),
         ]);
-    return response()->json(['message' => 'User updated successfully']);
     }
 }

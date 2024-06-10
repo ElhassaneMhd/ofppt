@@ -3,8 +3,15 @@ namespace App\Traits;
 use App\Models\File;
 
 trait Delete{
-
- public function deletOldElementFile($element){
+    protected function destroyElement($model, $id){
+        $element = $model::findOrFail($id);
+        $element->delete();
+    }
+    protected function forceDeleteData($model, $id){
+        $element = $model::findOrFail($id);
+        $element->forceDelete();
+    }
+    public function deletOldElementFile($element){
         $oldFiles = $element->files;
         foreach($oldFiles as $file){
             if ($file){
@@ -15,12 +22,5 @@ trait Delete{
             }
         }
     }
-    protected function destroyElement($model, $id){
-        $element = $model::findOrFail(($id));
-        $element->delete();
-    }     
-    protected function forceDeleteData($model, $id){
-        $element = $model::findOrFail(($id));
-        $element->forceDelete();
-    }     
+
 }

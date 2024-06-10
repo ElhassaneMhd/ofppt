@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\Delete;
-use App\Traits\Get;
-use App\Traits\Refactor;
-use App\Traits\Restore;
-use App\Traits\Store;
+
 use App\Models\Filiere;
-use App\Models\Year;
-use App\Traits\Update;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 
 class FilieresController extends Controller{
-    use  Get,Store,Restore,Delete,Refactor,Update;
 
     public function index(Request $request){
         $filieres = Filiere::all();

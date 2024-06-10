@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('visibility')->nullable();
             $table->integer('maxStg');
             $table->text('tags')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('year_id')->constrained()->onDelete('cascade');
             $table->string('sector');
             $table->softDeletes();

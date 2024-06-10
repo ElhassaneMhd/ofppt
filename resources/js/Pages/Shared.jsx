@@ -139,7 +139,7 @@ export function useOptions({ routeName, resourceName }) {
 
       deleteOptions: {
         resourceName,
-        onConfirm: (ids) => navigate({ url: `$routeName}.multiple.delete`, method: 'post', data: { ids } }),
+        onConfirm: (ids) => navigate({ url: `${routeName}.multiple.delete`, method: 'post', data: { ids } }),
       },
     },
     layoutOptions: { actions: 'defaultActions' },

@@ -29,13 +29,12 @@ trait Refactor
             'updated_at' => $user->updated_at,
         ];
     }
-    protected function refactorArticle($article)
-    {
+    protected function refactorArticle($article){
         return [
             "id" => $article->id,
             "title" => $article->title,
             "details" => $article->details,
-            "publisher" => $article->user->firstName,
+            "publisher" => $article->user->firstName??"unknown",
             "formationYear" => $article->year->year,
             "visibility" => $article->visibility,
             "date" => $article->date,
@@ -51,7 +50,7 @@ trait Refactor
             "title" => $event->title,
             "formationYear" => $event->year->year,
             "details" => $event->details,
-            "publisher" => $event->user->firstName,
+            "publisher" => $event->user->firstName??"unknown",
             "date" => $event->date,
             "visibility" => $event->visibility,
             'location' => $event->location,
@@ -69,6 +68,7 @@ trait Refactor
             "title" => $filiere->title,
             "formationYear" => $filiere->year->year,
             "details" => $filiere->details,
+            "publisher" => $filiere->user->firstName??"unknown",
             "sector" => $filiere->sector,
             "visibility" => $filiere->visibility,
             "tags" => explode(',', $filiere->tags) ?? [],
@@ -81,7 +81,7 @@ trait Refactor
     {
         $articles = $year->articles()->count();
         $filieres = $year->filieres()->count();
-        $evenements = $year->evenements()->count();
+        $events = $year->events()->count();
         return [
             'year' => $year->year,
             'startDate' => $year->startDate,
@@ -92,7 +92,7 @@ trait Refactor
             'inscriptionStatus' => $year->inscriptionStatus,
             'articles' => $articles,
             'filieres' => $filieres,
-            'evenements' => $evenements,
+            'events' => $events,
         ];
     }
     protected function refactorDemand($demand)

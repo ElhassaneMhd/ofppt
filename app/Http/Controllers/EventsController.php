@@ -3,19 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\File ;
 use App\Models\Year;
-use App\Traits\Update;
 use Illuminate\Http\Request;
-use App\Traits\Delete;
-use App\Traits\Get;
-use App\Traits\Restore;
-use App\Traits\Store;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class EventsController extends Controller{
-    use  Get,Store,Restore,Delete,Update;
     public function index(Request $request){
             $events = Event::all();
             $events = $this->refactorManyElements($events,'events');
