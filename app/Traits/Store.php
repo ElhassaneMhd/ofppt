@@ -11,28 +11,28 @@ use Illuminate\Support\Facades\Session;
 trait Store{
 
     protected function storeArticle($request){
-          $request->validate([
+        $request->validate([
             'title'=>'required',
-            'description'=>'required',
+            'details'=>'required',
             'date'=>'required|date',
             'categorie'=>'required',
             'user_id'=>'required|exists:users,id',
             'year_id'=>'required|exists:years,id',
             'files.*' => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf,jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
-            ]);
+        ]);
         $article = new Article();
         $article->title = $request->title;
-        $article->details = $request->description;
+        $article->details = $request->details;
         $article->date = $request->date;
         $article->visibility =$request->visibility;
         $article->categorie = $request->categorie;
-        $article->tags = $request->tags??'';
+        $article->tags = $request->tags;
         $article->user_id = auth()->user()->id??null;
         $article->year_id = Session::get('activeYear')->id??null;
         $article->save();
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$article,'article');
+                $this->storeOneFile($file[0],$article,'article');
             }
         }
 
@@ -66,11 +66,10 @@ trait Store{
             'sector' => $request->input('sector'),
             'tags' => $request->input('tags'),
             'year_id' => Session::get('activeYear')->id??1,
-            'files.*' => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf,jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
         ]);
-         if ($request->has('files') && count($request->files) > 0) {
+        if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$filiere,'filiere');
+                $this->storeOneFile($file[0],$filiere,'filiere');
             }
         }
         return response()->json(['message' => 'Filiere created successfully']);

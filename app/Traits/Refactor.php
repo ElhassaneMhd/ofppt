@@ -16,8 +16,7 @@ trait Refactor
         }
         return $all ?? [];
     }
-    protected function refactorUser($user)
-    {
+    protected function refactorUser($user){
         return [
             "id" => $user->id,
             "firstName" => $user->firstName,
@@ -34,7 +33,7 @@ trait Refactor
             "id" => $article->id,
             "title" => $article->title,
             "details" => $article->details,
-            "publisher" => $article->user->firstName??"unknown",
+            "publisher" => $article->user->firstName??"unknown" . ' ' . $article->user->lastName??"publisher",
             "formationYear" => $article->year->year,
             "visibility" => $article->visibility,
             "categorie" =>  explode(',', $article->categorie) ?? [],
