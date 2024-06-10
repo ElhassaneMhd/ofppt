@@ -19,6 +19,6 @@ class Year extends Model
   }
    public function scopeActive($query)
     {
-        return $query->where('isActive', 1);
+        return $query->where('isActive','true');
     }
 }

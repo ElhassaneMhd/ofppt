@@ -32,7 +32,7 @@ trait Store{
         $article->save();
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$article,'articles');
+                $this->storeOneFile($file,$article,'article');
             }
         }
 
@@ -51,7 +51,7 @@ trait Store{
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$event,'events');
+                $this->storeOneFile($file,$event,'event');
             }
         }
         return response()->json(['message' => 'Event created successfully']);
@@ -66,10 +66,11 @@ trait Store{
             'sector' => $request->input('sector'),
             'tags' => $request->input('tags'),
             'year_id' => Session::get('activeYear')->id??1,
+            'files.*' => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf,jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
         ]);
          if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
-                $this->storeOneFile($file,$filiere,'filieres');
+                $this->storeOneFile($file,$filiere,'filiere');
             }
         }
         return response()->json(['message' => 'Filiere created successfully']);
@@ -95,7 +96,6 @@ trait Store{
         }
     }
     public function storeOneFile($file,$element,$fileType){
-        dd($file);
         $name =$file->getClientOriginalName();
         $unique = uniqid();
          $element->files()->create(
