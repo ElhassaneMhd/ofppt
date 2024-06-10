@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
             'destroy' => $resource . '.destroy',
         ]);
         Route::post('/'.$resource.'/multiple/delete', [ApiController::class, 'multipleAction'])->name($resource.'.multiple.delete');
-        if(in_array($resource, ['articles', 'filieres'])){
+        if(in_array($resource, ['articles', 'filieres','events'])){
             Route::post('/'.$resource.'/multiple/toggle', [ApiController::class, 'multipleAction'])->name($resource.'.multiple.toggle');
         }
     }
