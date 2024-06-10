@@ -1,11 +1,13 @@
 import { FiLogOut, IoSettingsOutline, PiTrashLight } from '@/components/ui/Icons';
 import { IoChevronDownOutline } from 'react-icons/io5';
-import {  useUser } from '@/hooks/useUser';
+import { useUser } from '@/hooks/useUser';
 import { DropDown } from './ui';
 import { useNavigate } from '@/hooks/useNavigate';
+import { useConfirmationModal } from '@/hooks';
 
 export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
   const navigate = useNavigate();
+  const { openModal } = useConfirmationModal();
 
   return (
     <DropDown
@@ -24,8 +26,14 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
       </DropDown.Option>
       <DropDown.Divider />
       <DropDown.Option
-        onClick={() =>
-          navigate({ url: 'logout', method: 'POST', })}
+        onClick={() => {
+          openModal({
+            message: 'You are about to log out. Do you wish to proceed?',
+            title: 'Logout',
+            confirmText: 'Logout',
+            onConfirm: () => navigate({ url: 'logout', method: 'POST' }),
+          });
+        }}
       >
         <FiLogOut size={22} /> <span>Sign Out</span>
       </DropDown.Option>
@@ -35,7 +43,7 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
 
 function Profile() {
   const { user } = useUser();
-  const { fullName,  role, gender, avatar } = user || {};
+  const { fullName, role, gender, avatar } = user || {};
 
   const getFallback = (role, gender) => {
     if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';
@@ -53,7 +61,7 @@ function Profile() {
         />
         <div className='flex flex-col text-start'>
           <span className='text-sm font-semibold text-text-primary'>{fullName}</span>
-          <span className='text-xs font-medium text-text-tertiary capitalize'>{role?.replace('-', ' ')}</span>
+          <span className='text-xs font-medium capitalize text-text-tertiary'>{role?.replace('-', ' ')}</span>
         </div>
       </div>
       <IoChevronDownOutline className='text-text-secondary' />
