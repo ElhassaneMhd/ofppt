@@ -1,5 +1,6 @@
 import { DropDown } from '@/components/ui';
 import CreatePageLayout from '@/layouts/CreatePageLayout';
+import { RULES } from '@/utils/constants';
 
 export default function Create({
   roles = [],
@@ -11,6 +12,8 @@ export default function Create({
     phone: '',
     role: '',
     permissions: [],
+    password: '',
+    password_confirmation: '',
   },
   isEdit = false,
 }) {
@@ -44,6 +47,17 @@ export default function Create({
             placeholder: 'Enter phone...',
           },
           {
+            name: 'password',
+            type: 'password',
+            label: 'Password',
+          },
+          {
+            name: 'password_confirmation',
+            type: 'password',
+            label: 'Confirm Password',
+            rules: { ...RULES.passwordConfirmation },
+          },
+          {
             name: 'role',
             hidden: true,
           },
@@ -54,6 +68,7 @@ export default function Create({
         ],
       }}
       isEdit={isEdit}
+      visibility={false}
     >
       <Form roles={roles} permissions={permissions} />
     </CreatePageLayout>
@@ -64,7 +79,7 @@ function Form({ options, roles }) {
   const { formInputs, getValue, setValue } = options;
 
   return (
-    <div className='flex h-full flex-col gap-5'>
+    <>
       <div className='grid  mobile:grid-cols-2 gap-5'>
         {formInputs['firstName']}
         {formInputs['lastName']}
@@ -87,7 +102,9 @@ function Form({ options, roles }) {
             ))}
           </DropDown>
         </div>
+        {formInputs['password']}
+        {formInputs['password_confirmation']}
       </div>
-    </div>
+    </>
   );
 }

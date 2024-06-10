@@ -13,16 +13,13 @@ export function AppLayout({ children }) {
   return (
     <>
       <div className='flex size-full'>
-        <Sidebar  />
-        <div className='ml-14 flex flex-1 flex-col overflow-hidden bg-background-secondary md:ml-0'>
-          <main
-            className='flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden bg-background-primary p-3  sm:px-5'
-            ref={parent}
-          >
-            {children}
-          </main>
-        </div>
-       
+        <Sidebar />
+        <main
+          className='ml-14 md:ml-0 flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden bg-background-primary p-3 sm:px-5'
+          ref={parent}
+        >
+          {children}
+        </main>
       </div>
       <Toaster
         icons={{

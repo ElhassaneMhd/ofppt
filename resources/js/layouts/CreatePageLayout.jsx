@@ -7,7 +7,7 @@ import { useNavigate } from '@/hooks/useNavigate';
 import { ModalFormLayout } from '@/layouts/ModalFormLayout';
 import { filterObject } from '@/utils/helpers';
 
-export default function CreatePageLayout({ children, name, formOptions, isEdit }) {
+export default function CreatePageLayout({ children, name, formOptions, isEdit,visibility = true}) {
   const navigate = useNavigate();
   const { options } = useForm({
     ...formOptions,
@@ -41,9 +41,9 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
         <title>{title}</title>
       </Head>
       <div className='flex h-full flex-col'>
-        <div className='mb-8 flex items-center justify-between'>
+        <div className='mb-5 flex items-center justify-between'>
           <h1 className='text-2xl font-semibold text-text-primary'>{title}</h1>
-          {getValue && (
+          {visibility && (
             <Switch
               checked={getValue('visibility') === 'true'}
               onChange={(e) => setValue('visibility', String(e.target.checked))}
