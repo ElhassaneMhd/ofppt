@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Traits;
+use App\Models\Article;
+use App\Models\Filiere;
 use Illuminate\Support\Str;
 
 trait Get
@@ -58,5 +60,17 @@ trait Get
             }
         }
         return $Allfiles??[];
+    }
+    public function getSectors(){
+        $sectors = Filiere::all()->unique('sector')->pluck('sector')->toArray();
+        return array_unique($sectors) ?? [];
+    }
+    public function getCategories(){
+        $articles = Article::all();
+        $categories = [];
+        foreach ($articles as $article){
+            $categories = array_merge($categories,explode(',',$article->categories));
+        }
+        return array_values(array_unique($categories))  ?? [];
     }
 }

@@ -1,10 +1,11 @@
 import { FiLogOut, IoSettingsOutline, PiTrashLight } from '@/components/ui/Icons';
 import { IoChevronDownOutline } from 'react-icons/io5';
-import { useLogout, useUser } from '@/hooks/useUser';
+import {  useUser } from '@/hooks/useUser';
 import { DropDown } from './ui';
+import { useNavigate } from '@/hooks/useNavigate';
 
 export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
-  const { logout } = useLogout();
+  const navigate = useNavigate();
 
   return (
     <DropDown
@@ -22,7 +23,10 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
         <span>Trash</span>
       </DropDown.Option>
       <DropDown.Divider />
-      <DropDown.Option onClick={() => logout}>
+      <DropDown.Option
+        onClick={() =>
+          navigate({ url: 'logout', method: 'POST', })}
+      >
         <FiLogOut size={22} /> <span>Sign Out</span>
       </DropDown.Option>
     </DropDown>

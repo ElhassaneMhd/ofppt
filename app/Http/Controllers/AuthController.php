@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -20,16 +21,14 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:6'
         ]);
+        //check if the password is correct
         $user= User::where('email', $data['email'])->first();
-//check if the password is correct
         if (!Hash::check($data['password'], $user->password)) {
                 return to_route('formLogin')->with(['message' => "The password you've entered is incorrect. Please check your password and try again."
             ]);
         }
          if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
-            $success['name'] =  $user->name;
         }
         else{
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
@@ -48,11 +47,10 @@ class AuthController extends Controller
     }
 // logout
     public function logout(Request $request) {
-        $request->user()->currentAccessToken()->delete();
-        cookie()->forget('token');
-        return response()->json([
-            'message' => 'Logged out successfully!'
-        ])->withCookie('token');
+        Auth::logout();
+        Cookie::queue(Cookie::forget('laravel_session'));
+        Cookie::queue(Cookie::forget('XSRF-TOKEN'));
+        return to_route('login');
     }
     public function user(Request $request) {
         $user = auth()->user();

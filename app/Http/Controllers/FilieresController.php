@@ -15,10 +15,12 @@ class FilieresController extends Controller{
         $filieres = Filiere::all();
         $filieres = $this->refactorManyElements($filieres,'filieres');
         $trashedFilieres = Filiere::onlyTrashed()->get();
-        return Inertia::render('Filieres/Index', compact('filieres','trashedFilieres'));
+        $sectors = $this->getSectors();
+        return Inertia::render('Filieres/Index', compact('filieres','trashedFilieres','sectors'));
     }
     public function create(){
-        return Inertia::render('Filieres/Create');
+        $sectors= $this->getSectors();
+        return Inertia::render('Filieres/Create',compact('sectors'));
     }
     public function store(Request $request){
         $this->storeFiliere($request);
@@ -27,12 +29,13 @@ class FilieresController extends Controller{
     public function show(string $id){
         $filiere =   Filiere::findOrFail($id);
         $filiere = $this->refactorFiliere($filiere);
-        return Inertia::render('Filieres/Show',[$filiere]);
+        return Inertia::render('Filieres/Show',compact('filiere'));
     }
     public function edit(string $id) {
         $filiere = Filiere::findOrfail($id);
         $filiere = $this->refactorFiliere($filiere);
-        return Inertia::render('Filieres/Show',[$filiere]);
+        $sectors= $this->getSectors();
+        return Inertia::render('Filieres/Show',compact('filiere','sectors'));
     }
     public function update(Request $request, string $id) {
     //update fillier
@@ -47,7 +50,7 @@ class FilieresController extends Controller{
     public function trash() {
         $filieres = Filiere::all();
         $trashedFilieres = Filiere::onlyTrashed()->get();
-        return Inertia::render('Filieres/Trash',[$filieres,$trashedFilieres]);
+        return Inertia::render('Filieres/Trash', compact('filieres', 'trashedFilieres'));
     }
     public function forceDelete(string $id) {
         $this->forceDeleteData(Filiere::class, $id);

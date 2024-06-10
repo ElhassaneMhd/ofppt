@@ -16,7 +16,7 @@ function Login() {
       { name: 'email', type: 'email', label: t('form.email.label') },
       { name: 'password', type: 'password', label: t('form.password.label'), rules: { pattern: null } },
     ],
-    onSubmit: (data) => navigate({ url: 'login', method: 'POST', data }),
+      onSubmit: (data) => navigate({ url: 'login', method: 'POST', data: { 'email': data['email'] , 'password':data['password']} }),
     submitOnEnter: true,
   });
 
