@@ -15,9 +15,11 @@ createInertiaApp({
   resolve: (name) => {
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
+
     page.default.layout =
       page.default.layout ||
       ((page) => <AppLayout>{['create', 'show', 'edit'].includes(page) ? page : page}</AppLayout>);
+
     return page;
   },
   setup({ el, App, props }) {
