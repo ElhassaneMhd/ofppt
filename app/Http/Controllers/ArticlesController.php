@@ -5,8 +5,6 @@ use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Year;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class ArticlesController extends Controller
@@ -44,7 +42,6 @@ class ArticlesController extends Controller
         $years = Year::all();
         $users = User::all();
         $categories = $this->getCategories();
-
         return Inertia::render('Articles/Edit', compact('article','years','users','categories'));
     }
     public function update(Request $request, string $id){

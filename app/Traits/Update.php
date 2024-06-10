@@ -8,13 +8,8 @@ trait Update{
         $article->title = $request->title;
         $article->details = $request->details;
         $article->date = $request->date;
-        if(isset($request->user)){
-            $article->user_id = $request->user_id;
-        }else{
-            $article->user_id = Session::get('user')->id;
-        }
-        $article->categories = $request->categories;
-        $article->year_id = $request->year_id;
+        $article->user_id = auth()->user()->id??null;
+        $article->categorie = $request->categorie;
         $article->save();
         //modify old files
         if ($request->has('oldImages')){

@@ -10,7 +10,7 @@ class Event extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $fillable=["title","details",'location','duree','date','status','visibility'];
+    protected $fillable=["title","details",'location','duree','date','status','visibility','year_id','user_id'];
     public function files() {
  	    return $this->morphMany(File::class, 'Fileable');
 	}

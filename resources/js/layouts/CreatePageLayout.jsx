@@ -12,7 +12,7 @@ export default function CreatePageLayout({ children, name, formOptions }) {
     ...formOptions,
     onSubmit: (data) => {
       console.log(data);
-      navigate({ url: `${name.toLowerCase()}s/${data.id}`, method: 'post', data });
+      navigate({ url: `${name.toLowerCase()}s.store`, method: 'post', data });
     },
   });
   const [editorInstance, setEditorInstance] = useState(null);

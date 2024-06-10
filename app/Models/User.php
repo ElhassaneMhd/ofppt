@@ -36,7 +36,7 @@ class User extends Authenticatable
      return $this->hasMany(Article::class);
     }
     public function filieres(){
-        return $this->hasMany(Filiereclass);
+        return $this->hasMany(Filiere::class);
     }
     public function events(){
         return $this->hasMany(Event::class);

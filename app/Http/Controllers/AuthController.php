@@ -1,11 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Profile;
-
-
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -15,7 +12,6 @@ use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-
 // login a user methods
     public function formLogin(){
         return Inertia::render('Auth/Login');
@@ -31,6 +27,9 @@ class AuthController extends Controller
                 return to_route('formLogin')->with(['message' => "The password you've entered is incorrect. Please check your password and try again."
             ]);
         }
+        $activeYear = Year::active()->get()[0];
+        session(['activeYear' => $activeYear]);
+
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
         }

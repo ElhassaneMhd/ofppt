@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('maxStg');
             $table->text('tags')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('year_id')->constrained()->onDelete('cascade');
+            $table->foreignId('year_id')->nullable()->constrained()->nullOnDelete();
             $table->string('sector');
             $table->softDeletes();
             $table->timestamps();

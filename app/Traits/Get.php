@@ -66,11 +66,7 @@ trait Get
         return array_unique($sectors) ?? [];
     }
     public function getCategories(){
-        $articles = Article::all();
-        $categories = [];
-        foreach ($articles as $article){
-            $categories = array_merge($categories,explode(',',$article->categories));
-        }
-        return array_values(array_unique($categories))  ?? [];
+        $categories = Article::all()->unique('categorie')->pluck('categorie')->toArray();
+        return array_unique($categories) ?? [];
     }
 }

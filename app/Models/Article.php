@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Article extends Model
 {
   use SoftDeletes, HasFactory;
-  protected $fillable=["title","details",'date','tags','categories','visibility'];
+  protected $fillable=["title","details",'date','tags','categorie','visibility','year_id','user_id'];
 
   public function files() {
       return $this->morphMany(File::class, 'fileable');
