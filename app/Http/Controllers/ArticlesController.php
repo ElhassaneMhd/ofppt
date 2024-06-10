@@ -11,10 +11,8 @@ class ArticlesController extends Controller
 {
     public function index(Request $request){
         //table all articles
-        $articles = Article::all();
-        $articles = $this->refactorManyElements($articles,'articles');
-        $trashedArticles = Article::onlyTrashed()->get();
-        $trashedArticles = $this->refactorManyElements($trashedArticles,'articles');
+        $articles = $this->refactorManyElements(Article::all(),'articles');
+        $trashedArticles = $this->refactorManyElements(Article::onlyTrashed()->get(),'articles');
         $categories = $this->getCategories();
         $formationYears = Year::all();
         return Inertia::render('Articles/Index', compact('articles','trashedArticles','categories','formationYears'));
@@ -28,13 +26,13 @@ class ArticlesController extends Controller
     }
     public function store(Request $request){
         $this->storeArticle($request);
-        return response()->json(['message' => 'article stored successffuly']);
+        return to_route('articles.index');
     }
     public function show($id){
     //showArticle
         $article = Article::find($id);
         $article = $this->refactorArticle($article);
-        return Inertia::render('Articles/Show',compact( 'article'));
+        return Inertia::render('Articles/Show',compact('article'));
     }
     public function edit($id){
     //GET ARTICLE TO MODIFIE

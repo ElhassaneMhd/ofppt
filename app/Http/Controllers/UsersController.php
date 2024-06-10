@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Permission;
 class UsersController extends Controller
 {
     public function index()  {
-        $users = User::all();
+        $users = $this->refactorManyElements(User::all(),'users');
         $publieeUsers = User::paginate(10);
         $roles = Role::all();
         $permissions = Permission::all();

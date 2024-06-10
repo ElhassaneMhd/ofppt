@@ -22,7 +22,7 @@ class EventsController extends Controller{
             if  (session::missing('YearActive')) {
             session(['YearActive' => $activeYear]);
             }
-            return Inertia::render('Events/Index', compact('years'));
+            return Inertia::render('Events/Create', compact('years'));
         }
     public function store(Request $request){
         $this->storeEvent($request);
