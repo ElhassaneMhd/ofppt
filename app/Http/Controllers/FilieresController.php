@@ -17,46 +17,13 @@ class FilieresController extends Controller{
         $trashedFilieres = Filiere::onlyTrashed()->get();
         return Inertia::render('Filieres/Index', compact('filieres','trashedFilieres'));
     }
-
     public function create(){
         return Inertia::render('Filieres/Create');
     }
-
     public function store(Request $request){
-    //store filiere in DB
-            $filiere = new Filiere();
-            $filiere->title = $request->title;
-            $filiere->details = $request->description;
-            $filiere->max_stagiaires = $request->max_stagiaires;
-            $filiere->active = $request->Active;
-            $filiere->visibility =true;
-            $filiere->user_id = auth()->user()->id;
-            $filiere->secteur_id = $request->secteur;
-            $filiere->year_id = Session::get('YearActive')->id;
-            $filiere->save();
-    //STORE filiere files
-            if ($request->has('images') && count($request->images) > 0) {
-            foreach ($request->images as $image) {
-                $imageURL =$image->getClientOriginalName();
-                $filiere->files()->create([
-                    'nom'=>$request->title,
-                    'taille'=> 11,
-                    'emplacement'=>public_path('images/filiere'),
-                    'URL'=>$imageURL,
-                ]);
-                $image->move('../public_html/images/filiere',$imageURL);
-            }
-            }
-    //store tags
-            if ($request->has('tags') ) {
-                foreach (explode(' ', $request->tags ) as $tag) {
-                    $filiere->tags()->create([
-                        'name'=>$tag,
-                    ]);
-                }
-            }
-            return to_route("filieres.index");
-        }
+        $this->storeFiliere($request);
+        return to_route("filieres.index");
+    }
     public function show(string $id){
         $filiere =   Filiere::findOrFail($id);
         $filiere = $this->refactorFiliere($filiere);

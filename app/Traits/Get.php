@@ -6,11 +6,15 @@ use Illuminate\Support\Str;
 trait Get
 {
     use Refactor;
-    public function GetAll($data){
+    public function GetAll($data,$trashed){
         $all = [];
         if(in_array($data,['users','articles','filieres','events','years','demands'])){
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
-            $collections = $model::all();
+            if($trashed===true){
+                $collections = $model::onlyTrashed()->get();
+            }else{
+                $collections = $model::all();
+            }
           foreach ($collections as $collection) {
                  ($data === 'users')&& $all[]= $this->refactorUser($collection);
                  ($data === 'articles')&& $all[]= $this->refactorArticle($collection);
