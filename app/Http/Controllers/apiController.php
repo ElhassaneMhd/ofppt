@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ApiController extends Controller{
     public function index($data){
-        return $this->GetAll($data,false);
+        return $this->GetAll($data);
     }
     public function show($data,$id){
         return $this->GetByDataId($data,$id);

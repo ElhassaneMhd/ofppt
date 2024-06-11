@@ -189,7 +189,7 @@ export const capitalize = (string) => string?.charAt(0).toUpperCase() + string?.
 
 export const getProgress = (ratio) => +(ratio ? (ratio % 1 === 0 ? Math.floor(ratio) : ratio.toFixed(1)) : 0);
 
-export const getFile = (file) => ({ src: file.url || null, file: file.id || null });
+export const getFile = (file) => ({ src: file?.url || null, file: file?.id || null });
 
 export const getIntervals = (key, returned = ['past', 'present', 'future'], excluded = []) => {
   return intervals
