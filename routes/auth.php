@@ -24,7 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
     Route::get('/admin/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');
 
+    Route::inertia('/admin/settings/{tab}', 'Admin/Settings/Settings')->name('settings');
     Route::inertia('/admin/dashboard', 'Admin/Dashboard/Dashboard')->name('dashboard');
+
     $resources = [
         'filieres' => FilieresController::class,
         'articles' => ArticlesController::class,

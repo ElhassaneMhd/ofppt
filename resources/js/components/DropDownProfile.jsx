@@ -1,10 +1,10 @@
-import { FiLogOut, IoSettingsOutline, PiTrashLight } from '@/components/ui/Icons';
+import { FiLogOut, IoSettingsOutline } from '@/components/ui/Icons';
 import { IoChevronDownOutline } from 'react-icons/io5';
 import { DropDown } from './ui';
 import { useNavigate } from '@/hooks/useNavigate';
 import { useConfirmationModal, useUser } from '@/hooks';
 
-export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
+export function DropDownProfile() {
   const navigate = useNavigate();
   const { openModal } = useConfirmationModal();
 
@@ -14,15 +14,11 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
       togglerClassName='flex w-full items-center justify-between gap-8 pr-3'
       options={{ className: 'w-[250px] rounded-xl', shouldCloseOnClick: false }}
     >
-      <DropDown.Option display='with-icon' onClick={() => setIsSettingsOpen(true)}>
+      <DropDown.Option display='with-icon' onClick={() => navigate({url : '/admin/settings'})}>
         <IoSettingsOutline className='text-text-tertiary' />
         <span>Settings</span>
       </DropDown.Option>
 
-      <DropDown.Option display='with-icon' onClick={() => setIsTrashOpen((prev) => !prev)}>
-        <PiTrashLight className='text-text-tertiary' />
-        <span>Trash</span>
-      </DropDown.Option>
       <DropDown.Divider />
       <DropDown.Option
         onClick={() => {
@@ -44,20 +40,10 @@ function Profile() {
   const { user } = useUser();
   const { firstName, lastName, role = 'admin' } = user || {};
 
-  const getFallback = (role, gender = 'M') => {
-    if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';
-    if (['super-admin', 'admin', 'supervisor'].includes(role))
-      return gender === 'M' ? '/images/male-admin.png' : '/images/female-admin.png';
-  };
-
   return (
     <div className='transition-color flex flex-1 items-center justify-between gap-3 rounded-md px-1.5 py-1 duration-200 hover:bg-background-tertiary'>
       <div className='flex items-center gap-3'>
-        <img
-          className='h-9 w-9 rounded-full border border-border object-cover text-center text-xs text-text-tertiary'
-          src={getFallback(role || 'user')}
-          alt='profile image'
-        />
+        <Avatar avatar={user?.avatar} role={role} />
         <div className='flex flex-col text-start'>
           <span className='text-sm font-semibold text-text-primary'>{`${firstName} ${lastName}`}</span>
           <span className='text-xs font-medium capitalize text-text-tertiary'>{role?.replace('-', ' ')}</span>
@@ -65,5 +51,21 @@ function Profile() {
       </div>
       <IoChevronDownOutline className='text-text-secondary' />
     </div>
+  );
+}
+
+export function Avatar({ avatar, role, className = 'h-9 w-9' }) {
+  const getFallback = (role, gender = 'M') => {
+    if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';
+    if (['super-admin', 'admin', 'supervisor'].includes(role))
+      return gender === 'M' ? '/images/male-admin.png' : '/images/female-admin.png';
+  };
+
+  return (
+    <img
+      className={`rounded-full border border-border object-cover text-center text-xs text-text-tertiary ${className}`}
+      src={avatar || getFallback(role)}
+      alt='profile image'
+    />
   );
 }

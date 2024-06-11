@@ -38,9 +38,7 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-      </Head>
+      <Head title={title} />
       <div className='flex h-full flex-col'>
         <h1 className='mb-5 text-2xl font-semibold text-text-primary'>{title}</h1>
 

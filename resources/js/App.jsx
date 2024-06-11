@@ -20,7 +20,7 @@ createInertiaApp({
     const layout = name?.startsWith('Admin')
       ? (page) => (
           <AppLayout>
-            {name.includes('/Show') ? (
+            {name.includes('/Show')  ? (
               <div className='flex h-full flex-col gap-5 overflow-auto rounded-lg border border-border p-5 pb-3'>
                 {page}
               </div>
