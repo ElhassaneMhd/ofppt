@@ -2,7 +2,10 @@
 
 namespace App\Traits;
 use App\Models\Article;
+use App\Models\Demand;
+use App\Models\Event;
 use App\Models\Filiere;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 trait Get
@@ -56,7 +59,7 @@ trait Get
         if ($element){
             $files = $element->files;
             foreach($files as $file){
-                $Allfiles[] = ['url' =>$file->url,'type'=>$file->type];
+                $Allfiles[] = ['id'=>$file,'url' =>$file->url,'type'=>$file->type];
             }
         }
         return $Allfiles??[];
@@ -68,5 +71,52 @@ trait Get
     public function getCategories(){
         $categories = Article::all()->unique('categorie')->pluck('categorie')->toArray();
         return array_unique($categories) ?? [];
+    }
+    public function getStats(){
+
+        $superAdmins = User::role('super-admin')->count();
+        $gestionaires = User::role('gestionaire')->count();
+        $admins = User::role('admin')->count();
+         $users= [
+            'total' => count(User::all()),
+            'trashed' => count(User::onlyTrashed()->get()),
+            'superAdmins' => $superAdmins,
+            'gestionaires' => $gestionaires,
+            'admins' => $admins,
+        ];
+
+        $articles = [
+            'total' => count(Article::all()),
+            'trashed' => count(Article::onlyTrashed()->get()),
+            'visible' => count(Article::where('visibility', 'true')->get()),
+            'hidden' => count(Article::where('visibility', 'false')->get()),
+        ];
+        $Allcategories = $this->getCategories();
+        foreach($Allcategories as $categorie){
+            $articles['categories'][$categorie] = Article::where('categorie',$categorie)->count();
+        }
+
+        $filieres = [
+            'total' => count(Filiere::all()),
+            'trashed' => count(Filiere::onlyTrashed()->get()),
+            'visible' => count(Filiere::where('visibility', 'true')->get()),
+            'hidden' => count(Filiere::where('visibility', 'false')->get()),
+            'active' => count(Filiere::where('isActive', 'true')->get()),
+            'inactive' => count(Filiere::where('isActive', 'false')->get()),
+        ];
+        $Allsectores = $this->getSectors();
+        foreach($Allsectores as $sector){
+            $filieres['sectors'][$sector] = Filiere::where('sector',$sector)->count();
+        }
+        $events = [
+            'total' => count(Event::all()),
+            'trashed' => count(Event::onlyTrashed()->get()),
+            'visible' => count(Event::where('visibility', 'true')->get()),
+            'hidden' => count(Event::where('visibility', 'false')->get()),
+            "upcoming" => count(Event::where('status','upcoming')->get()),
+        ];
+        $demands = ['totale' => count(Demand::all())];
+
+        return compact('users','articles','filieres','events','demands');
     }
 }

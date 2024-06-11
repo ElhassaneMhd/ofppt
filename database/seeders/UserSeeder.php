@@ -27,5 +27,14 @@ class UserSeeder extends Seeder
         $profile->phone = '0677577200';
         $profile->assignRole('admin');
         $profile->save();
+
+        $profile = new User;
+        $profile->firstName = 'gest';
+        $profile->lastName = 'gest';
+        $profile->email = 'gest@gmail.com';
+        $profile->password = Hash::make('hassan123');
+        $profile->phone = '0677500200';
+        $profile->assignRole('gestionaire');
+        $profile->save();
     }
 }

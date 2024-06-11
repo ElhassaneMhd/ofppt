@@ -42,7 +42,7 @@ trait Store{
             'title' => $request->input('title'),
             'date' => $request->input('date'),
             'location' => $request->input('location'),
-            'duree' => $request->input('duree'),
+            'duration' => $request->input('duration'),
             'details' => $request->input('details'),
             'status' => $request->input('status'),
             'visibility' => $request->input('visibility'),

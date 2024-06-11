@@ -29,6 +29,25 @@ trait Update{
     }
     protected function updateEvent($request,$event){
         $event->update($request->all());
+        if ($request->has('oldImages')){
+            foreach($event->files as $file) {
+                if (in_array( $file->id, $request->oldImages)===false){
+                    $filePath = public_path('article/'. $file->url);
+                    if (\Illuminate\Support\Facades\File::exists($filePath)) {
+                        \Illuminate\Support\Facades\File::delete($filePath);
+                    }
+                   $file->delete();
+                }
+            }
+        } else {
+            foreach($event->files as $pj) {$pj->delete();}
+        }
+        //add new file
+        if ($request->hasfile('files') && count($request->files) > 0) {
+            foreach ($request->files as $file) {
+                $this->storeOneFile($file, $event, 'article');
+            }
+        }
     }
     protected function updateFiliere($request,$filiere){
         $filiere->update($request->all());

@@ -13,7 +13,7 @@
 -date
 -location
 -details
--duree
+-duration
 -visibility
 -status
 -Year
