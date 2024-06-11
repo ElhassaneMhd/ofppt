@@ -17,12 +17,12 @@ class EventsController extends Controller{
             return Inertia::render('Events/Index', compact('events','trashedEvents','formationYears'));
         }
     public function create(){
-            $years = Year::all();
+            $formationYears = Year::all();
             $activeYear = Year::active()->get()[0];
             if  (session::missing('YearActive')) {
             session(['YearActive' => $activeYear]);
             }
-            return Inertia::render('Events/Create', compact('years'));
+            return Inertia::render('Events/Create', compact('formationYears'));
         }
     public function store(Request $request){
         $this->storeEvent($request);
