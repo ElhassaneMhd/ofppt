@@ -1,4 +1,4 @@
-import PageLayout from '@/layouts/PageLayout';
+import PageLayout from '@/layouts/Admin/PageLayout';
 import FilieresList from './FilieresList';
 
 export default function Index({ filieres = [],sectors = [],formationYears }) {

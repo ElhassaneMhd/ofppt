@@ -1,4 +1,4 @@
-import { TableLayout } from '@/layouts/TableLayout';
+import { TableLayout } from '@/layouts/Admin/TableLayout';
 import { useOptions } from '../Shared';
 
 export default function DemandsList({ demands }) {

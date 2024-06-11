@@ -3,7 +3,7 @@ import '@/styles/index.css';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
-import { AppLayout } from '@/layouts/AppLayout';
+import { AppLayout } from '@/layouts/Admin/AppLayout';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorScreen } from './components/ui/ErrorScreen';

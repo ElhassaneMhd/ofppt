@@ -1,5 +1,5 @@
 import { useUploadFile } from '@/hooks';
-import CreatePageLayout from '@/layouts/CreatePageLayout';
+import CreatePageLayout from '@/layouts/Admin/CreatePageLayout';
 import { DataDropDown } from '../Shared';
 import { FaCamera } from 'react-icons/fa';
 import { Switch } from '@/components/ui';

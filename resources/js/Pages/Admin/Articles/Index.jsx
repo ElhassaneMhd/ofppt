@@ -1,4 +1,4 @@
-import PageLayout from '@/layouts/PageLayout';
+import PageLayout from '@/layouts/Admin/PageLayout';
 import ArticlesList from './ArticlesList';
 
 export default function Index({ articles = [], categories = [], formationYears }) {

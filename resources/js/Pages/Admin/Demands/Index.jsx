@@ -1,4 +1,4 @@
-import PageLayout from '@/layouts/PageLayout';
+import PageLayout from '@/layouts/Admin/PageLayout';
 import DemandsList from './DemandsList';
 
 export default function Index({ demands = [] }) {
