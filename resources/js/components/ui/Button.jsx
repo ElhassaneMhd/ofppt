@@ -12,7 +12,7 @@ const button = tv({
       tertiary: 'bg-background-secondary text-text-primary hover:bg-background-tertiary',
       red: 'bg-red-600 text-white hover:bg-red-700',
       green: 'bg-green-600 text-white hover:bg-green-700',
-      orange : 'bg-orange-700 text-white hover:bg-orange-800',
+      orange: 'bg-orange-700 text-white hover:bg-orange-800',
     },
     size: {
       small: 'px-2 py-1.5 text-xs rounded-md',
@@ -29,7 +29,7 @@ const button = tv({
     state: {
       disabled:
         'bg-background-disabled cursor-not-allowed border-transparent hover:bg-background-disabled text-text-disabled',
-      active: 'bg-primary text-white hover:bg-primary',
+      active: 'bg-secondary text-white hover:bg-secondary',
     },
     display: {
       'with-icon': 'gap-3 items-center',

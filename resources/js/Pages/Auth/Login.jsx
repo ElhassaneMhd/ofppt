@@ -17,24 +17,30 @@ function Login() {
       { name: 'email', type: 'email', label: t('form.email.label') },
       { name: 'password', type: 'password', label: t('form.password.label'), rules: { pattern: null } },
     ],
-      onSubmit: (data) => navigate({ url: 'login', method: 'POST', data: { 'email': data['email'] , 'password':data['password']} }),
+    onSubmit: (data) =>
+      navigate({ url: 'login', method: 'POST', data: { email: data['email'], password: data['password'] } }),
     submitOnEnter: true,
   });
 
   return (
     <>
-    <Head>
-      <title>Login</title>
-    </Head>
-    <div className='grid h-full w-full place-content-center'>
-      <div className='flex w-full flex-col gap-3 rounded-xl bg-background-secondary p-5 shadow-md sm:w-[600px]'>
-        <h1 className='mb-8 text-2xl font-bold text-text-primary sm:text-3xl'>Welcome Back</h1>
-        {Form}
-        <Button className={'my-4 w-full self-end'} disabled={!isValid} onClick={() => handleSubmit()}>
-          {t('form.login')}
-        </Button>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <div className='grid h-full w-full place-content-center'>
+        <div className='flex w-full flex-col gap-3 rounded-xl bg-background-secondary p-5 shadow-md sm:w-[600px]'>
+          <h1 className='mb-8 text-2xl font-bold text-text-primary sm:text-3xl'>Welcome Back</h1>
+          {Form}
+          <Button
+            className={'my-4 w-full self-end'}
+            disabled={!isValid}
+            color={'secondary'}
+            onClick={() => handleSubmit()}
+          >
+            {t('form.login')}
+          </Button>
+        </div>
       </div>
-    </div>
     </>
   );
 }

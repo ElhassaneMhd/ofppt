@@ -42,7 +42,7 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit,v
       </Head>
       <div className='flex h-full flex-col'>
         <div className='mb-5 flex items-center justify-between'>
-          <h1 className='text-2xl font-semibold text-text-primary'>{title}</h1>
+          <h1 className='text-2xl font-semibold text-text-secondary'>{title}</h1>
           {visibility && (
             <Switch
               checked={getValue('visibility') === 'true'}

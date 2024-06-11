@@ -38,7 +38,6 @@ trait Update{
             'email'=>'email|unique:users,email',
             'password'=>'confirmed|min:6',
             'role'=>'exists:roles,name',
-            'permissions.*'=>'exists:permissions,name',
         ]);
          $user->update([
             'firstName' => $request->input('firstName'),
@@ -49,6 +48,5 @@ trait Update{
             'password' => Hash::make($request->input('password')),
         ]);
         $user->syncRoles($request->input('role'));
-        $user->syncPermissions($request->input('permissions'));
     }
 }

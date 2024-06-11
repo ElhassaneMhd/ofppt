@@ -24,7 +24,7 @@ const render = (buttons, size) => {
     if (custom) return cloneElement(custom, { key: i });
     return (
       <ToolTip key={toolTip} content={toolTip}>
-        <Button onClick={onClick} disabled={disabled} state={active ? 'active' : ''} shape='icon' size={size}>
+        <Button onClick={onClick} disabled={disabled}  state={active ? 'active' : ''} shape='icon' size={size}>
           {icon}
         </Button>
       </ToolTip>
