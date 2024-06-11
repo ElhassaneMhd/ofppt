@@ -30,7 +30,6 @@ export default function ArticlesList({ articles, categories, formationYears }) {
           displayLabel: 'Publication Date',
         },
         columns.formationYear,
-        columns.tags,
         columns.createdAt,
       ]}
       {...options}

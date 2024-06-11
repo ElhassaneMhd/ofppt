@@ -2,7 +2,8 @@ import { useUploadFile } from '@/hooks';
 import CreatePageLayout from '@/layouts/CreatePageLayout';
 import { FormationYear } from '../Shared';
 import { FaCamera, FaPlus } from 'react-icons/fa';
-import { Switch } from '@/components/ui';
+import { Button, Switch } from '@/components/ui';
+import { FaRegCircleXmark } from 'react-icons/fa6';
 
 export default function Create({
   formationYears = [],
@@ -22,7 +23,7 @@ export default function Create({
     <CreatePageLayout
       name='Event'
       formOptions={{
-        defaultValues: { ...defaultValues, ...(isEdit && { formationYear: '' }) },
+        defaultValues,
         fields: [
           {
             name: 'title',
@@ -89,9 +90,10 @@ function Form({ options, details, tags, formationYears, isEdit }) {
 }
 
 function MultipleImages({ getValue, setValue }) {
+  const images = getValue('files');
+
   const { openFilePicker } = useUploadFile({
     onChange: (image) => {
-      const images = getValue('files');
       images[images.length] = image;
       setValue('files', images);
     },
@@ -99,14 +101,17 @@ function MultipleImages({ getValue, setValue }) {
 
   return (
     <div className='relative mb-8 h-60'>
-      {getValue('files')?.map((image, i) => (
+      {images?.map((image, i) => (
         <Image
           key={i}
           image={image}
           index={i}
           setImage={(image) => {
-            const images = getValue('files');
             images[i] = image;
+            setValue('files', images);
+          }}
+          onRemove={() => {
+            images.splice(i, 1);
             setValue('files', images);
           }}
         />
@@ -114,10 +119,9 @@ function MultipleImages({ getValue, setValue }) {
       <button
         className='group absolute grid h-full min-h-52 w-52 place-content-center overflow-hidden rounded-lg border border-border bg-background-secondary bg-cover bg-center bg-no-repeat hover:z-[99] hover:bg-background-tertiary'
         style={{
-          transform: `translateX(${getValue('files')?.length * 60}px) translateY(${getValue('files')?.length * 5}px)`,
+          transform: `translateX(${images?.length * 60}px) translateY(${images?.length * 5}px)`,
         }}
         onClick={() => {
-          const images = getValue('files');
           if (images.length >= 10) return;
           if (images[images.length - 1]?.src === null) return;
           setValue('files', [...images, { src: null, file: null }]);
@@ -132,7 +136,7 @@ function MultipleImages({ getValue, setValue }) {
   );
 }
 
-function Image({ image, setImage, index }) {
+function Image({ image, setImage, index, onRemove }) {
   const { openFilePicker } = useUploadFile({ onChange: (image) => setImage(image) });
 
   return (
@@ -149,6 +153,9 @@ function Image({ image, setImage, index }) {
       >
         <FaCamera />
       </button>
+      <Button color='red' shape='icon' size='small' className='absolute left-2 top-2' onClick={onRemove}>
+        <FaRegCircleXmark />
+      </Button>
     </div>
   );
 }
