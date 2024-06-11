@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
 
 // Redirect to dashboard
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect('/admin/login');
 });
 
 Route::fallback(function () {

@@ -36,7 +36,6 @@ trait Store{
                 }
             }
         }
-
     }
     protected function storeEvent($request){
         $event = Event::create([
@@ -57,7 +56,6 @@ trait Store{
                 }
             }
         }
-        return response()->json(['message' => 'Event created successfully']);
     }
     protected function storeFiliere($request){
         $filiere = Filiere::create([
@@ -73,11 +71,10 @@ trait Store{
          if ($request->has('files') && count($request->files) > 0) {
              foreach ($request->files as $file) {
                 foreach ($file as $f) {
-                    $this->storeOneFile($f,$filiere,'event');
+                    $this->storeOneFile($f,$filiere,'filiere');
                 }
             }
         }
-        return response()->json(['message' => 'Filiere created successfully']);
     }
     protected function storeUser($request){
         $request->validate([
@@ -111,8 +108,7 @@ trait Store{
         }
     }
     public function storeOneFile($file,$element,$fileType){
-        $name =$file->getClientOriginalName();
-        $name = trim($name);
+        $name = str_replace(' ','',$file->getClientOriginalName());
         $unique = uniqid();
          $element->files()->create(
                     ['url' =>'/'.$fileType.'/'.$unique.$name,
