@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Session;
 trait Store{
 
     protected function storeArticle($request){
-        dd($request->all());
         $request->validate([
             'title'=>'required',
             'details'=>'required',

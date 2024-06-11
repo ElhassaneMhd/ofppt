@@ -12,15 +12,17 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
     ...formOptions,
     onSubmit: (data) => {
       const newData = {
-        ...data,
+        ...filterObject(data, ['image', 'formationYear'], 'exclude'),
         tags: data.tags?.join(','),
         files: data.files?.map((f) => f.file || f.id),
-        };
+        ...(isEdit && { year_id: data.formationYear.id }),
+      };
+
       console.log(newData);
       navigate({
         url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,
         method: isEdit ? 'put' : 'post',
-        data: filterObject(newData, ['image'], 'exclude'),
+        data: newData,
         ...(isEdit && { params: [data.id] }),
       });
     },
