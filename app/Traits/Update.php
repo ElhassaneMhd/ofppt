@@ -34,9 +34,11 @@ trait Update{
         $filiere->update($request->all());
     }
     protected function updateUser($request,$user){
+        if ($request->input('email') !== $user->email){
+            $request->validate(['email'=>'email|unique:users,email']);
+        }
          $request->validate([
-            'email'=>'email|unique:users,email',
-            'password'=>'confirmed|min:6',
+            'password'=>'nullable|confirmed|min:6',
             'role'=>'exists:roles,name',
         ]);
          $user->update([
