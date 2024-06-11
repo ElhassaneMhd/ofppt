@@ -1,6 +1,6 @@
 import { CiImageOff } from 'react-icons/ci';
 import { DetailsPreview, TagsPreview } from '../Shared';
-import { formatDate } from '@/utils/helpers';
+import { formatDate, getFile } from '@/utils/helpers';
 
 export default function Show({ event = {} }) {
   const { title, files, location, duration, created_at, details, tags, upcoming } = event;
@@ -11,10 +11,10 @@ export default function Show({ event = {} }) {
         <div
           className='group relative grid h-full min-h-52 place-content-center overflow-hidden rounded-lg bg-background-secondary bg-cover bg-center bg-no-repeat'
           style={{
-            backgroundImage: `url(${files[0]?.src})`,
+            backgroundImage: `url(${getFile(files[0])?.src})`,
           }}
         >
-          {~files[0]?.src && <CiImageOff className='text-4xl' />}{' '}
+          {getFile(files[0])?.src && <CiImageOff className='text-4xl' />}{' '}
         </div>
         <div className='flex flex-col gap-3 sm:col-span-2'>
           <div className='flex flex-col gap-1.5'>
@@ -36,10 +36,10 @@ export default function Show({ event = {} }) {
           <div className='flex flex-col gap-1.5'>
             <label className='text-sm font-medium capitalize text-text-tertiary'>Event Status :</label>
             <span
-            className={`w-fit rounded-full px-5 py-1 text-xs font-medium text-white ${upcoming === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
-          >
-            {upcoming === 'true' ? 'Upcoming' : 'Already Passed'}
-          </span>
+              className={`w-fit rounded-full px-5 py-1 text-xs font-medium text-white ${upcoming === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
+            >
+              {upcoming === 'true' ? 'Upcoming' : 'Already Passed'}
+            </span>
           </div>
         </div>
       </div>

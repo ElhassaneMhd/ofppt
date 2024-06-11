@@ -11,6 +11,6 @@ class EventSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(Faker $faker): void{
-        Event::factory()->count(20)->create();
+        Event::factory()->count(5)->create();
     }
 }

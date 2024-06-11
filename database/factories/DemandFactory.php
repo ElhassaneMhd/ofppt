@@ -19,7 +19,6 @@ class DemandFactory extends Factory
         return [
             "fullName" => fake()->firstName() . ' ' . fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'phone' => fake()->phoneNumber(),
             'subject' => fake()->sentence(),
             'message' => fake()->paragraph(),
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),

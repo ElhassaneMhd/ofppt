@@ -6,7 +6,7 @@ export default function Dashboard() {
       <Head>
         <title>Dashboard</title>
       </Head>
-      <h1 className='text-3xl font-bold'>Hey there</h1>
+      <h1 className='text-3xl font-bold'>Dashboard . . .</h1>
       <h1></h1>
     </>
   );

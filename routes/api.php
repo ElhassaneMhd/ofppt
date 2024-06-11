@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::post('/demande/send', [ApiController::class, 'storeDemands']);
+Route::post('/demands', [ApiController::class, 'storeDemands']);
 Route::get('/sectors', [ApiController::class, 'getSector']);
 Route::get('/stats', [GeneralController::class, 'stats']);
 Route::get('/categorie', [ApiController::class, 'getCategorie']);

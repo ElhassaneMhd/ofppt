@@ -14,7 +14,7 @@ class FiliereSeeder extends Seeder
 
     public function run(Faker $faker)
     {
-        Filiere::factory()->count(20)->create();
+        Filiere::factory()->count(5)->create();
     }
 }
 

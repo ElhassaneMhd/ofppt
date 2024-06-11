@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 class ArticleSeeder extends Seeder
 {
     public function run(Faker $faker): void{
-        Article::factory()->count(20)->create();
+        Article::factory()->count(5)->create();
       }
 }

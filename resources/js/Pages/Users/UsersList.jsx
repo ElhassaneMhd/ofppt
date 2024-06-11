@@ -8,6 +8,7 @@ export default function UsersList({ users, roles }) {
   return (
     <TableLayout
       data={users}
+      canView={false}
       columns={[
         columns.id,
         {

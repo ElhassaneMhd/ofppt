@@ -35,9 +35,10 @@ const routesIcons = {
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(window.matchMedia('(min-width: 1024px)').matches);
-  const { user } = useUser();
   const { t } = useTranslation();
   const { url } = usePage();
+  const { props } = usePage();
+const user = props.user
 
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
     isExpanded ? 'md:scale-100' : 'scale-0'
@@ -70,7 +71,7 @@ export default function Sidebar() {
         </Button>
       </div>
       <ul className={`relative space-y-1 overflow-y-auto overflow-x-hidden ${isExpanded ? 'pr-2' : 'no_scrollbar'}`}>
-        {ROUTES[user?.role].map((route) => (
+        {ROUTES[user?.role]?.map((route) => (
           <li key={route}>
             <Link
               href={`/${route}`}

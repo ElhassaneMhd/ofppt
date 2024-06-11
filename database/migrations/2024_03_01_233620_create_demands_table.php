@@ -13,7 +13,6 @@ return new class extends Migration
             $table->id();
             $table->string('fullName');
             $table->string('email');
-            $table->string('phone');
             $table->string('subject');
             $table->text('message');
             $table->softDeletes();

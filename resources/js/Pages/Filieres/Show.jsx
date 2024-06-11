@@ -1,5 +1,6 @@
 import { CiImageOff } from 'react-icons/ci';
 import { DetailsPreview, TagsPreview } from '../Shared';
+import { getFile } from '@/utils/helpers';
 
 export default function Show({ filiere = {} }) {
   const { title, files, max_stagiaires, sector, details, tags, isActive } = filiere;
@@ -10,7 +11,7 @@ export default function Show({ filiere = {} }) {
         <div
           className='group relative grid h-full min-h-52 place-content-center overflow-hidden rounded-lg bg-background-secondary bg-cover bg-center bg-no-repeat'
           style={{
-            backgroundImage: `url(${files[0]?.src})`,
+            backgroundImage: `url(${getFile(files[0])?.src})`,
           }}
         >
           {~files[0]?.src && <CiImageOff className='text-4xl' />}{' '}

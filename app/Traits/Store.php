@@ -46,7 +46,7 @@ trait Store{
             'duration' => $request->input('duration'),
             'details' => $request->input('details'),
             'status' => $request->input('status'),
-            'visibility' => $request->input('visibility'),
+            'visibility' => 'true',
             'tags' => $request->input('tags'),
             'year_id' => Session::get('activeYear')->id??null,
         ]);
@@ -64,7 +64,7 @@ trait Store{
             'title' => $request->input('title'),
             'details' => $request->input('details'),
             'isActive' => $request->input('isActive')??0,
-            'visibility' => $request->input('visibility'),
+            'visibility' => 'true',
             'max_stagiaires' => $request->input('max_stagiaires'),
             'sector' => $request->input('sector'),
             'tags' => $request->input('tags'),
@@ -101,7 +101,6 @@ trait Store{
         $request->validate([
             'fullName'=>'required',
             'email'=>'required|email',
-            'phone'=>'required',
             'subject'=>'required',
             'message'=>'required',
         ]);
@@ -113,6 +112,7 @@ trait Store{
     }
     public function storeOneFile($file,$element,$fileType){
         $name =$file->getClientOriginalName();
+        $name = trim($name);
         $unique = uniqid();
          $element->files()->create(
                     ['url' =>'/'.$fileType.'/'.$unique.$name,
