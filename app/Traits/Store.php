@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use App\Models\Article;
+use App\Models\Demand;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Filiere;
@@ -95,6 +96,20 @@ trait Store{
         $user->password = Hash::make($request->password);
         $user->save();
         $user->assignRole($request->role);
+    }
+    protected function storeDemand($request){
+        $request->validate([
+            'fullName'=>'required',
+            'email'=>'required|email',
+            'phone'=>'required',
+            'subject'=>'required',
+            'message'=>'required',
+        ]);
+        if (Demand::create($request->all())) {
+            return response()->json(["status" => "succsses", "message" => "demand sended"],200);
+        } else {
+            return response()->json(["status" => "error", "message" => "demand not sended"],400);
+        }
     }
     public function storeOneFile($file,$element,$fileType){
         $name =$file->getClientOriginalName();
