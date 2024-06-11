@@ -144,7 +144,7 @@ function Image({ image, setImage, index }) {
       }}
     >
       <button
-        className={`left 0 absolute top-0 grid h-full w-full place-content-center border border-border bg-background-secondary transition-opacity duration-300 ${!image?.src ? 'opacity-100 hover:bg-background-tertiary' : 'opacity-0 group-hover:opacity-80'}`}
+        className={`left 0 absolute top-0 grid h-full w-full place-content-center border border-border bg-background-secondary transition-opacity duration-300 ${!image?.src ? 'opacity-100 hover:bg-background-tertiary' : 'opacity-0 group-hover:opacity-50'}`}
         onClick={openFilePicker}
       >
         <FaCamera />

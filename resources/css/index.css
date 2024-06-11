@@ -16,7 +16,7 @@
         --text-tertiary: rgb(102, 102, 102);
         --text-disabled: rgb(187, 187, 187);
         --text-placeholder: rgb(225, 225, 224);
-        --border: rgba(0, 0, 0, 0.2);
+        --border: rgba(0, 0, 0, 0.15);
         /* --primary: #81de76; */
         --primary: rgb(91, 180, 81);
         --primary-hover: rgb(61, 131, 54);
@@ -36,7 +36,7 @@
         --text-tertiary: rgb(179, 179, 179);
         --text-disabled: rgb(68, 68, 68);
         --text-placeholder: rgb(55, 55, 55);
-        --border: rgba(255, 255, 255, 0.2);
+        --border: rgba(255, 255, 255, 0.15);
         --primary: rgb(91, 180, 81);
         --primary-hover: rgb(61, 131, 54);
 
