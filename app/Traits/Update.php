@@ -56,7 +56,24 @@ trait Update{
         }
     }
     protected function updateFiliere($request,$filiere){
+        dd($request->all());
         $filiere->update($request->all());
+         $oldImages = [];
+        //add new file
+        if ($request->has('files') && count($request->files) > 0) {
+            foreach ($request->files as $file) {
+                foreach ($file as $f) {
+                    if(is_numeric($f)){
+                        dd($f);
+                        $oldImages[] = $f;
+                    }else{
+                        dd($f);
+                        $this->storeOneFile($f,$filiere,'filiere');
+                    }
+                }
+            }
+        }
+
     }
     protected function updateUser($request,$user){
         if ($request->input('email') !== $user->email){

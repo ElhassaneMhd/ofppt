@@ -5,26 +5,25 @@ use App\Models\Article;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Filiere;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 trait Store{
 
     protected function storeArticle($request){
+        dd($request->all());
         $request->validate([
             'title'=>'required',
             'details'=>'required',
-            'date'=>'required|date',
             'categorie'=>'required',
-            'user_id'=>'required|exists:users,id',
-            'year_id'=>'required|exists:years,id',
             'files.*' => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf,jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
         ]);
         $article = new Article();
         $article->title = $request->title;
         $article->details = $request->details;
-        $article->date = $request->date;
-        $article->visibility =$request->visibility;
+        $article->date = Carbon::now();
+        $article->visibility ='true';
         $article->categorie = $request->categorie;
         $article->tags = $request->tags;
         $article->user_id = auth()->user()->id??null;
@@ -33,7 +32,7 @@ trait Store{
         if ($request->has('files') && count($request->files) > 0) {
              foreach ($request->files as $file) {
                 foreach ($file as $f) {
-                    $this->storeOneFile($f,$article,'event');
+                    $this->storeOneFile($f,$article,'article');
                 }
             }
         }

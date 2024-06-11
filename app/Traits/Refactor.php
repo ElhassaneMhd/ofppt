@@ -36,7 +36,7 @@ trait Refactor
             "publisher" => $article->user->firstName??"unknown" . ' ' . $article->user->lastName??"publisher",
             "formationYear" => $article->year->year,
             "visibility" => $article->visibility,
-            "categorie" =>  explode(',', $article->categorie) ?? [],
+            "categorie" => $article->categorie,
             "date" => $article->date,
             "tags" => explode(',', $article->tags) ?? [],
             "files" => $this->getElementFiles($article) ?? [],

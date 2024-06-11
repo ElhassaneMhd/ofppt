@@ -18,10 +18,6 @@ class EventsController extends Controller{
         }
     public function create(){
             $formationYears = Year::all();
-            $activeYear = Year::active()->get()[0];
-            if  (session::missing('YearActive')) {
-            session(['YearActive' => $activeYear]);
-            }
             return Inertia::render('Events/Create', compact('formationYears'));
         }
     public function store(Request $request){
@@ -42,7 +38,7 @@ class EventsController extends Controller{
     public function update(Request $request, string $id) {
             $event = Event::findOrFail($id);
             $this->updateEvent($request,$event);
-           return to_route('events.index');
+          // return to_route('events.index');
     }
     public function destroy(string $id) {
         $this->destroyElement(Event::class, $id);
