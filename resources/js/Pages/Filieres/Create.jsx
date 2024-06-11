@@ -7,13 +7,12 @@ import { Switch } from '@/components/ui';
 export default function Create({
   sectors = [],
   defaultValues = {
-    image:{src : null,file : null},
+    files: [{ src: null, file: null }],
     title: '',
     details: '',
     sector: '',
     tags: [],
     max_stagiaires: '',
-    visibility: 'true',
     isActive: 'true',
   },
   isEdit = false,
@@ -48,31 +47,31 @@ export default function Create({
 function Form({ options, details, tags, sectors }) {
   const { formInputs, getValue, setValue } = options;
 
-  const { openFilePicker } = useUploadFile({ onChange: (image) => setValue('image', image) });
+  const { openFilePicker } = useUploadFile({ onChange: (image) => setValue('files', [image]) });
 
   return (
     <div className='flex h-full flex-col gap-5'>
-      <div className='grid sm:grid-cols-3 gap-5'>
+      <div className='grid gap-5 sm:grid-cols-3'>
         <div
-          className='group relative min-h-52 h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
+          className='group relative h-full min-h-52 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
           style={{
-            backgroundImage: `url(${getValue('image')?.src})`,
+            backgroundImage: `url(${getValue('files')[0]?.src})`,
           }}
         >
           <button
-            className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-80 ${!getValue('image')?.src ? 'opacity-80 hover:bg-background-tertiary' : 'opacity-0'}`}
+            className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-50 ${!getValue('files')[0]?.src ? 'opacity-80 hover:bg-background-tertiary' : 'opacity-0'}`}
             onClick={openFilePicker}
           >
             <FaCamera />
           </button>
         </div>
-        <div className='sm:col-span-2 flex flex-col gap-5'>
+        <div className='flex flex-col gap-5 sm:col-span-2'>
           {formInputs['title']}
           {formInputs['max_stagiaires']}
           {tags}
         </div>
       </div>
-      <div className='grid mobile:grid-cols-2 gap-5'>
+      <div className='grid gap-5 mobile:grid-cols-2'>
         <DataDropDown type='sector' getValue={getValue} setValue={setValue} data={sectors} />
         <div className='flex flex-col gap-3'>
           <div className='flex items-center justify-between'>

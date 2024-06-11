@@ -1,13 +1,12 @@
 import { cloneElement, useState } from 'react';
 import { Head } from '@inertiajs/react';
 import { Details, Tags } from '@/Pages/Shared';
-import { Switch } from '@/components/ui';
 import { useForm } from '@/hooks';
 import { useNavigate } from '@/hooks/useNavigate';
 import { ModalFormLayout } from '@/layouts/ModalFormLayout';
 import { filterObject } from '@/utils/helpers';
 
-export default function CreatePageLayout({ children, name, formOptions, isEdit,visibility = true}) {
+export default function CreatePageLayout({ children, name, formOptions, isEdit }) {
   const navigate = useNavigate();
   const { options } = useForm({
     ...formOptions,
@@ -16,7 +15,7 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit,v
       const newData = {
         ...data,
         tags: data.tags?.join(','),
-        files: [data?.image?.file],
+        files: data.files?.map((f) => f.file),
       };
       navigate({
         url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,
@@ -41,15 +40,8 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit,v
         <title>{title}</title>
       </Head>
       <div className='flex h-full flex-col'>
-        <div className='mb-5 flex items-center justify-between'>
-          <h1 className='text-2xl font-semibold text-text-secondary'>{title}</h1>
-          {visibility && (
-            <Switch
-              checked={getValue('visibility') === 'true'}
-              onChange={(e) => setValue('visibility', String(e.target.checked))}
-            />
-          )}
-        </div>
+        <h1 className='mb-5 text-2xl font-semibold text-text-primary'>{title}</h1>
+
         <ModalFormLayout
           submitButton={{
             text: isEdit ? 'Save Changes' : `Create ${name}`,

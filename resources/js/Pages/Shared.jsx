@@ -3,6 +3,7 @@ import { Button, DropDown, InputField, Switch } from '@/components/ui';
 import { useNavigate } from '@/hooks/useNavigate';
 import { formatDate, getFilter, getIntervals } from '@/utils/helpers';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { PiCheckBold } from 'react-icons/pi';
@@ -224,6 +225,34 @@ export function Details({ getValue, setValue, ...props }) {
     <div className='flex min-h-72 flex-1 flex-col gap-1.5'>
       <label className='text-sm font-medium capitalize text-text-tertiary'>Details</label>
       <Editor size='small' content={getValue('details')} onUpdate={(val) => setValue('details', val)} {...props} />
+    </div>
+  );
+}
+
+export function FormationYear({ formationYears, getValue, setValue }) {
+  const { props } = usePage();
+
+  return (
+    <div className='flex flex-col gap-1.5'>
+      <label className='text-sm font-medium capitalize text-text-tertiary'>Formation Year</label>
+      <DropDown
+        toggler={
+          <DropDown.Toggler>
+            <span className='capitalize'>{getValue('formationYear') || props.year?.year}</span>
+          </DropDown.Toggler>
+        }
+        options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
+      >
+        {formationYears.map((formationYear) => (
+          <DropDown.Option
+            key={formationYear.id}
+            onClick={() => setValue('formationYear', formationYear.year)}
+            className='capitalize'
+          >
+            {formationYear.year}
+          </DropDown.Option>
+        ))}
+      </DropDown>
     </div>
   );
 }

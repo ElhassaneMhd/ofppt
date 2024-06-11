@@ -24,7 +24,10 @@ export default function Create({
     <CreatePageLayout
       name='User'
       formOptions={{
-        defaultValues: { ...defaultValues, role: props.user?.role || 'admin' },
+        defaultValues: {
+          ...defaultValues,
+          ...(isEdit && { role: props.user?.role || 'admin' }),
+        },
         fields: [
           {
             name: 'firstName',
@@ -85,7 +88,7 @@ function Form({ options, roles }) {
           <DropDown
             toggler={
               <DropDown.Toggler>
-                <span className='capitalize'>{getValue('role') || `Select role...`}</span>
+                <span className='capitalize'>{getValue('role')}</span>
               </DropDown.Toggler>
             }
             options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
