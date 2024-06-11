@@ -65,13 +65,13 @@ function Form({ options, details, tags, sectors }) {
             <FaCamera />
           </button>
         </div>
-        <div className='flex flex-col gap-5 sm:col-span-2'>
+        <div className='flex flex-col gap-3 sm:col-span-2'>
           {formInputs['title']}
           {formInputs['max_stagiaires']}
           {tags}
         </div>
       </div>
-      <div className='grid gap-5 mobile:grid-cols-2'>
+      <div className='grid gap-3 mobile:grid-cols-2'>
         <DataDropDown type='sector' getValue={getValue} setValue={setValue} data={sectors} />
         <div className='flex flex-col gap-3'>
           <div className='flex items-center justify-between'>

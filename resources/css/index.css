@@ -36,7 +36,7 @@
         --text-tertiary: rgb(179, 179, 179);
         --text-disabled: rgb(68, 68, 68);
         --text-placeholder: rgb(55, 55, 55);
-        --border: rgba(255, 255, 255, 0.15);
+        --border: rgba(255, 255, 255, 0.1);
         --primary: rgb(91, 180, 81);
         --primary-hover: rgb(61, 131, 54);
 

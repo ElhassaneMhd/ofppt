@@ -26,7 +26,7 @@ export default function Create({
       formOptions={{
         defaultValues: {
           ...defaultValues,
-          ...(isEdit && { role: props.user?.role || 'admin' }),
+          ...(!isEdit && { role: props.user?.role || 'admin' }),
         },
         fields: [
           {
@@ -94,7 +94,9 @@ function Form({ options, roles }) {
             options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
           >
             {roles.map((role) => (
-              <DropDown.Option key={role.id} onClick={() => setValue('role', role.name)} className='capitalize'>
+              <DropDown.Option key={role.id} onClick={() => setValue('role', role.name)} className='capitalize'
+              isCurrent={role.name === getValue('role')}
+              >
                 {role.name}
               </DropDown.Option>
             ))}
