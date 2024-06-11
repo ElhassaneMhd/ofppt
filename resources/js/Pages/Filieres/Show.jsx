@@ -1,5 +1,5 @@
 import { CiImageOff } from 'react-icons/ci';
-import { DetailsPreview } from '../Shared';
+import { DetailsPreview, TagsPreview } from '../Shared';
 
 export default function Show({ filiere = {} }) {
   const { title, files, max_stagiaires, sector, details, tags, isActive } = filiere;
@@ -38,17 +38,7 @@ export default function Show({ filiere = {} }) {
           </div>
         </div>
       </div>
-      <div className='flex flex-col gap-1.5'>
-        <label className='text-sm font-medium capitalize text-text-tertiary'>Tags :</label>
-        <ul className='flex max-h-[250px] flex-wrap gap-x-3 gap-y-1 overflow-auto py-1.5'>
-          {tags.map((t) => (
-            <span key={t} className='text-xs font-semibold capitalize transition-colors duration-300'>
-              <span className='text-secondary'>#</span>
-              {t}
-            </span>
-          ))}
-        </ul>
-      </div>
+      <TagsPreview tags={tags} />
       <DetailsPreview details={details} />
     </div>
   );
