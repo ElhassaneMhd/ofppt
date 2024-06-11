@@ -59,7 +59,7 @@ trait Get
         if ($element){
             $files = $element->files;
             foreach($files as $file){
-                $Allfiles[] = ['id'=>$file,'url' =>$file->url,'type'=>$file->type];
+                $Allfiles[] = ['id'=>$file->id,'url' =>$file->url,'type'=>$file->type];
             }
         }
         return $Allfiles??[];

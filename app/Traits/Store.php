@@ -31,8 +31,10 @@ trait Store{
         $article->year_id = Session::get('activeYear')->id??null;
         $article->save();
         if ($request->has('files') && count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                $this->storeOneFile($file[0],$article,'article');
+             foreach ($request->files as $file) {
+                foreach ($file as $f) {
+                    $this->storeOneFile($f,$article,'event');
+                }
             }
         }
 
@@ -50,8 +52,10 @@ trait Store{
             'year_id' => Session::get('activeYear')->id??null,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                $this->storeOneFile($file,$event,'event');
+             foreach ($request->files as $file) {
+                foreach ($file as $f) {
+                    $this->storeOneFile($f,$event,'event');
+                }
             }
         }
         return response()->json(['message' => 'Event created successfully']);
@@ -67,9 +71,11 @@ trait Store{
             'tags' => $request->input('tags'),
             'year_id' => Session::get('activeYear')->id??1,
         ]);
-        if ($request->has('files') && count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                $this->storeOneFile($file[0],$filiere,'filiere');
+         if ($request->has('files') && count($request->files) > 0) {
+             foreach ($request->files as $file) {
+                foreach ($file as $f) {
+                    $this->storeOneFile($f,$filiere,'event');
+                }
             }
         }
         return response()->json(['message' => 'Filiere created successfully']);
