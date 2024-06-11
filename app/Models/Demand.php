@@ -9,6 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Demand extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $fillable=['fullName','email','phone','subject','message'];
 }

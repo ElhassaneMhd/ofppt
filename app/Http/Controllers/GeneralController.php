@@ -33,16 +33,22 @@ class GeneralController extends Controller
     {
         $ids = request()['ids'];
         $model = 'App\\Models\\' . ucfirst(Str::singular($data));
-        if ($action === 'delete') {
-            foreach ($ids as $id) {
+        foreach($ids as $id){
+            if($action === 'destroy'){
                 $this->destroyElement($model, $id);
+            }
+            if($action === 'delete'){
+                $this->forceDeleteData($model, $id);
+            }
+            if($action === 'restore'){
+                $this->restoreData($model, $id);
             }
         }
         if ($action === 'toggle') {
             foreach ($ids as $id) {
                 $element = $model::Find($id);
-                ($element->visibility === 'true') ? $newV = 'false' : $newV = 'true';
-                $element->visibility =  $newV;
+                ($element->visibility === 'true') ? $visibility = 'false' : $visibility = 'true';
+                $element->visibility =  $visibility ;
                 $element->save();
             }
         }

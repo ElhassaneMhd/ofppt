@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Models\Filiere;
 use Inertia\Inertia;
 
-class homeController extends Controller{
+class HomeController extends Controller{
     public function home(){
         $articles= $this->GetAll('articles',false);
         $events= $this->GetAll('events',false);
@@ -16,8 +15,12 @@ class homeController extends Controller{
      }
     public function elementById($data,$id){
         $element= $this->GetByDataId($data,$id);
-        $model = ucfirst($data);
-
-        return Inertia::render($data."/Details",compact('element'));
-     }
+        $path = ucfirst($data) . "/Details";
+        return Inertia::render( $path,compact('element'));
+    }
+    public function sectorFilieres($sector){
+        $filieres= Filiere::where('sector',$sector)->where('visibility','true')->get();
+        $sectors = $this->getSectors();
+        return Inertia::render('Sectors/Filieres',compact('filieres','sectors'));
+    }
 }
