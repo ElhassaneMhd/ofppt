@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Demand;
-use App\Traits\Refactor;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 
 class DemandsController extends Controller
 {
-    use Refactor;
     public function index()   {
         $demands = Demand::all();
         $demands = $this->refactorManyElements($demands,'demands');
@@ -19,19 +16,6 @@ class DemandsController extends Controller
     public function trash(){
         $demands =Demand::onlyTrashed()->get();
         return Inertia::render('Demands/Trash', compact('demands'));
-    }
-    public function storeDemand(Request $request){
-        $validatedData = $request->validate([
-            'name' => 'required',
-            "email" => 'required',
-            'subject' => 'required',
-            'phoneNumber' => 'required',
-            'details' => 'required'
-        ]);
-        if ($validatedData) {
-            Demand::create($validatedData);
-            return response()->json(["status" => "succsses", "message" => "demand sended"]);
-        }
     }
     public function show(Demand $demand){
         $demand = $this->refactorDemand($demand);

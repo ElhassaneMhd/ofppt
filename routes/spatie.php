@@ -2,7 +2,7 @@
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\UsersController;
-// Route::middleware(['auth','role:super-admin|admin'])->group(function () {
+Route::middleware(['auth','role:super-admin|admin'])->group(function () {
     // users routes
     Route::post('/users/{user}/roles', [UsersController::class, 'assignRole'])->name('users.roles');
     Route::delete('/users/{user}/roles/{role}', [UsersController::class, 'removeRole'])->name('users.roles.remove');
@@ -18,4 +18,4 @@ use App\Http\Controllers\UsersController;
     Route::resource('/permissions', PermissionsController::class);
 
 
-// });
+});
