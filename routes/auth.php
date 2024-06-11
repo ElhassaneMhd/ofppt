@@ -19,16 +19,14 @@ Route::middleware('guest')->group(function () {
     // Route::get('/{sector}/filieres', [HomeController::class, 'sectorFilieres'])->name('sectorFilieres');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::POST('/admin/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/admin/user', [AuthController::class, 'user'])->name('user');
+Route::middleware('auth')->prefix('/admin')->group(function () {
+    Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/user', [AuthController::class, 'user'])->name('user');
 
-    Route::post('/admin/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
-    Route::get('/admin/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');
+    Route::post('/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
+    Route::get('/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');
 
-    Route::inertia('/admin/settings/{tab}', 'Admin/Settings/Settings')->name('settings');
-    Route::inertia('/admin/dashboard', 'Admin/Dashboard/Dashboard')->name('dashboard');
-
+    Route::inertia('/dashboard', 'Admin/Dashboard/Dashboard')->name('dashboard');
     $resources = [
         'filieres' => FilieresController::class,
         'articles' => ArticlesController::class,
@@ -37,22 +35,22 @@ Route::middleware('auth')->group(function () {
         'users' => UsersController::class,
     ];
     foreach ($resources as $resource => $controller) {
-        Route::resource('/admin/' . $resource, $controller)->names([
+        Route::resource('/' . $resource, $controller)->names([
             'index' => $resource . '.index',
             'edit' => $resource . '.edit',
             'show' => $resource . '.show',
             'create' => $resource . '.create',
             'destroy' => $resource . '.destroy',
         ]);
-        Route::delete('/admin/' . $resource . '/{id}/forceDelete', [$controller, 'forceDelete'])->name($resource . '.forceDelete');
-        Route::post('/admin/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
+        Route::delete('/' . $resource . '/{id}/forceDelete', [$controller, 'forceDelete'])->name($resource . '.forceDelete');
+        Route::post('/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
 
         foreach(['restore','delete','destroy'] as $action){
-            Route::post('/admin/'.$resource.'/multiple/'.$action,[GeneralController::class, 'multipleAction'])->name($resource.'.multiple.'.$action);
+            Route::post('/'.$resource.'/multiple/'.$action,[GeneralController::class, 'multipleAction'])->name($resource.'.multiple.'.$action);
         }
         if(in_array($resource, ['articles', 'filieres','events'])){
-            Route::post('/admin/'.$resource.'/multiple/toggle', [GeneralController::class, 'multipleAction'])->name($resource.'.multiple.toggle');
+            Route::post('/'.$resource.'/multiple/toggle', [GeneralController::class, 'multipleAction'])->name($resource.'.multiple.toggle');
         }
     }
-    Route::put('/admin/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
+    Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
 });
