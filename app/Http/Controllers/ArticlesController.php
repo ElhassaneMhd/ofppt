@@ -15,14 +15,14 @@ class ArticlesController extends Controller
         $trashedArticles = $this->refactorManyElements(Article::onlyTrashed()->get(),'articles');
         $categories = $this->getCategories();
         $formationYears = Year::all();
-        return Inertia::render('Articles/Index', compact('articles','trashedArticles','categories','formationYears'));
+        return Inertia::render('Admin/Articles/Index', compact('articles','trashedArticles','categories','formationYears'));
     }
     public function create(){
     //form to add article
         $years = Year::all();
         $users = User::all();
         $categories = $this->getCategories();
-        return Inertia::render('Articles/Create', compact('years','users','categories'));
+        return Inertia::render('Admin/Articles/Create', compact('years','users','categories'));
     }
     public function store(Request $request){
         $this->storeArticle($request);
@@ -32,7 +32,7 @@ class ArticlesController extends Controller
     //showArticle
         $article = Article::find($id);
         $article = $this->refactorArticle($article);
-        return Inertia::render('Articles/Show',compact('article'));
+        return Inertia::render('Admin/Articles/Show',compact('article'));
     }
     public function edit($id){
     //GET ARTICLE TO MODIFIE
@@ -41,7 +41,7 @@ class ArticlesController extends Controller
         $formationYears = Year::all();
         $users = User::all();
         $categories = $this->getCategories();
-        return Inertia::render('Articles/Edit', compact('article','formationYears','users','categories'));
+        return Inertia::render('Admin/Articles/Edit', compact('article','formationYears','users','categories'));
     }
     public function update(Request $request, string $id){
         $article = Article::findOrfail($id);
@@ -55,7 +55,7 @@ class ArticlesController extends Controller
     public function trash(Request $request){
         $articles = Article::all();
         $trashedArticles = Article::onlyTrashed()->get();
-        return Inertia::render('Articles/Trash', compact('articles','trashedArticles'));
+        return Inertia::render('Admin/Articles/Trash', compact('articles','trashedArticles'));
     }
     public function forceDelete(string $id){
         $this->forceDeleteData(Article::class, $id);

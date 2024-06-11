@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
 // login a user methods
     public function formLogin(){
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Admin/Auth/Login');
     }
     public function login(Request $request) {
         $data = $request->validate([

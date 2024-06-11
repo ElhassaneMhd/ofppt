@@ -19,11 +19,11 @@ class FilieresController extends Controller
         $trashedFilieres = Filiere::onlyTrashed()->get();
         $sectors = $this->getSectors();
         $formationYears = Year::all();
-        return Inertia::render('Filieres/Index', compact('filieres', 'trashedFilieres', 'sectors','formationYears'));
+        return Inertia::render('Admin/Filieres/Index', compact('filieres', 'trashedFilieres', 'sectors','formationYears'));
     }
     public function create(){
         $sectors = $this->getSectors();
-        return Inertia::render('Filieres/Create', compact('sectors'));
+        return Inertia::render('Admin/Filieres/Create', compact('sectors'));
     }
     public function store(Request $request){
         $this->storeFiliere($request);
@@ -32,14 +32,14 @@ class FilieresController extends Controller
     public function show(string $id){
         $filiere =   Filiere::findOrFail($id);
         $filiere = $this->refactorFiliere($filiere);
-        return Inertia::render('Filieres/Show', compact('filiere'));
+        return Inertia::render('Admin/Filieres/Show', compact('filiere'));
     }
     public function edit(string $id) {
         $filiere = Filiere::findOrfail($id);
         $filiere = $this->refactorFiliere($filiere);
         $sectors = $this->getSectors();
         $formationYears = Year::all();
-        return Inertia::render('Filieres/Edit', compact('filiere', 'sectors','formationYears'));
+        return Inertia::render('Admin/Filieres/Edit', compact('filiere', 'sectors','formationYears'));
     }
     public function update(Request $request, string $id){
         //update fillier
@@ -54,7 +54,7 @@ class FilieresController extends Controller
     public function trash(){
         $filieres = Filiere::all();
         $trashedFilieres = Filiere::onlyTrashed()->get();
-        return Inertia::render('Filieres/Trash', compact('filieres', 'trashedFilieres'));
+        return Inertia::render('Admin/Filieres/Trash', compact('filieres', 'trashedFilieres'));
     }
     public function forceDelete(string $id)
     {

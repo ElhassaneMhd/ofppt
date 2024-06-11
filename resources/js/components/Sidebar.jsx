@@ -37,8 +37,7 @@ export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(window.matchMedia('(min-width: 1024px)').matches);
   const { t } = useTranslation();
   const { url } = usePage();
-  const { props } = usePage();
-const user = props.user
+  const {user} = useUser();
 
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
     isExpanded ? 'md:scale-100' : 'scale-0'
@@ -74,7 +73,7 @@ const user = props.user
         {ROUTES[user?.role]?.map((route) => (
           <li key={route}>
             <Link
-              href={`/${route}`}
+              href={`/admin/${route}`}
               className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}
             >
               {routesIcons[route]}
