@@ -28,4 +28,7 @@ class GeneralController extends Controller{
             }
         }
     }
+    public function stats(){
+        return $this->getStats();
+    }
 }

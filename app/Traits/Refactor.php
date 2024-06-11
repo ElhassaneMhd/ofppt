@@ -54,7 +54,7 @@ trait Refactor
             "visibility" => $event->visibility,
             'location' => $event->location,
             'upcoming' => $event->status,
-            "duration" => $event->duree,
+            "duration" => $event->duration,
             "tags" => explode(',', $event->tags) ?? [],
             "files" => $this->getElementFiles($event) ?? [],
             "created_at" => $event->created_at

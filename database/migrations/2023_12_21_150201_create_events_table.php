@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->date('date');
             $table->string('location');
-            $table->integer('duree');
+            $table->integer('duration');
             $table->text('details');
             $table->string('status')->nullable();
             $table->string('visibility')->nullable();
