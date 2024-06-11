@@ -15,7 +15,7 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
       const newData = {
         ...data,
         tags: data.tags?.join(','),
-        files: data.files?.map((f) => f.file),
+        files: data.files?.map((f) => f.file || f.id),
       };
       navigate({
         url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,

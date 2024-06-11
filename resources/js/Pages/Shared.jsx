@@ -185,7 +185,7 @@ export function DataDropDown({ type, data, getValue, setValue }) {
       <DropDown
         toggler={
           <DropDown.Toggler>
-            <span>{getValue(type) || `Select ${type}...`}</span>
+            <span>{getValue(type) || data[0] || `Select ${type}...`}</span>
           </DropDown.Toggler>
         }
         options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
@@ -248,6 +248,7 @@ export function FormationYear({ formationYears, getValue, setValue }) {
             key={formationYear.id}
             onClick={() => setValue('formationYear', formationYear.year)}
             className='capitalize'
+            isCurrent={formationYear.year === getValue('formationYear')}
           >
             {formationYear.year}
           </DropDown.Option>
