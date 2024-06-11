@@ -37,7 +37,7 @@ export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(window.matchMedia('(min-width: 1024px)').matches);
   const { t } = useTranslation();
   const { url } = usePage();
-  const {user} = useUser();
+  const { user } = useUser();
 
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
     isExpanded ? 'md:scale-100' : 'scale-0'
@@ -74,12 +74,11 @@ export default function Sidebar() {
           <li key={route}>
             <Link
               href={`/admin/${route}`}
-              className={`sidebar-element group ${url.slice(1)?.startsWith(route) ? 'active' : ''}`}
+              className={`sidebar-element group ${url.split('/admin/')[1]?.startsWith(route) ? 'active' : ''}`}
             >
               {routesIcons[route]}
               <span className={spanClass}>
                 {t(`app.sidebar.${route}`)}
-                {/* {route} */}
               </span>
             </Link>
           </li>

@@ -1,6 +1,6 @@
 <?php
 
-
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -8,8 +8,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 // Redirect to dashboard
-Route::get('/', function () {
-    return redirect('/admin/login');
+Route::get('/admin', function () {
+    return redirect('/admin/dashboard');
 });
 
 Route::fallback(function () {

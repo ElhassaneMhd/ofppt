@@ -2,11 +2,19 @@ import { useForm } from '@/hooks/useForm';
 import { Button } from '@/components/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@/hooks/useNavigate';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { props } = usePage();
+
+  useEffect(() => {
+    const errors = Object.keys(props.errors);
+    if (errors.length > 0) toast.error(props.errors[errors[0]]);
+  }, [props.errors]);
 
   const {
     Form,

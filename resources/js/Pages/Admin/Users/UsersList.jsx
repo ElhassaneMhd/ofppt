@@ -1,4 +1,4 @@
-import { TableLayout } from '@/layouts/TableLayout';
+import { TableLayout } from '@/layouts/Admin/TableLayout';
 import { useOptions } from '../Shared';
 import { filterObject, getFilter } from '@/utils/helpers';
 

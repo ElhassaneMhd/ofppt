@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import { Details, Tags } from '@/Pages/Admin/Shared';
 import { useForm } from '@/hooks';
 import { useNavigate } from '@/hooks/useNavigate';
-import { ModalFormLayout } from '@/layouts/ModalFormLayout';
+import { ModalFormLayout } from '@/layouts/Admin/ModalFormLayout';
 import { filterObject } from '@/utils/helpers';
 
 export default function CreatePageLayout({ children, name, formOptions, isEdit }) {

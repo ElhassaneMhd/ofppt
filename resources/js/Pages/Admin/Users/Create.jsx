@@ -1,6 +1,6 @@
 import { DropDown } from '@/components/ui';
 import { useUser } from '@/hooks';
-import CreatePageLayout from '@/layouts/CreatePageLayout';
+import CreatePageLayout from '@/layouts/Admin/CreatePageLayout';
 import { RULES } from '@/utils/constants';
 
 export default function Create({

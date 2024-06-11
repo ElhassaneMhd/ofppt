@@ -1,5 +1,5 @@
 import { useUploadFile } from '@/hooks';
-import CreatePageLayout from '@/layouts/CreatePageLayout';
+import CreatePageLayout from '@/layouts/Admin/CreatePageLayout';
 import { FormationYear } from '../Shared';
 import { FaCamera, FaPlus } from 'react-icons/fa';
 import { Button, Switch } from '@/components/ui';
