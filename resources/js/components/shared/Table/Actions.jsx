@@ -4,16 +4,16 @@ import {
   IoEyeOutline,
   IoTrashOutline,
   MdDriveFileRenameOutline,
+  MdOutlineSettingsBackupRestore,
 } from '@/components/ui/Icons';
 import { useTable } from './useTable';
 import { useConfirmationModal } from '@/hooks/useConfirmationModal';
 import { useNavigate } from '@/hooks/useNavigate';
 
 export function Actions({ row, actions }) {
-  const { confirmOptions, rows, page, onPaginate, routeName } = useTable();
+  const { confirmOptions, rows, page, onPaginate, routeName, isTrashed, resourceName } = useTable();
   const { openModal } = useConfirmationModal();
   const navigate = useNavigate();
-
 
   const defaultActions = {
     view: {
@@ -33,12 +33,32 @@ export function Actions({ row, actions }) {
         openModal({
           ...confirmOptions,
           onConfirm: () => {
-            navigate({ url: `${routeName}.destroy`, params: row.id, method: 'delete' });
+            navigate({ url: `${routeName}.${isTrashed ? 'delete' : 'destroy'}`, params: row.id, method: 'delete' });
             rows?.length === 1 && onPaginate(page - 1);
           },
         });
       },
     },
+    ...(isTrashed && {
+      restore: {
+        text: 'Restore',
+        icon: <MdOutlineSettingsBackupRestore />,
+        onClick: () => {
+          openModal({
+            message: `Are you sure you want to restore this ${resourceName.toLowerCase()} ?`,
+            title: `Restore ${resourceName}`,
+            confirmText: 'Restore',
+            buttonClassName: 'bg-green-600 hover:bg-green-700',
+            icon: <MdOutlineSettingsBackupRestore />,
+            iconBg: 'bg-green-600',
+            onConfirm: () => {
+              navigate({ url: `${routeName}.restore`, params: row.id, method: 'post' });
+              rows?.length === 1 && onPaginate(page - 1);
+            },
+          });
+        },
+      },
+    }),
   };
 
   const getActions = () => {

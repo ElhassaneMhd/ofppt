@@ -31,10 +31,10 @@ trait Get{
             return response()->json(['message'=>'undefined api'],400);
         }
         if(!isset($all) ){
-            return response()->json([]);
+            return [];
         }
         else{
-            return response()->json($all, 200);
+            return $all;
         }
     }
     public function GetByDataId($data,$id){

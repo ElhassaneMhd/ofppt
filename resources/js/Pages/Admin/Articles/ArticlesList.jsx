@@ -2,15 +2,15 @@ import { TableLayout } from '@/layouts/Admin/TableLayout';
 import { useOptions } from '../Shared';
 import { getFilter } from '@/utils/helpers';
 
-export default function ArticlesList({ articles, categories, formationYears }) {
-  const { columns, options } = useOptions({ routeName: 'articles', resourceName: 'Article', formationYears });
+export default function ArticlesList({ articles, categories, formationYears, isTrashed }) {
+  const { columns, options } = useOptions({ routeName: 'articles', resourceName: 'Article', formationYears ,isTrashed});
 
   return (
     <TableLayout
       data={articles}
       columns={[
         columns.id,
-        columns.visibility,
+        ...(isTrashed ? [] : [columns.visibility]),
         columns.title,
         {
           key: 'publisher',
@@ -23,7 +23,7 @@ export default function ArticlesList({ articles, categories, formationYears }) {
           displayLabel: 'Category',
           visible: true,
           type: 'string',
-          filter: true, 
+          filter: true,
         },
         {
           ...columns.date,
@@ -34,7 +34,8 @@ export default function ArticlesList({ articles, categories, formationYears }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'location', 'publisher']}
-      filters={{ ...options.filters, ...getFilter('categorie',categories) }}
+      filters={{ ...options.filters, ...getFilter('categorie', categories) }}
+      isTrashed={isTrashed}
     />
   );
 }

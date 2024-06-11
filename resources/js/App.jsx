@@ -10,14 +10,14 @@ import { ErrorScreen } from './components/ui/ErrorScreen';
 import { I18nextProvider } from 'react-i18next';
 import { ConfirmationModalProvider } from './context/ConfirmationModal';
 import { i18n } from './i18n/config';
+import NotFound from './Pages/NotFound';
 
 createInertiaApp({
   resolve: (name) => {
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
 
-
-    const layout = name.startsWith('Admin')
+    const layout = name?.startsWith('Admin')
       ? (page) => (
           <AppLayout>
             {name.includes('/Show') ? (
@@ -30,6 +30,10 @@ createInertiaApp({
           </AppLayout>
         )
       : undefined;
+
+      // console.log(name,page)
+
+    if (!page) return NotFound;
 
     page.default.layout = page.default.layout || layout;
 

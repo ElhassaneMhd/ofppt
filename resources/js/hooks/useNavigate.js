@@ -4,8 +4,7 @@ import { router } from '@inertiajs/react';
 export const useNavigate = () =>
   useCallback(({ url, method = 'get', params = {}, data = {}, options = {} }) => {
     // eslint-disable-next-line no-undef
-    const endpoint = route(url, params);
-
+    const endpoint = url.includes('.') ? route(url, params) : url;
 
     switch (method.toLowerCase()) {
       case 'get':

@@ -10,7 +10,7 @@ import { HiMiniXMark } from 'react-icons/hi2';
 import { PiCheckBold } from 'react-icons/pi';
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useOptions({ routeName, resourceName, formationYears = [] }) {
+export function useOptions({ routeName, resourceName, formationYears = [], isTrashed }) {
   const navigate = useNavigate();
 
   const columns = {
@@ -76,10 +76,14 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
     selectedOptions: {
       actions: [
         {
-          text: 'Toggle Visibility',
+          text: isTrashed ? 'Restore' : 'Toggle Visibility',
           color: 'green',
           onClick: (ids, onClose) => {
-            navigate({ url: `${routeName}.multiple.toggle`, method: 'post', data: { ids } });
+            navigate({
+              url: `${routeName}.multiple.${isTrashed ? 'restore' : 'toggle'}`,
+              method: 'post',
+              data: { ids },
+            });
             onClose();
           },
         },
@@ -87,10 +91,14 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
 
       deleteOptions: {
         resourceName,
-        onConfirm: (ids) => navigate({ url: `${routeName}.multiple.delete`, method: 'post', data: { ids } }),
+        onConfirm: (ids) =>
+          navigate({ url: `${routeName}.multiple.${isTrashed ? 'delete' : 'destroy'}`, method: 'post', data: { ids } }),
       },
     },
-    layoutOptions: { actions: 'defaultActions' },
+    layoutOptions: {
+      actions: isTrashed ? (def) => [def.restore, def.delete] : 'defaultActions',
+      displayNewRecord: !isTrashed,
+    },
     downloadOptions: { csvFileName: routeName, pdfFileName: routeName },
     routeName,
     resourceName,
@@ -230,11 +238,14 @@ export function FormationYear({ formationYears, getValue, setValue }) {
   );
 }
 
-export function DetailsPreview({ details,label=true }) {
+export function DetailsPreview({ details, label = true }) {
   return (
-    <div className='details flex min-h-60 flex-1 flex-col gap-1.5 overflow-hidden '>
-     {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>}
-      <div className='rounded-lg border border-border p-3 flex-1 overflow-auto' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }} />
+    <div className='details flex min-h-60 flex-1 flex-col gap-1.5 overflow-hidden'>
+      {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>}
+      <div
+        className='flex-1 overflow-auto rounded-lg border border-border p-3'
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
+      />
     </div>
   );
 }

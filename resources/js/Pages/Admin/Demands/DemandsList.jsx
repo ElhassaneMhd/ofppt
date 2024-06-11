@@ -44,7 +44,7 @@ export default function DemandsList({ demands }) {
       {...options}
       fieldsToSearch={['fullName', 'subject', 'message']}
       selectedOptions={{ deleteOptions: options.selectedOptions.deleteOptions }}
-      layoutOptions={{ displayNewRecord: false, actions: (def) => [def.view, def.delete] }}
+      layoutOptions={{ displayNewRecord: false, actions: (def) => [def.view, def.delete], haveTrashed: false}}
     />
   );
 }

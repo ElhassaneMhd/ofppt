@@ -2,15 +2,15 @@ import { TableLayout } from '@/layouts/Admin/TableLayout';
 import { useOptions } from '../Shared';
 import { getFilter } from '@/utils/helpers';
 
-export default function FilieresList({ filieres, sectors,formationYears }) {
-  const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere',formationYears });
+export default function FilieresList({ filieres, sectors,formationYears,isTrashed }) {
+  const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere',formationYears,isTrashed });
 
   return (
     <TableLayout
       data={filieres}
       columns={[
         columns.id,
-        columns.visibility,
+        ...(isTrashed ? [] : [columns.visibility]),
         columns.title,
         {
           key: 'sector',
@@ -30,6 +30,7 @@ export default function FilieresList({ filieres, sectors,formationYears }) {
       ]}
       {...options}
       fieldsToSearch={['title', 'details', 'sector']}
+      isTrashed={isTrashed}
       filters={{ ...options.filters, ...getFilter('sector',sectors)}}
     />
   );

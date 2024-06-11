@@ -16,10 +16,9 @@ class FilieresController extends Controller
     public function index(Request $request) {
         $filieres = Filiere::all();
         $filieres = $this->refactorManyElements($filieres, 'filieres');
-        $trashedFilieres = Filiere::onlyTrashed()->get();
         $sectors = $this->getSectors();
         $formationYears = Year::all();
-        return Inertia::render('Admin/Filieres/Index', compact('filieres', 'trashedFilieres', 'sectors','formationYears'));
+        return Inertia::render('Admin/Filieres/Index', compact('filieres',  'sectors','formationYears'));
     }
     public function create(){
         $sectors = $this->getSectors();

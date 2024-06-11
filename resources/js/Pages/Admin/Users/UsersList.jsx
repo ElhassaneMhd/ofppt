@@ -2,8 +2,8 @@ import { TableLayout } from '@/layouts/Admin/TableLayout';
 import { useOptions } from '../Shared';
 import { filterObject, getFilter } from '@/utils/helpers';
 
-export default function UsersList({ users, roles }) {
-  const { columns, options } = useOptions({ routeName: 'users', resourceName: 'User' });
+export default function UsersList({ users, roles, isTrashed }) {
+  const { columns, options } = useOptions({ routeName: 'users', resourceName: 'User', isTrashed });
 
   return (
     <TableLayout
@@ -48,7 +48,8 @@ export default function UsersList({ users, roles }) {
       fieldsToSearch={['title', 'details', 'location', 'publisher']}
       selectedOptions={{ deleteOptions: options.selectedOptions.deleteOptions }}
       filters={{ ...filterObject(options.filters, ['created_at'], 'include'), ...getFilter('role', roles, 'name') }}
-      layoutOptions={{ actions: (def) => [def.edit, def.delete] }}
+      layoutOptions={{ actions: (def) => [def.edit, def.delete], displayNewRecord: !isTrashed }}
+      isTrashed={isTrashed}
     />
   );
 }

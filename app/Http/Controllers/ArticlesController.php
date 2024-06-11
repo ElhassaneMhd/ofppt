@@ -12,10 +12,9 @@ class ArticlesController extends Controller
     public function index(Request $request){
         //table all articles
         $articles = $this->refactorManyElements(Article::all(),'articles');
-        $trashedArticles = $this->refactorManyElements(Article::onlyTrashed()->get(),'articles');
         $categories = $this->getCategories();
         $formationYears = Year::all();
-        return Inertia::render('Admin/Articles/Index', compact('articles','trashedArticles','categories','formationYears'));
+        return Inertia::render('Admin/Articles/Index', compact('articles','categories','formationYears'));
     }
     public function create(){
     //form to add article

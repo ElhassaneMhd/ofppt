@@ -12,7 +12,6 @@ class UsersController extends Controller
 {
     public function index()  {
         $users = $this->refactorManyElements(User::all(),'users');
-        $publieeUsers = User::paginate(10);
         $roles = Role::all();
         $permissions = Permission::all();
         return Inertia::render('Admin/Users/Index', compact('users','roles','permissions'));

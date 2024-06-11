@@ -6,7 +6,7 @@ import { CheckBox, Status } from '@/components/ui/';
 import { useNavigate } from '@/hooks/useNavigate';
 
 export function Table({ actions, canView, hideRowActions, hiddenActionsContent }) {
-  const { columns, rows, selected, onSelect, query, appliedFiltersNumber, data } = useTable();
+  const { columns, rows, selected, onSelect, query, appliedFiltersNumber, data, isTrashed } = useTable();
   const table = useRef();
   const [parent] = useAutoAnimate({ duration: 500 });
 
@@ -20,14 +20,16 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
   if (rows?.length === 0 && !query && !appliedFiltersNumber('all')) {
     return (
       <div className='absolute grid h-full w-full place-content-center place-items-center gap-5 pt-5'>
-        <img src='/images/empty.svg' alt='' className='w-[100px]' />
+        <img src={`/images/${isTrashed ? 'trash.png' : 'empty.svg'}`} alt='' className='w-[100px]' />
         <div className='space-y-2 text-center'>
           <h2 className='font-medium text-text-primary'>
-            {data?.length === 0 ? 'No Data Available' : 'Page Not Found'}{' '}
+            {data?.length === 0 ? 'No Data Available' : 'Page Not Found'}
           </h2>
           <p className='text-sm text-text-secondary'>
             {data?.length === 0
-              ? 'There are currently no records to display in this table.'
+              ? isTrashed
+                ? 'There are currently no trashed records to display in this table.'
+                : 'There are currently no records to display in this table.'
               : 'The page you&apos;re trying to access doesn&apos;t exist.'}
           </p>
         </div>
@@ -64,7 +66,7 @@ export function Table({ actions, canView, hideRowActions, hiddenActionsContent }
         <tbody className='h-fit divide-y divide-border text-sm font-medium text-text-primary' ref={parent}>
           {rows?.map((row) => (
             <Row
-              key={row.id }
+              key={row.id}
               row={row}
               visibleColumns={columns.filter((c) => c.visible)}
               actions={actions}

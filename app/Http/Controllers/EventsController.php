@@ -12,9 +12,8 @@ class EventsController extends Controller{
     public function index(Request $request){
             $events = Event::all();
             $events = $this->refactorManyElements($events,'events');
-            $trashedEvents = Event::onlyTrashed()->get();
             $formationYears = Year::all();
-            return Inertia::render('Admin/Events/Index', compact('events','trashedEvents','formationYears'));
+            return Inertia::render('Admin/Events/Index', compact('events','formationYears'));
         }
     public function create(){
             $formationYears = Year::all();

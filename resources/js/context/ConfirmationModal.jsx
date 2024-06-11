@@ -46,7 +46,7 @@ export function ConfirmationModalProvider({ children }) {
       <Modal
         isOpen={isModalOpen}
         className='h-fit w-fit max-w-[90%] flex-col gap-5 rounded-xl border  py-3 shadow-sm child-padding sm:max-w-[460px] sm:py-4'
-        overlayClassName='z-50'
+        overlayClassName='z-[99999]'
         closeOnBlur={false}
       >
         <div className='flex items-center gap-3  pb-3'>

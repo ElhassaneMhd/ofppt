@@ -108,6 +108,7 @@ export function TableProvider({
   defaultDirection = 'desc',
   downloadOptions,
   displayAllData,
+  isTrashed,
 }) {
   const [columns, setColumns] = useState(tableColumns);
   const [selected, setSelected] = useState([]);
@@ -281,6 +282,7 @@ export function TableProvider({
     pdfConfig,
     // other
     confirmOptions,
+    isTrashed
   };
 
   return <TableContext.Provider value={context}>{children}</TableContext.Provider>;

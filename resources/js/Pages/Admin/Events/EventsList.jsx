@@ -1,15 +1,15 @@
 import { TableLayout } from '@/layouts/Admin/TableLayout';
 import { useOptions } from '../Shared';
 
-export default function EventsList({ events ,formationYears}) {
-  const { columns, options } = useOptions({ routeName: 'events', resourceName: 'Event',formationYears });
+export default function EventsList({ events ,formationYears, isTrashed}) {
+  const { columns, options } = useOptions({ routeName: 'events', resourceName: 'Event',formationYears,isTrashed });
 
   return (
     <TableLayout
       data={events}
       columns={[
         columns.id,
-        columns.visibility,
+        ...(isTrashed ? [] : [columns.visibility]),
         columns.title,
         {
           key: 'location',
@@ -48,6 +48,7 @@ export default function EventsList({ events ,formationYears}) {
         columns.createdAt,
       ]}
       fieldsToSearch={['title', 'details', 'location', 'publisher']}
+      isTrashed={isTrashed}
       {...options}
     />
   );
