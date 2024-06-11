@@ -56,7 +56,6 @@ trait Update{
         }
     }
     protected function updateFiliere($request,$filiere){
-        dd($request->all());
         $filiere->update($request->all());
          $oldImages = [];
         //add new file

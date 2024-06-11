@@ -4,6 +4,7 @@ import { useNavigate } from '@/hooks/useNavigate';
 import { formatDate, getFilter, getIntervals } from '@/utils/helpers';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { usePage } from '@inertiajs/react';
+import DOMPurify from 'dompurify';
 import { useState } from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { PiCheckBold } from 'react-icons/pi';
@@ -156,7 +157,7 @@ export function DataDropDown({ type, data, getValue, setValue }) {
       <DropDown
         toggler={
           <DropDown.Toggler>
-            <span>{getValue(type)  || `Select ${type}...`}</span>
+            <span>{getValue(type) || `Select ${type}...`}</span>
           </DropDown.Toggler>
         }
         options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
@@ -193,7 +194,7 @@ export function DataDropDown({ type, data, getValue, setValue }) {
 
 export function Details({ getValue, setValue, ...props }) {
   return (
-    <div className='flex min-h-72 flex-1 flex-col gap-1.5'>
+    <div className='flex max-h-80 min-h-72 flex-1 flex-col gap-1.5'>
       <label className='text-sm font-medium capitalize text-text-tertiary'>Details</label>
       <Editor size='small' content={getValue('details')} onUpdate={(val) => setValue('details', val)} {...props} />
     </div>
@@ -225,6 +226,16 @@ export function FormationYear({ formationYears, getValue, setValue }) {
           </DropDown.Option>
         ))}
       </DropDown>
+    </div>
+  );
+}
+
+
+export function DetailsPreview({details}) {
+  return (
+    <div className='details flex flex-1 flex-col gap-1.5 overflow-hidden rounded-lg border border-border p-3'>
+      <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>
+      <div className='flex-1 overflow-auto' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }} />
     </div>
   );
 }
