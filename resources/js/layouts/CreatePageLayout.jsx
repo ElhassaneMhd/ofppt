@@ -11,12 +11,12 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
   const { options } = useForm({
     ...formOptions,
     onSubmit: (data) => {
-      console.log(data);
       const newData = {
         ...data,
         tags: data.tags?.join(','),
         files: data.files?.map((f) => f.file || f.id),
-      };
+        };
+      console.log(newData);
       navigate({
         url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,
         method: isEdit ? 'put' : 'post',
