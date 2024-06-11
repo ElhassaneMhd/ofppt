@@ -29,8 +29,7 @@ class GeneralController extends Controller
 
         return Inertia::render($path, compact('data', 'additionalData'));
     }
-    public function multipleAction(Request $request, $data, $action)
-    {
+    public function multipleAction(Request $request, $data, $action){
         $ids = request()['ids'];
         $model = 'App\\Models\\' . ucfirst(Str::singular($data));
         foreach($ids as $id){
@@ -52,6 +51,10 @@ class GeneralController extends Controller
                 $element->save();
             }
         }
+    }
+    public function setAppSettings(Request $request){
+        $this->storAppSettings($request);
+        return redirect()->back();
     }
     public function stats()
     {

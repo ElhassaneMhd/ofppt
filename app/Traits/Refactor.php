@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use App\Models\Setting;
 
 trait Refactor
 {
@@ -34,7 +35,7 @@ trait Refactor
             "title" => $article->title,
             "details" => $article->details,
             "publisher" => $article->user->firstName??"unknown" . ' ' . $article->user->lastName??"publisher",
-            "formationYear" => $article->year->year,
+            "formationYear" => $this->refactorYear($article->year) ,
             "visibility" => $article->visibility,
             "categorie" => $article->categorie,
             "date" => $article->date,
@@ -103,6 +104,27 @@ trait Refactor
             'subject' => $demand->subject,
             'message' => $demand->message,
             "created_at" => $demand->created_at
+        ];
+    }
+    public function refactorSettings(){
+        $setting = Setting::first();
+        if(!$setting) {
+            $setting =new Setting();
+            $setting->save();
+        }
+        $files = $this->getElementFiles($setting)??[];
+        return [
+            'email'=> $setting->email ,
+            "phone"=>$setting->phone ,
+            "facebook"=> $setting->facebook ,
+            "instagram"=>$setting->instagram,
+            "twitter"=> $setting->twitter,
+            "youtube"=> $setting->youtube,
+            "linkedin"=> $setting->linkedin,
+            "maps"=> $setting->maps,
+            "location"=>$setting->location,
+            "aboutDescription"=>$setting->aboutDescription,
+            "files"=>$files
         ];
     }
 }

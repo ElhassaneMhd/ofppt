@@ -43,11 +43,12 @@ export function useOptions({ routeName, resourceName, formationYears = [], isTra
       format: (val = '') => `${val.slice(0, 30)}${val.slice(20).length ? '...' : ''}`,
     },
     formationYear: {
-      key: 'formationYear',
-      displayLabel: 'Formation Year',
-      visible: true,
-      type: 'number',
-      filter: true,
+        key: 'formationYear',
+        displayLabel: 'Formation Year',
+        visible: true,
+        type: 'number',
+        filter: true,
+        format: (val) => val?.year,
     },
     createdAt: {
       key: 'created_at',
@@ -210,8 +211,7 @@ export function Details({ getValue, setValue, ...props }) {
 }
 
 export function FormationYear({ formationYears, getValue, setValue }) {
-  const { props } = usePage();
-
+    const { props } = usePage();
   return (
     <div className='flex flex-col gap-1.5'>
       <label className='text-sm font-medium capitalize text-text-tertiary'>Formation Year</label>

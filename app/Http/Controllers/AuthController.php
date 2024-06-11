@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class AuthController extends Controller{
-    use Store;
 // login a user methods
     public function formLogin(){
         return Inertia::render('Admin/Auth/Login');

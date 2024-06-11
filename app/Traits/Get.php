@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 trait Get{
     use Refactor;
-    public function GetAll($data,$trashed){
+    public function GetAll($data,$trashed = false){
         $all = [];
         if(in_array($data,['users','articles','filieres','events','years','demands'])){
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));

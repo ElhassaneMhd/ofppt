@@ -7,9 +7,9 @@ use Inertia\Inertia;
 
 class HomeController extends Controller{
     public function home(){
-        $articles= $this->GetAll('articles',false);
-        $events= $this->GetAll('events',false);
-        $filieres= $this->GetAll('filieres',false);
+        $articles= $this->GetAll('articles');
+        $events= $this->GetAll('events');
+        $filieres= $this->GetAll('filieres');
         $sectors = $this->getSectors();
         return Inertia::render('HomePage',compact('articles','events','filieres','sectors'));
      }

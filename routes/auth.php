@@ -21,6 +21,8 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::POST('/admin/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/admin/user', [AuthController::class, 'user'])->name('user');
+
     Route::post('/admin/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
     Route::get('/admin/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');
 
@@ -43,14 +45,14 @@ Route::middleware('auth')->group(function () {
             'destroy' => $resource . '.destroy',
         ]);
         Route::delete('/admin/' . $resource . '/{id}/forceDelete', [$controller, 'forceDelete'])->name($resource . '.forceDelete');
-        Route::get('/admin/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
+        Route::post('/admin/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
 
         foreach(['restore','delete','destroy'] as $action){
-            Route::post('/admin/'.$resource.'/multiple/'.$action,[GeneralController::class, 'multipleAction'])->name($resource.'.multiple'.$action);
+            Route::post('/admin/'.$resource.'/multiple/'.$action,[GeneralController::class, 'multipleAction'])->name($resource.'.multiple.'.$action);
         }
         if(in_array($resource, ['articles', 'filieres','events'])){
             Route::post('/admin/'.$resource.'/multiple/toggle', [GeneralController::class, 'multipleAction'])->name($resource.'.multiple.toggle');
         }
     }
-
+    Route::put('/admin/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
 });

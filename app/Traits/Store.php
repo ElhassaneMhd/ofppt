@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\Models\Article;
 use App\Models\Demand;
 use App\Models\Event;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Filiere;
 use Illuminate\Support\Carbon;
@@ -115,5 +116,30 @@ trait Store{
                         'type' => $fileType]
         );
         $file->move(public_path('/'.$fileType),$unique.$name);
+    }
+
+     public function storAppSettings($request){
+        $setting = Setting::first();
+        if (!$setting){
+            $setting = new Setting;
+        }
+        $setting->email = $request->input('email')?? $setting->email??null;
+        $setting->phone =  $request->input('phone')??$setting->phone??null;
+        $setting->facebook =  $request->input('facebook')??$setting->facebook??null;
+        $setting->instagram =  $request->input('instagram')??$setting->instagram ??null;
+        $setting->twitter =  $request->input('twitter')??$setting->twitter??null;
+        $setting->youtube =  $request->input('youtube')?? $setting->youtube??null;
+        $setting->linkedin =  $request->input('linkedin')??$setting->linkedin??null;
+        $setting->maps =  $request->input('maps')??$setting->maps??null;
+        $setting->location =  $request->input('location')??$setting->location??null;
+        $setting->aboutDescription =  $request->input('aboutDescription')?? $setting->aboutDescription??null;
+        $setting->save();
+        if ($request->has('files') && count($request->files) > 0) {
+             foreach ($request->files as $file) {
+                foreach ($file as $f) {
+                    $this->storeOneFile($f,$setting,'logo');
+                }
+            }
+        }
     }
 }
