@@ -9,7 +9,7 @@ export default function Show({ article = {} }) {
   const { title, files, publisher, created_at, details, tags, categorie } = article;
 
   return (
-    <div className='flex flex-1 flex-col rounded-lg border border-border px-5 py-3'>
+    <>
       <div className='mb-5 flex-1 space-y-4'>
         <div
           className='group relative grid h-60 w-full place-content-center overflow-hidden rounded-xl bg-background-secondary bg-cover bg-center bg-no-repeat object-cover'
@@ -42,6 +42,6 @@ export default function Show({ article = {} }) {
 
       <TagsPreview tags={tags} label={false} />
       </div>
-    </div>
+    </>
   );
 }

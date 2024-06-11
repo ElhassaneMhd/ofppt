@@ -18,12 +18,6 @@ export default function EventsList({ events ,formationYears}) {
           type: 'string',
         },
         {
-          key: 'publisher',
-          displayLabel: 'Publisher',
-          visible: true,
-          type: 'string',
-        },
-        {
           key: 'duration',
           displayLabel: 'Duration',
           visible: true,

@@ -16,7 +16,21 @@ createInertiaApp({
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
 
-    page.default.layout =  page.default.layout || ((page) => <AppLayout>{page}</AppLayout>);
+    console.log(name)
+
+    page.default.layout =
+      page.default.layout ||
+      ((page) => (
+        <AppLayout>
+          {name.includes('/Show') ? (
+            <div className='flex h-full flex-col gap-5 overflow-auto rounded-lg border border-border p-5 pb-3'>
+              {page}
+            </div>
+          ) : (
+            page
+          )}
+        </AppLayout>
+      ));
 
     return page;
   },

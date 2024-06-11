@@ -232,9 +232,9 @@ export function FormationYear({ formationYears, getValue, setValue }) {
 
 export function DetailsPreview({ details,label=true }) {
   return (
-    <div className='details flex min-h-60 flex-1 flex-col gap-1.5 overflow-hidden rounded-lg border border-border p-3'>
+    <div className='details flex min-h-60 flex-1 flex-col gap-1.5 overflow-hidden '>
      {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>}
-      <div className='flex-1 overflow-auto' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }} />
+      <div className='rounded-lg border border-border p-3 flex-1 overflow-auto' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }} />
     </div>
   );
 }

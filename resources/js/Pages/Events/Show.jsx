@@ -1,29 +1,50 @@
-import { getFile } from '@/utils/helpers';
-import Create from './Create';
+import { CiImageOff } from 'react-icons/ci';
+import { DetailsPreview, TagsPreview } from '../Shared';
+import { formatDate } from '@/utils/helpers';
 
 export default function Show({ event = {} }) {
+  const { title, files, location, duration, created_at, details, tags, upcoming } = event;
+
   return (
-    <div>
-      <div>
-        <h1 className='mb-5 text-2xl font-semibold text-text-primary'>{event?.title}</h1>
+    <>
+      <div className='grid gap-5 sm:grid-cols-3'>
+        <div
+          className='group relative grid h-full min-h-52 place-content-center overflow-hidden rounded-lg bg-background-secondary bg-cover bg-center bg-no-repeat'
+          style={{
+            backgroundImage: `url(${files[0]?.src})`,
+          }}
+        >
+          {~files[0]?.src && <CiImageOff className='text-4xl' />}{' '}
+        </div>
+        <div className='flex flex-col gap-3 sm:col-span-2'>
+          <div className='flex flex-col gap-1.5'>
+            <label className='text-sm font-medium capitalize text-text-tertiary'>Title :</label>
+            <p className='font-medium text-text-primary'>{title}</p>
+          </div>
+          <div className='flex flex-col gap-1.5'>
+            <label className='text-sm font-medium capitalize text-text-tertiary'>Location :</label>
+            <p className='font-medium text-text-primary'>{location}</p>
+          </div>
+          <div className='flex flex-col gap-1.5'>
+            <label className='text-sm font-medium capitalize text-text-tertiary'>Duration :</label>
+            <p className='font-medium text-text-primary'>{duration}</p>
+          </div>
+          <div className='flex flex-col gap-1.5'>
+            <label className='text-sm font-medium capitalize text-text-tertiary'>Event Date :</label>
+            <p className='font-medium text-text-primary'>{formatDate(created_at)}</p>
+          </div>
+          <div className='flex flex-col gap-1.5'>
+            <label className='text-sm font-medium capitalize text-text-tertiary'>Event Status :</label>
+            <span
+            className={`w-fit rounded-full px-5 py-1 text-xs font-medium text-white ${upcoming === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
+          >
+            {upcoming === 'true' ? 'Upcoming' : 'Already Passed'}
+          </span>
+          </div>
+        </div>
       </div>
-      <div className='flex'>
-        {event.files.length < 1 && (
-          <div>
-            <h1 className='mb-5 text-2xl font-semibold text-text-primary'>No Image Provided</h1>
-          </div>
-        )}
-        {event.files.map((file) => (
-          <div key={file.id} className='flex items-center justify-between border-b border-border p-2'>
-            <div className='flex items-center gap-2'>
-              <img src={file.url} alt={file.name} className='h-48 w-48' />
-            </div>
-          </div>
-        ))}
-          </div>
-          <div>
-           {event?.details}
-          </div>
-    </div>
+      <TagsPreview tags={tags} />
+      <DetailsPreview details={details} />
+    </>
   );
 }

@@ -5,7 +5,7 @@ export default function Show({ filiere = {} }) {
   const { title, files, max_stagiaires, sector, details, tags, isActive } = filiere;
 
   return (
-    <div className='flex h-full flex-col gap-5 rounded-lg border border-border p-5 pb-3'>
+    <>
       <div className='grid gap-5 sm:grid-cols-3'>
         <div
           className='group relative grid h-full min-h-52 place-content-center overflow-hidden rounded-lg bg-background-secondary bg-cover bg-center bg-no-repeat'
@@ -40,6 +40,6 @@ export default function Show({ filiere = {} }) {
       </div>
       <TagsPreview tags={tags} />
       <DetailsPreview details={details} />
-    </div>
+    </>
   );
 }
