@@ -79,20 +79,18 @@ trait Store{
             'firstName'=>'required',
             'lastName'=>'required',
             'email'=>'required|email|unique:users,email',
+            'phone'=>'required|unique:users,phone',
             'password'=>'required|confirmed|min:6',
             'role'=>'required',
-            'permissions'=>'required',
         ]);
         $user = new User();
         $user->firstName = $request->firstName;
         $user->lastName = $request->lastName;
         $user->email = $request->email;
+        $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
         $user->save();
         $user->assignRole($request->role);
-        foreach ($request->permissions as $permission) {
-            $user->givePermissionTo($permission);
-        }
     }
     public function storeOneFile($file,$element,$fileType){
         $name =$file->getClientOriginalName();

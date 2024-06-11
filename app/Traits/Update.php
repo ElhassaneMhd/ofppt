@@ -34,11 +34,12 @@ trait Update{
         $filiere->update($request->all());
     }
     protected function updateUser($request,$user){
+        if ($request->input('email') !== $user->email){
+            $request->validate(['email'=>'email|unique:users,email']);
+        }
          $request->validate([
-            'email'=>'email|unique:users,email',
-            'password'=>'confirmed|min:6',
+            'password'=>'nullable|confirmed|min:6',
             'role'=>'exists:roles,name',
-            'permissions.*'=>'exists:permissions,name',
         ]);
          $user->update([
             'firstName' => $request->input('firstName'),
@@ -49,6 +50,5 @@ trait Update{
             'password' => Hash::make($request->input('password')),
         ]);
         $user->syncRoles($request->input('role'));
-        $user->syncPermissions($request->input('permissions'));
     }
 }
