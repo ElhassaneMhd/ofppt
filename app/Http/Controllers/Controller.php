@@ -14,8 +14,7 @@ use App\Traits\Store;
 use App\Traits\Update;
 
 
-class Controller extends BaseController
-{
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,Get,Store,Restore,Delete,Refactor,Update;
+class Controller extends BaseController{
+    use AuthorizesRequests, DispatchesJobs,ValidatesRequests,Get,Store,Restore,Delete,Refactor,Update;
 
 }

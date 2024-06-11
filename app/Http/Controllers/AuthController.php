@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Year;
+use App\Traits\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -10,8 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller{
+    use Store;
 // login a user methods
     public function formLogin(){
         return Inertia::render('Admin/Auth/Login');
@@ -37,16 +38,6 @@ class AuthController extends Controller
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
         return to_route('dashboard');
-    }
-    public function register(Request $request){
-        $user = $this->storeUser($request);
-        $token = $user->createToken('auth_token')->plainTextToken;
-        $ip=$request->headers->get('Accept-For');
-        $from=$request->headers->get('Accept-From');
-        $this->storeSession($user->id,$token,$from,$ip);
-        $cookie = cookie('token', $token,720 ); // 1 day
-
-        return response()->json($this->refactorProfile($user))->withCookie($cookie);;
     }
 // logout
     public function logout(Request $request) {

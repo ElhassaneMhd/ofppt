@@ -8,8 +8,7 @@ use App\Models\Filiere;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-trait Get
-{
+trait Get{
     use Refactor;
     public function GetAll($data,$trashed){
         $all = [];
@@ -41,7 +40,7 @@ trait Get
     public function GetByDataId($data,$id){
         if (in_array($data, ['users', 'articles', 'filieres', 'events'])) {
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
-            $collection = $model::find($id);
+            $collection = $model::where('id', $id)->where('visibility', 'true')->first();
             if($collection){
                 ($data === 'users') && $results = $this->refactorUser($collection);
                 ($data === 'articles') && $results = $this->refactorArticle($collection);
@@ -73,11 +72,10 @@ trait Get
         return array_unique($categories) ?? [];
     }
     public function getStats(){
-
         $superAdmins = User::role('super-admin')->count();
         $gestionaires = User::role('gestionaire')->count();
         $admins = User::role('admin')->count();
-         $users= [
+        $users= [
             'total' => count(User::all()),
             'trashed' => count(User::onlyTrashed()->get()),
             'superAdmins' => $superAdmins,
