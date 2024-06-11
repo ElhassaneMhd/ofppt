@@ -41,37 +41,6 @@ export function useOptions({ routeName, resourceName, formationYears = [] }) {
       type: 'string',
       format: (val = '') => `${val.slice(0, 30)}${val.slice(20).length ? '...' : ''}`,
     },
-    tags: {
-      key: 'tags',
-      displayLabel: 'Tags',
-      visible: true,
-      format: (val = [], id, isDownload) => {
-        if (isDownload) return val?.join(', ');
-        const tags = val?.filter((v) => v) || [];
-
-        return (
-          <div className='flex items-center gap-1'>
-            {tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className='rounded-full bg-background-secondary px-2 py-1 text-xs font-medium text-text-secondary'
-              >
-                {tag}
-              </span>
-            ))}
-            {tags.slice(3).length ? (
-              <span className='rounded-full bg-background-secondary px-2 py-1 text-xs font-medium text-text-secondary'>
-                +{tags.slice(3).length}
-              </span>
-            ) : null}
-          </div>
-        );
-      },
-      fn(a, b, direction) {
-        return direction === 'asc' ? a?.tags.length - b?.tags.length : b?.tags.length - a?.tags.length;
-      },
-      type: 'custom',
-    },
     formationYear: {
       key: 'formationYear',
       displayLabel: 'Formation Year',
@@ -139,25 +108,27 @@ export function Tags({ getValue, setValue }) {
     <div className='flex flex-col gap-1.5'>
       <label className='text-sm font-medium text-text-tertiary'>Tags</label>
       <div className='flex flex-wrap gap-3 rounded-lg border border-border bg-background-secondary p-2' ref={parent}>
-        {tags?.map((tag) => (
-          <div
-            key={tag}
-            className='relative rounded-md border border-border bg-background-tertiary px-2 py-1 text-center text-xs font-medium text-text-secondary'
-          >
-            <button
-              className='absolute -right-1 -top-1.5 h-3 w-3 rounded-full bg-red-500 text-white'
-              onClick={() =>
-                setValue(
-                  'tags',
-                  tags?.filter((s) => s !== tag)
-                )
-              }
+        {tags
+          ?.filter((tag) => tag)
+          .map((tag) => (
+            <div
+              key={tag}
+              className='relative rounded-md border border-border bg-background-tertiary px-2 py-1 text-center text-xs font-medium text-text-secondary'
             >
-              <HiMiniXMark />
-            </button>
-            <span>{tag}</span>
-          </div>
-        ))}
+              <button
+                className='absolute -right-1 -top-1.5 h-3 w-3 rounded-full bg-red-500 text-white'
+                onClick={() =>
+                  setValue(
+                    'tags',
+                    tags?.filter((s) => s !== tag)
+                  )
+                }
+              >
+                <HiMiniXMark />
+              </button>
+              <span>{tag}</span>
+            </div>
+          ))}
         <input
           type='text'
           placeholder='Add tag...'

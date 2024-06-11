@@ -26,7 +26,6 @@ export default function FilieresList({ filieres, sectors,formationYears }) {
           type: 'number',
         },
         columns.formationYear,
-        columns.tags,
         columns.createdAt,
       ]}
       {...options}

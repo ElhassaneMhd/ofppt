@@ -51,7 +51,6 @@ export default function EventsList({ events ,formationYears}) {
             );
           },
         },
-        columns.tags,
         columns.createdAt,
       ]}
       fieldsToSearch={['title', 'details', 'location', 'publisher']}

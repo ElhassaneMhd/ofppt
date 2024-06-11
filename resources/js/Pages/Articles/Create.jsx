@@ -10,7 +10,7 @@ export default function Create({
     files: [{ src: null, file: null }],
     title: '',
     details: '',
-    category: '',
+    categorie: '',
     tags: [],
   },
   isEdit = false,
@@ -61,7 +61,7 @@ function Form({ options, details, tags, categories,formationYears, isEdit}) {
         </div>
         <div className='flex flex-col gap-3 sm:col-span-2'>
           {formInputs['title']}
-          <DataDropDown type='category' getValue={getValue} setValue={setValue} data={categories} />
+          <DataDropDown type='categorie' getValue={getValue} setValue={setValue} data={categories} />
           {tags}
         </div>
         {isEdit && <FormationYear formationYears={formationYears} getValue={getValue} setValue={setValue} />}
