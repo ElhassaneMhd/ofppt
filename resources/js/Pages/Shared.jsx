@@ -156,7 +156,7 @@ export function DataDropDown({ type, data, getValue, setValue }) {
       <DropDown
         toggler={
           <DropDown.Toggler>
-            <span>{getValue(type) || data[0] || `Select ${type}...`}</span>
+            <span>{getValue(type)  || `Select ${type}...`}</span>
           </DropDown.Toggler>
         }
         options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
@@ -209,7 +209,7 @@ export function FormationYear({ formationYears, getValue, setValue }) {
       <DropDown
         toggler={
           <DropDown.Toggler>
-            <span className='capitalize'>{getValue('formationYear') || props.year?.year}</span>
+            <span className='capitalize'>{getValue('formationYear')?.year || props.year?.year}</span>
           </DropDown.Toggler>
         }
         options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
@@ -217,9 +217,9 @@ export function FormationYear({ formationYears, getValue, setValue }) {
         {formationYears.map((formationYear) => (
           <DropDown.Option
             key={formationYear.id}
-            onClick={() => setValue('formationYear', formationYear.year)}
+            onClick={() => setValue('formationYear', formationYear)}
             className='capitalize'
-            isCurrent={formationYear.year === getValue('formationYear')}
+            isCurrent={formationYear.year === getValue('formationYear')?.year}
           >
             {formationYear.year}
           </DropDown.Option>
