@@ -1,6 +1,6 @@
 import { cloneElement, useState } from 'react';
 import { Head } from '@inertiajs/react';
-import { Details, Tags } from '@/Pages/Shared';
+import { Details, Tags } from '@/Pages/Admin/Shared';
 import { useForm } from '@/hooks';
 import { useNavigate } from '@/hooks/useNavigate';
 import { ModalFormLayout } from '@/layouts/ModalFormLayout';

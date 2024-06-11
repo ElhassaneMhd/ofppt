@@ -14,11 +14,11 @@ class EventsController extends Controller{
             $events = $this->refactorManyElements($events,'events');
             $trashedEvents = Event::onlyTrashed()->get();
             $formationYears = Year::all();
-            return Inertia::render('Events/Index', compact('events','trashedEvents','formationYears'));
+            return Inertia::render('Admin/Events/Index', compact('events','trashedEvents','formationYears'));
         }
     public function create(){
             $formationYears = Year::all();
-            return Inertia::render('Events/Create', compact('formationYears'));
+            return Inertia::render('Admin/Events/Create', compact('formationYears'));
         }
     public function store(Request $request){
         $this->storeEvent($request);
@@ -27,13 +27,13 @@ class EventsController extends Controller{
     public function show(string $id){
         $event = Event::findOrFail($id);
         $event = $this->refactorEvent($event);
-        return Inertia::render('Events/Show', compact('event'));
+        return Inertia::render('Admin/Events/Show', compact('event'));
     }
     public function edit(string $id){
         $event = Event::findOrFail($id);
         $event = $this->refactorEvent($event);
         $formationYears = Year::all();
-        return Inertia::render('Events/Edit', compact('formationYears','event'));
+        return Inertia::render('Admin/Events/Edit', compact('formationYears','event'));
     }
     public function update(Request $request, string $id) {
             $event = Event::findOrFail($id);
@@ -48,7 +48,7 @@ class EventsController extends Controller{
     //index of trashed events
             $events = Event::all();
             $trashedEvents = Event::onlyTrashed()->get();
-            return Inertia::render('Events/Show', [$events,$trashedEvents]);
+            return Inertia::render('Admin/Events/Show', [$events,$trashedEvents]);
         }
     public function forceDelete(string $id){
             //Force delete from trash

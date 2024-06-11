@@ -2,8 +2,7 @@ import { FiLogOut, IoSettingsOutline, PiTrashLight } from '@/components/ui/Icons
 import { IoChevronDownOutline } from 'react-icons/io5';
 import { DropDown } from './ui';
 import { useNavigate } from '@/hooks/useNavigate';
-import { useConfirmationModal } from '@/hooks';
-import { usePage } from '@inertiajs/react';
+import { useConfirmationModal, useUser } from '@/hooks';
 
 export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
   const navigate = useNavigate();
@@ -42,8 +41,8 @@ export function DropDownProfile({ setIsSettingsOpen, setIsTrashOpen }) {
 }
 
 function Profile() {
-  const { props } = usePage();
-  const { firstName, lastName, role = 'super-admin' } = props.user || {};
+  const { user } = useUser();
+  const { firstName, lastName, role = 'admin' } = user || {};
 
   const getFallback = (role, gender = 'M') => {
     if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';

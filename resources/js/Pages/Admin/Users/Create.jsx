@@ -1,7 +1,7 @@
 import { DropDown } from '@/components/ui';
+import { useUser } from '@/hooks';
 import CreatePageLayout from '@/layouts/CreatePageLayout';
 import { RULES } from '@/utils/constants';
-import { usePage } from '@inertiajs/react';
 
 export default function Create({
   roles = [],
@@ -18,7 +18,7 @@ export default function Create({
   },
   isEdit = false,
 }) {
-  const { props } = usePage();
+  const { user } = useUser();
 
   return (
     <CreatePageLayout
@@ -26,7 +26,7 @@ export default function Create({
       formOptions={{
         defaultValues: {
           ...defaultValues,
-          ...(!isEdit && { role: props.user?.role || 'admin' }),
+          ...(!isEdit && { role: user?.role || 'admin' }),
         },
         fields: [
           {
@@ -94,8 +94,11 @@ function Form({ options, roles }) {
             options={{ className: 'overflow-auto max-h-[300px] w-[230px]', shouldCloseOnClick: false }}
           >
             {roles.map((role) => (
-              <DropDown.Option key={role.id} onClick={() => setValue('role', role.name)} className='capitalize'
-              isCurrent={role.name === getValue('role')}
+              <DropDown.Option
+                key={role.id}
+                onClick={() => setValue('role', role.name)}
+                className='capitalize'
+                isCurrent={role.name === getValue('role')}
               >
                 {role.name}
               </DropDown.Option>
