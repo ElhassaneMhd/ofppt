@@ -113,7 +113,7 @@ export default function General({ settings = {} }) {
           color: '#ff0000',
           name: 'Youtube',
         },
-      ].map((s, i,arr) => ({
+      ].map((s, i, arr) => ({
         name: s.name.toLocaleLowerCase(),
         label: s.name,
         placeholder: s.href,
@@ -167,30 +167,31 @@ export default function General({ settings = {} }) {
     >
       <div className='space-y-5'>
         <h3 className='mb-3 font-bold text-text-secondary'>Basic Info</h3>
-        <div className='flex flex-col items-center gap-5 mobile:flex-row'>
-        <div
-          className='group relative w-52 h-full min-h-40 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
-          style={{
-            backgroundImage: `url(${getValue('appLogo')?.src})`,
-          }}
-        >
-          <button
-            className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-50 ${!getValue('appLogo')?.src ? 'opacity-80 hover:bg-background-tertiary' : 'opacity-0'}`}
-            onClick={openFilePicker}
+        <div className='grid grid-cols-[208px,auto] gap-5'>
+          <div
+            className='group relative h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
+            style={{
+              backgroundImage: `url(${getValue('appLogo')?.src})`,
+            }}
           >
-            <FaCamera />
-          </button>
-        </div>
-          <div className='grid w-full gap-5 '>
-            {formInputs['email']}
-            {formInputs['phone']}
+            <button
+              className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-50 ${!getValue('appLogo')?.src ? 'opacity-80 hover:bg-background-tertiary' : 'opacity-0'}`}
+              onClick={openFilePicker}
+            >
+              <FaCamera />
+            </button>
+          </div>
+          <div className='grid w-full items-center gap-x-5 gap-y-3 xs:grid-cols-2'>
+            {['facebook', 'twitter', 'instagram', 'linkedin', 'youtube']?.map((s) => formInputs[s])}
           </div>
         </div>
       </div>
       <div>
-        <h3 className='mb-3 font-bold text-text-secondary'>Location</h3>
-        <div className='grid items-start gap-5 sm:grid-cols-2'>
+        <h3 className='mb-4 font-bold text-text-secondary'>Contact Info</h3>
+        <div className='grid gap-3 sm:grid-cols-2'>
           <div className='space-y-5'>
+            {formInputs['email']}
+            {formInputs['phone']}
             {formInputs['location']}
             {formInputs['maps']}
           </div>
@@ -212,12 +213,6 @@ export default function General({ settings = {} }) {
               height='100%'
             ></iframe>
           </div>
-        </div>
-      </div>
-      <div>
-        <h3 className='mb-3 font-bold text-text-secondary'>Social Media</h3>
-        <div className='grid items-center gap-x-5 gap-y-3 xs:grid-cols-2'>
-          {['facebook', 'twitter', 'instagram', 'linkedin', 'youtube']?.map((s) => formInputs[s])}
         </div>
       </div>
     </ModalFormLayout>
