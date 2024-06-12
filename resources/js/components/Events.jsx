@@ -30,7 +30,6 @@ function EventList({ events }) {
 }
 
 function EventItem({ event }) {
-  console.log(event);
   const eventMonth = new Date(event.date).toLocaleDateString('fr-FR', {
     month: 'long',
   });

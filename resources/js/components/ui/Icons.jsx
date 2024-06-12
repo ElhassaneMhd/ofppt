@@ -21,6 +21,7 @@ export {
   IoLocationOutline,
   IoLocationSharp,
   IoMail,
+  IoPeople
 } from 'react-icons/io5';
 export {
   PiCheckBold,

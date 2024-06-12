@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/demands', [ApiController::class, 'storeDemands']);
 Route::get('/sectors', [ApiController::class, 'getSector']);
-Route::get('/stats', [GeneralController::class, 'stats']);
+Route::get('/dashboard', [GeneralController::class, 'dashboard']);
 Route::get('/categorie', [ApiController::class, 'getCategorie']);
 Route::get('/{data}', [ApiController::class, 'index']);
 Route::get('/{data}/{id}', [ApiController::class, 'show']);

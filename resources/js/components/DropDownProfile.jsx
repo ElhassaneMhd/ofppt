@@ -5,14 +5,12 @@ import { useNavigate } from '@/hooks/useNavigate';
 import { useConfirmationModal, useUser } from '@/hooks';
 import { getFile } from '@/utils/helpers';
 import { useState } from 'react';
-import { usePage } from '@inertiajs/react';
 import { SessionYear } from './SessionYear';
 
 export function DropDownProfile() {
   const { navigate } = useNavigate();
   const { openModal } = useConfirmationModal();
   const [isOpen, setIsOpen] = useState(false);
-  const currentYear = usePage().props.year 
 
   return (
     <>
@@ -27,7 +25,7 @@ export function DropDownProfile() {
         </DropDown.Option>
         <DropDown.Option display='with-icon' onClick={() => setIsOpen(true)}>
           <IoCalendarNumberOutline className='text-text-tertiary' />
-          <span>{currentYear?.year}</span>
+          <span>Session Year</span>
         </DropDown.Option>
 
         <DropDown.Divider />

@@ -13,9 +13,9 @@ class GeneralController extends Controller
     public function trashed($data)
     {
         $path = 'Admin/' . ucfirst($data) . '/TrashedList';
-        $categories = $this->getCategories(false,true);
+        $categories = $this->getCategories(false, true);
         $formationYears = Year::all();
-        $sectors = $this->getSectors(false,true);
+        $sectors = $this->getSectors(false, true);
         $roles = Role::all();
         $data = $this->GetAll($data, true);
         $additionalData = [
@@ -55,20 +55,29 @@ class GeneralController extends Controller
         $this->storAppSettings($request);
         return redirect()->back();
     }
-    public function settings($tab=false){
-        if(!$tab){
+    public function settings($tab = false)
+    {
+        if (!$tab) {
             return redirect('admin/settings/profile');
         }
         $tabs = ['profile', 'password', 'general', 'about'];
+        if(auth()->user()->roles->first()->name !== ('super-admin'||'admin')){
+            $tabs = ['profile', 'password'];
+        }
         if (!in_array($tab, $tabs)) {
             return redirect()->back();
         }
         $path = 'Admin/Settings/' . ucfirst($tab);
         $settings = $this->refactorSettings();
 
-        return Inertia::render($path, compact(('settings')));
+        return Inertia::render($path, compact('settings','tabs'));
     }
-    public function stats(){
-        return $this->getStats();
+    public function dashboard()
+    {
+        $user = auth()->user();
+        $role = $user  ? $user->roles->first()->name : 'super-admin';
+        $stats = $this->getStats($role);
+        // return $stats;
+        return Inertia::render('Admin/Dashboard/Dashboard', compact('stats'));
     }
 }

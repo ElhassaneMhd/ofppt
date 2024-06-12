@@ -7,68 +7,56 @@ use Illuminate\Validation\Rules\Password;
 trait Update{
     protected function updateArticle($request,$article){
         $article->update($request->all());
-        $oldImages = [];
+        $ids = $article->files->pluck('id')->toArray();
+        $oldImagesIds = [];
         if ($request->has('files') && count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    if(is_numeric($f)){
-                        $oldImages[] = $f;
-                    }else{
-                        $this->storeOneFile($f,$article,'article');
-                    }
+            foreach ($request['files'] as $file) {
+                if(gettype($file) === 'integer'||gettype($file) === 'string'){
+                    $oldImagesIds[] = $file;
+                }else{
+                    $files[] = $file;
                 }
             }
         }
-
-        // foreach($article->files as $file) {
-        //     if (!in_array( $file->id, $oldImages)){
-        //         $filePath = public_path('article/'. $file->url);
-        //         if (\Illuminate\Support\Facades\File::exists($filePath)) {
-        //             \Illuminate\Support\Facades\File::delete($filePath);
-        //         }
-        //        $file->delete();
-        //     }
-        // }
+        foreach($ids as $id){
+            if(!in_array($id,$oldImagesIds??[])){
+                $this->deletOldElementFile($article,$id);
+            }
+        }
+        foreach($files??[] as $file){
+            $this->storeOneFile($file,$article,'event');
+        }
     }
     protected function updateEvent($request,$event){
         $event->update($request->all());
-        $oldImages = [];
-        if ($request->has('files') && count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    if(is_numeric($f)){
-                        $oldImages[] = $f;
-                    }else{
-                        $this->storeOneFile($f,$event,'event');
-                    }
+        $ids = $event->files->pluck('id')->toArray();
+        if ($request->has('files') &&count($request['files']) > 0) {
+            foreach ($request['files'] as $file) {
+                if(gettype($file) === 'integer'||gettype($file) === 'string'){
+                    $oldImagesIds[] = $file;
+                }else{
+                    $files[] = $file;
                 }
             }
         }
-        // foreach($event->files as $file) {
-        //     if (!in_array( $file->id, $oldImages)){
-        //         $filePath = public_path('event/'. $file->url);
-        //         if (\Illuminate\Support\Facades\File::exists($filePath)) {
-        //             \Illuminate\Support\Facades\File::delete($filePath);
-        //         }
-        //        $file->delete();
-        //     }
-        // }
+        foreach($ids as $id){
+            if(!in_array($id,$oldImagesIds??[])){
+                $this->deletOldElementFile($event,$id);
+            }
+        }
+        foreach($files??[] as $file){
+            $this->storeOneFile($file,$event,'event');
+        }
     }
     protected function updateFiliere($request,$filiere){
         $filiere->update($request->all());
-         $oldImages = [];
+        $oldImage = $filiere->files->first();
         if ($request->has('files') && count($request->files) > 0) {
-            foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    if(is_numeric($f)){
-                        $oldImages[] = $f;
-                    }else{
-                        $this->storeOneFile($f,$filiere,'filiere');
-                    }
-                }
+            foreach ($request['files'] as $file) {
+                $this->storeOneFile($file,$filiere,'filiere');
             }
         }
-
+        $oldImage && $this->deletOldElementFile($filiere,$oldImage->id);
     }
     protected function updateUser($request,$user){
         if ($request->input('email') !== $user->email){
@@ -91,12 +79,16 @@ trait Update{
         if($request->has('role')){
             $user->syncRoles($request->input('role'));
         }
-        if ($request->has('files') && count($request->files) > 0) {
-             foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    $this->storeOneFile($f,$user,'avatar');
-                }
+        
+        $oldAvatar = $user->files->first();
+        if($request->has('files') && count($request->files) > 0){
+            foreach ($request['files'] as $file) {
+                $this->storeOneFile($file,$user,'avatar');
             }
+            $oldAvatar && $this->deletOldElementFile($user,$oldAvatar->id);
+        }
+        if($request['files'][0]===null){
+            $oldAvatar && $this->deletOldElementFile($user,$oldAvatar->id);
         }
     }
     public function updateUserPassword($request){

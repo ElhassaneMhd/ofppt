@@ -19,7 +19,7 @@ createInertiaApp({
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
 
-    const layout = name?.startsWith('Admin')
+    const pageLayout = name?.startsWith('Admin')
       ? // Admin page layout
         (page) => {
           const layout = name.includes('/Show') ? (
@@ -31,23 +31,13 @@ createInertiaApp({
           );
           return <AppLayout>{layout}</AppLayout>;
         }
-      : name?.startsWith('HomePage')
-        ? (page) => {
-            const layout = page;
-            return layout;
-          }
-        : (page) => {
-            const layout = (
-              <PageLayout pages={['home', 'blog', 'filieres', 'evenements', 'contact']}>{page}</PageLayout>
-            );
-            return layout;
-          };
+      : undefined;
 
-    // console.log(name,page)
+    // console.log(name, page);
 
     if (!page) return NotFound;
 
-    page.default.layout = page.default.layout || layout;
+    page.default.layout = page.default.layout || pageLayout;
 
     return page;
   },

@@ -36,7 +36,7 @@ const routesIcons = {
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(window.matchMedia('(min-width: 1024px)').matches);
   const { t } = useTranslation();
-  const { url } = usePage();
+  const { url, props } = usePage();
   const { user } = useUser();
 
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
@@ -77,17 +77,18 @@ export default function Sidebar() {
               className={`sidebar-element group ${url.split('/admin/')[1]?.startsWith(route) ? 'active' : ''}`}
             >
               {routesIcons[route]}
-              <span className={spanClass}>
-                {t(`app.sidebar.${route}`)}
-              </span>
+              <span className={spanClass}>{t(`app.sidebar.${route}`)}</span>
             </Link>
           </li>
         ))}
       </ul>
 
-      <div className={`mt-auto flex items-center gap-3 ${isExpanded ? '' : 'flex-col'}`}>
-        <ThemeToggler />
-        <LanguageSwitcher layout={isExpanded ? 'long' : ''} iconDirection='up' size={isExpanded ? 'small' : ''} />
+      <div className='mt-auto'>
+        <div className={`flex items-center gap-3 ${isExpanded ? '' : 'flex-col'}`}>
+          <ThemeToggler />
+          <LanguageSwitcher layout={isExpanded ? 'long' : ''} iconDirection='up' size={isExpanded ? 'small' : ''} />
+        </div>
+        <div className='text-xs pt-1 px-3 text-center w-full font-medium capitalize text-text-tertiary'>{props.year.year}</div>
       </div>
     </aside>
   );

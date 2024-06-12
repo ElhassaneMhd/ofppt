@@ -11,8 +11,12 @@ trait Delete{
         $element = $model::findOrFail($id);
         $element->forceDelete();
     }
-    public function deletOldElementFile($element){
-        $oldFiles = $element->files;
+    public function deletOldElementFile($element,$id = null){
+        if($id){
+            $oldFiles[] = File::find($id);
+        }else{
+            $oldFiles = $element->files;
+        }
         foreach($oldFiles as $file){
             if ($file){
                 File::find($file->id)->delete();
@@ -21,6 +25,10 @@ trait Delete{
                 \File::delete(public_path($file->url));
             }
         }
+    }
+    protected function restoreData($model, $id){
+        $modelInstance = $model::onlyTrashed()->findOrFail($id);
+        $modelInstance->restore();        
     }
 
 }

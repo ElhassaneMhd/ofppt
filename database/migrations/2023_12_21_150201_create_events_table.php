@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('location');
             $table->integer('duration');
             $table->text('details');
-            $table->string('status')->nullable();
-            $table->string('visibility')->nullable();
+            $table->string('upcoming');
+            $table->string('visibility');
             $table->text('tags')->nullable();
             $table->foreignId('year_id')->nullable()->constrained()->nullOnDelete();
             $table->softDeletes();

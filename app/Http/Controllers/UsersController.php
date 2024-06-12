@@ -10,6 +10,11 @@ use Spatie\Permission\Models\Permission;
 
 class UsersController extends Controller
 {
+    public
+    function __construct(){
+        $this->middleware(['role:super-admin'])->only('store');
+        $this->middleware(['role:super-admin'])->except('updateInfo','updatePassword');
+    }
     public function index()  {
         $users = $this->refactorManyElements(User::all(),'users');
         $roles = Role::all();
