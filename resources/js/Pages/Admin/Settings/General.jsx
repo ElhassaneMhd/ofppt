@@ -6,9 +6,13 @@ import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { ToolTip } from '@/components/ui';
 import { useNavigate } from '@/hooks/useNavigate';
 import { getFile } from '@/utils/helpers';
+import { usePage } from '@inertiajs/react';
+import { FormationYear } from '../Shared';
 
 export default function General({ settings = {} }) {
   const { navigate } = useNavigate();
+  const currentYear = usePage().props.year;
+
   const {
     options: { formInputs, isUpdated, errors, handleSubmit, reset, getValue, setValue },
   } = useForm({
@@ -23,6 +27,7 @@ export default function General({ settings = {} }) {
       instagram: settings?.instagram,
       linkedin: settings?.linkedin,
       youtube: settings?.youtube,
+      formationYear: currentYear,
     },
     fields: [
       {
@@ -141,7 +146,7 @@ export default function General({ settings = {} }) {
       navigate({
         url: 'settings.update',
         method: 'put',
-        data: { ...data, files: [data.appLogo?.file], maps: extractSrc(data.maps) },
+        data: { ...data, files: [data.appLogo?.file], maps: extractSrc(data.maps),year_id: data.formationYear?.id},
       });
     },
     gridLayout: true,
@@ -162,9 +167,9 @@ export default function General({ settings = {} }) {
     >
       <div className='space-y-5'>
         <h3 className='mb-3 font-bold text-text-secondary'>Basic Info</h3>
-        <div className='grid mobile:grid-cols-[208px,auto] gap-5'>
+        <div className='grid gap-5 mobile:grid-cols-[208px,auto]'>
           <div
-            className='group relative min-h-40 h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
+            className='group relative h-full min-h-40 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
             style={{
               backgroundImage: `url(${getValue('appLogo')?.src})`,
             }}
@@ -208,6 +213,9 @@ export default function General({ settings = {} }) {
               height='100%'
             ></iframe>
           </div>
+        </div>
+        <div className='mt-4'>
+          <FormationYear getValue={getValue} setValue={setValue} />
         </div>
       </div>
     </ModalFormLayout>

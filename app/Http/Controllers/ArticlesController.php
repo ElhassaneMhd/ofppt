@@ -37,10 +37,9 @@ class ArticlesController extends Controller
     //GET ARTICLE TO MODIFIE
         $article = Article::find($id);
         $article = $this->refactorArticle($article);
-        $formationYears = Year::all();
         $users = User::all();
         $categories = $this->getCategories();
-        return Inertia::render('Admin/Articles/Edit', compact('article','formationYears','users','categories'));
+        return Inertia::render('Admin/Articles/Edit', compact('article','users','categories'));
     }
     public function update(Request $request, string $id){
         $article = Article::findOrfail($id);

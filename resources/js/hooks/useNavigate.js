@@ -11,6 +11,7 @@ export const useNavigate = () => {
     const endpoint = url.includes('.') ? route(url, params) : url;
 
     const routeOptions = {
+      preserveScroll: true,
       onError: (e) => {
         setError(e);
         e && Object.keys(e).length && toast.error(e[Object.keys(e)[0]]);
@@ -31,7 +32,7 @@ export const useNavigate = () => {
         router.post(endpoint, data, routeOptions);
         break;
       case 'put':
-        router.put(endpoint, data, routeOptions);
+        router.post(endpoint, { ...data, _method: 'put' }, routeOptions);
         break;
       case 'delete':
         router.delete(endpoint, routeOptions);

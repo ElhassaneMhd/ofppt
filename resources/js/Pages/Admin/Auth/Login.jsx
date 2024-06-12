@@ -36,7 +36,7 @@ function Login() {
           <Button
             className={'my-4 w-full self-end'}
             disabled={!isValid}
-            loading={isLoading}
+            isLoading={isLoading}
             color={'secondary'}
             onClick={() => handleSubmit()}
           >

@@ -17,7 +17,11 @@ trait Get{
             if($trashed===true){
                 $collections = $model::onlyTrashed()->get();
             }else{
-                $collections = $model::where('visibility', 'true')->get();
+                if(!in_array($data,['users','demands','years'])){
+                    $collections = $model::where('visibility', 'true')->get();
+                }else{
+                    $collections = $model::all();
+                }
             }
           foreach ($collections as $collection) {
                  ($data === 'users')&& $all[]= $this->refactorUser($collection);
