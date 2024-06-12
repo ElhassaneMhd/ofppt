@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Filiere;
+use App\Models\Year;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -112,10 +113,10 @@ trait Store{
         $name = str_replace(' ','',$file->getClientOriginalName());
         $unique = uniqid();
          $element->files()->create(
-                    ['url' =>'/'.$fileType.'/'.$unique.$name,
+                    ['url' =>'/assets/'.$fileType.'/'.$unique.$name,
                         'type' => $fileType]
         );
-        $file->move(public_path('/'.$fileType),$unique.$name);
+        $file->move(public_path('/assets/'.$fileType),$unique.$name);
     }
 
      public function storAppSettings($request){
@@ -134,6 +135,16 @@ trait Store{
         $setting->location =  $request->input('location')??$setting->location??null;
         $setting->aboutDescription =  $request->input('aboutDescription')?? $setting->aboutDescription??null;
         $setting->save();
+        if ($request->has('year_id')){
+            $year = Year::findOrfail($request->input('year_id'));
+            $years=Year::where('active','true')->get();
+            foreach ($years as $oneYear) {
+                $oneYear->active='false';
+                $oneYear->save();
+            }
+            $year->active='true';
+            $year->save();
+        }
         if ($request->has('files') && count($request->files) > 0) {
              foreach ($request->files as $file) {
                 foreach ($file as $f) {

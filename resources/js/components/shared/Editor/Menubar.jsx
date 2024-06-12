@@ -100,7 +100,7 @@ const Headings = ({ editor, size }) => {
       {Array.from({ length: 6 }).map((_, i) => (
         <DropDown.Option
           key={i}
-          size={size}
+          size='small'
           isCurrent={editor.isActive('heading', { level: i + 1 })}
           onClick={() =>
             editor
@@ -300,7 +300,7 @@ export default function Menubar({ editor, size }) {
   ];
 
   return (
-    <div className='flex w-full no_scrollbar gap-2 overflow-auto border-b border-border p-2 transition-[inset] duration-300'>
+    <div className='flex w-full  gap-2 overflow-auto border-b border-border p-2 transition-[inset] duration-300'>
       {render(buttons, size)}
     </div>
   );

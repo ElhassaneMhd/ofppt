@@ -17,7 +17,11 @@ trait Get{
             if($trashed===true){
                 $collections = $model::onlyTrashed()->get();
             }else{
-                $collections = $model::where('visibility', 'true')->get();
+                if(!in_array($data,['users','demands','years'])){
+                    $collections = $model::where('visibility', 'true')->get();
+                }else{
+                    $collections = $model::all();
+                }
             }
           foreach ($collections as $collection) {
                  ($data === 'users')&& $all[]= $this->refactorUser($collection);
@@ -63,12 +67,18 @@ trait Get{
         }
         return $Allfiles??[];
     }
-    public function getSectors(){
-        $sectors = Filiere::all()->unique('sector')->pluck('sector')->toArray();
+    public function getSectors($trashed = false){
+        $sectors = Filiere::all()->pluck('sector')->toArray();
+        if($trashed){
+            $sectors = Filiere::onlyTrashed()->get()->pluck('sector')->toArray();
+        }
         return array_unique($sectors) ?? [];
     }
-    public function getCategories(){
-        $categories = Article::all()->unique('categorie')->pluck('categorie')->toArray();
+    public function getCategories($trashed = false){
+        $categories = Article::all()->pluck('categorie')->toArray();
+        if($trashed){
+            $categories = Article::onlyTrashed()->get()->pluck('categorie')->toArray();
+        }
         return array_unique($categories) ?? [];
     }
     public function getStats(){
@@ -89,7 +99,7 @@ trait Get{
             'visible' => count(Article::where('visibility', 'true')->get()),
             'hidden' => count(Article::where('visibility', 'false')->get()),
         ];
-        $Allcategories = $this->getCategories();
+        $Allcategories = $this->getCategories(true);
         foreach($Allcategories as $categorie){
             $articles['categories'][$categorie] = Article::where('categorie',$categorie)->count();
         }
@@ -102,7 +112,7 @@ trait Get{
             'active' => count(Filiere::where('isActive', 'true')->get()),
             'inactive' => count(Filiere::where('isActive', 'false')->get()),
         ];
-        $Allsectores = $this->getSectors();
+        $Allsectores = $this->getSectors(true);
         foreach($Allsectores as $sector){
             $filieres['sectors'][$sector] = Filiere::where('sector',$sector)->count();
         }

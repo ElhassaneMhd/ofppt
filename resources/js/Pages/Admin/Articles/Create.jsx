@@ -5,7 +5,6 @@ import { FaCamera } from 'react-icons/fa';
 
 export default function Create({
   categories = [],
-  formationYears,
   defaultValues = {
     files: [{ src: null, file: null }],
     title: '',
@@ -31,14 +30,13 @@ export default function Create({
       isEdit={isEdit}
     >
       <Form categories={categories} 
-            formationYears={formationYears}
             isEdit={isEdit}
       />
     </CreatePageLayout>
   );
 }
 
-function Form({ options, details, tags, categories,formationYears, isEdit}) {
+function Form({ options, details, tags, categories, isEdit}) {
   const { formInputs, getValue, setValue } = options;
 
   const { openFilePicker } = useUploadFile({ onChange: (image) => setValue('files', [image]) });
@@ -64,7 +62,7 @@ function Form({ options, details, tags, categories,formationYears, isEdit}) {
           <DataDropDown type='categorie' getValue={getValue} setValue={setValue} data={categories} />
           {tags}
         </div>
-        {isEdit && <FormationYear formationYears={formationYears} getValue={getValue} setValue={setValue} />}
+        {isEdit && <FormationYear getValue={getValue} setValue={setValue} />}
 
       </div>
 

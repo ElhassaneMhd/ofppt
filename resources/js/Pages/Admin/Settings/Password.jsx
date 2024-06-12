@@ -1,8 +1,10 @@
 import { useForm } from '@/hooks/useForm';
+import { useNavigate } from '@/hooks/useNavigate';
 import { ModalFormLayout } from '@/layouts/Admin/ModalFormLayout';
 import { RULES } from '@/utils/constants';
 
 export default function Password() {
+  const { navigate } = useNavigate();
 
   const {
     Form,
@@ -31,9 +33,9 @@ export default function Password() {
         rules: { ...RULES.passwordConfirmation },
       },
     ],
-    onSubmit: (data) => console.log(data),
+    onSubmit: (data) => navigate({ url: 'password.update', method: 'post', data }),
     gridLayout: false,
-    submitOnEnter : true
+    submitOnEnter: true,
   });
 
   return (

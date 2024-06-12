@@ -26,7 +26,7 @@ export default function Settings({ children }) {
 
       <div className='relative flex h-full w-full flex-col gap-6 overflow-hidden border-border bg-background-primary'>
         <Heading>Settings</Heading>
-        <div className='relative flex flex-col-reverse justify-between gap-3 border-b-2 border-border pb-3 mobile:flex-row mobile:items-center'>
+        <div className='relative flex flex-col-reverse justify-between gap-3 border-b-2 border-border pb-3 mobile:flex-row  max-xs:overflow-auto mobile:items-center'>
           <div className='flex items-center gap-8' ref={tabContainerRef}>
             <div
               className='absolute -bottom-0.5 h-0.5 rounded-lg bg-primary transition-all duration-300'

@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Traits;
+
 use App\Models\Setting;
 
 trait Refactor
 {
+
     protected function refactorManyElements($elements, $data)
     {
         foreach ($elements as $element) {
@@ -17,7 +19,8 @@ trait Refactor
         }
         return $all ?? [];
     }
-    protected function refactorUser($user){
+    protected function refactorUser($user)
+    {
         return [
             "id" => $user->id,
             "firstName" => $user->firstName,
@@ -25,17 +28,19 @@ trait Refactor
             "email" => $user->email,
             "phone" => $user->phone,
             "role" => $user->getRoleNames()[0],
+            "files" => $this->getElementFiles($user) ?? [],
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
         ];
     }
-    protected function refactorArticle($article){
+    protected function refactorArticle($article)
+    {
         return [
             "id" => $article->id,
             "title" => $article->title,
             "details" => $article->details,
-            "publisher" => $article->user->firstName??"unknown" . ' ' . $article->user->lastName??"publisher",
-            "formationYear" => $this->refactorYear($article->year) ,
+            "publisher" => $article->user->firstName ?? "unknown" . ' ' . $article->user->lastName ?? "publisher",
+            "formationYear" => $this->refactorYear($article->year),
             "visibility" => $article->visibility,
             "categorie" => $article->categorie,
             "date" => $article->date,
@@ -49,7 +54,7 @@ trait Refactor
         return [
             "id" => $event->id,
             "title" => $event->title,
-            "formationYear" => $event->year->year,
+            "formationYear" => $this->refactorYear($event->year),
             "details" => $event->details,
             "date" => $event->date,
             "visibility" => $event->visibility,
@@ -61,11 +66,12 @@ trait Refactor
             "created_at" => $event->created_at
         ];
     }
-    protected function refactorFiliere($filiere){
+    protected function refactorFiliere($filiere)
+    {
         return  [
             "id" => $filiere->id,
             "title" => $filiere->title,
-            "formationYear" => $filiere->year->year,
+            "formationYear" => $this->refactorYear($filiere->year) ,
             "details" => $filiere->details,
             "sector" => $filiere->sector,
             "isActive" => $filiere->isActive,
@@ -82,16 +88,17 @@ trait Refactor
         $filieres = $year->filieres()->count();
         $events = $year->events()->count();
         return [
+            'id' => $year->id,
             'year' => $year->year,
-            'startDate' => $year->startDate,
-            'endDate' => $year->endDate,
-            'isActive' => $year->isActive,
-            'inscriptionStartDate' => $year->inscriptionStartDate,
-            'inscriptionEndDate' => $year->inscriptionEndDate,
-            'inscriptionStatus' => $year->inscriptionStatus,
-            'articles' => $articles,
-            'filieres' => $filieres,
-            'events' => $events,
+            // 'startDate' => $year->startDate,
+            // 'endDate' => $year->endDate,
+            // 'isActive' => $year->isActive,
+            // 'inscriptionStartDate' => $year->inscriptionStartDate,
+            // 'inscriptionEndDate' => $year->inscriptionEndDate,
+            // 'inscriptionStatus' => $year->inscriptionStatus,
+            // 'articles' => $articles,
+            // 'filieres' => $filieres,
+            // 'events' => $events,
         ];
     }
     protected function refactorDemand($demand)
@@ -106,25 +113,25 @@ trait Refactor
             "created_at" => $demand->created_at
         ];
     }
-    public function refactorSettings(){
+    public function refactorSettings()
+    {
         $setting = Setting::first();
-        if(!$setting) {
-            $setting =new Setting();
+        if (!$setting) {
+            $setting = new Setting();
             $setting->save();
         }
-        $files = $this->getElementFiles($setting)??[];
         return [
-            'email'=> $setting->email ,
-            "phone"=>$setting->phone ,
-            "facebook"=> $setting->facebook ,
-            "instagram"=>$setting->instagram,
-            "twitter"=> $setting->twitter,
-            "youtube"=> $setting->youtube,
-            "linkedin"=> $setting->linkedin,
-            "maps"=> $setting->maps,
-            "location"=>$setting->location,
-            "aboutDescription"=>$setting->aboutDescription,
-            "files"=>$files
+            'email' => $setting->email,
+            "phone" => $setting->phone,
+            "facebook" => $setting->facebook,
+            "instagram" => $setting->instagram,
+            "twitter" => $setting->twitter,
+            "youtube" => $setting->youtube,
+            "linkedin" => $setting->linkedin,
+            "maps" => $setting->maps,
+            "location" => $setting->location,
+            "aboutDescription" => $setting->aboutDescription,
+            "files" => $this->getElementFiles($setting) ?? []
         ];
     }
 }

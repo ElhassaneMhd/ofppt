@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Year;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
@@ -53,23 +53,22 @@ class GeneralController extends Controller
             }
         }
     }
-    public function setAppSettings(Request $request)
-    {
+    public function setAppSettings(Request $request){
         $this->storAppSettings($request);
         return redirect()->back();
     }
-    public function settings($tab=false)
-    {
+    public function settings($tab=false){
         if(!$tab){
-            return Inertia::render('Admin/Settings/Profile');
+            return redirect('admin/settings/profile');
         }
         $tabs = ['profile', 'password', 'general', 'about'];
         if (!in_array($tab, $tabs)) {
             return redirect()->back();
         }
         $path = 'Admin/Settings/' . ucfirst($tab);
+        $settings = $this->refactorSettings();
 
-        return Inertia::render($path);
+        return Inertia::render($path, compact(('settings')));
     }
     public function stats(){
         return $this->getStats();

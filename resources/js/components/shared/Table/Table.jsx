@@ -93,7 +93,7 @@ function Column({ column, hide }) {
 function Row({ row, visibleColumns, actions, canView = true, selected, hideRowActions, hiddenActionsContent }) {
   const { disabled, onSelect, isSelecting, routeName } = useTable();
   const [parent] = useAutoAnimate({ duration: 500 });
-  const navigate = useNavigate();
+  const { navigate } = useNavigate();
 
   // Define the class names for the row
   const rowClassNames = [

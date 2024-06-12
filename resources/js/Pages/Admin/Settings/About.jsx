@@ -1,11 +1,13 @@
 import Editor, { isContentEmpty } from '@/components/shared/Editor/Editor';
 import { Button } from '@/components/ui';
+import { useNavigate } from '@/hooks/useNavigate';
 import { useEffect, useState } from 'react';
 
 export default function About({ settings = {} }) {
   const [about, setAbout] = useState(settings?.aboutDescription || '<p></p>');
   const [editorInstance, setEditorInstance] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
+  const { navigate } = useNavigate();
 
   useEffect(() => {
     setIsChanged(() => {
@@ -23,6 +25,7 @@ export default function About({ settings = {} }) {
   return (
     <div className='flex flex-1 flex-col gap-2 overflow-auto'>
       <Editor
+      size='small'
         className='flex-1'
         onUpdate={(text) => setAbout(text)}
         bubbleMenu={true}
@@ -33,7 +36,12 @@ export default function About({ settings = {} }) {
         <Button disabled={!isChanged} color='tertiary' onClick={handleCancel}>
           Cancel
         </Button>
-        <Button disabled={!isChanged} onClick={() => console.log({ aboutDescription: about })}>
+        <Button
+          disabled={!isChanged}
+          onClick={() =>
+            navigate({ url: 'settings.update', method: 'put', data: { ...settings, aboutDescription: about } })
+          }
+        >
           Save Changes
         </Button>
       </div>

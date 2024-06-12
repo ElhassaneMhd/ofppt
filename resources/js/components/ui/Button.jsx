@@ -35,7 +35,6 @@ const button = tv({
       'with-icon': 'gap-3 items-center',
       centered: 'justify-center',
     },
-    
   },
   defaultVariants: {
     color: 'primary',

@@ -17,5 +17,5 @@ Route::fallback(function () {
     return inertia('NotFound');
 });
 
-require __DIR__.'/spatie.php';
+//require __DIR__.'/spatie.php';
 require __DIR__.'/auth.php';

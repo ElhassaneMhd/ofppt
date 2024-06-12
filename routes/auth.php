@@ -9,6 +9,7 @@ use App\Http\Controllers\FilieresController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
+use App\Models\Year;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -18,11 +19,20 @@ Route::middleware('guest')->group(function () {
     // Route::get('/{data}/{id}', [HomeController::class, 'elementById'])->name('elementById');
     // Route::get('/{sector}/filieres', [HomeController::class, 'sectorFilieres'])->name('sectorFilieres');
 });
-
+Route::get('/admin', function () {
+    return redirect('/admin/dashboard');
+});
 Route::middleware('auth')->prefix('/admin')->group(function () {
+
+    Route::put('/session/year/{id}', function ($id) {
+        request()->session()->forget('activeYear');
+        session(['activeYear'=>Year::find($id)]);
+        return to_route('settings');
+    });
     Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/user', [AuthController::class, 'user'])->name('user');
-    Route::put('/user/{id}', [UsersController::class, 'updatePassword'])->name('password.update');
+    Route::post('/user', [UsersController::class, 'updatePassword'])->name('password.update');
+    Route::put('/user', [UsersController::class, 'updateInfo'])->name('user.update');
 
     Route::post('/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
     Route::get('/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');

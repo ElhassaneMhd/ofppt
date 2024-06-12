@@ -7,7 +7,7 @@ import { ModalFormLayout } from '@/layouts/Admin/ModalFormLayout';
 import { filterObject } from '@/utils/helpers';
 
 export default function CreatePageLayout({ children, name, formOptions, isEdit }) {
-  const navigate = useNavigate();
+  const { navigate } = useNavigate();
   const { options } = useForm({
     ...formOptions,
     onSubmit: (data) => {

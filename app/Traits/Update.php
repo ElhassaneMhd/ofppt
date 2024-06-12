@@ -21,15 +21,16 @@ trait Update{
                 }
             }
         }
-        foreach($article->files as $file) {
-            if (!in_array( $file->id, $oldImages)){
-                $filePath = public_path('article/'. $file->url);
-                if (\Illuminate\Support\Facades\File::exists($filePath)) {
-                    \Illuminate\Support\Facades\File::delete($filePath);
-                }
-               $file->delete();
-            }
-        }
+
+        // foreach($article->files as $file) {
+        //     if (!in_array( $file->id, $oldImages)){
+        //         $filePath = public_path('article/'. $file->url);
+        //         if (\Illuminate\Support\Facades\File::exists($filePath)) {
+        //             \Illuminate\Support\Facades\File::delete($filePath);
+        //         }
+        //        $file->delete();
+        //     }
+        // }
     }
     protected function updateEvent($request,$event){
         $event->update($request->all());
@@ -46,15 +47,15 @@ trait Update{
                 }
             }
         }
-        foreach($event->files as $file) {
-            if (!in_array( $file->id, $oldImages)){
-                $filePath = public_path('event/'. $file->url);
-                if (\Illuminate\Support\Facades\File::exists($filePath)) {
-                    \Illuminate\Support\Facades\File::delete($filePath);
-                }
-               $file->delete();
-            }
-        }
+        // foreach($event->files as $file) {
+        //     if (!in_array( $file->id, $oldImages)){
+        //         $filePath = public_path('event/'. $file->url);
+        //         if (\Illuminate\Support\Facades\File::exists($filePath)) {
+        //             \Illuminate\Support\Facades\File::delete($filePath);
+        //         }
+        //        $file->delete();
+        //     }
+        // }
     }
     protected function updateFiliere($request,$filiere){
         $filiere->update($request->all());
@@ -64,10 +65,8 @@ trait Update{
             foreach ($request->files as $file) {
                 foreach ($file as $f) {
                     if(is_numeric($f)){
-                        dd($f);
                         $oldImages[] = $f;
                     }else{
-                        dd($f);
                         $this->storeOneFile($f,$filiere,'filiere');
                     }
                 }
@@ -88,33 +87,34 @@ trait Update{
             'lastName' => $request->input('lastName'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-            'email_verified_at' => $request->input('email_verified_at'),
-            'password' => Hash::make($request->input('password')),
         ]);
-        $user->syncRoles($request->input('role'));
+
+        if($request->has('role')){
+            $user->syncRoles($request->input('role'));
+        }
+        if ($request->has('files') && count($request->files) > 0) {
+             foreach ($request->files as $file) {
+                foreach ($file as $f) {
+                    $this->storeOneFile($f,$user,'avatar');
+                }
+            }
+        }
     }
-    public function updateUserPassword($request,$user){
+    public function updateUserPassword($request){
+        $user = auth()->user();
         $validatedData = $request->validate([
-                    'currentPassword' => [
-                            'required',
-                            Password::min(6)->numbers(),
-                        ]  ,
-                    'password' => [
-                            'string',
-                            'required',
-                            Password::min(6)->numbers(),
-                            'confirmed',
-                        ]
-                    ]);
+        'currentPassword' => ['required', Password::min(6)->numbers()]  ,
+        'password' => ['string','required',Password::min(6)->numbers(),'confirmed' ]
+        ]);
         if (Hash::check($validatedData['currentPassword'], $user->password)) {
             if (Hash::check($validatedData['password'], $user->password)) {
-                    return to_route('settings')->with(['message' => 'New password cannot be the same as the current password ! , Please enter a new password'], 400);
+                    return false;
                 }
             $hashedPassword = Hash::make($validatedData['password']);
             $user->password = $hashedPassword;
             $user->save();
-            return to_route('settings')->with(['message' => 'Password updated successfully'], 200);
+            return true;
         }
-        return to_route('settings')->with(['message' => 'Current password is incorrect'], 400);
+        return false;
     }
 }
