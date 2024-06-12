@@ -9,12 +9,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Traits\Delete;
 use App\Traits\Get;
 use App\Traits\Refactor;
-use App\Traits\Restore;
 use App\Traits\Store;
 use App\Traits\Update;
 
 
 class Controller extends BaseController{
-    use AuthorizesRequests, DispatchesJobs,ValidatesRequests,Delete,Get,Refactor,Restore,Store,Update;
+    use AuthorizesRequests, DispatchesJobs,ValidatesRequests,Delete,Get,Refactor,Store,Update;
 
 }

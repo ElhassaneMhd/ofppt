@@ -16,30 +16,32 @@ export default function Show({ filiere = {} }) {
         >
           {~files[0]?.src && <CiImageOff className='text-4xl' />}{' '}
         </div>
-        <div className='flex flex-col gap-3 sm:col-span-2'>
-          <div className='flex flex-col gap-1.5'>
-            <label className='text-sm font-medium capitalize text-text-tertiary'>Title :</label>
-            <p className='font-medium text-text-primary'>{title}</p>
+        <div className='flex flex-col justify-between gap-3 sm:col-span-2'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='flex flex-col gap-1.5'>
+              <label className='text-sm font-medium capitalize text-text-tertiary'>Title :</label>
+              <p className='font-medium text-text-primary'>{title}</p>
+            </div>
+            <div className='flex flex-col gap-1.5'>
+              <label className='text-sm font-medium capitalize text-text-tertiary'>Max Stagiaires :</label>
+              <p className='font-medium text-text-primary'>{max_stagiaires}</p>
+            </div>
+            <div className='flex flex-col gap-1.5'>
+              <label className='text-sm font-medium capitalize text-text-tertiary'>Sector :</label>
+              <p className='font-medium text-text-primary'>{sector}</p>
+            </div>
+            <div className='flex flex-col gap-1.5'>
+              <label className='text-sm font-medium capitalize text-text-tertiary'>Inscription Status :</label>
+              <span
+                className={`w-fit rounded-full px-5 py-1 text-xs font-medium text-white ${isActive === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
+              >
+                {isActive === 'true' ? 'Active' : 'Inactive'}
+              </span>
+            </div>
           </div>
-          <div className='flex flex-col gap-1.5'>
-            <label className='text-sm font-medium capitalize text-text-tertiary'>Max Stagiaires :</label>
-            <p className='font-medium text-text-primary'>{max_stagiaires}</p>
-          </div>
-          <div className='flex flex-col gap-1.5'>
-            <label className='text-sm font-medium capitalize text-text-tertiary'>Sector :</label>
-            <p className='font-medium text-text-primary'>{sector}</p>
-          </div>
-          <div className='flex flex-col gap-1.5'>
-            <label className='text-sm font-medium capitalize text-text-tertiary'>Inscription Status :</label>
-            <span
-              className={`w-fit rounded-full px-5 py-1 text-xs font-medium text-white ${isActive === 'true' ? 'bg-green-600' : 'bg-red-500'}`}
-            >
-              {isActive === 'true' ? 'Active' : 'Inactive'}
-            </span>
-          </div>
+          <TagsPreview tags={tags} />
         </div>
       </div>
-      <TagsPreview tags={tags} />
       <DetailsPreview details={details} />
     </>
   );

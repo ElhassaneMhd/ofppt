@@ -26,5 +26,9 @@ trait Delete{
             }
         }
     }
+    protected function restoreData($model, $id){
+        $modelInstance = $model::onlyTrashed()->findOrFail($id);
+        $modelInstance->restore();        
+    }
 
 }
