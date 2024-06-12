@@ -65,4 +65,11 @@ class FilieresController extends Controller
         $this->restoreData(Filiere::class, $id);
         return to_route("filieres.index");
     }
+    public function userIndex(){
+        $filieres = Filiere::all();
+        $filieres = $this->refactorManyElements($filieres, 'filieres');
+        $sectors = $this->getSectors();
+        $formationYears = Year::all();
+        return Inertia::render('Filieres', compact('filieres', 'sectors'));
+    }
 }

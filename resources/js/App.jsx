@@ -1,7 +1,7 @@
 import './bootstrap';
 import '@/styles/index.css';
 
-import { createInertiaApp } from '@inertiajs/react';
+import { createInertiaApp, usePage } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -22,7 +22,7 @@ createInertiaApp({
       ? // Admin page layout
         (page) => {
           const layout = name.includes('/Show') ? (
-            <div className='flex flex-1 border border-border rounded-xl p-5 pb-3 flex-col gap-5 overflow-auto'>{page}</div>
+            <div className='flex flex-1 flex-col gap-5 overflow-auto rounded-xl border-border p-5 pb-3'>{page}</div>
           ) : name.includes('/Settings/') ? (
             <Settings>{page}</Settings>
           ) : (

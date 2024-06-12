@@ -93,31 +93,26 @@ trait Get{
         $gestionaires = User::role('gestionaire')->count();
         $admins = User::role('admin')->count();
         $users= [
-            'total' => count(User::all()),
+            'total' => $this->GetCount('users'),
             'trashed' => count(User::onlyTrashed()->get()),
             'superAdmins' => $superAdmins,
             'gestionaires' => $gestionaires,
             'admins' => $admins,
         ];
-
         $articles = [
-            'total' => count(Article::all()),
+            'total' => $this->GetCount('articles'),
             'trashed' => count(Article::onlyTrashed()->get()),
             'visible' => count(Article::where('visibility', 'true')->get()),
             'hidden' => count(Article::where('visibility', 'false')->get()),
         ];
         $visibleCategories = $this->getCategories(true,false);
         $allCategories = $this->getCategories();
-        if($for === 'homepage'){
-            $categories = $visibleCategories;
-        }else{
-            $categories = $allCategories;
-        }
+        ($for === 'homepage')? $categories = $visibleCategories:$categories = $allCategories;
         foreach($categories as $categorie){
             $articles['categories'][$categorie] = Article::where('categorie',$categorie)->count();
         }
         $filieres = [
-            'total' => count(Filiere::all()),
+            'total' => $this->GetCount('filieres'),
             'trashed' => count(Filiere::onlyTrashed()->get()),
             'visible' => count(Filiere::where('visibility', 'true')->get()),
             'hidden' => count(Filiere::where('visibility', 'false')->get()),
@@ -126,25 +121,20 @@ trait Get{
         ];
         $visibleSectores = $this->getSectors(true,false);
         $allSectors = $this->getSectors();
-        if($for === 'homepage'){
-            $sectors = $visibleSectores;
-        }else{
-            $sectors = $allSectors;
-        }
+        ($for === 'homepage')?$sectors = $visibleSectores:$sectors = $allSectors;
         foreach($sectors as $sector){
             $filieres['sectors'][$sector] = Filiere::where('sector',$sector)->count();
         }
         $events = [
-            'total' => count(Event::all()),
+            'total' => $this->GetCount('events'),
             'trashed' => count(Event::onlyTrashed()->get()),
             'visible' => count(Event::where('visibility', 'true')->get()),
             'hidden' => count(Event::where('visibility', 'false')->get()),
             "upcoming" => count(Event::where('upcoming','true')->get()),
         ];
         $demands = ['totale' => count(Demand::all())];
-
         $years = [
-            'total' => count(Year::all())
+            'total' => $this->GetCount('years'),
         ];
         foreach(Year::all() as $year){
             $years['years'][$year->year] = [
@@ -153,19 +143,10 @@ trait Get{
                 'articles' => count(Article::where('year_id', $year->id)->get()),
             ];
         }
-
-        if($for === 'homepage'){
-            return compact('filieres','years');
-        }
-        if ('super-admin') {
-            return compact('users', 'articles', 'filieres', 'events', 'demands','years');
-        }
-        if ($for === 'admin') {
-            return compact( 'articles', 'filieres', 'events', 'demands','years');
-        }
-        if ($for === 'gestionaire') {
-            return compact('articles', 'filieres', 'events');
-        }
+        if($for === 'homepage') return compact('filieres','years');
+        if ('super-admin') return compact('users', 'articles', 'filieres', 'events', 'demands','years');
+        if ($for === 'admin') return compact( 'articles', 'filieres', 'events', 'demands','years');       
+        if ($for === 'gestionaire')  return compact('articles', 'filieres', 'events');
     }
     public function GetCount($data){
         if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands'])) {

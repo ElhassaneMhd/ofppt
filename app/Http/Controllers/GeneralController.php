@@ -51,8 +51,7 @@ class GeneralController extends Controller
             }
         }
     }
-    public function setAppSettings(Request $request)
-    {
+    public function setAppSettings(Request $request){
         $this->storAppSettings($request);
         return redirect()->back();
     }
@@ -62,13 +61,16 @@ class GeneralController extends Controller
             return redirect('admin/settings/profile');
         }
         $tabs = ['profile', 'password', 'general', 'about'];
+        if(auth()->user()->roles->first()->name !== ('super-admin'||'admin')){
+            $tabs = ['profile', 'password'];
+        }
         if (!in_array($tab, $tabs)) {
             return redirect()->back();
         }
         $path = 'Admin/Settings/' . ucfirst($tab);
         $settings = $this->refactorSettings();
 
-        return Inertia::render($path, compact(('settings')));
+        return Inertia::render($path, compact('settings','tabs'));
     }
     public function dashboard()
     {

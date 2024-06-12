@@ -1,9 +1,9 @@
 import Header from '@/components/Header';
 
-function PageLayout({ children, pages }) {
+function PageLayout({ children }) {
   return (
     <>
-      <Header pageName={'filieres'} pages={pages} />
+      <Header />
       {children}
     </>
   );
