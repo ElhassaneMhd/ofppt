@@ -54,7 +54,6 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         }
     }
 
-    Route::get('/settings/{tab}', [GeneralController::class, 'settings'])->name('settings');
+    Route::get('/settings/{tab?}', [GeneralController::class, 'settings'])->name('settings');
     Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
-    Route::get('/settings/{tab}', [GeneralController::class, 'settings'])->name('settings');
 });

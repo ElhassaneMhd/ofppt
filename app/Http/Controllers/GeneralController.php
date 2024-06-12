@@ -58,8 +58,11 @@ class GeneralController extends Controller
         $this->storAppSettings($request);
         return redirect()->back();
     }
-    public function settings($tab)
+    public function settings($tab=false)
     {
+        if(!$tab){
+            return Inertia::render('Admin/Settings/Profile');
+        }
         $tabs = ['profile', 'password', 'general', 'about'];
         if (!in_array($tab, $tabs)) {
             return redirect()->back();
@@ -68,8 +71,6 @@ class GeneralController extends Controller
 
         return Inertia::render($path);
     }
-    public function stats()
-    {
     public function stats(){
         return $this->getStats();
     }
