@@ -3,7 +3,7 @@ import Sidebar from '@/components/Sidebar';
 
 import '@/styles/app.css';
 
-export function AppLayout({ children }) {
+export default function AppLayout({ children }) {
   const [parent] = useAutoAnimate({ duration: 300 });
 
   return (
