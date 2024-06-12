@@ -3,7 +3,7 @@ import Section from './Section';
 import { FaRegUser } from 'react-icons/fa6';
 
 function Filieres({ filieres, sectors }) {
-  const [activeSector, setActiveSector] = useState(sectors?.at(0));
+  const [activeSector, setActiveSector] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const selectedFilieres = filieres.filter((filiere) => filiere.sector === activeSector);
 
@@ -18,7 +18,7 @@ function Filieres({ filieres, sectors }) {
   return (
     <Section className={'mb-28'}>
       <ul className='mb-10 flex justify-center gap-4'>
-        {sectors.slice(0, 3).map((sector, i) => (
+        {[].slice(0, 3).map((sector, i) => (
           <li
             key={i}
             className={`cursor-pointer text-3xl font-semibold capitalize hover:text-blue-500 ${sector === activeSector ? 'text-blue-500' : ''}`}
