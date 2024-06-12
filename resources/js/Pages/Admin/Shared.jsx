@@ -12,7 +12,6 @@ import { PiCheckBold } from 'react-icons/pi';
 // eslint-disable-next-line react-refresh/only-export-components
 export function useOptions({ routeName, resourceName, formationYears = [], isTrashed }) {
   const { navigate } = useNavigate();
-  const currentYear = usePage().props.year;
 
   const columns = {
     id: {
@@ -73,7 +72,7 @@ export function useOptions({ routeName, resourceName, formationYears = [], isTra
     filters: {
       created_at: getIntervals('created_at', ['present', 'past']),
       date: getIntervals('date', ['present', 'past', 'future']),
-      ...(formationYears && getFilter('formationYear', formationYears, 'year', (year) => year === currentYear.year)),
+      ...(formationYears && getFilter('formationYear', formationYears, 'year', )),
     },
     selectedOptions: {
       actions: [

@@ -28,7 +28,6 @@ createInertiaApp({
           ) : (
             page
           );
-          // console.log(layout)
           return <AppLayout>{layout}</AppLayout>;
         }
       : undefined;
