@@ -79,8 +79,16 @@ trait Update{
         if($request->has('role')){
             $user->syncRoles($request->input('role'));
         }
-        foreach ($request['files'] as $file) {
+        
+        $oldAvatar = $user->files->first();
+        if($request->has('files') && count($request->files) > 0){
+            foreach ($request['files'] as $file) {
                 $this->storeOneFile($file,$user,'avatar');
+            }
+            $oldAvatar && $this->deletOldElementFile($user,$oldAvatar->id);
+        }
+        if($request['files'][0]===null){
+            $oldAvatar && $this->deletOldElementFile($user,$oldAvatar->id);
         }
     }
     public function updateUserPassword($request){
