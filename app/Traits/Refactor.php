@@ -88,16 +88,17 @@ trait Refactor
         $filieres = $year->filieres()->count();
         $events = $year->events()->count();
         return [
+            'id' => $year->id,
             'year' => $year->year,
-            'startDate' => $year->startDate,
-            'endDate' => $year->endDate,
-            'isActive' => $year->isActive,
-            'inscriptionStartDate' => $year->inscriptionStartDate,
-            'inscriptionEndDate' => $year->inscriptionEndDate,
-            'inscriptionStatus' => $year->inscriptionStatus,
-            'articles' => $articles,
-            'filieres' => $filieres,
-            'events' => $events,
+            // 'startDate' => $year->startDate,
+            // 'endDate' => $year->endDate,
+            // 'isActive' => $year->isActive,
+            // 'inscriptionStartDate' => $year->inscriptionStartDate,
+            // 'inscriptionEndDate' => $year->inscriptionEndDate,
+            // 'inscriptionStatus' => $year->inscriptionStatus,
+            // 'articles' => $articles,
+            // 'filieres' => $filieres,
+            // 'events' => $events,
         ];
     }
     protected function refactorDemand($demand)

@@ -41,9 +41,11 @@ class HandleInertiaRequests extends Middleware
                 "email" => $request->user()->email,
                 "phone" => $request->user()->phone,
                 "role" => $request->user()->getRoleNames()[0],
-                "files" =>$this->getElementFiles($request->user())??[],
+                "files" => $this->getElementFiles($request->user()) ?? [],
             ]) : null,
-            'year'=> Session::get('activeYear'),
+            'year' => Session::get('activeYear'),
+            'formationYears' => $this->GetAll('years')
+
         ];
     }
 }

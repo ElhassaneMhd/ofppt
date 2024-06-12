@@ -31,8 +31,7 @@ class EventsController extends Controller{
     public function edit(string $id){
         $event = Event::findOrFail($id);
         $event = $this->refactorEvent($event);
-        $formationYears = Year::all();
-        return Inertia::render('Admin/Events/Edit', compact('formationYears','event'));
+        return Inertia::render('Admin/Events/Edit', compact('event'));
     }
     public function update(Request $request, string $id) {
             $event = Event::findOrFail($id);

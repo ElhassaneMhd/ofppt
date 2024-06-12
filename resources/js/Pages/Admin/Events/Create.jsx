@@ -6,7 +6,6 @@ import { Button, Switch } from '@/components/ui';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 
 export default function Create({
-  formationYears = [],
   defaultValues = {
     files: [],
     title: '',
@@ -51,12 +50,12 @@ export default function Create({
       }}
       isEdit={isEdit}
     >
-      <Form formationYears={formationYears} isEdit={isEdit} />
+      <Form  isEdit={isEdit} />
     </CreatePageLayout>
   );
 }
 
-function Form({ options, details, tags, formationYears, isEdit }) {
+function Form({ options, details, tags,  isEdit }) {
   const { formInputs, getValue, setValue } = options;
 
   return (
@@ -83,7 +82,7 @@ function Form({ options, details, tags, formationYears, isEdit }) {
           </span>
         </div>
       </div>
-      {isEdit && <FormationYear formationYears={formationYears} getValue={getValue} setValue={setValue} />}
+      {isEdit && <FormationYear  getValue={getValue} setValue={setValue} />}
       {details}
     </div>
   );
