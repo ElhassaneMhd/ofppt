@@ -76,9 +76,7 @@ trait Get{
         if($onyTrashed){
             $sectors = Filiere::onlyTrashed()->get()->pluck('sector')->toArray();
         }
-        
-        $sctors = (array) array_unique($sectors);
-        return $sectors ?? [];
+        return array_keys(array_flip($sectors)) ?? [];
     }
     public function getCategories($onlyVisible = false,$onyTrashed = false){
         $categories = Article::all()->pluck('categorie')->toArray();
@@ -88,7 +86,7 @@ trait Get{
         if($onyTrashed){
             $categories = Article::onlyTrashed()->get()->pluck('categorie')->toArray();
         }
-        return array_unique($categories) ?? [];
+        return array_keys(array_flip($categories)) ?? [];
     }
     public function getStats($for){
         $superAdmins = User::role('super-admin')->count();
@@ -108,11 +106,16 @@ trait Get{
             'visible' => count(Article::where('visibility', 'true')->get()),
             'hidden' => count(Article::where('visibility', 'false')->get()),
         ];
-        $Allcategories = $this->getCategories(true,false);
-        foreach($Allcategories as $categorie){
+        $visibleCategories = $this->getCategories(true,false);
+        $allCategories = $this->getCategories();
+        if($for === 'homepage'){
+            $categories = $visibleCategories;
+        }else{
+            $categories = $allCategories;
+        }
+        foreach($categories as $categorie){
             $articles['categories'][$categorie] = Article::where('categorie',$categorie)->count();
         }
-
         $filieres = [
             'total' => count(Filiere::all()),
             'trashed' => count(Filiere::onlyTrashed()->get()),
@@ -121,8 +124,14 @@ trait Get{
             'active' => count(Filiere::where('isActive', 'true')->get()),
             'inactive' => count(Filiere::where('isActive', 'false')->get()),
         ];
-        $Allsectores = $this->getSectors(true,false);
-        foreach($Allsectores as $sector){
+        $visibleSectores = $this->getSectors(true,false);
+        $allSectors = $this->getSectors();
+        if($for === 'homepage'){
+            $sectors = $visibleSectores;
+        }else{
+            $sectors = $allSectors;
+        }
+        foreach($sectors as $sector){
             $filieres['sectors'][$sector] = Filiere::where('sector',$sector)->count();
         }
         $events = [
@@ -157,5 +166,12 @@ trait Get{
         if ($for === 'gestionaire') {
             return compact('articles', 'filieres', 'events');
         }
+    }
+    public function GetCount($data){
+        if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands'])) {
+            $model = 'App\\Models\\' . ucfirst(Str::singular($data));
+            $count = $model::count();
+        }
+        return $count ?? 0;
     }
 }

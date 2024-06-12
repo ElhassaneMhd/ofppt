@@ -24,7 +24,7 @@ class ArticleFactory extends Factory
             'categorie' => $this->faker->word,
             'tags' => $this->faker->word,
             'user_id' =>1,
-            'year_id' => 2,
+            'year_id' => random_int(7,14),
         ];
     }
 }

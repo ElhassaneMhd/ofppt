@@ -12,7 +12,7 @@ export function NewRecord({ component,empty }) {
   if (component) return component(onAdd);
 
   return (
-    <Button display='with-icon' className='text-nowrap' onClick={onAdd} disabled={!empty && disabled}>
+    <Button display='with-icon' color={'secondary'} className='text-nowrap' onClick={onAdd} disabled={!empty && disabled}>
       <FaPlus />
       {`New ${resourceName}`}
     </Button>
