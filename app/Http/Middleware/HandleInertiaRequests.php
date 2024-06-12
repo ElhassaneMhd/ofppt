@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'user' => auth()->check() ?$this->refactorUser($request->user()):null,
+            'auth' => auth()->check() ?$this->refactorUser($request->user()):null,
             'year'=> Session::get('activeYear'),
         ];
     }

@@ -3,5 +3,5 @@ import { usePage } from '@inertiajs/react';
 export const useUser = () => {
   const { props } = usePage();
 
-  return { user: props.user };
+  return { user: props.auth };
 };

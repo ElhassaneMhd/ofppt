@@ -22,6 +22,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/user', [AuthController::class, 'user'])->name('user');
+    Route::put('/user/{id}', [UsersController::class, 'updatePassword'])->name('password.update');
 
     Route::post('/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
     Route::get('/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');
@@ -53,4 +54,5 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         }
     }
     Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
+    Route::get('/settings/{tab}', [GeneralController::class, 'settings'])->name('settings');
 });

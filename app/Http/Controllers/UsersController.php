@@ -32,7 +32,7 @@ class UsersController extends Controller
         return Inertia::render('Admin/Users/Show', compact('user','roles','permissions'));
     }
     public function edit($id){
-        $user = User::find($id);
+        $user = $this->refactorUser(User::find($id));
         $roles = Role::all();
         $permissions = Permission::all();
         return Inertia::render('Admin/Users/Edit', compact('user','roles','permissions'));

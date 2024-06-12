@@ -56,8 +56,7 @@ class GeneralController extends Controller
         $this->storAppSettings($request);
         return redirect()->back();
     }
-    public function stats()
-    {
+    public function stats(){
         return $this->getStats();
     }
 }
