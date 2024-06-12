@@ -12,11 +12,11 @@ class ApiController extends Controller{
     }
 
     public function getSector(){
-        $sectors = $this->getSectors();
+        $sectors = $this->getSectors(true,false);
         return response()->json($sectors);
     }
     public function getCategorie(){
-        $categorie = $this->getCategories();
+        $categorie = $this->getCategories(true,false);
         return response()->json($categorie);
     }
 

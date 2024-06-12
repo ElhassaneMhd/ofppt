@@ -34,9 +34,9 @@ class EventsController extends Controller{
         return Inertia::render('Admin/Events/Edit', compact('event'));
     }
     public function update(Request $request, string $id) {
-            $event = Event::findOrFail($id);
+            $event = Event::find($id);
             $this->updateEvent($request,$event);
-          // return to_route('events.index');
+          return to_route('events.index');
     }
     public function destroy(string $id) {
         $this->destroyElement(Event::class, $id);

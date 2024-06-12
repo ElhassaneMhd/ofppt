@@ -69,6 +69,6 @@ class GeneralController extends Controller
         return Inertia::render($path, compact(('settings')));
     }
     public function stats(){
-        return $this->getStats();
+        return $this->getStats('homepage');
     }
 }

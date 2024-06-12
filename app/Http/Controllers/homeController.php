@@ -30,7 +30,7 @@ class HomeController extends Controller{
     }
     public function sectorFilieres($sector){
         $filieres= Filiere::where('sector',$sector)->where('visibility','true')->get();
-        $sectors = $this->getSectors();
+        $sectors = $this->getSectors(true,false);
         return Inertia::render('Sectors/Filieres',compact('filieres','sectors'));
     }
     public function storeDemands(Request $request){

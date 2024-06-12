@@ -31,11 +31,9 @@ trait Store{
         $article->user_id = auth()->user()->id??null;
         $article->year_id = Session::get('activeYear')->id??null;
         $article->save();
-        if ($request->has('files') && count($request->files) > 0) {
-             foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    $this->storeOneFile($f,$article,'article');
-                }
+           if ($request->has('files') && count($request->files) > 0) {
+             foreach ($request['files'] as $file) {
+                    $this->storeOneFile($file,$article,'article');
             }
         }
     }
@@ -46,16 +44,14 @@ trait Store{
             'location' => $request->input('location'),
             'duration' => $request->input('duration'),
             'details' => $request->input('details'),
-            'status' => $request->input('status'),
+            'upcoming' => $request->input('upcoming'),
             'visibility' => 'true',
             'tags' => $request->input('tags'),
             'year_id' => Session::get('activeYear')->id??null,
         ]);
-         if ($request->has('files') && count($request->files) > 0) {
-             foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    $this->storeOneFile($f,$event,'event');
-                }
+        if ($request->has('files') && count($request->files) > 0) {
+             foreach ($request['files'] as $file) {
+                    $this->storeOneFile($file,$event,'event');
             }
         }
     }
@@ -71,10 +67,8 @@ trait Store{
             'year_id' => Session::get('activeYear')->id??1,
         ]);
          if ($request->has('files') && count($request->files) > 0) {
-             foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    $this->storeOneFile($f,$filiere,'filiere');
-                }
+             foreach ($request['files'] as $file) {
+                    $this->storeOneFile($file,$filiere,'filiere');
             }
         }
     }
@@ -118,7 +112,6 @@ trait Store{
         );
         $file->move(public_path('/assets/'.$fileType),$unique.$name);
     }
-
      public function storAppSettings($request){
         $setting = Setting::first();
         if (!$setting){
@@ -137,19 +130,17 @@ trait Store{
         $setting->save();
         if ($request->has('year_id')){
             $year = Year::findOrfail($request->input('year_id'));
-            $years=Year::where('active','true')->get();
+            $years=Year::where('isActive','true')->get();
             foreach ($years as $oneYear) {
-                $oneYear->active='false';
+                $oneYear->isActive='false';
                 $oneYear->save();
             }
-            $year->active='true';
+            $year->isActive='true';
             $year->save();
         }
         if ($request->has('files') && count($request->files) > 0) {
-             foreach ($request->files as $file) {
-                foreach ($file as $f) {
-                    $this->storeOneFile($f,$setting,'logo');
-                }
+             foreach ($request['files'] as $file) {
+                    $this->storeOneFile($file,$setting,'logo');
             }
         }
     }
