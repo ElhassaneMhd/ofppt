@@ -23,12 +23,17 @@ Route::get('/admin', function () {
     return redirect('/admin/dashboard');
 });
 Route::middleware('auth')->prefix('/admin')->group(function () {
+    Route::inertia('/dashboard', 'Admin/Dashboard/Dashboard')->name('dashboard');
 
     Route::put('/session/year/{id}', function ($id) {
         request()->session()->forget('activeYear');
         session(['activeYear'=>Year::find($id)]);
         return to_route('settings');
     });
+    
+    Route::get('/settings/{tab?}', [GeneralController::class, 'settings'])->name('settings');
+    Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
+
     Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/user', [AuthController::class, 'user'])->name('user');
     Route::post('/user', [UsersController::class, 'updatePassword'])->name('password.update');
@@ -37,7 +42,6 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::post('/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
     Route::get('/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');
 
-    Route::inertia('/dashboard', 'Admin/Dashboard/Dashboard')->name('dashboard');
     $resources = [
         'filieres' => FilieresController::class,
         'articles' => ArticlesController::class,
@@ -64,6 +68,4 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         }
     }
 
-    Route::get('/settings/{tab?}', [GeneralController::class, 'settings'])->name('settings');
-    Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
 });
