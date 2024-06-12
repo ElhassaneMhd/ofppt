@@ -13,7 +13,7 @@ import { useNavigate } from '@/hooks/useNavigate';
 export function Actions({ row, actions }) {
   const { confirmOptions, rows, page, onPaginate, routeName, isTrashed, resourceName } = useTable();
   const { openModal } = useConfirmationModal();
-  const navigate = useNavigate();
+  const { navigate } = useNavigate();
 
   const defaultActions = {
     view: {

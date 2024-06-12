@@ -11,7 +11,7 @@ import { PiCheckBold } from 'react-icons/pi';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useOptions({ routeName, resourceName, formationYears = [], isTrashed }) {
-  const navigate = useNavigate();
+  const { navigate } = useNavigate();
 
   const columns = {
     id: {

@@ -4,8 +4,8 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 
 export function ModalFormLayout({ children, submitButton, cancelButton, backButton, className = '' }) {
   return (
-    <div className='flex flex-1 flex-col rounded-lg border border-border p-5 pb-3'>
-      <div className={`flex-1 overflow-auto pr-2 ${className}`}>{children}</div>
+    <div className='flex flex-1 flex-col rounded-lg border border-border p-3 sm:p-5 pb-3'>
+      <div className={`flex-1 overflow-auto ${className}`}>{children}</div>
       <div className='mt-5 flex flex-col-reverse justify-between gap-3 xs:flex-row'>
         {backButton && (
           // eslint-disable-next-line no-undef

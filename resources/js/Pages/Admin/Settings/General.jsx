@@ -4,24 +4,26 @@ import { GrFacebookOption, GrInstagram, GrLinkedin, GrMapLocation, GrTwitter, Gr
 import { FaCamera } from 'react-icons/fa6';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { ToolTip } from '@/components/ui';
+import { useNavigate } from '@/hooks/useNavigate';
+import { getFile } from '@/utils/helpers';
 
 export default function General({ settings = {} }) {
-  const defaultValues = {
-    appLogo: settings?.appLogo,
-    email: settings?.email,
-    phone: settings?.phone,
-    location: settings?.location,
-    maps: settings?.maps,
-    facebook: settings?.facebook,
-    twitter: settings?.twitter,
-    instagram: settings?.instagram,
-    linkedin: settings?.linkedin,
-    youtube: settings?.youtube,
-  };
+  const { navigate } = useNavigate();
   const {
     options: { formInputs, isUpdated, errors, handleSubmit, reset, getValue, setValue },
   } = useForm({
-    defaultValues,
+    defaultValues: {
+      appLogo: getFile(settings?.files?.[0]),
+      email: settings?.email,
+      phone: settings?.phone,
+      location: settings?.location,
+      maps: settings?.maps,
+      facebook: settings?.facebook,
+      twitter: settings?.twitter,
+      instagram: settings?.instagram,
+      linkedin: settings?.linkedin,
+      youtube: settings?.youtube,
+    },
     fields: [
       {
         name: 'email',
@@ -117,7 +119,7 @@ export default function General({ settings = {} }) {
         name: s.name.toLocaleLowerCase(),
         label: s.name,
         placeholder: s.href,
-        ...(i === arr.length - 1 && { parentClassName: 'xs:col-span-2' }),
+        ...(i === arr.length - 1 && { parentClassName: 'mobile:col-span-2' }),
         rules: {
           pattern: {
             value: new RegExp(`^((http|https):\\/\\/)?(www\\.)?${s.name.toLocaleLowerCase()}\\.com/.*$`),
@@ -136,18 +138,11 @@ export default function General({ settings = {} }) {
       })),
     ],
     onSubmit: (data) => {
-      const formData = new FormData();
-      for (const el in data) {
-        formData.append(
-          el,
-          (() => {
-            if (el === 'appLogo') return data[el].file;
-            if (el === 'maps') return extractSrc(data[el]);
-            return data[el] || '';
-          })()
-        );
-      }
-      console.log(formData);
+      navigate({
+        url: 'settings.update',
+        method: 'put',
+        data: { ...data, files: [data.appLogo?.file], maps: extractSrc(data.maps) },
+      });
     },
     gridLayout: true,
   });
@@ -167,9 +162,9 @@ export default function General({ settings = {} }) {
     >
       <div className='space-y-5'>
         <h3 className='mb-3 font-bold text-text-secondary'>Basic Info</h3>
-        <div className='grid grid-cols-[208px,auto] gap-5'>
+        <div className='grid mobile:grid-cols-[208px,auto] gap-5'>
           <div
-            className='group relative h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
+            className='group relative min-h-40 h-full overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat'
             style={{
               backgroundImage: `url(${getValue('appLogo')?.src})`,
             }}
@@ -181,7 +176,7 @@ export default function General({ settings = {} }) {
               <FaCamera />
             </button>
           </div>
-          <div className='grid w-full items-center gap-x-5 gap-y-3 xs:grid-cols-2'>
+          <div className='grid w-full items-center gap-x-5 gap-y-3 mobile:grid-cols-2'>
             {['facebook', 'twitter', 'instagram', 'linkedin', 'youtube']?.map((s) => formInputs[s])}
           </div>
         </div>

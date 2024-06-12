@@ -3,16 +3,19 @@ import { Button } from '@/components/ui';
 import { ModalFormLayout } from '@/layouts/Admin/ModalFormLayout';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { useForm, useUploadFile, useUser } from '@/hooks/index';
+import { useNavigate } from '@/hooks/useNavigate';
+import { getFile } from '@/utils/helpers';
 
 export default function Profile() {
   const { user } = useUser();
+  const { navigate } = useNavigate();
 
   const {
     Form,
     options: { isUpdated, handleSubmit, reset, setValue, getValue },
   } = useForm({
     defaultValues: {
-      avatar: user?.avatar,
+      avatar: getFile(user?.files?.[0]),
       firstName: user?.firstName,
       lastName: user?.lastName,
       email: user?.email,
@@ -38,7 +41,9 @@ export default function Profile() {
         type: 'phone',
       },
     ],
-    onSubmit: (data) => console.log(data),
+    onSubmit: (data) => {
+      navigate({ url: 'user.update', method: 'put', data: { ...data, files: [data.avatar?.file] } });
+    },
     gridLayout: true,
   });
 
@@ -70,7 +75,7 @@ function ProfileAvatar({ avatar, onChange, disabled, role }) {
   const { openFilePicker, options } = useUploadFile({ onChange });
 
   return (
-    <div className='grid grid-cols-[7rem_auto] items-center gap-5'>
+    <div className='grid mobile:grid-cols-[7rem_auto] max-mobile:place-content-center max-mobile:place-items-center items-center gap-5'>
       <div className='relative'>
         <Avatar className='h-28 w-28' avatar={avatar?.src} role={role} />
         <Button
@@ -83,7 +88,7 @@ function ProfileAvatar({ avatar, onChange, disabled, role }) {
           <HiMiniXMark />
         </Button>
       </div>
-      <div>
+      <div className='max-mobile:flex max-mobile:flex-col max-mobile:text-center max-mobile:justify-center max-mobile:items-center'>
         <Button
           type='outline'
           className='disabled:text-text-disabled disabled:hover:bg-background-disabled'

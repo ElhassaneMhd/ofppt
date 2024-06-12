@@ -5,7 +5,7 @@ import { useNavigate } from '@/hooks/useNavigate';
 
 export function NewRecord({ component,empty }) {
   const { resourceName, disabled, routeName } = useTable();
-  const navigate = useNavigate();
+  const { navigate } = useNavigate();
 
   const onAdd = () => navigate({ url: `${routeName}.create` });
 

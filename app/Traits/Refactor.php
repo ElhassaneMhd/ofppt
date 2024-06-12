@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+
 use App\Models\Setting;
 
 trait Refactor
@@ -17,7 +18,8 @@ trait Refactor
         }
         return $all ?? [];
     }
-    protected function refactorUser($user){
+    protected function refactorUser($user)
+    {
         return [
             "id" => $user->id,
             "firstName" => $user->firstName,
@@ -29,13 +31,14 @@ trait Refactor
             'updated_at' => $user->updated_at,
         ];
     }
-    protected function refactorArticle($article){
+    protected function refactorArticle($article)
+    {
         return [
             "id" => $article->id,
             "title" => $article->title,
             "details" => $article->details,
-            "publisher" => $article->user->firstName??"unknown" . ' ' . $article->user->lastName??"publisher",
-            "formationYear" => $this->refactorYear($article->year) ,
+            "publisher" => $article->user->firstName ?? "unknown" . ' ' . $article->user->lastName ?? "publisher",
+            "formationYear" => $this->refactorYear($article->year),
             "visibility" => $article->visibility,
             "categorie" => $article->categorie,
             "date" => $article->date,
@@ -61,7 +64,8 @@ trait Refactor
             "created_at" => $event->created_at
         ];
     }
-    protected function refactorFiliere($filiere){
+    protected function refactorFiliere($filiere)
+    {
         return  [
             "id" => $filiere->id,
             "title" => $filiere->title,
@@ -106,25 +110,25 @@ trait Refactor
             "created_at" => $demand->created_at
         ];
     }
-    public function refactorSettings(){
+    public function refactorSettings()
+    {
         $setting = Setting::first();
-        if(!$setting) {
-            $setting =new Setting();
+        if (!$setting) {
+            $setting = new Setting();
             $setting->save();
         }
-        $files = $this->getElementFiles($setting)??[];
         return [
-            'email'=> $setting->email ,
-            "phone"=>$setting->phone ,
-            "facebook"=> $setting->facebook ,
-            "instagram"=>$setting->instagram,
-            "twitter"=> $setting->twitter,
-            "youtube"=> $setting->youtube,
-            "linkedin"=> $setting->linkedin,
-            "maps"=> $setting->maps,
-            "location"=>$setting->location,
-            "aboutDescription"=>$setting->aboutDescription,
-            "files"=>$files
+            'email' => $setting->email,
+            "phone" => $setting->phone,
+            "facebook" => $setting->facebook,
+            "instagram" => $setting->instagram,
+            "twitter" => $setting->twitter,
+            "youtube" => $setting->youtube,
+            "linkedin" => $setting->linkedin,
+            "maps" => $setting->maps,
+            "location" => $setting->location,
+            "aboutDescription" => $setting->aboutDescription,
+            "files" => $this->getElementFiles($setting) ?? []
         ];
     }
 }

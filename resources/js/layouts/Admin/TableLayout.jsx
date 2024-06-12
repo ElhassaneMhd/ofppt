@@ -20,7 +20,7 @@ export function TableLayout({
   ...tableProps
 }) {
   const [parent] = useAutoAnimate({ duration: 300 });
-  const navigate = useNavigate();
+  const { navigate } = useNavigate();
   const { displayNewRecord, actions, haveTrashed } = { ...defaultOptions, ...(layoutOptions && layoutOptions) };
 
   return (
