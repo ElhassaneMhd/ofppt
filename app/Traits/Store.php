@@ -113,10 +113,10 @@ trait Store{
         $name = str_replace(' ','',$file->getClientOriginalName());
         $unique = uniqid();
          $element->files()->create(
-                    ['url' =>'/'.$fileType.'/'.$unique.$name,
+                    ['url' =>'/assets/'.$fileType.'/'.$unique.$name,
                         'type' => $fileType]
         );
-        $file->move(public_path('/'.$fileType),$unique.$name);
+        $file->move(public_path('/assets/'.$fileType),$unique.$name);
     }
 
      public function storAppSettings($request){
