@@ -67,16 +67,22 @@ trait Get{
         }
         return $Allfiles??[];
     }
-    public function getSectors($trashed = false){
+    public function getSectors($onlyVisible = false,$onyTrashed = false){
         $sectors = Filiere::all()->pluck('sector')->toArray();
-        if($trashed){
+        if($onlyVisible){
+            $sectors = Filiere::where('visibility', 'true')->get()->pluck('sector')->toArray();
+        }
+        if($onyTrashed){
             $sectors = Filiere::onlyTrashed()->get()->pluck('sector')->toArray();
         }
         return array_unique($sectors) ?? [];
     }
-    public function getCategories($trashed = false){
+    public function getCategories($onlyVisible = false,$onyTrashed = false){
         $categories = Article::all()->pluck('categorie')->toArray();
-        if($trashed){
+        if($onlyVisible){
+            $categories = Article::where('visibility', 'true')->get()->pluck('categorie')->toArray();
+        }
+        if($onyTrashed){
             $categories = Article::onlyTrashed()->get()->pluck('categorie')->toArray();
         }
         return array_unique($categories) ?? [];

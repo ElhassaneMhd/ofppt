@@ -48,10 +48,12 @@ class UsersController extends Controller
         return redirect('admin/settings/profile');
     }
     public function updatePassword(Request $request){
-        if($this->updateUserPassword($request)){
+        if($this->updateUserPassword($request)===true){
             return redirect('admin/settings/profile');
-        } else {
-            return redirect('admin/settings/password');
+        }elseif($this->updateUserPassword($request)==='same') {
+            return redirect('admin/settings/password')->withErrors(['password'=>'The new password must be different from the current password.']);
+        }elseif($this->updateUserPassword($request)==='wrong') {
+            return redirect('admin/settings/password')->withErrors(['password'=>'The current password is incorrect.']);
         }
 
     }

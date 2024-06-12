@@ -7,9 +7,7 @@ use Illuminate\Validation\Rules\Password;
 trait Update{
     protected function updateArticle($request,$article){
         $article->update($request->all());
-        //modify old files
         $oldImages = [];
-        //add new file
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
                 foreach ($file as $f) {
@@ -35,7 +33,6 @@ trait Update{
     protected function updateEvent($request,$event){
         $event->update($request->all());
         $oldImages = [];
-        //add new file
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
                 foreach ($file as $f) {
@@ -60,7 +57,6 @@ trait Update{
     protected function updateFiliere($request,$filiere){
         $filiere->update($request->all());
          $oldImages = [];
-        //add new file
         if ($request->has('files') && count($request->files) > 0) {
             foreach ($request->files as $file) {
                 foreach ($file as $f) {
@@ -78,11 +74,14 @@ trait Update{
         if ($request->input('email') !== $user->email){
             $request->validate(['email'=>'email|unique:users,email']);
         }
-         $request->validate([
+        if ($request->input('phone') !== $user->phone){
+            $request->validate(['phone'=>'unique:users,phone']);
+        }
+        $request->validate([
             'password'=>'nullable|confirmed|min:6',
             'role'=>'exists:roles,name',
         ]);
-         $user->update([
+        $user->update([
             'firstName' => $request->input('firstName'),
             'lastName' => $request->input('lastName'),
             'email' => $request->input('email'),
@@ -103,18 +102,18 @@ trait Update{
     public function updateUserPassword($request){
         $user = auth()->user();
         $validatedData = $request->validate([
-        'currentPassword' => ['required', Password::min(6)->numbers()]  ,
-        'password' => ['string','required',Password::min(6)->numbers(),'confirmed' ]
+            'currentPassword' => ['required', Password::min(6)->numbers()]  ,
+            'password' => ['string','required',Password::min(6)->numbers(),'confirmed' ]
         ]);
         if (Hash::check($validatedData['currentPassword'], $user->password)) {
             if (Hash::check($validatedData['password'], $user->password)) {
-                    return false;
+                    return 'same';
                 }
             $hashedPassword = Hash::make($validatedData['password']);
             $user->password = $hashedPassword;
             $user->save();
             return true;
         }
-        return false;
+        return 'wrong';
     }
 }

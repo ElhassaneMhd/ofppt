@@ -18,14 +18,18 @@ class AuthController extends Controller{
     }
     public function login(Request $request) {
         $data = $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email',
             'password' => 'required|string|min:6'
         ]);
         //check if the password is correct
         $user= User::where('email', $data['email'])->first();
+        if(!$user){
+            return to_route('formLogin')->withErrors(['email'=>'The provided email is incorrect.'])
+                ->withInput($request->only('email'));
+        }
         if (!Hash::check($data['password'], $user->password)) {
-                return to_route('formLogin')->with(['message' => "The password you've entered is incorrect. Please check your password and try again."
-            ]);
+                return to_route('formLogin')->withErrors(['password'=>'The provided password is incorrect.'])
+                    ->withInput($request->only('email'));
         }
         $activeYear = Year::active()->get()[0];
         session(['activeYear' => $activeYear]);

@@ -13,13 +13,11 @@ class GeneralController extends Controller
     public function trashed($data)
     {
         $path = 'Admin/' . ucfirst($data) . '/TrashedList';
-        $categories = $this->getCategories();
+        $categories = $this->getCategories(false,true);
         $formationYears = Year::all();
-        $sectors = $this->getSectors();
+        $sectors = $this->getSectors(false,true);
         $roles = Role::all();
         $data = $this->GetAll($data, true);
-
-
         $additionalData = [
             'categories' => $categories,
             'formationYears' => $formationYears,
