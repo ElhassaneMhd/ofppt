@@ -1,9 +1,10 @@
+import { Button } from '@/components/ui';
 import { IoEyeOffOutline, IoTrashOutline, IoEyeOutline } from '@/components/ui/Icons';
 
 export function Stat({ value={}, label={}, icon={}, onClick, className }) {
   return (
     <div
-      className={`flex min-h-24 items-start border border-border justify-between rounded-lg p-3 shadow-md bg-background-secondary ${className} ${onClick ? 'cursor-pointer transition-transform duration-300 hover:scale-95' : ''} `}
+      className={`flex min-h-24 items-start border-[1.2px] shadow-md border-border justify-between rounded-lg p-3  ${className} ${onClick ? 'cursor-pointer transition-transform duration-300 hover:scale-95' : ''} `}
       onClick={() => onClick?.()}
     >
       <div className='space-y-3'>
@@ -27,6 +28,7 @@ export function Stat({ value={}, label={}, icon={}, onClick, className }) {
           <h3 className={`text-3xl font-bold ${value.color || 'text-white'}`}>{value.value}</h3>
         )}
       </div>
+      <Button shape='icon'>{icon.icon}</Button>
       <div className={`rounded-lg p-2 text-xl ${icon.className || 'text-text-primary bg-background-tertiary'}`}>{icon.icon}</div>
     </div>
   );

@@ -84,7 +84,7 @@ export default function PieChartStats({ data, title, legend, COLORS, className =
 
   return (
     <div
-      className={`flex min-h-[400px] flex-col items-center gap-2 rounded-lg border border-border p-3 shadow-md ${className}`}
+      className={`flex min-h-[400px] flex-col items-center gap-2 rounded-lg border-[1.2px] shadow-md border-border p-3 ${className}`}
     >
       <h2 className='text-lg font-bold text-text-primary'>{title}</h2>
       <Legend legend={legend} />
