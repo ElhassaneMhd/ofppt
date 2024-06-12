@@ -3,101 +3,117 @@
 @tailwind utilities;
 
 :root {
-    /** Light Mode */
+  /** Light Mode */
 
-    &,
-    &.light {
-        --background-primary: rgb(255, 255, 255);
-        --background-secondary: rgb(240, 240, 240);
-        --background-tertiary: rgb(224, 224, 224);
-        --background-disabled: rgb(245, 245, 245);
-        --text-primary: rgb(0, 0, 0);
-        --text-secondary: rgb(51, 51, 51);
-        --text-tertiary: rgb(102, 102, 102);
-        --text-disabled: rgb(187, 187, 187);
-        --text-placeholder: rgb(225, 225, 224);
-        --border: rgba(0, 0, 0, 0.15);
-        /* --primary: #81de76; */
-        --primary: rgb(91, 180, 81);
-        --primary-hover: rgb(61, 131, 54);
+  &,
+  &.light {
+    --background-primary: rgb(255, 255, 255);
+    --background-secondary: rgb(240, 240, 240);
+    --background-tertiary: rgb(224, 224, 224);
+    --background-disabled: rgb(245, 245, 245);
+    --text-primary: rgb(0, 0, 0);
+    --text-secondary: rgb(51, 51, 51);
+    --text-tertiary: rgb(102, 102, 102);
+    --text-disabled: rgb(187, 187, 187);
+    --text-placeholder: rgb(225, 225, 224);
+    --border: rgba(0, 0, 0, 0.15);
+    /* --primary: #81de76; */
+    --primary: rgb(91, 180, 81);
+    --primary-hover: rgb(61, 131, 54);
 
-        color-scheme: light;
-    }
+    color-scheme: light;
+  }
 
-    /** Dark Mode */
+  /** Dark Mode */
 
-    &.dark {
-        --background-primary: rgb(13, 13, 13);
-        --background-secondary: rgb(25, 25, 25);
-        --background-tertiary: rgb(33, 33, 33);
-        --background-disabled: rgb(20, 17, 17);
-        --text-primary: rgb(255, 255, 255);
-        --text-secondary: rgb(202, 202, 202);
-        --text-tertiary: rgb(179, 179, 179);
-        --text-disabled: rgb(68, 68, 68);
-        --text-placeholder: rgb(55, 55, 55);
-        --border: rgba(255, 255, 255, 0.1);
-        --primary: rgb(91, 180, 81);
-        --primary-hover: rgb(61, 131, 54);
+  &.dark {
+    --background-primary: rgb(13, 13, 13);
+    --background-secondary: rgb(25, 25, 25);
+    --background-tertiary: rgb(33, 33, 33);
+    --background-disabled: rgb(20, 17, 17);
+    --text-primary: rgb(255, 255, 255);
+    --text-secondary: rgb(202, 202, 202);
+    --text-tertiary: rgb(179, 179, 179);
+    --text-disabled: rgb(68, 68, 68);
+    --text-placeholder: rgb(55, 55, 55);
+    --border: rgba(255, 255, 255, 0.1);
+    --primary: rgb(91, 180, 81);
+    --primary-hover: rgb(61, 131, 54);
 
-        color-scheme: dark;
-    }
+    /* color-scheme: dark; */
+  }
 
-    --secondary: rgb(58, 85, 180);
-    --secondary-hover: rgb(46, 70, 155);
+  --secondary: rgb(58, 85, 180);
+  --secondary-hover: rgb(46, 70, 155);
 }
 
 * {
-    @apply box-border scroll-smooth;
+  @apply box-border scroll-smooth;
 }
 
 body {
-    font-family: 'Lexend Deca', sans-serif;
-    @apply h-[100dvh] bg-background-primary !important;
+  font-family: 'Lexend Deca', sans-serif;
+  /* @apply h-[100dvh] bg-background-primary !important; */
 }
 
 #app {
-    @apply flex h-full bg-background-primary;
+  /* @apply flex h-full bg-background-primary; */
 }
 
 html.theme-transition {
-    * {
-        @apply transition-colors duration-200 !important;
-    }
+  * {
+    @apply transition-colors duration-200 !important;
+  }
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-    @apply h-1.5 w-0.5;
+  @apply h-1.5 w-0.5;
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-text-tertiary rounded-md;
+  @apply rounded-md bg-text-tertiary;
 }
 
 ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-corner {
-    @apply bg-transparent
+  @apply bg-transparent;
 }
 
 .no_scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
+}
+
+.spinning-animation {
+  animation-name: spinning;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
 
-    *,
-    *::before,
-    *::after {
-        animation-delay: -1ms !important;
-        animation-duration: 1ms !important;
-        animation-iteration-count: 1 !important;
-        background-attachment: initial !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0s !important;
-        transition-delay: 0s !important;
-    }
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

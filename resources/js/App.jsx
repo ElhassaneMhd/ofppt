@@ -3,7 +3,7 @@ import '@/styles/index.css';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
-import { AppLayout } from '@/layouts/Admin/AppLayout';
+import AppLayoutAdmin from '@/layouts/Admin/AppLayout';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorScreen } from './components/ui/ErrorScreen';
@@ -12,6 +12,7 @@ import { ConfirmationModalProvider } from './context/ConfirmationModal';
 import { i18n } from './i18n/config';
 import NotFound from './Pages/NotFound';
 import Settings from './Pages/Admin/Settings/Settings';
+import AppLayout from './Pages/AppLayout';
 
 createInertiaApp({
   resolve: (name) => {
@@ -19,8 +20,8 @@ createInertiaApp({
     const page = pages[`./Pages/${name}.jsx`];
 
     const layout = name?.startsWith('Admin')
-    // Admin page layout
-      ? (page) => {
+      ? // Admin page layout
+        (page) => {
           const layout = name.includes('/Show') ? (
             <div className='flex flex-1 flex-col gap-5 overflow-auto'>{page}</div>
           ) : name.includes('/Settings/') ? (
@@ -28,9 +29,16 @@ createInertiaApp({
           ) : (
             page
           );
-          return <AppLayout>{layout}</AppLayout>;
+          return <AppLayoutAdmin>{layout}</AppLayoutAdmin>;
         }
-      : undefined;
+      : (page) => {
+          const layout = name.includes('/Show') ? (
+            <div className='flex flex-1 flex-col gap-5 overflow-auto'>{page}</div>
+          ) : (
+            page
+          );
+          return layout;
+        };
 
     // console.log(name,page)
 
