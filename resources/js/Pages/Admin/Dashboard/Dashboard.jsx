@@ -33,7 +33,7 @@ function Stats({ stats }) {
   ].map(({ value, icon }) => ({
     label: { value: value },
     value: stats?.[value.toLocaleLowerCase()],
-    icon: {  icon: icon },
+    icon: { icon: icon },
     onClick: () => navigate({ url: `${value.toLocaleLowerCase()}.index` }),
   }));
 
@@ -101,8 +101,8 @@ function Analytics({ stats }) {
         </h2>
         <Legend
           legend={[
-            { text: 'Filieres', color: 'bg-green-500' },
-            { text: 'Events', color: 'bg-blue-500' },
+            { text: 'Filieres', color: 'bg-green-800' },
+            { text: 'Events', color: 'bg-blue-700' },
             { text: 'Articles', color: 'bg-orange-500' },
           ]}
         />
@@ -118,8 +118,8 @@ function Analytics({ stats }) {
             wrapperClassName='tooltip'
             cursor={<Rectangle radius={5} stroke='var(--border)' fill='var(--background-tertiary)' />}
           />
-          <Bar dataKey='filieres' fill='#22c55e' className='cursor-pointer' legendType='circle' />
-          <Bar dataKey='events' fill='#3b82f6' className='cursor-pointer' legendType='circle' />
+          <Bar dataKey='filieres' fill='#166534' className='cursor-pointer' legendType='circle' />
+          <Bar dataKey='events' fill='#0059b3' className='cursor-pointer' legendType='circle' />
           <Bar dataKey='articles' fill='#f97316' className='cursor-pointer' legendType='circle' />
         </BarChart>
       </ResponsiveContainer>
@@ -130,36 +130,22 @@ function Analytics({ stats }) {
 function Sectors({ stats }) {
   const sectors = stats?.filieres.sectors;
   const COLORS = [
-    '#FF5733',
-    '#33FF57',
-    '#3357FF',
-    '#F333FF',
-    '#FF3380',
-    '#80FF33',
-    '#33FFD5',
-    '#FF5733',
-    '#F3F315',
-    '#15F3F3',
-    '#F315F3',
-    '#9F15F3',
-    '#F3A515',
-    '#F3E515',
-    '#51F315',
-    '#15F351',
-    '#15F3F3',
-    '#159FF3',
-    '#1533F3',
-    '#6F15F3',
-    '#F3159F',
-    '#F31551',
-    '#F35115',
-    '#F39F15',
-    '#9FF315',
-    '#51F315',
-    '#15F39F',
-    '#15F3E5',
-    '#15E5F3',
-    '#159FF3',
+    '#003366',
+    '#004080',
+    '#0059b3',
+    '#0073e6',
+    '#004d99',
+    '#004d00',
+    '#006600',
+    '#008000',
+    '#009900',
+    '#00b300',
+    '#660000',
+    '#800000',
+    '#990000',
+    '#b30000',
+    '#cc0000',
+    '#e60000',
   ];
 
   return (

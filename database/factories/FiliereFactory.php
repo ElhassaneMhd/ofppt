@@ -23,7 +23,7 @@ class FiliereFactory extends Factory
             'visibility' => $this->faker->randomElement(['true', 'false']),
             'max_stagiaires' => $this->faker->randomNumber(2),
             'tags' => $this->faker->word,
-            'year_id' => 2,
+            'year_id' =>random_int(7,14),
             'sector' => $this->faker->word,
         ];
     }

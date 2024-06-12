@@ -25,7 +25,7 @@ class EventFactory extends Factory
             'upcoming' => $this->faker->randomElement(['true', 'false']),
             'visibility' => $this->faker->randomElement(['true', 'false']),
             'tags' => $this->faker->word,
-            'year_id' => 1,
+            'year_id' => random_int(7,14),
         ];
     }
 }
