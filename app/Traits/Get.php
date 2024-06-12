@@ -75,6 +75,7 @@ trait Get{
         if($onyTrashed){
             $sectors = Filiere::onlyTrashed()->get()->pluck('sector')->toArray();
         }
+        // dd(array_unique($sectors) ?? []);
         return array_unique($sectors) ?? [];
     }
     public function getCategories($onlyVisible = false,$onyTrashed = false){

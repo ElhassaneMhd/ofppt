@@ -3,7 +3,6 @@ import '@/styles/index.css';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
-import AppLayoutAdmin from '@/layouts/Admin/AppLayout';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorScreen } from './components/ui/ErrorScreen';
@@ -12,7 +11,7 @@ import { ConfirmationModalProvider } from './context/ConfirmationModal';
 import { i18n } from './i18n/config';
 import NotFound from './Pages/NotFound';
 import Settings from './Pages/Admin/Settings/Settings';
-import AppLayout from './Pages/AppLayout';
+import { AppLayout } from './layouts/Admin/AppLayout';
 
 createInertiaApp({
   resolve: (name) => {
@@ -29,7 +28,7 @@ createInertiaApp({
           ) : (
             page
           );
-          return <AppLayoutAdmin>{layout}</AppLayoutAdmin>;
+          return <AppLayout>{layout}</AppLayout>;
         }
       : (page) => {
           const layout = name.includes('/Show') ? (
