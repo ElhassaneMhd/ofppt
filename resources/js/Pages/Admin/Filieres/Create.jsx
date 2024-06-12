@@ -1,6 +1,6 @@
 import { useUploadFile } from '@/hooks';
 import CreatePageLayout from '@/layouts/Admin/CreatePageLayout';
-import { DataDropDown } from '../Shared';
+import { DataDropDown, FormationYear } from '../Shared';
 import { FaCamera } from 'react-icons/fa';
 import { Switch } from '@/components/ui';
 
@@ -39,12 +39,12 @@ export default function Create({
       }}
       isEdit={isEdit}
     >
-      <Form sectors={sectors} />
+      <Form sectors={sectors} isEdit={isEdit} />
     </CreatePageLayout>
   );
 }
 
-function Form({ options, details, tags, sectors }) {
+function Form({ options, details, tags, sectors,isEdit }) {
   const { formInputs, getValue, setValue } = options;
 
   const { openFilePicker } = useUploadFile({ onChange: (image) => setValue('files', [image]) });
@@ -88,6 +88,8 @@ function Form({ options, details, tags, sectors }) {
           </span>
         </div>
       </div>
+      {isEdit && <FormationYear  getValue={getValue} setValue={setValue} />}
+
       {details}
     </div>
   );

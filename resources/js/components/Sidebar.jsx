@@ -78,6 +78,7 @@ export default function Sidebar() {
             >
               {routesIcons[route]}
               <span className={spanClass}>{t(`app.sidebar.${route}`)}</span>
+              {props.count[route] && <span className='count justify-self-end text-xs'>{props.count[route]}</span>}
             </Link>
           </li>
         ))}
@@ -88,7 +89,9 @@ export default function Sidebar() {
           <ThemeToggler />
           <LanguageSwitcher layout={isExpanded ? 'long' : ''} iconDirection='up' size={isExpanded ? 'small' : ''} />
         </div>
-        <div className='text-xs pt-1 px-3 text-center w-full font-medium capitalize text-text-tertiary'>{props.year.year}</div>
+        <div className='w-full px-3 pt-1 text-center text-xs font-medium capitalize text-text-tertiary'>
+          {props.year.year}
+        </div>
       </div>
     </aside>
   );

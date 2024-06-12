@@ -22,7 +22,7 @@ createInertiaApp({
       ? // Admin page layout
         (page) => {
           const layout = name.includes('/Show') ? (
-            <div className='flex flex-1 border border-border rounded-xl p-5 flex-col gap-5 overflow-auto'>{page}</div>
+            <div className='flex flex-1 border border-border rounded-xl p-5 pb-3 flex-col gap-5 overflow-auto'>{page}</div>
           ) : name.includes('/Settings/') ? (
             <Settings>{page}</Settings>
           ) : (

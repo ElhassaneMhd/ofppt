@@ -47,7 +47,10 @@ export default function UsersList({ users, roles, isTrashed }) {
       {...options}
       fieldsToSearch={['title', 'details', 'location', 'publisher']}
       selectedOptions={{ deleteOptions: options.selectedOptions.deleteOptions }}
-      filters={{ ...filterObject(options.filters, ['created_at'], 'include'), ...getFilter('role', roles, 'name',(role) => role === 'admin') }}
+      filters={{
+        ...filterObject(options.filters, ['created_at'], 'include'),
+        ...getFilter('role', roles, 'name',),
+      }}
       layoutOptions={{ actions: (def) => [def.edit, def.delete], displayNewRecord: !isTrashed }}
       isTrashed={isTrashed}
     />

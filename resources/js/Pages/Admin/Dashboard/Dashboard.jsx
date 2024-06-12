@@ -48,14 +48,14 @@ function Stats({ stats }) {
             <h4 className='text-sm font-medium text-text-secondary'>Total Personnel</h4>
             <div className='flex flex-wrap gap-2'>
               {[
-                { name: 'Admins', value: stats?.users?.admins },
-                { name: 'Gestionaires', value: stats?.users?.gestionaires },
-              ].map(({ name, value }) => (
+                { name: 'Admins', value: stats?.users?.admins,param : 'super-admin' },
+                { name: 'Gestionaires', value: stats?.users?.gestionaires,param : 'gestionaire' },
+              ].map(({ name, value,param }) => (
                 <Button
                   key={name}
                   display='with-icon'
                   color='tertiary'
-                  onClick={() => navigate({ url: 'users.index', params: { role: name.toLowerCase() } })}
+                  onClick={() => navigate({ url: 'users.index', params: { role: param } })}
                 >
                   <h3 className='font-bold lg:text-xl'>{value}</h3>
                   <h5 className='text-xs capitalize lg:text-sm'>{name}</h5>

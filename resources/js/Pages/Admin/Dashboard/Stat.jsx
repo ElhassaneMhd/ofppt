@@ -29,7 +29,6 @@ export function Stat({ value={}, label={}, icon={}, onClick, className }) {
         )}
       </div>
       <Button shape='icon'>{icon.icon}</Button>
-      <div className={`rounded-lg p-2 text-xl ${icon.className || 'text-text-primary bg-background-tertiary'}`}>{icon.icon}</div>
     </div>
   );
 }

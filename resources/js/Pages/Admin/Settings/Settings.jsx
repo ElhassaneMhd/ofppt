@@ -33,7 +33,7 @@ export default function Settings({ children }) {
               className='absolute -bottom-0.5 h-0.5 rounded-lg bg-primary transition-all duration-300'
               style={{ left: `${indicatorStyle.left}px`, width: `${indicatorStyle.width}px` }}
             ></div>
-            {props.tabs.map((tab) => (
+            {props.tabs?.map((tab) => (
               <Link
                 key={tab}
                 href={`/admin/settings/${tab}`}

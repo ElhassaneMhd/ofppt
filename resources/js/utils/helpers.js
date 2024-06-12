@@ -203,6 +203,16 @@ export const getIntervals = (key, returned = ['past', 'present', 'future'], excl
     }));
 };
 
-export const getFilter = (name, data, field,isChecked) => ({
-  [name]: data ? data.map((c) => ({ value: field ? c[field] : c, checked: isChecked?.(c[field]) || false, id: field ? c[field] : c })) : [],
-});
+export const getFilter = (name, data, field) => {
+  const param = new URLSearchParams(window.location.search).get(name);
+
+  return {
+    [name]: data
+      ? data.map((c) => ({
+          value: field ? c[field] : c,
+          checked: param === (field ? c[field] : c),
+          id: field ? c[field] : c,
+        }))
+      : [],
+  };
+};

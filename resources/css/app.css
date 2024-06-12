@@ -1,12 +1,15 @@
 @import url(./libraries.css);
 
 .sidebar-element {
-  @apply grid cursor-pointer grid-cols-[30px_auto] items-center rounded-lg p-3 transition-colors duration-200 hover:bg-background-tertiary;
+  @apply grid cursor-pointer grid-cols-[30px_auto_40px] items-center rounded-lg p-3 transition-colors duration-200 hover:bg-background-tertiary;
   &.active {
     @apply bg-background-tertiary;
   }
   &.active span {
     @apply font-bold;
+  }
+  &:is(.active,:hover) .count{
+    @apply bg-background-secondary !important;
   }
   & svg {
     @apply text-lg text-text-secondary;
@@ -81,7 +84,7 @@
   }
 }
 .count {
-  @apply rounded-lg border border-border bg-background-secondary px-2 py-1 text-text-primary;
+  @apply w-fit rounded-lg border border-border bg-background-secondary px-2 py-1 text-text-primary;
 }
 
 .vertical {

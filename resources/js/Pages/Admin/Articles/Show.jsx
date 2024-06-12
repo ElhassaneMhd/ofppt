@@ -17,7 +17,7 @@ export default function Show({ article = {} }) {
             backgroundImage: `url(${getFile(files[0])?.src})`,
           }}
         >
-          {~files[0]?.src && <CiImageOff className='text-4xl' />}{' '}
+          {~files[0]?.src && <CiImageOff className='text-4xl text-text-secondary' />}{' '}
         </div>
         <div className='mb-3 flex gap-5 text-xs font-medium text-text-secondary'>
           <div className='flex items-center gap-2'>
@@ -37,7 +37,7 @@ export default function Show({ article = {} }) {
         </div>
         <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
         <div
-          className='details flex-1 overflow-auto'
+          className='details flex-1 text-text-primary overflow-auto'
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
         />
       </div>
