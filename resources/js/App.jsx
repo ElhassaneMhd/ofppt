@@ -11,6 +11,7 @@ import { I18nextProvider } from 'react-i18next';
 import { ConfirmationModalProvider } from './context/ConfirmationModal';
 import { i18n } from './i18n/config';
 import NotFound from './Pages/NotFound';
+import Settings from './Pages/Admin/Settings/Settings';
 
 createInertiaApp({
   resolve: (name) => {
@@ -18,20 +19,20 @@ createInertiaApp({
     const page = pages[`./Pages/${name}.jsx`];
 
     const layout = name?.startsWith('Admin')
-      ? (page) => (
-          <AppLayout>
-            {name.includes('/Show')  ? (
-              <div className='flex h-full flex-col gap-5 overflow-auto rounded-lg border border-border p-5 pb-3'>
-                {page}
-              </div>
-            ) : (
-              page
-            )}
-          </AppLayout>
-        )
+    // Admin page layout
+      ? (page) => {
+          const layout = name.includes('/Show') ? (
+            <div className='flex flex-1 flex-col gap-5 overflow-auto'>{page}</div>
+          ) : name.includes('/Settings/') ? (
+            <Settings>{page}</Settings>
+          ) : (
+            page
+          );
+          return <AppLayout>{layout}</AppLayout>;
+        }
       : undefined;
 
-      // console.log(name,page)
+    // console.log(name,page)
 
     if (!page) return NotFound;
 

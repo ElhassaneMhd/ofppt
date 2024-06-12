@@ -29,17 +29,18 @@ class GeneralController extends Controller
 
         return Inertia::render($path, compact('data', 'additionalData'));
     }
-    public function multipleAction(Request $request, $data, $action){
+    public function multipleAction(Request $request, $data, $action)
+    {
         $ids = request()['ids'];
         $model = 'App\\Models\\' . ucfirst(Str::singular($data));
-        foreach($ids as $id){
-            if($action === 'destroy'){
+        foreach ($ids as $id) {
+            if ($action === 'destroy') {
                 $this->destroyElement($model, $id);
             }
-            if($action === 'delete'){
+            if ($action === 'delete') {
                 $this->forceDeleteData($model, $id);
             }
-            if($action === 'restore'){
+            if ($action === 'restore') {
                 $this->restoreData($model, $id);
             }
         }
@@ -47,14 +48,25 @@ class GeneralController extends Controller
             foreach ($ids as $id) {
                 $element = $model::Find($id);
                 ($element->visibility === 'true') ? $visibility = 'false' : $visibility = 'true';
-                $element->visibility =  $visibility ;
+                $element->visibility =  $visibility;
                 $element->save();
             }
         }
     }
-    public function setAppSettings(Request $request){
+    public function setAppSettings(Request $request)
+    {
         $this->storAppSettings($request);
         return redirect()->back();
+    }
+    public function settings($tab)
+    {
+        $tabs = ['profile', 'password', 'general', 'about'];
+        if (!in_array($tab, $tabs)) {
+            return redirect()->back();
+        }
+        $path = 'Admin/Settings/' . ucfirst($tab);
+
+        return Inertia::render($path);
     }
     public function stats()
     {

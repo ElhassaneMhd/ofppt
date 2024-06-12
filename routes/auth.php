@@ -45,12 +45,14 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         Route::delete('/' . $resource . '/{id}/forceDelete', [$controller, 'forceDelete'])->name($resource . '.forceDelete');
         Route::post('/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
 
-        foreach(['restore','delete','destroy'] as $action){
-            Route::post('/'.$resource.'/multiple/'.$action,[GeneralController::class, 'multipleAction'])->name($resource.'.multiple.'.$action);
+        foreach (['restore', 'delete', 'destroy'] as $action) {
+            Route::post('/' . $resource . '/multiple/' . $action, [GeneralController::class, 'multipleAction'])->name($resource . '.multiple.' . $action);
         }
-        if(in_array($resource, ['articles', 'filieres','events'])){
-            Route::post('/'.$resource.'/multiple/toggle', [GeneralController::class, 'multipleAction'])->name($resource.'.multiple.toggle');
+        if (in_array($resource, ['articles', 'filieres', 'events'])) {
+            Route::post('/' . $resource . '/multiple/toggle', [GeneralController::class, 'multipleAction'])->name($resource . '.multiple.toggle');
         }
     }
+
+    Route::get('/settings/{tab}', [GeneralController::class, 'settings'])->name('settings');
     Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
 });
