@@ -33,7 +33,7 @@ export default function Password() {
         rules: { ...RULES.passwordConfirmation },
       },
     ],
-    onSubmit: (data) => navigate({ url: 'password.update', method: 'put', data }),
+    onSubmit: (data) => navigate({ url: 'password.update', method: 'post', data }),
     gridLayout: false,
     submitOnEnter: true,
   });

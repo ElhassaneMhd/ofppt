@@ -70,11 +70,6 @@ class GeneralController extends Controller
 
         return Inertia::render($path, compact(('settings')));
     }
-    public function activeSessionYear($id){
-        request()->session()->forget('activeYear');
-        session(['activeYear'=>Year::find($id)]);
-        return to_route('settings');
-    }
     public function stats(){
         return $this->getStats();
     }

@@ -31,7 +31,8 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     });
     Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/user', [AuthController::class, 'user'])->name('user');
-    Route::put('/user', [UsersController::class, 'updatePassword'])->name('password.update');
+    Route::post('/user', [UsersController::class, 'updatePassword'])->name('password.update');
+    Route::put('/user', [UsersController::class, 'updateInfo'])->name('user.update');
 
     Route::post('/{data}/multiple/{action}', [GeneralController::class, 'multipleAction']);
     Route::get('/{data}/trashed', [GeneralController::class, 'trashed'])->name('trashed');

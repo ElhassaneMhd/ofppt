@@ -42,8 +42,18 @@ class UsersController extends Controller
         $this->updateUser($request, $user);
         return redirect()->route('users.index');
     }
+    public function updateInfo(Request $request){
+        $user = auth()->user();
+        $this->updateUser($request, $user);
+        return redirect('admin/settings/profile');
+    }
     public function updatePassword(Request $request){
-        $this->updateUserPassword($request);
+        if($this->updateUserPassword($request)){
+            return redirect('admin/settings/profile');
+        } else {
+            return redirect('admin/settings/password');
+        }
+
     }
 
     public function destroy($id){
