@@ -29,7 +29,7 @@ function Login() {
   return (
     <>
       <Head title='Login' />
-      <div className='grid h-full w-full place-content-center'>
+      <div className='grid h-screen bg-background-primary w-full place-content-center'>
         <div className='flex w-full flex-col gap-3 rounded-xl bg-background-secondary p-5 shadow-md sm:w-[600px]'>
           <h1 className='mb-8 text-2xl font-bold text-text-primary sm:text-3xl'>Welcome Back</h1>
           {Form}

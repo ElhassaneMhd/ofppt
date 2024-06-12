@@ -18,32 +18,26 @@ createInertiaApp({
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
 
-    const layout = name?.startsWith('Admin')
+    const pageLayout = name?.startsWith('Admin')
       ? // Admin page layout
         (page) => {
           const layout = name.includes('/Show') ? (
-            <div className='flex flex-1 flex-col gap-5 overflow-auto'>{page}</div>
+            <div className='flex flex-1 border border-border rounded-xl p-5 flex-col gap-5 overflow-auto'>{page}</div>
           ) : name.includes('/Settings/') ? (
             <Settings>{page}</Settings>
           ) : (
             page
           );
+          console.log(layout)
           return <AppLayout>{layout}</AppLayout>;
         }
-      : (page) => {
-          const layout = name.includes('/Show') ? (
-            <div className='flex flex-1 flex-col gap-5 overflow-auto'>{page}</div>
-          ) : (
-            page
-          );
-          return layout;
-        };
+      : undefined;
 
-    // console.log(name,page)
+    // console.log(name, page);
 
     if (!page) return NotFound;
 
-    page.default.layout = page.default.layout || layout;
+    page.default.layout = page.default.layout || pageLayout;
 
     return page;
   },
