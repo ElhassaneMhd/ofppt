@@ -8,9 +8,10 @@ export default function Settings({ children }) {
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const tabContainerRef = useRef(null);
   const [parent] = useAutoAnimate({ duration: 300 });
+  const {props} = usePage()
+
 
   const currentTab = usePage().url.split('/admin/settings/')[1];
-  const tabs = ['profile', 'password', 'general', 'about'];
 
   useEffect(() => {
     const activeTabElement = tabContainerRef.current?.querySelector(`[data-tab="${currentTab}"]`);
@@ -32,7 +33,7 @@ export default function Settings({ children }) {
               className='absolute -bottom-0.5 h-0.5 rounded-lg bg-primary transition-all duration-300'
               style={{ left: `${indicatorStyle.left}px`, width: `${indicatorStyle.width}px` }}
             ></div>
-            {tabs.map((tab) => (
+            {props.tabs.map((tab) => (
               <Link
                 key={tab}
                 href={`/admin/settings/${tab}`}

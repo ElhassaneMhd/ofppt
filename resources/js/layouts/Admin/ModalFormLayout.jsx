@@ -22,7 +22,7 @@ export function ModalFormLayout({ children, submitButton, cancelButton, backButt
               {cancelButton.text || 'Cancel'}
             </Button>
           )}
-          <Button {...submitButton}>{submitButton.text || 'Save Changes'}</Button>
+          <Button {...submitButton} color='secondary'>{submitButton.text || 'Save Changes'}</Button>
         </div>
       </div>
     </div>
