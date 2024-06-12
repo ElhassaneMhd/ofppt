@@ -23,7 +23,7 @@ Route::get('/admin', function () {
     return redirect('/admin/dashboard');
 });
 Route::middleware('auth')->prefix('/admin')->group(function () {
-    Route::inertia('/dashboard', 'Admin/Dashboard/Dashboard')->name('dashboard');
+    Route::get('/dashboard', [GeneralController::class, 'dashboard'])->name('dashboard');
 
     Route::put('/session/year/{id}', function ($id) {
         request()->session()->forget('activeYear');

@@ -139,7 +139,7 @@ trait Get{
         ];
         foreach(Year::all() as $year){
             $years['years'][$year->year] = [
-                'filiers' => count(Filiere::where('year_id', $year->id)->get()),
+                'filieres' => count(Filiere::where('year_id', $year->id)->get()),
                 'events' => count(Event::where('year_id', $year->id)->get()),
                 'articles' => count(Article::where('year_id', $year->id)->get()),
             ];
@@ -148,8 +148,11 @@ trait Get{
         if($for === 'homepage'){
             return compact('filieres','years');
         }
-        if ($for === 'admin'|| 'uper-admin') {
-            return compact('users', 'articles', 'filieres', 'events', 'demands');
+        if ('super-admin') {
+            return compact('users', 'articles', 'filieres', 'events', 'demands','years');
+        }
+        if ($for === 'admin') {
+            return compact( 'articles', 'filieres', 'events', 'demands','years');
         }
         if ($for === 'gestionaire') {
             return compact('articles', 'filieres', 'events');
