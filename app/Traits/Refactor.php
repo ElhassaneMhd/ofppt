@@ -54,7 +54,7 @@ trait Refactor
         return [
             "id" => $event->id,
             "title" => $event->title,
-            "formationYear" => $event->year->year,
+            "formationYear" => $this->refactorYear($event->year),
             "details" => $event->details,
             "date" => $event->date,
             "visibility" => $event->visibility,
@@ -71,7 +71,7 @@ trait Refactor
         return  [
             "id" => $filiere->id,
             "title" => $filiere->title,
-            "formationYear" => $filiere->year->year,
+            "formationYear" => $this->refactorYear($filiere->year) ,
             "details" => $filiere->details,
             "sector" => $filiere->sector,
             "isActive" => $filiere->isActive,

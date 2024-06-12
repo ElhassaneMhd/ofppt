@@ -137,12 +137,12 @@ trait Store{
         $setting->save();
         if ($request->has('year_id')){
             $year = Year::findOrfail($request->input('year_id'));
-            $years=Year::where('active',1)->get();
+            $years=Year::where('active','true')->get();
             foreach ($years as $oneYear) {
-                $oneYear->active=0;
+                $oneYear->active='false';
                 $oneYear->save();
             }
-            $year->active=1;
+            $year->active='true';
             $year->save();
         }
         if ($request->has('files') && count($request->files) > 0) {

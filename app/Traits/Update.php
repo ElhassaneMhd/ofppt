@@ -21,15 +21,16 @@ trait Update{
                 }
             }
         }
-        foreach($article->files as $file) {
-            if (!in_array( $file->id, $oldImages)){
-                $filePath = public_path('article/'. $file->url);
-                if (\Illuminate\Support\Facades\File::exists($filePath)) {
-                    \Illuminate\Support\Facades\File::delete($filePath);
-                }
-               $file->delete();
-            }
-        }
+
+        // foreach($article->files as $file) {
+        //     if (!in_array( $file->id, $oldImages)){
+        //         $filePath = public_path('article/'. $file->url);
+        //         if (\Illuminate\Support\Facades\File::exists($filePath)) {
+        //             \Illuminate\Support\Facades\File::delete($filePath);
+        //         }
+        //        $file->delete();
+        //     }
+        // }
     }
     protected function updateEvent($request,$event){
         $event->update($request->all());
@@ -46,15 +47,15 @@ trait Update{
                 }
             }
         }
-        foreach($event->files as $file) {
-            if (!in_array( $file->id, $oldImages)){
-                $filePath = public_path('event/'. $file->url);
-                if (\Illuminate\Support\Facades\File::exists($filePath)) {
-                    \Illuminate\Support\Facades\File::delete($filePath);
-                }
-               $file->delete();
-            }
-        }
+        // foreach($event->files as $file) {
+        //     if (!in_array( $file->id, $oldImages)){
+        //         $filePath = public_path('event/'. $file->url);
+        //         if (\Illuminate\Support\Facades\File::exists($filePath)) {
+        //             \Illuminate\Support\Facades\File::delete($filePath);
+        //         }
+        //        $file->delete();
+        //     }
+        // }
     }
     protected function updateFiliere($request,$filiere){
         $filiere->update($request->all());
@@ -64,10 +65,8 @@ trait Update{
             foreach ($request->files as $file) {
                 foreach ($file as $f) {
                     if(is_numeric($f)){
-                        dd($f);
                         $oldImages[] = $f;
                     }else{
-                        dd($f);
                         $this->storeOneFile($f,$filiere,'filiere');
                     }
                 }
