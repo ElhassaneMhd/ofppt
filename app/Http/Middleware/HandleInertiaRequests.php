@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Traits\Refactor;
+use App\Traits\Get;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
-    use Refactor;
+    use Get;
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -34,7 +34,15 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'auth' => auth()->check() ?$this->refactorUser($request->user()):null,
+            'auth' => auth()->check() ? ([
+                "id" => $request->user()->id,
+                "firstName" => $request->user()->firstName,
+                "lastName" => $request->user()->lastName,
+                "email" => $request->user()->email,
+                "phone" => $request->user()->phone,
+                "role" => $request->user()->getRoleNames()[0],
+                "files" =>$this->getElementFiles($request->user())??[],
+            ]) : null,
             'year'=> Session::get('activeYear'),
         ];
     }

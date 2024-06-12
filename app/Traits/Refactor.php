@@ -5,6 +5,7 @@ use App\Models\Setting;
 
 trait Refactor
 {
+
     protected function refactorManyElements($elements, $data)
     {
         foreach ($elements as $element) {
@@ -25,6 +26,7 @@ trait Refactor
             "email" => $user->email,
             "phone" => $user->phone,
             "role" => $user->getRoleNames()[0],
+            "files" => $this->getElementFiles($user) ?? [],
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
         ];

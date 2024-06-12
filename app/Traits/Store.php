@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Filiere;
+use App\Models\Year;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -134,6 +135,16 @@ trait Store{
         $setting->location =  $request->input('location')??$setting->location??null;
         $setting->aboutDescription =  $request->input('aboutDescription')?? $setting->aboutDescription??null;
         $setting->save();
+        if ($request->has('year_id')){
+            $year = Year::findOrfail($request->input('year_id'));
+            $years=Year::where('active',1)->get();
+            foreach ($years as $oneYear) {
+                $oneYear->active=0;
+                $oneYear->save();
+            }
+            $year->active=1;
+            $year->save();
+        }
         if ($request->has('files') && count($request->files) > 0) {
              foreach ($request->files as $file) {
                 foreach ($file as $f) {

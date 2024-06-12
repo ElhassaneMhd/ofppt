@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('email')->nullable()->default('email@gmail.com');
-            $table->string('phone')->nullable()->default('0123456789');
+            $table->string('phone')->nullable()->default('0636456789');
             $table->string('facebook')->nullable()->default('https://www.facebook.com/');
             $table->string('instagram')->nullable()->default('https://www.instagram.com/');
             $table->string('twitter')->nullable()->default('https://twitter.com/');
             $table->string('youtube')->nullable()->default('https://www.youtube.com/');
             $table->string('linkedin')->nullable()->default('https://www.linkedin.com/');
-            $table->text('maps')->nullable()->default('https://www.google.com/maps');
+            $table->text('maps')->nullable()->default('https://maps.app.goo.gl/ukHGaF5UynA1SZw3A');
             $table->string('location')->nullable()->default('Maroc, Sale');
             $table->text('aboutDescription')->nullable()->default('About Us');
             $table->timestamps();

@@ -93,7 +93,8 @@ trait Update{
         ]);
         $user->syncRoles($request->input('role'));
     }
-    public function updateUserPassword($request,$user){
+    public function updateUserPassword($request){
+        $user = auth()->user();
         $validatedData = $request->validate([
                     'currentPassword' => [
                             'required',
