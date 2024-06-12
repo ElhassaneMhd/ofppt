@@ -15,6 +15,6 @@ use App\Traits\Update;
 
 
 class Controller extends BaseController{
-    use AuthorizesRequests, DispatchesJobs,ValidatesRequests,Get,Store,Restore,Delete,Refactor,Update;
+    use AuthorizesRequests, DispatchesJobs,ValidatesRequests,Delete,Get,Refactor,Restore,Store,Update;
 
 }

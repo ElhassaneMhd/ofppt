@@ -40,12 +40,12 @@ class UsersController extends Controller
     public function update(Request $request, $id){
         $user = User::find($id);
         $this->updateUser($request, $user);
-        return to_route('users.index');
+        return redirect()->route('users.index');
     }
-    public function updatePassword(Request $request, $id){
-        $user = User::find($id);
-        $this->updateUserPassword($request, $user);
+    public function updatePassword(Request $request){
+        $this->updateUserPassword($request);
     }
+
     public function destroy($id){
         $this->destroyElement(User::class, $id);
         return redirect()->route('users.index');

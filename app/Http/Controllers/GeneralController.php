@@ -53,15 +53,13 @@ class GeneralController extends Controller
             }
         }
     }
-    public function setAppSettings(Request $request)
-    {
+    public function setAppSettings(Request $request){
         $this->storAppSettings($request);
         return redirect()->back();
     }
-    public function settings($tab = false)
-    {
-        if (!$tab) {
-            return Inertia::render('Admin/Settings/Profile');
+    public function settings($tab=false){
+        if(!$tab){
+            return redirect('admin/settings/profile');
         }
         $tabs = ['profile', 'password', 'general', 'about'];
         if (!in_array($tab, $tabs)) {
@@ -72,8 +70,12 @@ class GeneralController extends Controller
 
         return Inertia::render($path, compact(('settings')));
     }
-    public function stats()
-    {
+    public function activeSessionYear($id){
+        request()->session()->forget('activeYear');
+        session(['activeYear'=>Year::find($id)]);
+        return to_route('settings');
+    }
+    public function stats(){
         return $this->getStats();
     }
 }
