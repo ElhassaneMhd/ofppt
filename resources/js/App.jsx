@@ -1,7 +1,7 @@
 import './bootstrap';
 import '@/styles/index.css';
 
-import { createInertiaApp } from '@inertiajs/react';
+import { createInertiaApp, usePage } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -12,6 +12,7 @@ import { i18n } from './i18n/config';
 import NotFound from './Pages/NotFound';
 import Settings from './Pages/Admin/Settings/Settings';
 import { AppLayout } from './layouts/Admin/AppLayout';
+import PageLayout from './Pages/PageLayout';
 
 createInertiaApp({
   resolve: (name) => {
@@ -30,14 +31,17 @@ createInertiaApp({
           );
           return <AppLayout>{layout}</AppLayout>;
         }
-      : (page) => {
-          const layout = name.includes('/Show') ? (
-            <div className='flex flex-1 flex-col gap-5 overflow-auto'>{page}</div>
-          ) : (
-            page
-          );
-          return layout;
-        };
+      : name?.startsWith('HomePage')
+        ? (page) => {
+            const layout = page;
+            return layout;
+          }
+        : (page) => {
+            const layout = (
+              <PageLayout pages={['home', 'blog', 'filieres', 'evenements', 'contact']}>{page}</PageLayout>
+            );
+            return layout;
+          };
 
     // console.log(name,page)
 
