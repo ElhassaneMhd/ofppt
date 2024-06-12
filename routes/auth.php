@@ -28,7 +28,6 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::put('/session/year/{id}', function ($id) {
         request()->session()->forget('activeYear');
         session(['activeYear'=>Year::find($id)]);
-        return to_route('settings');
     });
     
     Route::get('/settings/{tab?}', [GeneralController::class, 'settings'])->name('settings');

@@ -22,7 +22,7 @@ class EventFactory extends Factory
             'location' => $this->faker->city,
             'duration' => $this->faker->randomNumber(1),
             'details' => $this->faker->paragraph,
-            'status' => $this->faker->randomElement(['upcoming', 'deja']),
+            'upcoming' => $this->faker->randomElement(['true', 'false']),
             'visibility' => $this->faker->randomElement(['true', 'false']),
             'tags' => $this->faker->word,
             'year_id' => 1,

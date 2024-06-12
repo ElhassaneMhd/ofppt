@@ -13,7 +13,7 @@ class HomeController extends Controller{
         $events= $this->GetAll('events');
         $filieres= $this->GetAll('filieres');
         $sectors = $this->getSectors();
-        $stats = $this->getStats();
+        $stats = $this->getStats('homepage');
         $pageName = "home";
         $pages = ["home", "blog", "filieres", "evenements", "contact"];
         $sectorsWithStats = [];
@@ -30,7 +30,7 @@ class HomeController extends Controller{
     }
     public function sectorFilieres($sector){
         $filieres= Filiere::where('sector',$sector)->where('visibility','true')->get();
-        $sectors = $this->getSectors();
+        $sectors = $this->getSectors(true,false);
         return Inertia::render('Sectors/Filieres',compact('filieres','sectors'));
     }
     public function storeDemands(Request $request){

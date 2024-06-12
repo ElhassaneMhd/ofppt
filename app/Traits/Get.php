@@ -6,6 +6,7 @@ use App\Models\Demand;
 use App\Models\Event;
 use App\Models\Filiere;
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Support\Str;
 
 trait Get{
@@ -88,7 +89,7 @@ trait Get{
         }
         return array_unique($categories) ?? [];
     }
-    public function getStats(){
+    public function getStats($for){
         $superAdmins = User::role('super-admin')->count();
         $gestionaires = User::role('gestionaire')->count();
         $admins = User::role('admin')->count();
@@ -128,10 +129,29 @@ trait Get{
             'trashed' => count(Event::onlyTrashed()->get()),
             'visible' => count(Event::where('visibility', 'true')->get()),
             'hidden' => count(Event::where('visibility', 'false')->get()),
-            "upcoming" => count(Event::where('status','upcoming')->get()),
+            "upcoming" => count(Event::where('upcoming','true')->get()),
         ];
         $demands = ['totale' => count(Demand::all())];
 
-        return compact('users','articles','filieres','events','demands');
+        $years = [
+            'total' => count(Year::all())
+        ];
+        foreach(Year::all() as $year){
+            $years['years'][$year->year] = [
+                'filiers' => count(Filiere::where('year_id', $year->id)->get()),
+                'events' => count(Event::where('year_id', $year->id)->get()),
+                'articles' => count(Article::where('year_id', $year->id)->get()),
+            ];
+        }
+
+        if($for === 'homepage'){
+            return compact('filieres','years');
+        }
+        if ($for === 'admin'|| 'uper-admin') {
+            return compact('users', 'articles', 'filieres', 'events', 'demands');
+        }
+        if ($for === 'gestionaire') {
+            return compact('articles', 'filieres', 'events');
+        }
     }
 }

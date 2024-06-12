@@ -6,9 +6,7 @@ use App\Models\Setting;
 
 trait Refactor
 {
-
-    protected function refactorManyElements($elements, $data)
-    {
+    protected function refactorManyElements($elements, $data){
         foreach ($elements as $element) {
             ($data === 'users') && $all[] = $this->refactorUser($element);
             ($data === 'articles') && $all[] = $this->refactorArticle($element);
@@ -59,7 +57,7 @@ trait Refactor
             "date" => $event->date,
             "visibility" => $event->visibility,
             'location' => $event->location,
-            'upcoming' => $event->status,
+            'upcoming' => $event->upcoming,
             "duration" => $event->duration,
             "tags" => explode(',', $event->tags) ?? [],
             "files" => $this->getElementFiles($event) ?? [],
