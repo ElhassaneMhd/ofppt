@@ -1,4 +1,3 @@
-import { route } from 'ziggy-js';
 import Section from './Section';
 
 function Header({ pageName, pages }) {

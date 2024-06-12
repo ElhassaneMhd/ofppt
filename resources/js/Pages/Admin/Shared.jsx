@@ -245,7 +245,7 @@ export function DetailsPreview({ details, label = true }) {
     <div className='details flex min-h-60 flex-1 flex-col gap-1.5 overflow-hidden'>
       {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>}
       <div
-        className='flex-1 overflow-auto rounded-lg border border-border p-3'
+        className='flex-1 text-text-primary overflow-auto rounded-lg border border-border p-3'
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
       />
     </div>
@@ -258,7 +258,7 @@ export function TagsPreview({ tags, label = true }) {
       {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Tags :</label>}
       <ul className='flex max-h-[250px] flex-wrap gap-x-3 gap-y-1 overflow-auto py-1.5'>
         {tags.map((t) => (
-          <span key={t} className='text-xs font-semibold capitalize transition-colors duration-300'>
+          <span key={t} className='text-xs text-text-secondary font-semibold capitalize transition-colors duration-300'>
             <span className='text-secondary'>#</span>
             {t}
           </span>

@@ -12,8 +12,8 @@ class HomeController extends Controller{
         $articles= $this->GetAll('articles');
         $events= $this->GetAll('events');
         $filieres= $this->GetAll('filieres');
-        $sectors = $this->getSectors();
-        $stats = $this->getStats('homepage');
+        $sectors = $this->getSectors(true, false);
+        $stats = $this->getStats("homepage");
         $pageName = "home";
         $pages = ["home", "blog", "filieres", "evenements", "contact"];
         $sectorsWithStats = [];
