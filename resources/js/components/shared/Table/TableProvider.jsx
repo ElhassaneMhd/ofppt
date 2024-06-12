@@ -176,9 +176,10 @@ export function TableProvider({
 
   useEffect(() => {
     setFilters((prev) => {
+      console.log(prev)
       const updated = {};
       Object.keys(prev).forEach((key) => {
-        updated[key] = prev[key].map((f) => ({ ...f, checked: state.checked[key]?.includes(f.id) || false}));
+        updated[key] = prev[key].map((f) => ({ ...f, checked: f.checked || state.checked[key]?.includes(f.id) || false}));
       });
       return updated;
     });

@@ -84,7 +84,7 @@ export default function PieChartStats({ data, title, legend, COLORS, className =
 
   return (
     <div
-      className={`flex col-span-2  min-h-[400px] flex-col items-center gap-2 rounded-lg border border-border p-3 shadow-md ${className}`}
+      className={`flex min-h-[400px] flex-col items-center gap-2 rounded-lg border border-border p-3 shadow-md ${className}`}
     >
       <h2 className='text-lg font-bold text-text-primary'>{title}</h2>
       <Legend legend={legend} />
@@ -129,7 +129,7 @@ export function Legend({ legend, className = '' }) {
             className={`h-3 w-6 rounded-md ${el.color}`}
             style={el.color.includes('#') ? { backgroundColor: el.color } : {}}
           ></span>
-          <span className='text-xs font-medium'>{el.text}</span>
+          <span className='capitalize text-xs font-medium'>{el.text}</span>
         </div>
       ))}
     </div>
