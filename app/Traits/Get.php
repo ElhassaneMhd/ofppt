@@ -95,7 +95,7 @@ trait Get{
             'visible' => count(Article::where('visibility', 'true')->get()),
             'hidden' => count(Article::where('visibility', 'false')->get()),
         ];
-        $Allcategories = $this->getCategories();
+        $Allcategories = $this->getCategories(true);
         foreach($Allcategories as $categorie){
             $articles['categories'][$categorie] = Article::where('categorie',$categorie)->count();
         }
@@ -108,7 +108,7 @@ trait Get{
             'active' => count(Filiere::where('isActive', 'true')->get()),
             'inactive' => count(Filiere::where('isActive', 'false')->get()),
         ];
-        $Allsectores = $this->getSectors();
+        $Allsectores = $this->getSectors(true);
         foreach($Allsectores as $sector){
             $filieres['sectors'][$sector] = Filiere::where('sector',$sector)->count();
         }
