@@ -12,7 +12,7 @@ export default function Dashboard({ stats = {} }) {
   return (
     <PageLayout title='Dashboard'>
       <div className='flex h-full flex-col gap-5 overflow-x-auto'>
-        <div className='grid grid-cols-3 gap-5'>
+        <div className='grid md:grid-cols-3 gap-5'>
           <Stats stats={stats} />
           <Sectors stats={stats} />
         </div>
@@ -33,17 +33,17 @@ function Stats({ stats }) {
   ].map(({ value, icon }) => ({
     label: { value: value },
     value: stats?.[value.toLocaleLowerCase()],
-    icon: {  icon: icon },
+    icon: { icon: icon },
     onClick: () => navigate({ url: `${value.toLocaleLowerCase()}.index` }),
   }));
 
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='grid sm:grid-cols-2 md:grid-cols-1 gap-3'>
       {statistics.map((stat, index) => (
-        <Stat key={index} {...stat} />
+        <Stat key={index} {...stat} className={index === statistics.length -1? 'sm:col-span-2 md:col-span-1' : ''} />
       ))}
       {user.role === 'super-admin' && (
-        <div className='col-span-2 flex items-start justify-between rounded-lg border border-border bg-background-secondary p-3 shadow-md'>
+        <div className='flex sm:col-span-2 md:col-span-1 items-start justify-between rounded-lg border border-border bg-background-secondary p-3 shadow-md'>
           <div className='space-y-5'>
             <h4 className='text-sm font-medium text-text-secondary'>Total Personnel</h4>
             <div className='flex flex-wrap gap-2'>
@@ -54,8 +54,8 @@ function Stats({ stats }) {
                 <Button
                   key={name}
                   display='with-icon'
-                  className='bg-background-tertiary text-text-primary hover:text-white'
-                  onClick={() => navigate({ url: 'users.index', state: { role: name.toLowerCase() } })}
+                  className='bg-background-tertiary text-text-primary hoveruse:text-white'
+                  onClick={() => navigate({ url: 'users.index', params: {role :  name.toLowerCase()} })}
                 >
                   <h3 className='font-bold lg:text-xl'>{value}</h3>
                   <h5 className='text-xs capitalize lg:text-sm'>{name}</h5>
@@ -94,7 +94,7 @@ function Analytics({ stats }) {
 
   return (
     <div className='relative grid min-h-[350px] gap-5 rounded-lg border border-border bg-background-secondary p-3'>
-      <div className='flex flex-col items-center justify-between gap-2 self-start mobile:flex-row'>
+      <div className='flex flex-col items-center justify-between gap-2 self-start md:flex-row'>
         <h2 className='text-lg font-bold text-text-primary'>
           Analytics for the last 7 years
           <span className='ml-2 text-xs font-normal text-text-secondary'>(Filières, Events, Articles)</span>
@@ -168,6 +168,7 @@ function Sectors({ stats }) {
       title='Sectors Distribution'
       legend={Object.keys(sectors).map((sector, i) => ({ text: sector, color: COLORS[i] }))}
       COLORS={Object.keys(sectors).map((_, i) => COLORS[i])}
+      className='md:col-span-2 bg-background-secondary dark:bg-transparent'
     />
   );
 }
