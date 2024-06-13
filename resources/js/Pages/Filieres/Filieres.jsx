@@ -8,6 +8,7 @@ import { FaRegUser } from 'react-icons/fa';
 import { IoBookOutline } from 'react-icons/io5';
 
 function Filieres({ filieres, sectors }) {
+  console.log(filieres);
   const [isLoading, setIsLoading] = useState(false);
   const [currPage, setCurrPage] = useState(1);
   const [sortBy, setSortBy] = useState('');
@@ -113,6 +114,7 @@ function Filieres({ filieres, sectors }) {
         onPaginate={handlePaginate}
         onPaginatePrevious={handlePaginatePrevious}
         onPaginateNext={handlePaginateNext}
+        items={usedFilieres}
       />
     </section>
   );
