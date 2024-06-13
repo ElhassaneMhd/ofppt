@@ -100,7 +100,7 @@ function MayAlsoLikeArticle({ article }) {
   );
 }
 
-function Tags({ tags }) {
+export function Tags({ tags }) {
   return (
     <div className='self-start bg-gray-100 p-4'>
       <h3 className='mb-4 text-xl font-semibold'>Tags</h3>

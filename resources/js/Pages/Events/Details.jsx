@@ -7,33 +7,39 @@ import 'swiper/css/effect-cards';
 
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { MdOutlineTimer } from 'react-icons/md';
-export default function Details({ element: event = {} }) {
-  console.log(event);
-  const { files, otherEvents } = event.original;
+import { Tags } from '../Articles/Details';
+export default function Details({ element: event = {}, elements: events = {} }) {
+  const { files, tags, upcoming } = event;
   return (
-    <div className='grid grid-cols-[4fr,1fr] p-2'>
+    <div className='grid min-h-[80vh] grid-cols-[4fr,1fr] p-2'>
       <div className='grid w-full grid-cols-1 gap-4 p-3 md:grid-cols-[1fr,2fr]'>
         <div className=''>
           {files.length > 1 && <SwiperImges files={files} />}
-          {files.length < 1 && <img className='rounded-lg' src={'/images/no_result.png'} />}
+          {files.length < 1 && (
+            <div className='relative'>
+              <img className='rounded-lg' src={'/images/no_result.png'} />
+              <p className='absolute bottom-0 font-bold text-gray-400'>{"events doesn't have images"}</p>
+            </div>
+          )}
         </div>
         <div className='p-2'>
-          <EventItem event={event.original} upcoming={event.original.upcoming} />
+          <EventItem event={event} upcoming={upcoming} />
         </div>
       </div>
-      <div className=''>
-        {otherEvents?.length > 1 && (
-          <>
-            <div className='rounded-lg bg-gray-200 p-2'>
-              <span>other Events</span>
-              <div className='grid grid-cols-1 gap-4'>
-                {otherEvents.map((event, i) => (
-                  <EventItem key={i} event={event} />
-                ))}
-              </div>
-            </div>
-          </>
-        )}
+      <div className='grid grid-cols-1'>
+        <Tags tags={tags} />
+        <div className='self-start bg-gray-100 p-4'>
+          <h3 className='mb-4 text-xl font-semibold'>Other Events</h3>
+          {events?.length > 1 && (
+            <ul className='gap-4'>
+              {events.map((event, i) => (
+                <li key={i} className='px-3 text-black/70'>
+                  {event.title.slice(0, 20)}...
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
