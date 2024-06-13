@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Filiere;
 use Inertia\Inertia;
+use App\Models\Filiere;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 
 
 class HomeController extends Controller{
@@ -41,8 +43,9 @@ class HomeController extends Controller{
     //     if  ($data == 'filieres' ) return Inertia::render($path,compact('elements','sectors'));
     //     return Inertia::render($path,compact('elements'));
     // } 
-    public function detailsPage($data,$id){
-        $element= $this->GetByDataId($data,$id);
-        return Inertia::render( ucfirst($data).'.Details',compact('element'));
+    public function detailsPage($id){
+        $route = explode('/', Route::getFacadeRoot()->current()->uri())[0];
+        $element= $this->GetByDataId($route,$id);
+        return Inertia::render( ucfirst($route).'/Details',compact('element'));
     }
 }
