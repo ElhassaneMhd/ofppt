@@ -14,14 +14,12 @@ class HomeController extends Controller{
         $filieres= $this->GetAll('filieres');
         $sectors = $this->getSectors(true, false);
         $stats = $this->getStats("homepage");
-        $pageName = "home";
-        $pages = ["home", "blog", "filieres", "evenements", "contact"];
         $sectorsWithStats = [];
         foreach ($stats["filieres"]["sectors"] as $key => $value) {
             if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
             else $sectorsWithStats[] = ["name" => $key, "count" => 0];
         }
-        return Inertia::render('HomePage',compact('articles','events','filieres','sectors', 'sectorsWithStats', 'pageName', 'pages'));
+        return Inertia::render('Home/HomePage',compact('articles','events','filieres','sectors', 'sectorsWithStats', ));
      }
     public function elementById($data,$id){
         $element= $this->GetByDataId($data,$id);

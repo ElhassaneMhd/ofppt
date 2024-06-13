@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
-import Section from './Section';
+import { useState } from 'react';
 import FiliereList from './FiliereList';
 
-function Filieres({ filieres, sectors }) {
+function FilieresSection({ filieres, sectors }) {
   const [activeSector, setActiveSector] = useState(sectors?.at(0));
   const [isLoading, setIsLoading] = useState(false);
   const selectedFilieres = filieres.filter((filiere) => filiere.sector === activeSector);
@@ -16,7 +15,7 @@ function Filieres({ filieres, sectors }) {
   }
 
   return (
-    <Section className={'mb-28'}>
+    <section className={'px-28 mb-28'}>
       <ul className='mb-10 flex justify-center gap-4'>
         {sectors.slice(0, 3).map((sector, i) => (
           <li
@@ -34,12 +33,8 @@ function Filieres({ filieres, sectors }) {
           View All Courses
         </div>
       </a>
-    </Section>
+    </section>
   );
 }
 
-
-
-
-
-export default Filieres;
+export default FilieresSection;

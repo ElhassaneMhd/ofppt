@@ -1,5 +1,5 @@
 import FiliereItem from './FiliereItem';
-import Overlay from './Overlay';
+import Overlay from '@/components/Overlay';
 
 function FiliereList({ filieres, isLoading, resultsNum = 8 }) {
   return (

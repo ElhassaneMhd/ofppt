@@ -1,5 +1,4 @@
-import FiliereList from '@/components/FiliereList';
-import Section from '@/components/Section';
+import FiliereList from './FiliereList';
 import Filter from '@/components/ui/Filter';
 import Pagination from '@/components/ui/Pagination';
 import Results from '@/components/ui/Results';
@@ -36,7 +35,7 @@ function Filieres({ filieres, sectors }) {
         setIsLoading(false);
       }, 1000);
     },
-    [sortBy]
+    [filieres, sortBy]
   );
 
   function handlePaginate(value) {
@@ -83,7 +82,7 @@ function Filieres({ filieres, sectors }) {
   }
 
   return (
-    <Section className={'mt-12'}>
+    <section className={'px-28 mt-12'}>
       <h1 className='mb-8 text-5xl font-medium'>Filieres</h1>
       <div className='mb-10 flex gap-3'>
         <div className='flex items-center gap-1 text-sm text-black/60'>
@@ -115,7 +114,7 @@ function Filieres({ filieres, sectors }) {
         onPaginatePrevious={handlePaginatePrevious}
         onPaginateNext={handlePaginateNext}
       />
-    </Section>
+    </section>
   );
 }
 

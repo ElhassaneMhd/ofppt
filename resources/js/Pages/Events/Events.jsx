@@ -1,4 +1,3 @@
-import Section from '@/components/Section';
 import { useEffect, useState } from 'react';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 
@@ -11,7 +10,7 @@ function Events({ events }) {
       if (selectedEvents === 'upcoming') setUsedEvents(() => events.filter((event) => event.upcoming === 'upcoming'));
       if (selectedEvents === 'deja') setUsedEvents(() => events.filter((event) => event.upcoming === 'deja'));
     },
-    [selectedEvents]
+    [selectedEvents, events]
   );
 
   function handleSelect(value) {
@@ -19,7 +18,7 @@ function Events({ events }) {
   }
 
   return (
-    <Section className={'mt-12'}>
+    <section className={'mt-12 px-28'}>
       <h1 className='mb-12 text-5xl font-medium'>Events</h1>
       <div className='mb-3 flex w-full items-center gap-16'>
         <span
@@ -36,7 +35,7 @@ function Events({ events }) {
         </span>
       </div>
       <EventList usedEvents={usedEvents} key={selectedEvents} />
-    </Section>
+    </section>
   );
 }
 
@@ -49,7 +48,7 @@ function EventList({ usedEvents }) {
     function () {
       if (usedEvents.length < sliceTo) setWillLoadMore(false);
     },
-    [sliceTo]
+    [sliceTo, usedEvents.length]
   );
 
   function handleIncrease() {

@@ -63,5 +63,10 @@ class ArticlesController extends Controller
         $this->restoreData(Article::class, $id);
         return redirect()->route('articles.index');
     }
-
+    public function userIndex(){
+        $articles = Article::all();
+        $articles = $this->refactorManyElements($articles, 'articles');
+        $categories = $this->getCategories();
+        return Inertia::render('Articles/Articles', compact('articles', 'categories'));
+    }
 }

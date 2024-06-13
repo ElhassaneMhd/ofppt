@@ -1,7 +1,7 @@
 import './bootstrap';
 import '@/styles/index.css';
 
-import { createInertiaApp, usePage } from '@inertiajs/react';
+import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -12,25 +12,30 @@ import { i18n } from './i18n/config';
 import NotFound from './Pages/NotFound';
 import Settings from './Pages/Admin/Settings/Settings';
 import { AppLayout } from './layouts/Admin/AppLayout';
+import PageLayout from './layouts/PageLayout';
 
 createInertiaApp({
   resolve: (name) => {
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
 
-    const pageLayout = name?.startsWith('Admin')
-      ? // Admin page layout
-        (page) => {
-          const layout = name.includes('/Show') ? (
-            <div className='flex flex-1 flex-col gap-5 overflow-auto rounded-xl border-border p-5 pb-3'>{page}</div>
-          ) : name.includes('/Settings/') ? (
-            <Settings>{page}</Settings>
-          ) : (
-            page
-          );
-          return <AppLayout>{layout}</AppLayout>;
-        }
-      : undefined;
+    const pageLayout = name?.startsWith('Admin') ? (
+      // Admin page layout
+      (page) => {
+        const layout = name.includes('/Show') ? (
+          <div className='flex flex-1 flex-col gap-5 overflow-auto rounded-xl border border-border p-5 pb-3'>
+            {page}
+          </div>
+        ) : name.includes('/Settings/') ? (
+          <Settings>{page}</Settings>
+        ) : (
+          page
+        );
+        return <AppLayout>{layout}</AppLayout>;
+      }
+    ) : (
+      (page) => <PageLayout> {page}</PageLayout>
+    );
 
     // console.log(name, page);
 

@@ -1,8 +1,6 @@
-import Section from './Section';
-
 function Hero() {
   return (
-    <Section className={'mb-12 bg-blue-50 py-6'}>
+    <section className={'mb-12 bg-blue-50 px-28 py-6'}>
       <div className='flex h-[70vh] w-full items-center justify-between gap-14 lg:h-auto'>
         <div className='lg:flex-0 flex flex-1 flex-col items-center lg:max-w-[40%] lg:items-start'>
           <h3 className='mb-3 font-bold uppercase text-orange-500'>Cours Du Soir</h3>
@@ -19,7 +17,7 @@ function Hero() {
           <img src='/images/hero-bg.png' className='w-full' alt='' />
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 

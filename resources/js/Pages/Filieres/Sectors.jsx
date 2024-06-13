@@ -1,11 +1,10 @@
-import Section from './Section';
 import { LuGraduationCap } from 'react-icons/lu';
 
 function Sectors({ sectorsWithStats }) {
   return (
-    <Section className={'mb-24'}>
+    <section className={'px-28 mb-24'}>
       <SectorList sectorsWithStats={sectorsWithStats} />
-    </Section>
+    </section>
   );
 }
 

@@ -54,15 +54,15 @@ function Form({ options, details, tags, categories, isEdit}) {
             className={`left 0 absolute top-0 grid h-full w-full place-content-center bg-background-secondary transition-opacity duration-300 group-hover:opacity-50 ${!getValue('files')[0]?.src ? 'opacity-80 hover:bg-background-tertiary' : 'opacity-0'}`}
             onClick={openFilePicker}
           >
-            <FaCamera />
+            <FaCamera className='text-text-secondary' />
           </button>
         </div>
         <div className='flex flex-col gap-3 sm:col-span-2'>
           {formInputs['title']}
           <DataDropDown type='categorie' getValue={getValue} setValue={setValue} data={categories} />
           {tags}
-        </div>
         {isEdit && <FormationYear getValue={getValue} setValue={setValue} />}
+        </div>
 
       </div>
 

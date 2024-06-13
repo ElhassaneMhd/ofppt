@@ -1,11 +1,9 @@
-import { FaRegUser } from 'react-icons/fa';
-import Section from './Section';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { MdOutlineTimer } from 'react-icons/md';
 
-function Events({ events }) {
+function EventsSection({ events }) {
   return (
-    <Section className={'bg-gray-100 py-12'}>
+    <section className={'px-28 bg-gray-100 py-12'}>
       <div className='mb-12 flex items-center justify-between'>
         <h2 className='text-4xl font-medium'>Events</h2>
         <a href=''>
@@ -15,7 +13,7 @@ function Events({ events }) {
         </a>
       </div>
       <EventList events={events} />
-    </Section>
+    </section>
   );
 }
 
@@ -87,4 +85,4 @@ function EventItem({ event }) {
   );
 }
 
-export default Events;
+export default EventsSection;

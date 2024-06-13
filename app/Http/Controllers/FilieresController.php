@@ -69,7 +69,6 @@ class FilieresController extends Controller
         $filieres = Filiere::all();
         $filieres = $this->refactorManyElements($filieres, 'filieres');
         $sectors = $this->getSectors();
-        $formationYears = Year::all();
-        return Inertia::render('Filieres', compact('filieres', 'sectors'));
+        return Inertia::render('Filieres/Filieres', compact('filieres', 'sectors'));
     }
 }
