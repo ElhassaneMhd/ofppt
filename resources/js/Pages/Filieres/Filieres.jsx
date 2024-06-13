@@ -20,7 +20,7 @@ function Filieres({ filieres, sectors }) {
   const displayedRows = 3;
   const resultsNum = displayedItems * displayedRows;
   const resultsRetrieved = currPage * resultsNum > usedFilieres.length ? usedFilieres.length : currPage * resultsNum;
-  const displayedFilieres = usedFilieres.slice((currPage - 1) * resultsNum);
+  const displayedFilieres = usedFilieres.slice((currPage - 1) * resultsNum, currPage * resultsNum);
   const paginationLinksNum = Math.ceil(usedFilieres.length / resultsNum);
 
   useEffect(
@@ -49,7 +49,7 @@ function Filieres({ filieres, sectors }) {
   function handlePaginatePrevious() {
     setIsLoading(true);
     setTimeout(() => {
-      setCurrPage((curr) => (curr > paginationLinksNum ? curr + 1 : curr));
+      setCurrPage((curr) => (curr > paginationLinksNum ? curr - 1 : curr));
       setIsLoading(false);
     }, 1000);
   }
@@ -57,7 +57,7 @@ function Filieres({ filieres, sectors }) {
   function handlePaginateNext() {
     setIsLoading(true);
     setTimeout(() => {
-      setCurrPage((curr) => (curr < paginationLinksNum ? curr - 1 : curr));
+      setCurrPage((curr) => (curr < paginationLinksNum ? curr + 1 : curr));
       setIsLoading(false);
     }, 1000);
   }
@@ -82,7 +82,7 @@ function Filieres({ filieres, sectors }) {
   }
 
   return (
-    <section className={'px-28 mt-12'}>
+    <section className={'mt-12 px-28'}>
       <h1 className='mb-8 text-5xl font-medium'>Filieres</h1>
       <div className='mb-10 flex gap-3'>
         <div className='flex items-center gap-1 text-sm text-black/60'>
@@ -100,7 +100,7 @@ function Filieres({ filieres, sectors }) {
       <div className='relative mb-8 flex items-end justify-between'>
         <Filter options={uniqueSectors} onFilter={handleFilter} onReset={handleReset} />
         <div className='flex gap-4 text-black/80'>
-          <Results filieres={usedFilieres} resultsRetrieved={resultsRetrieved} />
+          <Results items={usedFilieres} resultsRetrieved={resultsRetrieved} />
           <span className='text-gray-400'>|</span>
           <SortBy setSortBy={setSortBy} />
         </div>

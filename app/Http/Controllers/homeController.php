@@ -15,10 +15,10 @@ class HomeController extends Controller{
         $sectors = $this->getSectors(true, false);
         $stats = $this->getStats("homepage");
         $sectorsWithStats = [];
-        foreach ($stats["filieres"]["sectors"]??[] as $key => $value) {
-            if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
-            else $sectorsWithStats[] = ["name" => $key, "count" => 0];
-        }
+        // foreach ($stats["filieres"]["sectors"]??[] as $key => $value) {
+        //     if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
+        //     else $sectorsWithStats[] = ["name" => $key, "count" => 0];
+        // }
         return Inertia::render('Home/HomePage',compact('articles','events','filieres','sectors', 'sectorsWithStats', ));
      }
     public function elementById($data,$id){
