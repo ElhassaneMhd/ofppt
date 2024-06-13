@@ -11,7 +11,7 @@ function Header() {
           <img src='/images/logo.png' alt='Logo' className='w-16' />
         </div>
         <ul className='flex flex-1 justify-center gap-8 text-lg'>
-          {['home', 'blog', 'filieres', 'events', 'contact'].map((page, i) => (
+          {['home', 'articles', 'filieres', 'events', 'contact'].map((page, i) => (
             <li
               key={i}
               className={`${page === url.slice(1) ? 'border-b-2 border-blue-500 text-blue-500' : ''} capitalize hover:text-blue-500`}

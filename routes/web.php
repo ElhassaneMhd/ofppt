@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticlesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -14,9 +15,14 @@ Route::get('/', function () {
 });
 Route::get('/home', [HomeController::class, 'index'])->name('home.home');
 Route::get('/filieres', [FilieresController::class, 'userIndex'])->name('home.filieres');
-Route::get('/blog', [ArticlesController::class, 'userIndex'])->name('home.blog');
+Route::get('/articles', [ArticlesController::class, 'userIndex'])->name('home.articles');
 Route::get('/events', [EventsController::class, 'userIndex'])->name('home.events');
 Route::inertia('/contact', 'Contact')->name('home.contact');
+
+$routes = ['articles','events','filieres'];
+foreach ($routes as $route) {
+    Route::get('/'.$route.'/{id}', [HomeController::class, 'detailsPage'])->name('home.'.$route.'.details');
+}
 
 Route::fallback(function () {
     return inertia('NotFound');
