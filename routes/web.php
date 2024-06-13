@@ -15,9 +15,8 @@ Route::get('/', function () {
     return redirect('/home');
 });
 Route::get('/home', [HomeController::class, 'index'])->name('home.home');
-Route::get('/filieres', [FilieresController::class, 'userIndex'])->name('home.filieres');
-Route::get('/blog', [ArticlesController::class, 'userIndex'])->name('home.blog');
-Route::get('/events', [EventsController::class, 'userIndex'])->name('home.events');
+Route::get('/{data}', [HomeController::class, 'dataPage'])->name('data.page');
+Route::get('/{data}/{id}', [HomeController::class, 'dataDetails'])->name('data.details');
 Route::inertia('/contact', 'Contact')->name('home.contact');
 
 Route::get('/admin', function () {

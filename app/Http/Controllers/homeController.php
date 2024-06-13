@@ -15,7 +15,7 @@ class HomeController extends Controller{
         $sectors = $this->getSectors(true, false);
         $stats = $this->getStats("homepage");
         $sectorsWithStats = [];
-        foreach ($stats["filieres"]["sectors"] as $key => $value) {
+        foreach ($stats["filieres"]["sectors"]??[] as $key => $value) {
             if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
             else $sectorsWithStats[] = ["name" => $key, "count" => 0];
         }
@@ -33,5 +33,16 @@ class HomeController extends Controller{
     }
     public function storeDemands(Request $request){
         $this->storeDemand($request);
+    }
+    public function dataPage($data){
+        $path = ucfirst($data).'/'.ucfirst($data);
+        $elements= $this->GetAll($data);
+        $sectors = $this->getSectors(true,false);
+        if  ($data == 'filieres' ) return Inertia::render($path,compact('elements','sectors'));
+        return Inertia::render($path,compact('elements'));
+    } 
+    public function detailsPage($data,$id){
+        $element= $this->GetByDataId($data,$id);
+        return Inertia::render( ucfirst($data).'.Details',compact('element'));
     }
 }
