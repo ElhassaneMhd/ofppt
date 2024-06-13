@@ -55,6 +55,9 @@ body {
   font-family: 'Lexend Deca', sans-serif;
 }
 
+#app {
+  @apply min-h-screen
+}
 
 
 html.theme-transition {

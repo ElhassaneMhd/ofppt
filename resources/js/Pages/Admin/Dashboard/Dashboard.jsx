@@ -63,9 +63,9 @@ function Stats({ stats }) {
               ))}
             </div>
           </div>
-          <div className='rounded-lg bg-background-tertiary p-2 text-xl text-text-primary'>
+          <Button shape='icon'>
             <IoPeople />
-          </div>
+          </Button>
         </div>
       )}
     </div>
