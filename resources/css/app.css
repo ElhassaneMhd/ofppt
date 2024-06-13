@@ -1,93 +1,122 @@
 @import url(./libraries.css);
 
 .sidebar-element {
-  @apply grid cursor-pointer grid-cols-[30px_auto_40px] items-center rounded-lg p-3 transition-colors duration-200 hover:bg-background-tertiary;
-  &.active {
-    @apply bg-background-tertiary;
-  }
-  &.active span {
-    @apply font-bold;
-  }
-  &:is(.active,:hover) .count{
-    @apply bg-background-secondary !important;
-  }
-  & svg {
-    @apply text-lg text-text-secondary;
-  }
-  & span {
-    @apply text-start;
-  }
+    @apply grid cursor-pointer grid-cols-[30px_auto_40px] items-center rounded-lg p-3 transition-colors duration-200 hover:bg-background-tertiary;
 
-  &:is(:hover, .active) .count {
-    @apply bg-background-primary;
-  }
-}
-.dropdown-option {
-  @apply relative flex w-full cursor-pointer items-center gap-3 overflow-hidden rounded-md bg-background-primary px-3 py-2 font-medium text-text-secondary transition-colors duration-200 hover:bg-background-secondary hover:text-text-primary;
-
-  & span {
-    @apply flex-1;
-  }
-
-  & > svg {
-    @apply w-5 text-start text-lg;
-  }
-
-  &.small {
-    @apply px-1.5 py-1 text-xs;
-  }
-
-  &.current {
-    @apply bg-primary text-white;
-  }
-
-  &:not(.disabled).delete {
-    @apply hover:bg-red-500 hover:text-white;
-  }
-
-  &.disabled {
-    @apply cursor-default bg-background-disabled text-text-disabled;
-  }
-  &#themeToggler {
-    @apply relative bg-transparent py-4 hover:bg-background-tertiary;
-
-    & div {
-      @apply absolute grid w-full items-center grid-cols-[30px_auto] text-start transition-transform duration-500 !important;
+    &.active {
+        @apply bg-background-tertiary;
     }
-  }
+
+    &.active span {
+        @apply font-bold;
+    }
+
+    &:is(.active, :hover) .count {
+        @apply bg-background-secondary !important;
+    }
+
+    & svg {
+        @apply text-lg text-text-secondary;
+    }
+
+    & span {
+        @apply text-start;
+    }
+
+    &:is(:hover, .active) .count {
+        @apply bg-background-primary;
+    }
 }
+
+.dropdown-option {
+    @apply relative flex w-full cursor-pointer items-center gap-3 overflow-hidden rounded-md bg-background-primary px-3 py-2 font-medium text-text-secondary transition-colors duration-200 hover:bg-background-secondary hover:text-text-primary;
+
+    & span {
+        @apply flex-1;
+    }
+
+    &>svg {
+        @apply w-5 text-start text-lg;
+    }
+
+    &.small {
+        @apply px-1.5 py-1 text-xs;
+    }
+
+    &.current {
+        @apply bg-primary text-white;
+    }
+
+    &:not(.disabled).delete {
+        @apply hover:bg-red-500 hover:text-white;
+    }
+
+    &.disabled {
+        @apply cursor-default bg-background-disabled text-text-disabled;
+    }
+
+    &#themeToggler {
+        @apply relative bg-transparent py-4 hover:bg-background-tertiary;
+
+        & div {
+            @apply absolute grid w-full items-center grid-cols-[30px_auto] text-start transition-transform duration-500 !important;
+        }
+    }
+}
+
 .dropdown-toggler {
-  @apply flex min-w-28 cursor-pointer items-center justify-between rounded-lg border border-border bg-background-secondary p-2 text-start text-sm text-text-secondary transition-colors duration-200 hover:bg-background-tertiary focus:outline-none !important;
+    @apply flex min-w-28 cursor-pointer items-center justify-between rounded-lg border border-border bg-background-secondary p-2 text-start text-sm text-text-secondary transition-colors duration-200 hover:bg-background-tertiary focus:outline-none !important;
 }
+
 .input-field {
-  & input,
-  textarea {
-    @apply w-full resize-none bg-transparent text-sm text-text-primary outline-none transition-colors duration-300 placeholder:text-sm read-only:cursor-auto read-only:bg-background-disabled disabled:cursor-not-allowed disabled:bg-background-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled;
-  }
+
+    & input,
+    textarea {
+        @apply w-full resize-none bg-transparent text-sm text-text-primary outline-none transition-colors duration-300 placeholder:text-sm read-only:cursor-auto read-only:bg-background-disabled disabled:cursor-not-allowed disabled:bg-background-disabled disabled:text-text-disabled disabled:placeholder:text-text-disabled;
+    }
 }
 
 .placeholder {
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23D6D7D985' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23D6D7D985' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 
 .tooltip {
-  @apply rounded-lg border border-border bg-background-secondary p-2 text-xs font-medium text-text-tertiary !important;
+    @apply rounded-lg border border-border bg-background-secondary p-2 text-xs font-medium text-text-tertiary !important;
 }
 
 .mobile_header {
-  & > li {
-    @apply opacity-30;
-  }
+    &>li {
+        @apply opacity-30;
+    }
 
-  &.active > li {
-    @apply scale-110 text-text-secondary opacity-100;
-  }
+    &.active>li {
+        @apply scale-110 text-text-secondary opacity-100;
+    }
 }
+
 .count {
-  @apply w-fit rounded-lg border border-border bg-background-secondary px-2 py-1 text-text-primary;
+    @apply w-fit rounded-lg border border-border bg-background-secondary px-2 py-1 text-text-primary;
 }
 
 .vertical {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
 }
+
+.swiper {
+    width: 240px;
+    height: 320px;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
+

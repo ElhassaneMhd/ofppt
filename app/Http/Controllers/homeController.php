@@ -42,7 +42,7 @@ class HomeController extends Controller{
     //     $sectors = $this->getSectors(true,false);
     //     if  ($data == 'filieres' ) return Inertia::render($path,compact('elements','sectors'));
     //     return Inertia::render($path,compact('elements'));
-    // } 
+    // }
     public function detailsPage($id){
         $route = explode('/', Route::getFacadeRoot()->current()->uri())[0];
         $element= $this->GetByDataId($route,$id);

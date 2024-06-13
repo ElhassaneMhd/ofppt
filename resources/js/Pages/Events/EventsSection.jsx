@@ -27,7 +27,7 @@ function EventList({ events }) {
   );
 }
 
-function EventItem({ event }) {
+export function EventItem({ event }) {
   const eventMonth = new Date(event.date).toLocaleDateString('fr-FR', {
     month: 'long',
   });
