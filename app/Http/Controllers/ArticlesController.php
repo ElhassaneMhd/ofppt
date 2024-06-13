@@ -64,9 +64,8 @@ class ArticlesController extends Controller
         return redirect()->route('articles.index');
     }
     public function userIndex(){
-        $articles = Article::all();
-        $articles = $this->refactorManyElements($articles, 'articles');
-        $categories = $this->getCategories();
+        $articles = $this->GetAll('events');
+        $categories = $this->getCategories(true);
         return Inertia::render('Articles/Articles', compact('articles', 'categories'));
     }
 }
