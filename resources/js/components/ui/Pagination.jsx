@@ -1,6 +1,15 @@
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
 
-function Pagination({ paginationLinksNum, activePaginationLink, onPaginate, onPaginatePrevious, onPaginateNext }) {
+function Pagination({
+  items,
+  paginationLinksNum,
+  activePaginationLink,
+  onPaginate,
+  onPaginatePrevious,
+  onPaginateNext,
+}) {
+  if (!items.length) return null;
+
   return (
     <div className='flex items-center justify-center gap-4'>
       <div
@@ -37,7 +46,7 @@ function PaginationLinks({ paginationLinksNum, activePaginationLink, onPaginate 
 function PaginationLink({ link, activePaginationLink, onPaginate }) {
   return (
     <li
-      className={`list-none border-2 border-gray-300 px-5 py-2 ${activePaginationLink === link ? 'border-blue-950 bg-blue-950 text-white' : 'transition-colors hover:border-blue-950 hover:bg-blue-950 hover:text-white'}`}
+      className={`list-none border-2 px-5 py-2 ${activePaginationLink === link ? 'border-blue-950 bg-blue-950 text-white' : 'border-gray-300 transition-colors hover:border-blue-950 hover:bg-blue-950 hover:text-white'}`}
       onClick={() => onPaginate(link)}
     >
       {link}

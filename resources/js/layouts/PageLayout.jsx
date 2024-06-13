@@ -10,11 +10,11 @@ function PageLayout({ children }) {
 
   useEffect(() => {
     changeTheme('light');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className='flex min-h-screen gap-5 flex-col'>
+    <div className='flex min-h-screen flex-col gap-5'>
       <Head title={url === '/' ? 'Home' : url.slice(1).charAt(0).toUpperCase() + url.slice(2)} />
       <Header />
       {children}

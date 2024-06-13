@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 
 
 class ApiController extends Controller{
@@ -18,6 +19,13 @@ class ApiController extends Controller{
     public function getCategorie(){
         $categorie = $this->getCategories(true,false);
         return response()->json($categorie);
+    }
+    public function storeDemands(Request $request){
+        if ($this->storeDemand($request)) {
+            return redirect('/')->with('success','Demande envoyée avec succès');
+            }else{
+                return redirect('/')->with('error',"Erreur lors de l\'envoi de la demande");
+            }
     }
 
 }

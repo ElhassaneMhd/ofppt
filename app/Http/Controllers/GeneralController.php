@@ -61,7 +61,7 @@ class GeneralController extends Controller
             return redirect('admin/settings/profile');
         }
         $tabs = ['profile', 'password', 'general', 'about'];
-        if(auth()->user()->roles->first()->name !== ('super-admin')){
+        if(auth()->user()->roles->first()->name !== 'super-admin'){
             $tabs = ['profile', 'password'];
         }
         if (!in_array($tab, $tabs)) {

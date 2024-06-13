@@ -1,5 +1,4 @@
-// import Swiper core and required modules
-
+import parse from 'html-react-parser';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCards } from 'swiper/modules';
 import 'swiper/css';
@@ -8,8 +7,9 @@ import 'swiper/css/effect-cards';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { MdOutlineTimer } from 'react-icons/md';
 import { Tags } from '../Articles/Details';
-export default function Details({ element: event = {}, elements: events = {} }) {
-  const { files, tags, upcoming } = event;
+export default function Details({ element: event = {} }) {
+  console.log(event);
+  const { files, otherEvents } = event;
   return (
     <div className='grid min-h-[80vh] grid-cols-[4fr,1fr] p-2'>
       <div className='grid w-full grid-cols-1 gap-4 p-3 md:grid-cols-[1fr,2fr]'>
@@ -95,7 +95,7 @@ function EventItem({ event }) {
           <span className='text-sm font-light'>{event.duration} Days</span>
         </div>
       </div>
-      <p className='mb-4 text-[15px] font-light leading-6 text-[#666666]'>{event.details}</p>
+      <p className='mb-4 text-[15px] font-light leading-6 text-[#666666]'>{parse(event.details)}</p>
     </div>
   );
 }
