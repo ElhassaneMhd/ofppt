@@ -6,7 +6,7 @@ function FiliereItem({ filiere }) {
   return (
     <li>
       <div className='grid grid-rows-[180px_auto]'>
-        <div className='bg-cover p-3' style={{ backgroundColor: `url(${filiere.files[0]})` }}>
+        <div className='bg-cover p-3' style={{ backgroundColor: `url(${filiere.files[0]?.url})` }}>
           <a href={route(`home.filieres.details`, filiere.id)} className='bg-white px-2 py-1 text-sm font-semibold transition-colors hover:text-blue-500'>
             {filiere.title?.split(' ')?.slice(0, 2).join(' ')}
           </a>
@@ -20,7 +20,7 @@ function FiliereItem({ filiere }) {
           <FaRegUser size={14} />
           <span className='text-sm font-light'>{filiere?.max_stagiaires} Students</span>
         </div>
-        <p className='mb-4 text-[15px] font-light leading-6 text-[#666666]'>
+        <p className='mb-4 text-[15px] font-light?.url leading-6 text-[#666666]'>
           {parse(filiere.details.split(' ').slice(0, 11).join(' '))}...
         </p>
         <a

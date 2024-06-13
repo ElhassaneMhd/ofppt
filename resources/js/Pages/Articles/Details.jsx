@@ -11,7 +11,7 @@ export default function Details({ element: article = {}, elements: articles = {}
       <div className='mb-12 grid grid-cols-[3fr_1fr] gap-4'>
         <div>
           <div className='mb-6'>
-            <img src={article.files[0]} alt='' />
+            <img src={article.files[0]?.url} alt='' />
           </div>
           <div className='mb-12 border-b-[1px] border-b-black/20 pb-8'>
             <h1 className='mb-4 text-3xl font-semibold'>{article?.title}</h1>

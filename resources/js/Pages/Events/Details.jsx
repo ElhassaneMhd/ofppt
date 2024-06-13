@@ -7,9 +7,9 @@ import 'swiper/css/effect-cards';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { MdOutlineTimer } from 'react-icons/md';
 import { Tags } from '../Articles/Details';
-export default function Details({ element: event = {} }) {
-  console.log(event);
-  const { files, otherEvents } = event;
+export default function Details({ element: event = {}, elements: events = {} }) {
+  const { files, otherEvents, tags, upcoming } = event;
+
   return (
     <div className='grid min-h-[80vh] grid-cols-[4fr,1fr] p-2'>
       <div className='grid w-full grid-cols-1 gap-4 p-3 md:grid-cols-[1fr,2fr]'>

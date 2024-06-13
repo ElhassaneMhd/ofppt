@@ -15,7 +15,7 @@ function PageLayout({ children }) {
 
   return (
     <div className='flex min-h-screen flex-col gap-5'>
-      <Head title={url === '/' ? 'Home' : url.slice(1).charAt(0).toUpperCase() + url.slice(2)} />
+      <Head title={url === '/' ? 'Home' : url.split('/')[1].charAt(0).toUpperCase() + url.split('/')[1].slice(1)} />
       <Header />
       {children}
       <Footer />
