@@ -5,7 +5,7 @@ function Header() {
   const { url } = usePage();
 
   return (
-    <section className={'px-28 py-4'}>
+    <section className={'px-28 py-4 shadow-md'}>
       <div className='flex items-center'>
         <div>
           <img src='/images/logo.png' alt='Logo' className='w-16' />
@@ -14,7 +14,7 @@ function Header() {
           {['home', 'articles', 'filieres', 'events', 'contact'].map((page, i) => (
             <li
               key={i}
-              className={`${url.includes(page) ? 'border-b-2 border-blue-500 text-blue-500' : ''} capitalize hover:text-blue-500`}
+              className={`${page === url.slice(1) ? 'border-b-2 border-blue-500 text-blue-500' : ''} capitalize hover:text-blue-500`}
             >
               <a href={`${route(`home.${page}`)}`}>{page}</a>
             </li>

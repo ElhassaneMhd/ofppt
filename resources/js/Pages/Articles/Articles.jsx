@@ -11,6 +11,7 @@ function Articles({ articles, categories }) {
   const [isLoading, setIsLoading] = useState(false);
   const [currPage, setCurrPage] = useState(1);
   const [usedArticles, setUsedArticles] = useState(articles);
+  console.log(usedArticles);
   const displayedItems = 2;
   const displayedRows = 3;
   const resultsNum = displayedItems * displayedRows;
@@ -73,9 +74,9 @@ function Articles({ articles, categories }) {
   );
 }
 
-function ArticlesList({ usedArticles, isLoading }) {
+export function ArticlesList({ usedArticles, isLoading, gridNum = 2 }) {
   return (
-    <ul className='relative mt-6 grid grid-cols-2 gap-6'>
+    <ul className={`relative mt-6 grid grid-cols-${gridNum} gap-6`}>
       {usedArticles.map((article, i) => (
         <ArticleItem article={article} key={i} />
       ))}
@@ -85,11 +86,10 @@ function ArticlesList({ usedArticles, isLoading }) {
 }
 
 function ArticleItem({ article }) {
-  console.log(article);
   return (
     <li className='grid grid-rows-[auto_1fr]'>
       <div>
-        <img src={article.files[0]?.url} alt='' />
+        <img src={article.files[0]} alt='' />
       </div>
       <div className='grid bg-gray-100 px-3 py-4'>
         <a href={route(`home.articles.details`, article.id)}>
