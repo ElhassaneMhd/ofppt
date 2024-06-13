@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import Overlay from '@/components/Overlay';
 import Pagination from '@/components/ui/Pagination';
 import Results from '@/components/ui/Results';
@@ -54,9 +55,7 @@ function Articles({ articles, categories }) {
           <h3 className='mb-4 text-xl font-semibold'>Categories</h3>
           {categories.map((category) => (
             <li className='mb-2 list-none font-light'>
-              <a href='' className='hover:text-blue-500'>
-                {category}
-              </a>
+              <span className='hover:text-blue-500'>{category}</span>
             </li>
           ))}
         </div>
@@ -68,6 +67,7 @@ function Articles({ articles, categories }) {
         onPaginate={handlePaginate}
         onPaginatePrevious={handlePaginatePrevious}
         onPaginateNext={handlePaginateNext}
+        items={usedArticles}
       />
     </section>
   );
@@ -85,19 +85,20 @@ function ArticlesList({ usedArticles, isLoading }) {
 }
 
 function ArticleItem({ article }) {
+  console.log(article);
   return (
     <li className='grid grid-rows-[auto_1fr]'>
       <div>
-        <img src='/images/hero-bg.png' alt='' />
+        <img src={article.files[0]} alt='' />
       </div>
       <div className='grid bg-gray-100 px-3 py-4'>
-        <a href=''>
+        <a href={route(`home.articles.details`, article.id)}>
           <h3 className='mb-4 text-xl font-semibold transition-colors hover:text-blue-500'>{article.title}</h3>
         </a>
         <p className='mb-4 leading-6 text-black/80'>
           {article.details.split(' ').length > 14
-            ? article.details.split(' ').slice(0, 14).join(' ') + '...'
-            : article.details}
+            ? parse(article.details.split(' ').slice(0, 14).join(' ')) + '...'
+            : parse(article.details)}
         </p>
         <div className='mb-4 flex items-center gap-4 text-black/60'>
           <div className='flex items-center gap-2'>
@@ -109,7 +110,10 @@ function ArticleItem({ article }) {
             <span>{article.date.replaceAll('-', '/')}</span>
           </div>
         </div>
-        <a href='' className='flex w-fit items-center gap-2 self-end transition-colors hover:text-blue-500'>
+        <a
+          href={route(`home.articles.details`, article.id)}
+          className='flex w-fit items-center gap-2 self-end transition-colors hover:text-blue-500'
+        >
           <span>Read More</span>
           <FaArrowRightLong size={14} />
         </a>

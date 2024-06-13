@@ -1,9 +1,10 @@
+import parse from 'html-react-parser';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { MdOutlineTimer } from 'react-icons/md';
 
 function EventsSection({ events }) {
   return (
-    <section className={'px-28 bg-gray-100 py-12'}>
+    <section className={'bg-gray-100 px-28 py-12'}>
       <div className='mb-12 flex items-center justify-between'>
         <h2 className='text-4xl font-medium'>Events</h2>
         <a href=''>
@@ -42,7 +43,7 @@ export function EventItem({ event }) {
   return (
     <li>
       <div className='grid grid-rows-[180px_auto]'>
-        <div className='bg-[url("/images/hero-bg.png")] bg-cover p-3'>
+        <div className='bg-cover p-3' style={{ backgroundImage: `url(${event.files[0]})` }}>
           <div className='flex w-fit gap-1 bg-white px-2 py-1 text-sm'>
             <span>{eventDate}</span>
             <span className='capitalize'>{eventMonth}</span>
@@ -72,7 +73,7 @@ export function EventItem({ event }) {
           </div>
         </div>
         <p className='mb-4 text-[15px] font-light leading-6 text-[#666666]'>
-          {event.details.split(' ').slice(0, 11).join(' ')}...
+          {parse(event.details.split(' ').slice(0, 11).join(' '))}...
         </p>
         <a
           href=''

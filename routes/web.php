@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ArticlesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ Route::get('/filieres', [FilieresController::class, 'userIndex'])->name('home.fi
 Route::get('/articles', [ArticlesController::class, 'userIndex'])->name('home.articles');
 Route::get('/events', [EventsController::class, 'userIndex'])->name('home.events');
 Route::inertia('/contact', 'Contact')->name('home.contact');
+Route::post('/demands', [ApiController::class, 'storeDemands']);
+
 
 $routes = ['articles','events','filieres'];
 foreach ($routes as $route) {

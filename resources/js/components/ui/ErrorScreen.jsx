@@ -27,7 +27,7 @@ export function ErrorScreen({ error }) {
             <pre className='text-wrap'>{JSON.stringify(serializeError(error), null, 2)}</pre>{' '}
           </div>
         )}
-        <p>{error?.message}</p>
+        <p className='text-text-secondary'>{error?.message}</p>
       </div>
     </div>
   );

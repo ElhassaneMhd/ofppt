@@ -2,17 +2,15 @@ import { useState } from 'react';
 import { MdLocalPhone, MdLocationPin, MdMail } from 'react-icons/md';
 import { IoShareSocial } from 'react-icons/io5';
 import { FaChevronDown } from 'react-icons/fa6';
-
 import { Button } from '../components/ui/Button';
-import { InputField } from '@/components/ui';
+import { useForm } from '@/hooks';
+import { useNavigate } from '@/hooks/useNavigate';
 
 export default function Contact() {
   return (
-    <div className='flex min-h-[80vh] flex-col gap-8 md:flex-row '>
+    <div className='flex min-h-[80vh] flex-col gap-8 px-28 py-14 md:flex-row'>
       <ContactInfo />
-      <div className='flex min-h-[400px] flex-[2] flex-col gap-4 rounded-lg border border-border p-5' ref={parent}>
-        <MessageForm />
-      </div>
+      <MessageForm />
     </div>
   );
 }
@@ -92,28 +90,65 @@ function ContactInfo() {
 }
 
 function MessageForm() {
+  const { navigate } = useNavigate();
+  const {
+    options: { formInputs, handleSubmit },
+  } = useForm({
+    defaultValues: {
+      fullName: '',
+      email: '',
+      subject: '',
+      message: '',
+    },
+    fields: [
+      {
+        name: 'fullName',
+        label: 'Full Name',
+        type: 'text',
+      },
+      {
+        name: 'email',
+        label: 'Email Address',
+        type: 'email',
+      },
+      {
+        name: 'subject',
+        label: 'Subject',
+        type: 'text',
+      },
+      {
+        name: 'message',
+        label: 'Message',
+        placeholder: 'Type your message here...',
+        type: 'textarea',
+        rows: 6,
+        rules : {
+          minLength : {
+            value : 100,
+            message : 'Message must be at least 100 characters long'
+          }
+        }
+      },
+    ],
+    onSubmit: (data) => navigate({ url: '/demands', method: 'post', data }),
+  });
   return (
-    <>
+    <div className='flex min-h-[400px] flex-[2] flex-col gap-4 rounded-lg border-[1.2px] border-border p-5'>
       <div className=''>
         <h2 className='mb-2 text-2xl font-bold text-text-primary'>Send Message</h2>
         <p className='text-text-secondary'>Please fill out the form for any inquiries or feedback.</p>
       </div>
-      <form className='flex flex-1 flex-col gap-4 rounded-md p-2' method='post'>
-        <div className='flex gap-3'>
-          <InputField className='bg-transparent' placeholder='You Name' />
-          <InputField className='bg-transparent' placeholder='Email Address' />
+      <form className='flex flex-1 flex-col gap-4 rounded-md p-2'>
+        <div className='grid grid-cols-2 gap-3'>
+          {formInputs['fullName']}
+          {formInputs['email']}
         </div>
-        <div className='flex gap-3'>
-          <InputField className='bg-transparent' placeholder='Subject' />
-        </div>
-        <div className='relative'>
-          <textarea
-            className='h-32 w-full resize-none rounded-lg border border-border py-1.5 pl-4 pr-10 font-medium text-text-primary outline-none md:flex-1'
-            placeholder='Your Message'
-          />
-        </div>
-        <Button className='self-start'>Send Message</Button>
+        {formInputs['subject']}
+        {formInputs['message']}
+        <Button className='self-start' onClick={() => handleSubmit(null, true)}>
+          Send Message
+        </Button>
       </form>
-    </>
+    </div>
   );
 }

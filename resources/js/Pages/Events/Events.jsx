@@ -1,7 +1,9 @@
+import parse from 'html-react-parser';
 import { useEffect, useState } from 'react';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 
 function Events({ events }) {
+  console.log(events);
   const [selectedEvents, setSelectedEvents] = useState('true');
   const usedEvents = events
     .filter((event) => event.upcoming === selectedEvents)
@@ -86,7 +88,7 @@ function EventItem({ event }) {
         <span className='capitalize tracking-widest text-black/80'>{eventMonth}</span>
       </div>
       <div className='relative pl-12 before:absolute before:left-0 before:top-[50%] before:h-[50%] before:w-[2px] before:translate-y-[-50%] before:bg-black/20 before:content-[""]'>
-        <a href=''>
+        <a href={route(`home.events.details`, event.id)}>
           <h3 className='mb-3 text-xl font-medium transition-colors hover:text-blue-500'>{event.title}</h3>
         </a>
         <div className='mb-4 flex gap-4'>
@@ -105,12 +107,12 @@ function EventItem({ event }) {
         </div>
         <p className='text-sm text-black/60'>
           {event.details.split(' ').length > 16
-            ? `${event.details.split(' ').slice(0, 16).join(' ')}...`
-            : event.details}
+            ? `${parse(event.details.split(' ').slice(0, 16).join(' '))}...`
+            : parse(event.details)}
         </p>
       </div>
       <div>
-        <img src='/images/hero-bg.png' className='w-full object-cover' />
+        <img src={event.files[0]} className='w-full object-cover' />
       </div>
     </li>
   );
