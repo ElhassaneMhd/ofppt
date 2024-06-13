@@ -98,9 +98,9 @@ trait Store{
             'message'=>'required',
         ]);
         if (Demand::create($request->all())) {
-            return response()->json(["status" => "succsses", "message" => "demand sended"],200);
+            return true;
         } else {
-            return response()->json(["status" => "error", "message" => "demand not sended"],400);
+            return false;
         }
     }
     public function storeOneFile($file,$element,$fileType){
