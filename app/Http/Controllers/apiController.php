@@ -22,9 +22,9 @@ class ApiController extends Controller{
     }
     public function storeDemands(Request $request){
         if ($this->storeDemand($request)) {
-            return redirect('/')->with('success','Demande envoyée avec succès');
+            return redirect('/contact')->with('success','Demande envoyée avec succès');
             }else{
-                return redirect('/')->with('error',"Erreur lors de l\'envoi de la demande");
+                return redirect('/contact')->with('error',"Erreur lors de l\'envoi de la demande");
             }
     }
 
