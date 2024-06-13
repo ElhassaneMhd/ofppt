@@ -89,7 +89,7 @@ function ArticleItem({ article }) {
   return (
     <li className='grid grid-rows-[auto_1fr]'>
       <div>
-        <img src={article.files[0]} alt='' />
+        <img src={article.files[0]?.url} alt='' />
       </div>
       <div className='grid bg-gray-100 px-3 py-4'>
         <a href={route(`home.articles.details`, article.id)}>

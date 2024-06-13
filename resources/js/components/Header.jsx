@@ -14,7 +14,7 @@ function Header() {
           {['home', 'articles', 'filieres', 'events', 'contact'].map((page, i) => (
             <li
               key={i}
-              className={`${page === url.slice(1) ? 'border-b-2 border-blue-500 text-blue-500' : ''} capitalize hover:text-blue-500`}
+              className={`${url.includes(page) ? 'border-b-2 border-blue-500 text-blue-500' : ''} capitalize hover:text-blue-500`}
             >
               <a href={`${route(`home.${page}`)}`}>{page}</a>
             </li>

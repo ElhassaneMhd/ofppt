@@ -43,7 +43,7 @@ export function EventItem({ event }) {
   return (
     <li>
       <div className='grid grid-rows-[180px_auto]'>
-        <div className='bg-cover p-3' style={{ backgroundImage: `url(${event.files[0]})` }}>
+        <div className='bg-cover p-3' style={{ backgroundImage: `url(${event.files[0]?.url})` }}>
           <div className='flex w-fit gap-1 bg-white px-2 py-1 text-sm'>
             <span>{eventDate}</span>
             <span className='capitalize'>{eventMonth}</span>
@@ -76,7 +76,7 @@ export function EventItem({ event }) {
           {parse(event.details.split(' ').slice(0, 11).join(' '))}...
         </p>
         <a
-          href=''
+          href={route(`home.filieres.details`, event.id)}
           className='relative border-blue-500 pb-2 text-blue-500 before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-0 before:bg-blue-500 before:transition-all before:content-[""] hover:before:w-full'
         >
           Read More
