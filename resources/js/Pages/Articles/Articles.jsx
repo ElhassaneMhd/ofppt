@@ -53,7 +53,7 @@ function Articles({ articles, categories }) {
         <div className='self-start bg-gray-100 p-4'>
           <h3 className='mb-4 text-xl font-semibold'>Categories</h3>
           {categories.map((category) => (
-            <li className='mb-2 list-none font-light'>
+            <li key={category} className='mb-2 list-none font-light'>
               <a href='' className='hover:text-blue-500'>
                 {category}
               </a>

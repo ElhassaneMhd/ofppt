@@ -2,7 +2,7 @@ import { GrYoutube, GrInstagram, GrTwitter, GrLinkedin, GrFacebookOption } from 
 
 export default function Footer() {
   return (
-    <footer className='relative mt-8 flex items-center justify-between gap-6 border-t border-border bg-background-primary px-28 py-3 shadow-md'>
+    <footer className='relative mt-auto flex items-center justify-between gap-6 border-t border-border bg-background-primary px-28 py-3 shadow-md'>
       <Logo className='w-16' link='https://www.ofppt.ma' />
       <div className='flex justify-end gap-4'>
         <SocialMedia />
