@@ -2,19 +2,13 @@ import { useEffect, useState } from 'react';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 
 function Events({ events }) {
-  const [selectedEvents, setSelectedEvents] = useState('upcoming');
-  const [usedEvents, setUsedEvents] = useState(events);
-
-  useEffect(
-    function () {
-      if (selectedEvents === 'upcoming') setUsedEvents(() => events.filter((event) => event.upcoming === 'upcoming'));
-      if (selectedEvents === 'deja') setUsedEvents(() => events.filter((event) => event.upcoming === 'deja'));
-    },
-    [selectedEvents, events]
-  );
+  const [selectedEvents, setSelectedEvents] = useState('true');
+  const usedEvents = events
+    .filter((event) => event.upcoming === selectedEvents)
+    .toSorted((a, b) => new Date(b.date) - new Date(a.date));
 
   function handleSelect(value) {
-    setSelectedEvents(value === 'upcoming' ? 'upcoming' : 'deja');
+    setSelectedEvents(value === 'upcoming' ? 'true' : 'false');
   }
 
   return (
@@ -22,13 +16,13 @@ function Events({ events }) {
       <h1 className='mb-12 text-5xl font-medium'>Events</h1>
       <div className='mb-3 flex w-full items-center gap-16'>
         <span
-          className={`text-xl font-semibold capitalize ${selectedEvents === 'upcoming' ? 'text-blue-500' : 'hover:text-blue-500'} cursor-pointer transition-colors`}
+          className={`text-xl font-semibold capitalize ${selectedEvents === 'true' ? 'text-blue-500' : 'hover:text-blue-500'} cursor-pointer transition-colors`}
           onClick={(e) => handleSelect(e.target.textContent)}
         >
           upcoming
         </span>
         <span
-          className={`text-xl font-semibold capitalize ${selectedEvents === 'deja' ? 'text-blue-500' : 'hover:text-blue-500'} cursor-pointer transition-colors`}
+          className={`text-xl font-semibold capitalize ${selectedEvents === 'false' ? 'text-blue-500' : 'hover:text-blue-500'} cursor-pointer transition-colors`}
           onClick={(e) => handleSelect(e.target.textContent)}
         >
           expired
