@@ -128,7 +128,7 @@ function MultipleImages({ getValue, setValue }) {
         }}
       >
         <span className='rounded-full bg-background-tertiary p-5 text-lg'>
-          <FaPlus />
+          <FaPlus  className='text-text-secondary'/>
         </span>
       </button>
     </div>
@@ -147,10 +147,10 @@ function Image({ image, setImage, index, onRemove }) {
       }}
     >
       <button
-        className={`left 0 absolute top-0 grid h-full w-full place-content-center border border-border bg-background-secondary transition-opacity duration-300 ${!image?.src ? 'opacity-100 hover:bg-background-tertiary' : 'opacity-0 group-hover:opacity-50'}`}
+        className={`left-0 absolute  top-0 grid h-full w-full place-content-center border border-border bg-background-secondary transition-opacity duration-300 ${!image?.src ? 'opacity-100 hover:bg-background-tertiary' : 'opacity-0 group-hover:opacity-50'}`}
         onClick={openFilePicker}
       >
-        <FaCamera />
+        <FaCamera className='text-text-primary' />
       </button>
       <Button color='red' shape='icon' size='small' className='absolute left-2 top-2' onClick={onRemove}>
         <FaRegCircleXmark />

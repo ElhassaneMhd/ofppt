@@ -5,6 +5,10 @@ import { FaChevronDown } from 'react-icons/fa6';
 import { Button } from '../components/ui/Button';
 import { useForm } from '@/hooks';
 import { useNavigate } from '@/hooks/useNavigate';
+import { FiCheck } from 'react-icons/fi';
+import { HiMiniXMark } from 'react-icons/hi2';
+import { ImSpinner5 } from 'react-icons/im';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export default function Contact() {
   return (
@@ -90,7 +94,9 @@ function ContactInfo() {
 }
 
 function MessageForm() {
-  const { navigate } = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const { navigate, isLoading, error } = useNavigate();
+  const [parent] = useAutoAnimate();
   const {
     options: { formInputs, handleSubmit },
   } = useForm({
@@ -122,33 +128,92 @@ function MessageForm() {
         placeholder: 'Type your message here...',
         type: 'textarea',
         rows: 6,
-        rules : {
-          minLength : {
-            value : 100,
-            message : 'Message must be at least 100 characters long'
-          }
-        }
+        rules: {
+          minLength: {
+            value: 100,
+            message: 'Message must be at least 100 characters long',
+          },
+        },
       },
     ],
-    onSubmit: (data) => navigate({ url: '/demands', method: 'post', data }),
+    onSubmit: (data) =>
+      navigate({
+        url: '/demands',
+        method: 'post',
+        data,
+        options: {
+          onSuccess: () => setSuccess(true),
+        },
+      }),
   });
-  return (
-    <div className='flex min-h-[400px] flex-[2] flex-col gap-4 rounded-lg border-[1.2px] border-border p-5'>
-      <div className=''>
-        <h2 className='mb-2 text-2xl font-bold text-text-primary'>Send Message</h2>
-        <p className='text-text-secondary'>Please fill out the form for any inquiries or feedback.</p>
-      </div>
-      <form className='flex flex-1 flex-col gap-4 rounded-md p-2'>
-        <div className='grid grid-cols-2 gap-3'>
-          {formInputs['fullName']}
-          {formInputs['email']}
+
+  const render = () => {
+    if (isLoading) return <SendingMessage />;
+    if (error) return <MessageError onRetry={() => handleSubmit(null, true)} />;
+    if (success) return <MessageSent />;
+    return (
+      <>
+        <div className=''>
+          <h2 className='mb-2 text-2xl font-bold text-text-primary'>Send Message</h2>
+          <p className='text-text-secondary'>Please fill out the form for any inquiries or feedback.</p>
         </div>
-        {formInputs['subject']}
-        {formInputs['message']}
-        <Button className='self-start' onClick={() => handleSubmit(null, true)}>
-          Send Message
-        </Button>
-      </form>
+        <form className='flex flex-1 flex-col gap-4 rounded-md p-2'>
+          <div className='grid grid-cols-2 gap-3'>
+            {formInputs['fullName']}
+            {formInputs['email']}
+          </div>
+          {formInputs['subject']}
+          {formInputs['message']}
+          <Button className='self-start' onClick={() => handleSubmit(null, true)}>
+            Send Message
+          </Button>
+        </form>
+      </>
+    );
+  };
+
+  return (
+    <div
+      className='flex min-h-[400px] flex-[2] flex-col gap-4 rounded-lg border-[1.2px] border-border p-5'
+      ref={parent}
+    >
+      {render()}
+    </div>
+  );
+}
+
+function SendingMessage() {
+  return (
+    <div className='flex flex-1 items-center justify-center gap-3'>
+      <ImSpinner5 className='animate-spin text-3xl text-secondary' />
+      <h2 className='text-lg font-bold text-text-primary'>Sending Message...</h2>
+    </div>
+  );
+}
+function MessageSent() {
+  return (
+    <div className='grid flex-1 place-content-center place-items-center text-center'>
+      <div className='mb-3 grid h-14 w-14 place-content-center rounded-full bg-green-500 shadow-md'>
+        <FiCheck className='text-2xl text-white' />
+      </div>
+      <h2 className='text-lg font-bold text-text-primary sm:text-xl md:text-2xl'>Message Sent</h2>
+      <p className='text-sm font-medium text-text-secondary sm:text-base'>Your message was sent successfully.</p>
+    </div>
+  );
+}
+function MessageError({ onRetry }) {
+  return (
+    <div className='grid flex-1 place-content-center place-items-center text-center'>
+      <div className='grid h-14 w-14 place-content-center rounded-full bg-red-500 shadow-md'>
+        <HiMiniXMark className='text-3xl text-white' />
+      </div>
+      <div className='my-3'>
+        <h2 className='text-lg font-bold text-text-primary sm:text-xl md:text-2xl'>Failed To Send Message</h2>
+        <p className='text-sm font-medium text-text-secondary sm:text-base'>
+          An error occurred while sending your message
+        </p>
+      </div>
+      <Button onClick={onRetry}>Try Again</Button>
     </div>
   );
 }

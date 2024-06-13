@@ -14,7 +14,7 @@ export default function Show({ event = {} }) {
             backgroundImage: `url(${getFile(files[0])?.src})`,
           }}
         >
-          {getFile(files[0])?.src && <CiImageOff className='text-4xl text-text-secondary' />}{' '}
+          {!getFile(files[0])?.src && <CiImageOff className='text-4xl text-text-secondary' />}{' '}
         </div>
         <div className='flex flex-col gap-3 sm:col-span-2'>
           <div className='flex flex-col gap-1.5'>

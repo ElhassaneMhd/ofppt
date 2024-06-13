@@ -14,8 +14,8 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
       const newData = {
         ...filterObject(data, ['image', 'formationYear'], 'exclude'),
         tags: data.tags?.join(','),
-        files: data.files?.map((f) => f.file || f.id),
-        ...(isEdit && { year_id: data.formationYear.id }),
+        files: data.files?.map((f) => f.file || f.id) || [],
+        ...(isEdit && data.formationYear && { year_id: data.formationYear.id }),
       };
 
       console.log(newData);
