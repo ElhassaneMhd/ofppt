@@ -46,6 +46,7 @@ class HomeController extends Controller{
     public function detailsPage($id){
         $route = explode('/', Route::getFacadeRoot()->current()->uri())[0];
         $element= $this->GetByDataId($route,$id);
-        return Inertia::render( ucfirst($route).'/Details',compact('element'));
+        $elements= $this->GetAll(explode('/', Route::getFacadeRoot()->current()->uri())[0]);
+        return Inertia::render( ucfirst($route).'/Details',compact('element', "elements"));
     }
 }

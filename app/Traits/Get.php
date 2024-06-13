@@ -57,7 +57,7 @@ trait Get{
         }else{
             return response()->json(['message' => 'Looking for undefined api'], 404);
         }
-        return response()->json($results);
+        return $results;
     }
     public function getElementFiles($element){
         if ($element){
