@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Filiere;
 use Inertia\Inertia;
+use App\Models\Filiere;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 
 
 class HomeController extends Controller{
@@ -15,10 +17,10 @@ class HomeController extends Controller{
         $sectors = $this->getSectors(true, false);
         $stats = $this->getStats("homepage");
         $sectorsWithStats = [];
-        foreach ($stats["filieres"]["sectors"] as $key => $value) {
-            if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
-            else $sectorsWithStats[] = ["name" => $key, "count" => 0];
-        }
+        // foreach ($stats["filieres"]["sectors"]??[] as $key => $value) {
+        //     if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
+        //     else $sectorsWithStats[] = ["name" => $key, "count" => 0];
+        // }
         return Inertia::render('Home/HomePage',compact('articles','events','filieres','sectors', 'sectorsWithStats', ));
      }
     public function elementById($data,$id){
@@ -33,5 +35,18 @@ class HomeController extends Controller{
     }
     public function storeDemands(Request $request){
         $this->storeDemand($request);
+    }
+    // public function dataPage($data){
+    //     $path = ucfirst($data).'/'.ucfirst($data);
+    //     $elements= $this->GetAll($data);
+    //     $sectors = $this->getSectors(true,false);
+    //     if  ($data == 'filieres' ) return Inertia::render($path,compact('elements','sectors'));
+    //     return Inertia::render($path,compact('elements'));
+    // }
+    public function detailsPage($id){
+        $route = explode('/', Route::getFacadeRoot()->current()->uri())[0];
+        $element= $this->GetByDataId($route,$id);
+        $elements= $this->GetAll(explode('/', Route::getFacadeRoot()->current()->uri())[0]);
+        return Inertia::render( ucfirst($route).'/Details',compact('element', "elements"));
     }
 }

@@ -4,7 +4,7 @@ function Pagination({ paginationLinksNum, activePaginationLink, onPaginate, onPa
   return (
     <div className='flex items-center justify-center gap-4'>
       <div
-        className='flex items-center self-stretch border-2 border-gray-300 px-4 py-2'
+        className={`flex items-center self-stretch border-2 border-gray-300 px-4 py-2 ${activePaginationLink > 1 ? 'hover:bg-blue-950 hover:text-white' : ''}`}
         onClick={() => onPaginatePrevious()}
       >
         <FaArrowLeftLong size={16} />
@@ -15,7 +15,7 @@ function Pagination({ paginationLinksNum, activePaginationLink, onPaginate, onPa
         onPaginate={onPaginate}
       />
       <div
-        className='flex items-center self-stretch border-2 border-gray-300 px-4 py-2'
+        className={`${activePaginationLink < paginationLinksNum ? 'hover:bg-blue-950 hover:text-white' : ''} flex items-center self-stretch border-2 border-gray-300 px-4 py-2`}
         onClick={() => onPaginateNext()}
       >
         <FaArrowRightLong size={16} />

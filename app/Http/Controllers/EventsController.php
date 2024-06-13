@@ -59,8 +59,7 @@ class EventsController extends Controller{
            return to_route('events.index');
     }
     public function userIndex(){
-        $events = Event::all();
-        $events = $this->refactorManyElements($events,'events');
+        $events = $this->GetAll('events');
         return Inertia::render('Events/Events', compact('events'));
     }
 }
