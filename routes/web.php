@@ -9,7 +9,6 @@ use App\Http\Controllers\FilieresController;
 
 
 
-// Redirect to dashboard
 
 Route::get('/', function () {
     return redirect('/home');
@@ -20,13 +19,14 @@ Route::get('/articles', [ArticlesController::class, 'userIndex'])->name('home.ar
 Route::get('/events', [EventsController::class, 'userIndex'])->name('home.events');
 Route::inertia('/contact', 'Contact')->name('home.contact');
 
-Route::get('/admin', function () {
-    return redirect('/admin/dashboard');
-});
+$routes = ['articles','events','filieres'];
+foreach ($routes as $route) {
+    Route::get('/'.$route.'/{id}', [HomeController::class, 'detailsPage'])->name('home.'.$route.'.details');
+}
 
 Route::fallback(function () {
     return inertia('NotFound');
 });
 
 //require __DIR__.'/spatie.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
