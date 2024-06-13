@@ -7,8 +7,6 @@ import 'swiper/css/effect-cards';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { MdOutlineTimer } from 'react-icons/md';
 import { Tags } from '../Articles/Details';
-export default function Details({ element: event = {}, elements: events = {} }) {
-  const { files, tags, upcoming } = event;
 export default function Details({ element: event = {} }) {
   console.log(event);
   const { files, otherEvents } = event;
