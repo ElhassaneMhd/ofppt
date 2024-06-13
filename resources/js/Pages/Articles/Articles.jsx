@@ -85,7 +85,6 @@ function ArticlesList({ usedArticles, isLoading }) {
 }
 
 function ArticleItem({ article }) {
-  console.log(article);
   return (
     <li className='grid grid-rows-[auto_1fr]'>
       <div>
