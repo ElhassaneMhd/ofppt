@@ -2,7 +2,7 @@ import { Button, DropDown } from './ui';
 import { useTranslation } from 'react-i18next';
 import { IoChevronDownOutline, IoChevronUpOutline, IoLanguageOutline } from 'react-icons/io5';
 
-export function LanguageSwitcher({ size, layout,iconDirection ='down'}) {
+export function LanguageSwitcher({ size, layout, iconDirection = 'down' }) {
   const { t, i18n } = useTranslation();
 
   return (
@@ -20,9 +20,7 @@ export function LanguageSwitcher({ size, layout,iconDirection ='down'}) {
           </Button>
         )
       }
-      options={{
-        className : 'w-24'
-      }}
+      options={{ className: 'w-24' }}
     >
       {['en', 'fr', 'ar'].map((lang) => (
         <DropDown.Option key={lang} onClick={() => i18n.changeLanguage(lang)} isCurrent={i18n.language === lang}>

@@ -54,7 +54,7 @@ export default function Sidebar() {
   return (
     <aside
       className={`fixed top-0 z-[15] row-span-2 flex h-full flex-col gap-8 bg-background-secondary pb-2 pt-3 transition-[width] duration-500 md:relative ${
-        isExpanded ? 'w-full px-3 md:w-[280px]' : 'w-14 px-2'
+        isExpanded ? 'w-full overflow-hidden px-3 md:w-[280px]' : 'w-14 px-2'
       }`}
     >
       <div className='z-20 flex items-center justify-between'>
@@ -86,18 +86,22 @@ export default function Sidebar() {
 
       <div className='mt-auto'>
         <div className={`flex items-center gap-3 ${isExpanded ? '' : 'flex-col'}`}>
-          <ThemeToggler />
+          <ThemeToggler isExpanded={isExpanded} />
           <LanguageSwitcher layout={isExpanded ? 'long' : ''} iconDirection='up' size={isExpanded ? 'small' : ''} />
         </div>
-        <div className='w-full px-3 pt-1 text-center text-xs font-medium capitalize text-text-tertiary'>
-          {props.year.year}
+        <div
+          className={`w-full pt-1 text-center font-medium text-text-tertiary ${isExpanded ? 'px-3 text-xs' : 'text-[10px]'}`}
+        >
+          {isExpanded
+            ? props.year.year
+            : props.year.year.split('/')[0].slice(2, 4) + '/' + props.year.year.split('/')[1].slice(2, 4)}
         </div>
       </div>
     </aside>
   );
 }
 
-function ThemeToggler() {
+function ThemeToggler({ isExpanded }) {
   const { theme, changeTheme } = useTheme();
 
   return (
@@ -108,11 +112,11 @@ function ThemeToggler() {
     >
       <div className={theme === 'dark' ? 'translate-y-9' : 'translate-y-0'}>
         <PiMoonStars size={18} />
-        <span>Dark Mode</span>
+        <span className={isExpanded ? '' : 'hidden'}>Dark Mode</span>
       </div>
       <div className={theme === 'light' ? 'translate-y-9' : 'translate-y-0'}>
         <PiSunDim size={18} />
-        <span>Light Mode</span>
+        <span className={isExpanded ? '' : 'hidden'}>Light Mode</span>
       </div>
     </button>
   );
