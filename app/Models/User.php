@@ -9,6 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+
+#[ObservedBy([UserObserver::class])]
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable,SoftDeletes,HasRoles,HasApiTokens;
@@ -45,4 +50,8 @@ class User extends Authenticatable
     public function files() {
  	    return $this->morphMany(File::class, 'fileable');
 	}
+    public function sessions(){
+        return $this->hasMany(Session::class);
+    }
+
 }

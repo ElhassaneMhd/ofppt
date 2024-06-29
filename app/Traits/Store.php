@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Traits;
+use App\Models\Activitie;
 use App\Models\Article;
 use App\Models\Demand;
 use App\Models\Event;
+use App\Models\Session as MSession;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Filiere;
@@ -11,6 +13,8 @@ use App\Models\Year;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Jenssegers\Agent\Agent;
+
 
 trait Store{
 
@@ -79,7 +83,7 @@ trait Store{
             'email'=>'required|email|unique:users,email',
             'phone'=>'required|unique:users,phone',
             'password'=>'required|confirmed|min:6',
-            'role'=>'required',
+            'role'=>'required|in:super-admin,admin,gestionaire',
         ]);
         $user = new User();
         $user->firstName = $request->firstName;
@@ -112,7 +116,7 @@ trait Store{
         );
         $file->move(public_path('/assets/'.$fileType),$unique.$name);
     }
-     public function storAppSettings($request){
+    public function storAppSettings($request){
         $setting = Setting::first();
         if (!$setting){
             $setting = new Setting;
@@ -143,5 +147,43 @@ trait Store{
                     $this->storeOneFile($file,$setting,'logo');
             }
         }
+    }
+    public function storeSession($id,$location,$ip){
+        $agent = new Agent();
+        ($ip === 'Unknown') && $ip = request()->userAgent();
+        $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
+        foreach($browsers as $browser){
+            if(!$agent->isPhone()&& str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA']??'' ),$browser)){
+                $browserAgent = $browser;
+                break;
+            }else{
+                $browserAgent = $agent->browser();
+            }
+        }
+        ($agent->isDesktop()) && $device = 'Desktop';
+        ($agent->isPhone()) && $device = 'Phone';
+        ($agent->isTablet())&& $device = 'Tablet';
+
+        $session = new MSession();
+        $session->user_id=$id;
+        $session->status = 'Online';
+        $session->ip = $ip??'Unknown';
+        $session->browser = $browserAgent;
+        $session->device =  $device??"unknown";
+        $session->location = $location??'Unknown';
+        $session->save();
+    }
+    public function storeActivite($data){
+
+        $session = auth()->user()->sessions->last()??null;
+        isset($session)?$sessionId = $session->id:$sessionId = null;
+
+        $activity = new Activitie();
+        $activity->session_id = $sessionId;
+        $activity->action = $data['action'];
+        $activity->model = $data['model'];
+        $activity->activity = $data['activity'] ;
+        $activity->object = $data['object'];
+        $activity->save() ;
     }
 }

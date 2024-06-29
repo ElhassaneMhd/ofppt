@@ -67,7 +67,9 @@ class FiliereSeeder extends Seeder
                 'sector' => 'Management',
             ],
         ];
-        DB::table('filieres')->insert($filieres);
+        foreach($filieres as $f){
+            Filiere::create($f);
+        }
     }
 }
 
