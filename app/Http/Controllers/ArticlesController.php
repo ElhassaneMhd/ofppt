@@ -14,14 +14,14 @@ class ArticlesController extends Controller
         $articles = $this->refactorManyElements(Article::all(),'articles');
         $categories = $this->getCategories();
         $formationYears = Year::all();
-        return Inertia::render('Admin/Articles/Index', compact('articles','categories','formationYears'));
+        return Inertia::render('Back_Office/Articles/Index', compact('articles','categories','formationYears'));
     }
     public function create(){
     //form to add article
         $years = Year::all();
         $users = User::all();
         $categories = $this->getCategories();
-        return Inertia::render('Admin/Articles/Create', compact('years','users','categories'));
+        return Inertia::render('Back_Office/Articles/Create', compact('years','users','categories'));
     }
     public function store(Request $request){
         $this->storeArticle($request);
@@ -31,7 +31,7 @@ class ArticlesController extends Controller
     //showArticle
         $article = Article::find($id);
         $article = $this->refactorArticle($article);
-        return Inertia::render('Admin/Articles/Show',compact('article'));
+        return Inertia::render('Back_Office/Articles/Show',compact('article'));
     }
     public function edit($id){
     //GET ARTICLE TO MODIFIE
@@ -39,7 +39,7 @@ class ArticlesController extends Controller
         $article = $this->refactorArticle($article);
         $users = User::all();
         $categories = $this->getCategories();
-        return Inertia::render('Admin/Articles/Edit', compact('article','users','categories'));
+        return Inertia::render('Back_Office/Articles/Edit', compact('article','users','categories'));
     }
     public function update(Request $request, string $id){
         $article = Article::findOrfail($id);
@@ -53,7 +53,7 @@ class ArticlesController extends Controller
     public function trash(Request $request){
         $articles = Article::all();
         $trashedArticles = Article::onlyTrashed()->get();
-        return Inertia::render('Admin/Articles/Trash', compact('articles','trashedArticles'));
+        return Inertia::render('Back_Office/Articles/Trash', compact('articles','trashedArticles'));
     }
     public function forceDelete(string $id){
         $this->forceDeleteData(Article::class, $id);
@@ -62,10 +62,5 @@ class ArticlesController extends Controller
     public function restore(string $id){
         $this->restoreData(Article::class, $id);
         return redirect()->route('articles.index');
-    }
-    public function userIndex(){
-        $articles = $this->GetAll('articles');
-        $categories = $this->getCategories(true);
-        return Inertia::render('Articles/Articles', compact('articles', 'categories'));
     }
 }

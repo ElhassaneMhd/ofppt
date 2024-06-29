@@ -1,2 +1,7 @@
-Pages
-    overview articles events filieres demands users roles&permissions 
+# Todo
+
+- [ ] Sectors section
+
+# Bugs
+
+- [ ] Updating images doesn't count as change

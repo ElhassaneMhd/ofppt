@@ -18,11 +18,11 @@ class FilieresController extends Controller
         $filieres = $this->refactorManyElements($filieres, 'filieres');
         $sectors = $this->getSectors();
         $formationYears = Year::all();
-        return Inertia::render('Admin/Filieres/Index', compact('filieres',  'sectors','formationYears'));
+        return Inertia::render('Back_Office/Filieres/Index', compact('filieres',  'sectors','formationYears'));
     }
     public function create(){
         $sectors = $this->getSectors();
-        return Inertia::render('Admin/Filieres/Create', compact('sectors'));
+        return Inertia::render('Back_Office/Filieres/Create', compact('sectors'));
     }
     public function store(Request $request){
         $this->storeFiliere($request);
@@ -31,14 +31,14 @@ class FilieresController extends Controller
     public function show(string $id){
         $filiere =   Filiere::findOrFail($id);
         $filiere = $this->refactorFiliere($filiere);
-        return Inertia::render('Admin/Filieres/Show', compact('filiere'));
+        return Inertia::render('Back_Office/Filieres/Show', compact('filiere'));
     }
     public function edit(string $id) {
         $filiere = Filiere::findOrfail($id);
         $filiere = $this->refactorFiliere($filiere);
         $sectors = $this->getSectors();
         $formationYears = Year::all();
-        return Inertia::render('Admin/Filieres/Edit', compact('filiere', 'sectors','formationYears'));
+        return Inertia::render('Back_Office/Filieres/Edit', compact('filiere', 'sectors','formationYears'));
     }
     public function update(Request $request, string $id){
         //update fillier
@@ -53,7 +53,7 @@ class FilieresController extends Controller
     public function trash(){
         $filieres = Filiere::all();
         $trashedFilieres = Filiere::onlyTrashed()->get();
-        return Inertia::render('Admin/Filieres/Trash', compact('filieres', 'trashedFilieres'));
+        return Inertia::render('Back_Office/Filieres/Trash', compact('filieres', 'trashedFilieres'));
     }
     public function forceDelete(string $id)
     {
@@ -64,10 +64,5 @@ class FilieresController extends Controller
     {
         $this->restoreData(Filiere::class, $id);
         return to_route("filieres.index");
-    }
-    public function userIndex(){
-        $filieres = $this->GetAll('filieres');
-        $sectors = $this->getSectors(true);
-        return Inertia::render('Filieres/Filieres', compact('filieres', 'sectors'));
     }
 }

@@ -12,7 +12,7 @@ class GeneralController extends Controller
 {
     public function trashed($data)
     {
-        $path = 'Admin/' . ucfirst($data) . '/TrashedList';
+        $path = 'Back_Office/' . ucfirst($data) . '/TrashedList';
         $categories = $this->getCategories(false, true);
         $formationYears = Year::all();
         $sectors = $this->getSectors(false, true);
@@ -67,7 +67,7 @@ class GeneralController extends Controller
         if (!in_array($tab, $tabs)) {
             return redirect()->back();
         }
-        $path = 'Admin/Settings/' . ucfirst($tab);
+        $path = 'Back_Office/Settings/' . ucfirst($tab);
         $settings = $this->refactorSettings();
 
         return Inertia::render($path, compact('settings','tabs'));
@@ -78,6 +78,6 @@ class GeneralController extends Controller
         $role = $user  ? $user->roles->first()->name : 'super-admin';
         $stats = $this->getStats($role);
         // return $stats;
-        return Inertia::render('Admin/Dashboard/Dashboard', compact('stats'));
+        return Inertia::render('Back_Office/Dashboard/Dashboard', compact('stats'));
     }
 }

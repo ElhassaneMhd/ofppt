@@ -6,6 +6,33 @@ export const ROUTES = {
   gestionaire: ['dashboard', 'filieres', 'articles', 'events'],
 };
 
+export const routes = [
+  {
+    path: '/home',
+    label: 'Home',
+  },
+  {
+    path: '/filieres',
+    label: 'Filieres',
+  },
+  {
+    path: '/blog',
+    label: 'Blog',
+  },
+  {
+    path: '/events',
+    label: 'Events',
+  },
+  {
+    path: '/about',
+    label: 'About',
+  },
+  {
+    path: '/contact',
+    label: 'Contact',
+  },
+];
+
 export const PAGE_LIMIT = 10;
 
 export const RULES = {

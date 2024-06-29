@@ -13,11 +13,11 @@ class EventsController extends Controller{
             $events = Event::all();
             $events = $this->refactorManyElements($events,'events');
             $formationYears = Year::all();
-            return Inertia::render('Admin/Events/Index', compact('events','formationYears'));
+            return Inertia::render('Back_Office/Events/Index', compact('events','formationYears'));
         }
     public function create(){
             $formationYears = Year::all();
-            return Inertia::render('Admin/Events/Create', compact('formationYears'));
+            return Inertia::render('Back_Office/Events/Create', compact('formationYears'));
         }
     public function store(Request $request){
         $this->storeEvent($request);
@@ -26,12 +26,12 @@ class EventsController extends Controller{
     public function show(string $id){
         $event = Event::findOrFail($id);
         $event = $this->refactorEvent($event);
-        return Inertia::render('Admin/Events/Show', compact('event'));
+        return Inertia::render('Back_Office/Events/Show', compact('event'));
     }
     public function edit(string $id){
         $event = Event::findOrFail($id);
         $event = $this->refactorEvent($event);
-        return Inertia::render('Admin/Events/Edit', compact('event'));
+        return Inertia::render('Back_Office/Events/Edit', compact('event'));
     }
     public function update(Request $request, string $id) {
             $event = Event::find($id);
@@ -46,7 +46,7 @@ class EventsController extends Controller{
     //index of trashed events
             $events = Event::all();
             $trashedEvents = Event::onlyTrashed()->get();
-            return Inertia::render('Admin/Events/Show', [$events,$trashedEvents]);
+            return Inertia::render('Back_Office/Events/Show', [$events,$trashedEvents]);
         }
     public function forceDelete(string $id){
             //Force delete from trash
@@ -57,9 +57,5 @@ class EventsController extends Controller{
         //restore events from trash
         $this->restoreData(Event::class, $id);
            return to_route('events.index');
-    }
-    public function userIndex(){
-        $events = $this->GetAll('events');
-        return Inertia::render('Events/Events', compact('events'));
     }
 }

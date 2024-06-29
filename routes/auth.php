@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AuthController::class, 'formLogin'])->name('formLogin');
     Route::POST('/admin/login', [AuthController::class, 'login'])->name('login');
-    // Route::get('/', [HomeController::class, 'home'])->name('home');
-    // Route::get('/{data}/{id}', [HomeController::class, 'elementById'])->name('elementById');
-    // Route::get('/{sector}/filieres', [HomeController::class, 'sectorFilieres'])->name('sectorFilieres');
 });
 Route::get('/admin', function () {
     return redirect('/admin/dashboard');
@@ -49,13 +46,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         'users' => UsersController::class,
     ];
     foreach ($resources as $resource => $controller) {
-        Route::resource('/' . $resource, $controller)->names([
-            'index' => $resource . '.index',
-            'edit' => $resource . '.edit',
-            'show' => $resource . '.show',
-            'create' => $resource . '.create',
-            'destroy' => $resource . '.destroy',
-        ]);
+        Route::resource('/' . $resource, $controller);
         Route::delete('/' . $resource . '/{id}/forceDelete', [$controller, 'forceDelete'])->name($resource . '.forceDelete');
         Route::post('/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
 

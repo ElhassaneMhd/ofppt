@@ -10,32 +10,30 @@ import { I18nextProvider } from 'react-i18next';
 import { ConfirmationModalProvider } from './context/ConfirmationModal';
 import { i18n } from './i18n/config';
 import NotFound from './Pages/NotFound';
-import Settings from './Pages/Admin/Settings/Settings';
-import { AppLayout } from './layouts/Admin/AppLayout';
-import PageLayout from './layouts/PageLayout';
+import Settings from './Pages/Back_Office/Settings/Settings';
+import BackAppLayout from './layouts/Back_Office/AppLayout';
+import FrontAppLayout from './layouts/Front_End/AppLayout';
 
 createInertiaApp({
   resolve: (name) => {
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
     const page = pages[`./Pages/${name}.jsx`];
 
-    const pageLayout = name?.startsWith('Admin') ? (
-      // Admin page layout
-      (page) => {
-        const layout = name.includes('/Show') ? (
-          <div className='flex flex-1 flex-col gap-5 overflow-auto rounded-xl border border-border p-5 pb-3'>
-            {page}
-          </div>
-        ) : name.includes('/Settings/') ? (
-          <Settings>{page}</Settings>
-        ) : (
-          page
-        );
-        return <AppLayout>{layout}</AppLayout>;
-      }
-    ) : (
-      (page) => <PageLayout> {page}</PageLayout>
-    );
+    const pageLayout = name?.startsWith('Back_Office')
+      ? // Admin page layout
+        (page) => {
+          const layout = name.includes('/Show') ? (
+            <div className='flex flex-1 flex-col gap-5 overflow-auto rounded-xl border border-border p-5 pb-3'>
+              {page}
+            </div>
+          ) : name.includes('/Settings/') ? (
+            <Settings>{page}</Settings>
+          ) : (
+            page
+          );
+          return <BackAppLayout>{layout}</BackAppLayout>;
+        }
+      : (page) => <FrontAppLayout> {page}</FrontAppLayout>;
 
     // console.log(name, page);
 

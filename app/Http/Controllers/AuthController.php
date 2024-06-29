@@ -14,7 +14,7 @@ use Inertia\Inertia;
 class AuthController extends Controller{
 // login a user methods
     public function formLogin(){
-        return Inertia::render('Admin/Auth/Login');
+        return Inertia::render('Back_Office/Auth/Login');
     }
     public function login(Request $request) {
         $data = $request->validate([
