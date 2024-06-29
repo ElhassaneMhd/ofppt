@@ -17,7 +17,6 @@
     --text-disabled: rgb(187, 187, 187);
     --text-placeholder: rgb(225, 225, 224);
     --border: rgba(0, 0, 0, 0.15);
-    /* --primary: #81de76; */
     --primary: rgb(91, 180, 81);
     --primary-hover: rgb(61, 131, 54);
 
@@ -40,11 +39,19 @@
     --primary: rgb(91, 180, 81);
     --primary-hover: rgb(61, 131, 54);
 
-    /* color-scheme: dark; */
+    color-scheme: dark;
   }
 
   --secondary: rgb(58, 85, 180);
   --secondary-hover: rgb(46, 70, 155);
+
+  /* Front End Pages */
+  &[data-p='fr'] {
+    --primary: #7054e6;
+    --primary-hover: rgba(112, 84, 230, 0.8);
+    --secondary: #f89321;
+    --secondary-hover: rgba(248, 147, 33, 0.8);
+  }
 }
 
 * {
@@ -52,13 +59,13 @@
 }
 
 body {
+  @apply h-dvh bg-background-primary;
   font-family: 'Lexend Deca', sans-serif;
 }
 
 #app {
-  @apply min-h-screen
+  @apply h-full;
 }
-
 
 html.theme-transition {
   * {
@@ -87,14 +94,6 @@ html.theme-transition {
   display: none;
 }
 
-.spinning-animation {
-  animation-name: spinning;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -106,14 +105,5 @@ html.theme-transition {
     scroll-behavior: auto !important;
     transition-duration: 0s !important;
     transition-delay: 0s !important;
-  }
-}
-
-@keyframes spinning {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }

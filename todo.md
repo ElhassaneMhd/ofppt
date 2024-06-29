@@ -1,9 +1,7 @@
-Pages
-    overview articles events filieres demands users roles&permissions 
-Sessions 
-Activities
-Annonces
+# Todo
 
-bugs : 
-    - restore one filiere
+- [ ] Sectors section
 
+# Bugs
+
+- [ ] Updating images doesn't count as change
