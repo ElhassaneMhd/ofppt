@@ -7,7 +7,7 @@ export default function Filiere({ filiere, layout = 'grid' }) {
 
   if (layout === 'grid') {
     return (
-      <div className='h-full relative overflow-hidden shadow-md'>
+      <div className='group relative h-full overflow-hidden shadow-md'>
         {!isActive && (
           <div className='absolute -right-[55px] top-[38px] z-20 rotate-45 bg-red-500 px-10 py-1.5 text-sm font-semibold text-white'>
             Inscription Fermée
@@ -17,7 +17,7 @@ export default function Filiere({ filiere, layout = 'grid' }) {
           <img
             src={getImage(files)}
             alt={title}
-            className='h-full w-full object-cover transition-transform duration-300 hover:scale-105'
+            className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-110'
           />
           <div className='relative flex flex-col gap-2 rounded-b-xl border-border bg-background-secondary p-3'>
             <div className='flex items-center justify-between gap-3 border-b border-border pb-2 text-sm'>
@@ -25,8 +25,8 @@ export default function Filiere({ filiere, layout = 'grid' }) {
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>
             </div>
             <h4 className='text-lg font-bold leading-snug text-text-primary'>{title}</h4>
-            <p className='line-clamp-3 text-sm font-medium text-text-secondary'>{details}</p>
-            <Link href={`/filieres/${id}`} className='mt-4'>
+            <p className='mb-3 line-clamp-3 text-sm font-medium text-text-secondary'>{details}</p>
+            <Link href={`/filieres/${id}`} className='mt-auto'>
               <Button size='small' className='mx-auto'>
                 En savoir plus
               </Button>
@@ -43,7 +43,7 @@ export default function Filiere({ filiere, layout = 'grid' }) {
           Inscription Fermée
         </div>
       )}
-      <div className='relative grid h-full  min-h-[150px] grid-cols-[140px_auto] overflow-hidden rounded-lg sm:grid-cols-[180px_auto]'>
+      <div className='relative grid h-full min-h-[150px] grid-cols-[140px_auto] overflow-hidden rounded-lg sm:grid-cols-[180px_auto]'>
         <img
           src={getImage(files)}
           alt={title}
@@ -53,14 +53,14 @@ export default function Filiere({ filiere, layout = 'grid' }) {
           <div className='flex flex-col gap-2'>
             <h4 className='text-xl font-bold leading-snug text-text-primary'>{title}</h4>
             <p className='line-clamp-3 text-sm font-medium text-text-secondary'>{details}</p>
-            <div className='flex items-center mt-auto gap-5 text-sm'>
+            <div className='mt-auto flex items-center gap-5 text-sm'>
               <span className='font-medium text-secondary'>{sector}</span>
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>
             </div>
           </div>
-          <Button className='h-fit w-fit self-center' href={`/filieres/${id}`}>
-            En savoir plus
-          </Button>
+          <Link href={`/filieres/${id}`}>
+            <Button className='h-fit w-fit self-center'>En savoir plus</Button>
+          </Link>
         </div>
       </div>
     </div>

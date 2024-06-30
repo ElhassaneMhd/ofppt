@@ -12,7 +12,7 @@ Route::get('/', function () {
     return redirect('/home');
 });
 Route::get('/home', [HomeController::class, 'index'])->name('homepage');
-Route::inertia('/contact', 'Front_End/Contact')->name('contact');
+Route::inertia('/contact','Front_End/Contact')->name('contact');
 Route::post('/demands', [ApiController::class, 'storeDemands']);
 Route::inertia('/about', 'Front_End/About')->name('about');
 

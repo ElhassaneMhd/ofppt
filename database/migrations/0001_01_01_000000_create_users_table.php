@@ -22,7 +22,6 @@ return new class extends Migration
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
-
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -40,8 +39,11 @@ return new class extends Migration
             $table->string('device');
             $table->string('ip');
             $table->string('location');
+            $table->text('payload')->nullable();
+            $table->timestamp('last_activity')->nullable();
+            $table->text('user_agent')->nullable();
+            $table->text('ip_address')->nullable();
             $table->timestamps();
-
         });
     }
 
@@ -54,6 +56,5 @@ return new class extends Migration
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('personal_access_tokens');
-
     }
 };

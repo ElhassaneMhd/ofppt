@@ -91,8 +91,8 @@ export default function Sidebar() {
           className={`w-full pt-1 text-center font-medium text-text-tertiary ${isExpanded ? 'px-3 text-xs' : 'text-[10px]'}`}
         >
           {isExpanded
-            ? props.year.year
-            : props.year.year.split('/')[0].slice(2, 4) + '/' + props.year.year.split('/')[1].slice(2, 4)}
+            ? props.year?.year
+            : props.year?.year.split('/')[0].slice(2, 4) + '/' + props.year?.year.split('/')[1].slice(2, 4)}
         </div>
       </div>
     </aside>

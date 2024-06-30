@@ -1,6 +1,7 @@
 # Todo
 
 - [ ] Sectors section
+- [ ] Footer
 
 # Bugs
 

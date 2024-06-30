@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 
 export const useNavigate = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(null);
   const [error, setError] = useState(null);
 
   const navigate = useCallback(({ url, method = 'get', params = {}, data = {}, options = {} }) => {
@@ -17,6 +18,7 @@ export const useNavigate = () => {
       },
       onStart: () => setIsLoading(true),
       onFinish: () => setIsLoading(false),
+      onSuccess: (e) => setIsSuccess(e),
 
       ...(options || {}),
       ...(options.onSuccess && { onSuccess: (e) => options.onSuccess(e, toast) }),
@@ -41,5 +43,5 @@ export const useNavigate = () => {
     }
   }, []);
 
-  return { navigate, isLoading, error };
+  return { navigate, isLoading,isSuccess, error };
 };

@@ -39,7 +39,7 @@ export default function Header() {
 
 function Links() {
   const { url } = usePage();
-  const { ref, indicator } = useIndicator('/');
+  const { ref, indicator } = useIndicator('/','bottom-0');
 
   return (
     <ul className='hidden gap-8 lg:flex lg:flex-1 lg:justify-center' ref={ref}>

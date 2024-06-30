@@ -39,7 +39,7 @@ class AuthController extends Controller{
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            $this->storeSession($user->id,$from,$ip);
+            // $this->storeSession($user->id,$from,$ip);
 
         }
         else{

@@ -1,28 +1,62 @@
+import { useState } from 'react';
 import { GrYoutube, GrInstagram, GrTwitter, GrLinkedin, GrFacebookOption } from 'react-icons/gr';
+import { Button } from '.';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const socialMediaLinks = [
-  { name: 'Facebook', icon: <GrFacebookOption />, url: 'https://www.facebook.com/ofppt.page.officielle/', bgColor: '#1877f2' },
+  {
+    name: 'Facebook',
+    icon: <GrFacebookOption />,
+    url: 'https://www.facebook.com/ofppt.page.officielle/',
+    bgColor: '#1877f2',
+  },
   { name: 'Youtube', icon: <GrYoutube />, url: 'https://www.youtube.com/c/ofpptchaineofficielle', bgColor: '#ff0000' },
   { name: 'Twitter', icon: <GrTwitter />, url: 'https://twitter.com/OFPPT_Officiel', bgColor: '#1da1f2' },
   { name: 'Instagram', icon: <GrInstagram />, url: 'https://www.instagram.com/ofppt.officiel/', bgColor: '#e1306c' },
-  { name: 'Linkedin', icon: <GrLinkedin />, url: 'https://www.linkedin.com/company/ofpptpageofficielle/', bgColor: '#0a66c2' },
+  {
+    name: 'Linkedin',
+    icon: <GrLinkedin />,
+    url: 'https://www.linkedin.com/company/ofpptpageofficielle/',
+    bgColor: '#0a66c2',
+  },
 ];
 
-export function SocialMedia() {
+// eslint-disable-next-line react-refresh/only-export-components
+export const isSet = (settings) => socialMediaLinks.map((s) => s.name.toLocaleLowerCase()).some((s) => settings?.[s]);
+
+export function SocialMedia({ settings, className = 'gap-3', size }) {
+  const [hovered, setHovered] = useState(null);
+
+  if (!isSet(settings)) return null;
+
   return (
-    <>
-      {socialMediaLinks.map(({ icon, url, bgColor }) => (
-        <a
-          key={url}
-          href={url}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={`group grid h-8 w-8 cursor-pointer place-content-center rounded-full border border-border transition-colors duration-300 hover:border-transparent hover:bg-[${bgColor}]`}
-        >
-          <div className='text-text-primary transition-colors duration-300 group-hover:text-white'>{icon}</div>
-        </a>
-      ))}
-    </>
+    <div className={`relative flex items-center justify-center  ${className}`}>
+      {socialMediaLinks
+        .filter((s) => settings?.[s.name.toLocaleLowerCase()])
+        .map((s, index) => {
+          const url = settings?.[s.name.toLocaleLowerCase()];
+          const href = url?.startsWith('http://') || url?.startsWith('https://') ? url : 'http://' + url;
+
+          return (
+            <a
+              key={s.href}
+              href={href}
+              target='_blank'
+              className='group'
+              onMouseEnter={() => setHovered(index)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <Button
+                shape='icon'
+                className={`rounded-full text-text-primary group-hover:text-white`}
+                style={{ backgroundColor: hovered === index ? s.bgColor : 'transparent' }}
+                size={size}
+              >
+                {s.icon}
+              </Button>
+            </a>
+          );
+        })}
+    </div>
   );
 }

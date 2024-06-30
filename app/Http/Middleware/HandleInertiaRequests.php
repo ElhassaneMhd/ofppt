@@ -45,13 +45,14 @@ class HandleInertiaRequests extends Middleware
             ]) : null,
             'year' => Session::get('activeYear'),
             'formationYears' => $this->GetAll('years'),
-            'count'=>[
+            'count' => [
                 'users' => $this->GetCount('users'),
                 'filieres' => $this->GetCount('filieres'),
                 'events' => $this->GetCount('events'),
                 'articles' => $this->GetCount('articles'),
                 'demands' => $this->GetCount('demands'),
-            ]
+            ],
+            'settings' => $this->refactorSettings(),
         ];
     }
 }

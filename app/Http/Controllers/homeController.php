@@ -83,4 +83,5 @@ class HomeController extends Controller
         );
         return Inertia::render($path, ['event' => $element, 'events' => $elements]);
     }
+    
 }

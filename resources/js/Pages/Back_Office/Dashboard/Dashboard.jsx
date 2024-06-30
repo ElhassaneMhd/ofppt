@@ -11,7 +11,7 @@ import { useUser } from '@/hooks';
 export default function Dashboard({ stats = {} }) {
   return (
     <PageLayout title='Dashboard'>
-      <div className='flex h-full py-3 pr-2 flex-col gap-5 overflow-auto'>
+      <div className='flex h-full flex-col gap-5 overflow-auto py-3 pr-2'>
         <div className='grid gap-5 md:grid-cols-3'>
           <Stats stats={stats} />
           <Sectors stats={stats} />
@@ -42,15 +42,15 @@ function Stats({ stats }) {
       {statistics.map((stat, index) => (
         <Stat key={index} {...stat} className={index === statistics.length - 1 ? 'sm:col-span-2 md:col-span-1' : ''} />
       ))}
-      {user.role === 'super-admin' && (
-        <div className='flex items-start justify-between rounded-lg border-[1.2px] shadow-md border-border p-3 sm:col-span-2 md:col-span-1'>
+      {user?.role === 'super-admin' && (
+        <div className='flex items-start justify-between rounded-lg border-[1.2px] border-border p-3 shadow-md sm:col-span-2 md:col-span-1'>
           <div className='space-y-5'>
             <h4 className='text-sm font-medium text-text-secondary'>Total Personnel</h4>
             <div className='flex flex-wrap gap-2'>
               {[
-                { name: 'Admins', value: stats?.users?.admins,param : 'super-admin' },
-                { name: 'Gestionaires', value: stats?.users?.gestionaires,param : 'gestionaire' },
-              ].map(({ name, value,param }) => (
+                { name: 'Admins', value: stats?.users?.admins, param: 'super-admin' },
+                { name: 'Gestionaires', value: stats?.users?.gestionaires, param: 'gestionaire' },
+              ].map(({ name, value, param }) => (
                 <Button
                   key={name}
                   display='with-icon'
@@ -105,11 +105,11 @@ function Sectors({ stats }) {
 }
 
 function Analytics({ stats }) {
-  const currentYear = usePage().props.year;
+  const currentYear = usePage().props?.year;
   const years = stats?.years?.years;
 
   const latestYears = Object.keys(years).reduce((acc, year, i, arr) => {
-    const currentIndex = arr.findIndex((y) => y === currentYear.year);
+    const currentIndex = arr.findIndex((y) => y === currentYear?.year);
     const fn = (y) => ({ ...years[y], year: y });
     if (currentIndex >= 7) acc = arr.slice(currentIndex - 6, currentIndex + 1).map(fn);
     else acc = arr.slice(0, 7).map(fn);
@@ -125,7 +125,7 @@ function Analytics({ stats }) {
   ]);
 
   return (
-    <div className='relative grid min-h-[350px] gap-5 rounded-lg border-[1.2px] shadow-md border-border p-3'>
+    <div className='relative grid min-h-[350px] gap-5 rounded-lg border-[1.2px] border-border p-3 shadow-md'>
       <div className='flex flex-col items-center justify-between gap-2 self-start md:flex-row'>
         <h2 className='text-lg font-bold text-text-primary'>
           Analytics for the last 7 years

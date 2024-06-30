@@ -7,7 +7,7 @@ export function SessionYear({ isOpen, onClose }) {
   const [query, setQuery] = useState('');
   const formationYears = usePage().props.formationYears || [];
   const currentYear = usePage().props.year;
-  const [chosenYear, setChosenYear] = useState(currentYear.id);
+  const [chosenYear, setChosenYear] = useState(currentYear?.id);
   const { navigate } = useNavigate();
 
   return (
