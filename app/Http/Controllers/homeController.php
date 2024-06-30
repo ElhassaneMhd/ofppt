@@ -66,6 +66,7 @@ class HomeController extends Controller
         $elements = $this->GetAll($route);
         $sectors = $this->getSectors(true, true);
         $categories = $this->getCategories(true, true);
+        // $tags = $this->getTags(true, true);
 
         $path = 'Front_End/' . ucfirst($this->getRouteName()) . '/' . ucfirst(Str::singular($route)) . 'Details';
 
@@ -75,7 +76,10 @@ class HomeController extends Controller
         );
         if ($route === 'articles') return Inertia::render(
             $path,
-            ['article' => $element, 'articles' => $elements, 'categories' => $categories]
+            [
+                'article' => $element, 'articles' => $elements, 'categories' => $categories,
+                //  'tags' => $tags
+            ]
         );
         return Inertia::render($path, ['event' => $element, 'events' => $elements]);
     }

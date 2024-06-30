@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { usePage, useRemember } from '@inertiajs/react';
+import { useState } from 'react';
 import { Table } from './Table';
 import { Search } from './Search';
 import { View } from './View';
@@ -9,13 +8,11 @@ import { Actions } from './Actions';
 import { Selected } from './Selected';
 import { TableContext } from './useTable';
 import { getIsoDate } from '@/utils/helpers';
-import { PAGE_LIMIT } from '@/utils/constants';
-import { SearchParams } from '@/utils/SearchParams';
 import { NewRecord } from './NewRecord';
+import { useMethods } from '@/hooks/useMethods';
 
 Array.prototype.customFilter = function (filters, filterCondition) {
   if (!filters) return this;
-
 
   const conditions = Object.entries(filters)
     .map(([field, filter]) => ({
@@ -104,8 +101,8 @@ export function TableProvider({
   filters: defaultFilters,
   selectedOptions: defaultSelectedOptions,
   fieldsToSearch,
-  defaultSortBy = 'id',
-  defaultDirection = 'desc',
+  defaultSortBy,
+  defaultDirection,
   downloadOptions,
   displayAllData,
   isTrashed,
@@ -117,45 +114,32 @@ export function TableProvider({
     actions: defaultSelectedOptions?.actions || [],
     deleteOptions: defaultSelectedOptions?.deleteOptions,
   });
-  const [filters, setFilters] = useState(defaultFilters);
-  const [state, setState] = useRemember({ checked: {} });
-  const { url } = usePage();
 
-  const searchParams = new SearchParams({
-    endpoint: url,
-    cleanupConditions: {
-      search: '',
-      page: '1',
-      sort: defaultSortBy,
-      dir: defaultDirection,
-      limit: PAGE_LIMIT,
-    },
+  const {
+    query,
+    page,
+    limit,
+    sortBy,
+    direction,
+    filters,
+    onSearch,
+    onPaginate,
+    onChangeLimit,
+    onOrder,
+    onSort,
+    onFilter,
+    appliedFiltersNumber,
+  } = useMethods({
+    defaultSortBy,
+    defaultDirection,
+    defaultFilters,
   });
-
-  const query = searchParams.get('search') || '';
-  const page = Number(searchParams.get('page')) || 1;
-  const limit = Number(searchParams.get('limit')) || PAGE_LIMIT;
-  const sortBy = searchParams.get('sort') || defaultSortBy;
-  const direction = searchParams.get('dir') || defaultDirection;
 
   // Variables
   const rows = data?.search(query, fieldsToSearch).customFilter(filters, 'AND').customSort(sortBy, direction, columns);
 
   const totalItems = rows?.length;
   const totalPages = Math.ceil(totalItems / limit);
-
-  const appliedFiltersNumber = (filter) => {
-    if (filter === 'all')
-      return Object.values(filters)
-        .flat()
-        .filter((f) => f.checked).length;
-
-    if (!filters[filter]) return;
-
-    return Object.values(filters[filter])
-      .flat()
-      .filter((f) => f.checked).length;
-  };
 
   const excludedFields = columns.filter((c) => !c.visible).map((c) => c.displayLabel);
 
@@ -174,26 +158,7 @@ export function TableProvider({
     confirmText: 'Delete',
   };
 
-  useEffect(() => {
-    setFilters((prev) => {
-      const updated = {};
-      Object.keys(prev).forEach((key) => {
-        updated[key] = prev[key].map((f) => ({ ...f, checked: f.checked || state.checked[key]?.includes(f.id) || false}));
-      });
-      return updated;
-    });
-  }, [state, url]);
-
   // Handlers
-
-  const onSearch = (query) => {
-    searchParams.set('search', query);
-    searchParams.delete('page');
-  };
-
-  const onPaginate = (page) => searchParams.set('page', page);
-
-  const onChangeLimit = (limit) => searchParams.set('limit', limit);
 
   const onChangeView = (column, showAll) => {
     if (showAll) return setColumns(columns.map((c) => ({ ...c, visible: true })));
@@ -205,28 +170,6 @@ export function TableProvider({
         return c.displayLabel === column ? { ...c, visible } : c;
       })
     );
-  };
-
-  const onSort = (column, direction) => {
-    searchParams.set('sort', column);
-    searchParams.set('dir', direction);
-  };
-
-  const onFilter = (key, value) => {
-    const updatedFilters = {
-      ...filters,
-      [key]: filters[key].map((f) => (f.value === value ? { ...f, checked: !f.checked } : f)),
-    };
-    setFilters(updatedFilters);
-
-    setState((prev) => ({
-      ...prev,
-      checked: Object.keys(updatedFilters).reduce(
-        (acc, key) => ({ ...acc, [key]: updatedFilters[key].filter(({ checked }) => checked).map(({ id }) => id) }),
-        {}
-      ),
-    }));
-    if (page !== 1) onPaginate(1);
   };
 
   const onSelect = (id, isAll) => {
@@ -276,13 +219,16 @@ export function TableProvider({
     // sort
     sortBy,
     direction,
-    onSort,
+    onSort: (sortBy, direction) => {
+      onSort(sortBy);
+      onOrder(direction);
+    },
     // download
     csvConfig,
     pdfConfig,
     // other
     confirmOptions,
-    isTrashed
+    isTrashed,
   };
 
   return <TableContext.Provider value={context}>{children}</TableContext.Provider>;

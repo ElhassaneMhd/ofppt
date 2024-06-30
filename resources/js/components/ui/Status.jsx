@@ -31,27 +31,12 @@ const Error = ({ heading, message, size }) => {
 
 const Loading = () => <div className='loading'></div>;
 
-const Locked = ({ heading, message }) => {
-  return (
-    <>
-      <img src='/images/locked.png' alt='no results' className='w-20' />
-      <div className='mt-3 space-y-2'>
-        <h3
-          className='text-lg font-semibold text-text-primary
-        '
-        >
-          {heading || 'Access Denied'}
-        </h3>
-        {message && <p className='text-sm text-text-secondary'>{message}</p>}
-      </div>
-    </>
-  );
-};
+
 
 const PageNotFound = () => {
   return (
     <div className='absolute grid h-full w-full place-content-center place-items-center gap-5 pt-5'>
-      <img src='/SVG/no-applications.svg' alt='' className='w-[100px]' />
+      <img src='/images/empty.svg' alt='' className='w-[100px]' />
       <div className='space-y-2 text-center'>
         <h2 className='font-medium text-text-primary'> Page Not Found</h2>
         <p className='text-sm text-text-secondary'>The page you&apos;re trying to access doesn&apos;t exist.</p>
@@ -109,7 +94,6 @@ export function Status({ status, heading, message, size, ...props }) {
     noResults: <NoResults {...prs} />,
     error: <Error {...prs} />,
     loading: <Loading size={size} />,
-    locked: <Locked {...prs} />,
     pageNotFound: <PageNotFound />,
     sending: <Sending {...prs} />,
     sent: <Sent {...prs} />,
