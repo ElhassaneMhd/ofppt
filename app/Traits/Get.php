@@ -13,12 +13,12 @@ trait Get{
     use Refactor;
     public function GetAll($data,$trashed = false){
         $all = [];
-        if(in_array($data,['users','articles','filieres','events','years','demands'])){
+        if(in_array($data,['users','articles','filieres','events','years','demands','sessions'])){
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
             if($trashed===true){
                 $collections = $model::onlyTrashed()->get();
             }else{
-                if(!in_array($data,['users','demands','years'])){
+                if(!in_array($data,['users','demands','years','sessions'])){
                     $collections = $model::where('visibility', 'true')->get();
                 }else{
                     $collections = $model::all();
@@ -31,6 +31,7 @@ trait Get{
                  ($data === 'events')&& $all[]= $this->refactorEvent($collection);
                  ($data === 'demands')&& $all[]= $this->refactorDemand($collection);
                  ($data === 'years')&& $all[]= $this->refactorYear($collection);
+                 ($data === 'sessions')&& $all[]= $this->refactorSession($collection);
             }
         }else{
             return response()->json(['message'=>'undefined api'],400);
@@ -145,7 +146,7 @@ trait Get{
         }
         if($for === 'homepage') return compact('filieres','years');
         if ('super-admin') return compact('users', 'articles', 'filieres', 'events', 'demands','years');
-        if ($for === 'admin') return compact( 'articles', 'filieres', 'events', 'demands','years');       
+        if ($for === 'admin') return compact( 'articles', 'filieres', 'events', 'demands','years');
         if ($for === 'gestionaire')  return compact('articles', 'filieres', 'events');
     }
     public function GetCount($data){

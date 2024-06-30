@@ -34,8 +34,13 @@ class AuthController extends Controller{
         $activeYear = Year::active()->get()[0];
         session(['activeYear' => $activeYear]);
 
+        $ip=$request->headers->get('Accept-For')??$request->ip();
+        $from=$request->headers->get('Accept-From')??$request->header('User-Agent');
+
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
+            $this->storeSession($user->id,$from,$ip);
+
         }
         else{
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);

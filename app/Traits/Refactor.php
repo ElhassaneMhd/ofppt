@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Setting;
+use App\Models\User;
 
 trait Refactor
 {
@@ -130,6 +131,44 @@ trait Refactor
             "location" => $setting->location,
             "aboutDescription" => $setting->aboutDescription,
             "files" => $this->getElementFiles($setting) ?? []
+        ];
+    }
+    public function refactorSession($session){
+        $user = User::find($session->user_id);
+
+        $allActivities = $session->activities;
+        foreach($allActivities as $actevitie){
+            $activities[]=$this->refactorActivity($actevitie);
+        }
+
+        $currentSession = auth()->user()->session??null;
+        ($currentSession&&$currentSession->id ===$session->id)?$isCurrent = 'true':$isCurrent= 'false';
+
+        return [
+            'id'=>$session->id,
+            'fullName'=>$user->firstName.' '.$user->lastName ,
+            'email'=>$user->email ,
+            'ip'=>$session->ip,
+            'browser'=>$session->browser,
+            'device'=>$session->device,
+            'status'=>$session->status,
+            'isCurrent'=>$isCurrent,
+            'location'=>$session->location,
+            'activities'=>$activities??[],
+            'created_at'=>$session->created_at,
+            'updated_at'=>$session->updated_at,
+        ];
+    }
+    public function refactorActivity($activitie){
+        $user= $activitie->session->user;
+        return [
+            'id' => $activitie->id,
+            'initiator' => $user->firstName.' '.$user->lastName,
+            'model' => $activitie->model,
+            'action' => $activitie->action,
+            'activity' => $activitie->activity,
+            'object' => $activitie->object,
+            'created_at' => $activitie->created_at,
         ];
     }
 }
