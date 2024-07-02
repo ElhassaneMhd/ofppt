@@ -93,7 +93,7 @@ export function useOptions({ routeName, resourceName, formationYears = [], isTra
       deleteOptions: {
         resourceName,
         onConfirm: (ids) =>
-          navigate({ url: `${routeName}.multiple.${isTrashed ? 'delete' : 'destroy'}`, method: 'post', data: { ids } }),
+          navigate({ url: `${routeName}.multiple.${isTrashed ? 'forceDelete' : 'destroy'}`, method: 'post', data: { ids } }),
       },
     },
     layoutOptions: {

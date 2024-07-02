@@ -52,7 +52,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         Route::delete('/' . $resource . '/{id}/forceDelete', [$controller, 'forceDelete'])->name($resource . '.forceDelete');
         Route::post('/' . $resource . '/{id}/restore', [$controller, 'restore'])->name($resource . '.restore');
 
-        foreach (['restore', 'delete', 'destroy'] as $action) {
+        foreach (['restore', 'forceDelete', 'destroy'] as $action) {
             Route::post('/' . $resource . '/multiple/' . $action, [GeneralController::class, 'multipleAction'])->name($resource . '.multiple.' . $action);
         }
         if (in_array($resource, ['articles', 'filieres', 'events'])) {

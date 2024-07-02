@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('device');
             $table->string('ip');
             $table->string('location');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

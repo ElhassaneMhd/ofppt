@@ -13,10 +13,6 @@ class DemandsController extends Controller
         $demands = $this->refactorManyElements($demands,'demands');
         return Inertia::render('Back_Office/Demands/Index', compact('demands'));
     }
-    public function trash(){
-        $demands =Demand::onlyTrashed()->get();
-        return Inertia::render('Back_Office/Demands/Trash', compact('demands'));
-    }
     public function show(Demand $demand){
         $demand = $this->refactorDemand($demand);
         return Inertia::render('Back_Office/Demands/Show', compact('demand'));

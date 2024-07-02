@@ -53,7 +53,7 @@ const Content = forwardRef(({ children, isOpen, className }, ref) => {
 
 Content.displayName = 'Content';
 
-export function Overlay({ children, isOpen, closeOnBlur, onClose, className = 'z-30' }) {
+export function Overlay({ children, isOpen, closeOnBlur, onClose, className = 'z-[9999]' }) {
   return (
     <div
       className={cn(

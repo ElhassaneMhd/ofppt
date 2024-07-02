@@ -24,11 +24,6 @@ class SessionController extends Controller
         $this->destroyElement(Session::class, $id);
         return redirect()->route("sessions.index");
     }
-    public function trash(){
-        $sessions = Session::all();
-        $trashedSessions = Session::onlyTrashed()->get();
-        return Inertia::render('Back_Office/Sessions/Trash', compact('sessions', 'trashedSessions'));
-    }
     public function forceDelete(string $id)
     {
         $this->forceDeleteData(Session::class, $id);

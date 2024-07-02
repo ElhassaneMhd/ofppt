@@ -49,11 +49,6 @@ class FilieresController extends Controller{
         $this->destroyElement(Filiere::class, $id);
         return redirect()->route("filieres.index");
     }
-    public function trash(){
-        $filieres = Filiere::all();
-        $trashedFilieres = Filiere::onlyTrashed()->get();
-        return Inertia::render('Back_Office/Filieres/Trash', compact('filieres', 'trashedFilieres'));
-    }
     public function forceDelete(string $id)
     {
         $this->forceDeleteData(Filiere::class, $id);

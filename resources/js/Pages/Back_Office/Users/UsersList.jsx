@@ -49,10 +49,13 @@ export default function UsersList({ users, roles, isTrashed }) {
       selectedOptions={{ deleteOptions: options.selectedOptions.deleteOptions }}
       filters={{
         ...filterObject(options.filters, ['created_at'], 'include'),
-        ...getFilter('role', roles, 'name',),
+        ...getFilter('role', roles, 'name'),
       }}
-      layoutOptions={{ actions: (def) => [def.edit, def.delete], displayNewRecord: !isTrashed }}
+      layoutOptions={{
+        actions: (def) => [...(isTrashed ? [def.restore] : [def.edit]), def.delete],
+        displayNewRecord: !isTrashed,
+      }}
       isTrashed={isTrashed}
     />
-  );
+);
 }

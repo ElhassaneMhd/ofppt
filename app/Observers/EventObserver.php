@@ -34,7 +34,7 @@ class EventObserver
         $data = [
             'action' => 'Delete',
             'model' => 'Event',
-            'activity'=>'An event has been deleted permanently',
+            'activity'=>'An event has been deleted ',
             'object'=>$event->title
         ];
         $this->storeActivite($data);
@@ -54,7 +54,7 @@ class EventObserver
         $data = [
             'action' => 'Force Delete',
             'model' => 'Event',
-            'activity'=>'An event has been deleted definitively',
+            'activity'=>'An event has been deleted permanently',
             'object'=>$event->title
         ];
         $this->storeActivite($data);

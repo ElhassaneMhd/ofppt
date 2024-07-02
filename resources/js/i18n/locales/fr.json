@@ -159,6 +159,7 @@
       "demands": "Demandes",
       "events": "Events",
       "users": "Users",
+      "sessions": "Sessions",
       "roles": "Roles",
       "settings": "Paramètres",
       "logout": "Déconnexion"

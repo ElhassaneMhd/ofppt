@@ -11,10 +11,7 @@ export function Pagination({
   className = '',
   name,
 }) {
-  if (totalItems === 0 ||  disabled  ) return null;
-
-
-
+  if (totalItems === 0 || disabled) return null;
 
   return (
     <div
@@ -25,7 +22,7 @@ export function Pagination({
           <Span>Rows per page :</Span>
           <DropDown
             toggler={
-              <DropDown.Option size='small' className=' bg-background-secondary text-text-primary'>
+              <DropDown.Option size='small' className='bg-background-secondary text-text-primary'>
                 {limit}
               </DropDown.Option>
             }
@@ -43,7 +40,7 @@ export function Pagination({
             ))}
           </DropDown>
         </div>
-        <Details {...{ totalItems, totalPages, page,limit, name }} />
+        <Details {...{ totalItems, totalPages, page, limit, name }} />
       </div>
       <div className='flex justify-between gap-2 sm:justify-normal'>
         <Button
@@ -71,9 +68,9 @@ export function Pagination({
   );
 }
 
-export function Details({ totalItems, totalPages, page,limit, name }) {
+export function Details({ totalItems, totalPages, page, limit, name }) {
   return (
-    <p className='no_scrollbar flex-1 overflow-auto text-center  text-xs'>
+    <p className='no_scrollbar flex-1 overflow-auto text-center text-xs'>
       <Span>Showing</Span>
       <Span variable>{page * limit - limit + 1}</Span>
       <Span>to</Span>

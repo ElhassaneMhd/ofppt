@@ -106,7 +106,8 @@ function Row({ row, visibleColumns, actions, canView = true, selected, hideRowAc
   // Define the onClick handler for the row
   const handleRowClick = () => {
     if (isSelecting && !hideRowActions) onSelect(row.id);
-    if (canView && !disabled && !isSelecting) navigate({ url: `${routeName}.show`, params: row.id });
+    if (canView && !disabled && !isSelecting)
+      typeof canView === 'function' ? canView(row) : navigate({ url: `${routeName}.show`, params: row.id });
   };
   //
   return (

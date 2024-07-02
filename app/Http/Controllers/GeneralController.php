@@ -35,7 +35,7 @@ class GeneralController extends Controller
             if ($action === 'destroy') {
                 $this->destroyElement($model, $id);
             }
-            if ($action === 'delete') {
+            if ($action === 'forceDelete') {
                 $this->forceDeleteData($model, $id);
             }
             if ($action === 'restore') {

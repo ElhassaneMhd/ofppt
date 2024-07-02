@@ -32,8 +32,12 @@ export function Actions({ row, actions }) {
       onClick: () => {
         openModal({
           ...confirmOptions,
+          message: isTrashed
+            ? `Are you sure you want to delete this ${resourceName.toLowerCase()} permanently ?`
+            : confirmOptions.message,
+          title: isTrashed ? `Delete ${resourceName} Permanently` : confirmOptions.title,
           onConfirm: () => {
-            navigate({ url: `${routeName}.${isTrashed ? 'delete' : 'destroy'}`, params: row.id, method: 'delete' });
+            navigate({ url: `${routeName}.${isTrashed ? 'forceDelete' : 'destroy'}`, params: row.id, method: 'delete' });
             rows?.length === 1 && onPaginate(page - 1);
           },
         });

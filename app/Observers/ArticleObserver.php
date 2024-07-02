@@ -35,7 +35,7 @@ class ArticleObserver
         $data = [
             'action' => 'Delete',
             'model' => 'Article',
-            'activity'=>'An article has been deleted permanently',
+            'activity'=>'An article has been deleted ',
             'object'=>$article->title
         ];
         $this->storeActivite($data);
@@ -55,7 +55,7 @@ class ArticleObserver
         $data = [
             'action' => 'Force Delete',
             'model' => 'Article',
-            'activity'=>'An article has been deleted definitively',
+            'activity'=>'An article has been deleted permanently',
             'object'=>$article->title
         ];
         $this->storeActivite($data);

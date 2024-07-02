@@ -23,7 +23,7 @@ class UserObserver
         $data = [
             'action' => 'Update',
             'model' => 'User',
-            'activity'=>'An user has been updated',
+            'activity'=>'A User has been updated',
             'object'=>$user->firstName . ' ' . $user->lastName
         ];
         $this->storeActivite($data);
@@ -33,8 +33,8 @@ class UserObserver
         $data = [
             'action' => 'Delete',
             'model' => 'User',
-            'activity'=>'An user has been deleted permanently',
-            'object'=>$user->name
+            'activity'=>'A User has been deleted ',
+            'object'=>$user->firstName . ' ' . $user->lastName
         ];
         $this->storeActivite($data);
     }
@@ -43,8 +43,8 @@ class UserObserver
         $data = [
             'action' => 'Restore',
             'model' => 'User',
-            'activity'=>'An user has been restored',
-            'object'=>$user->name
+            'activity'=>'A User has been restored',
+            'object'=>$user->firstName . ' ' . $user->lastName
         ];
         $this->storeActivite($data);
     }
@@ -53,8 +53,8 @@ class UserObserver
         $data = [
             'action' => 'Force Delete',
             'model' => 'User',
-            'activity'=>'An user has been deleted definitively',
-            'object'=>$user->name
+            'activity'=>'A User has been deleted permanently',
+            'object'=>$user->firstName . ' ' . $user->lastName
         ];
         $this->storeActivite($data);
     }

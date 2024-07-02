@@ -34,7 +34,7 @@ class FiliereObserver
         $data = [
             'action' => 'Delete',
             'model' => 'Filiere',
-            'activity'=>'A filiere has been deleted permanently',
+            'activity'=>'A filiere has been deleted ',
             'object'=>$filiere->title
         ];
         $this->storeActivite($data);
@@ -57,7 +57,7 @@ class FiliereObserver
         $data = [
             'action' => 'Force Delete',
             'model' => 'Filiere',
-            'activity'=>'A filiere has been deleted definitively',
+            'activity'=>'A filiere has been deleted permanently',
             'object'=>$filiere->title
         ];
         $this->storeActivite($data);

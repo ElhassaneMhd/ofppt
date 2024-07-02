@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+
 use App\Models\Article;
 use App\Models\Demand;
 use App\Models\Event;
@@ -9,91 +10,97 @@ use App\Models\User;
 use App\Models\Year;
 use Illuminate\Support\Str;
 
-trait Get{
+trait Get
+{
     use Refactor;
-    public function GetAll($data,$trashed = false){
+    public function GetAll($data, $trashed = false)
+    {
         $all = [];
-        if(in_array($data,['users','articles','filieres','events','years','demands','sessions'])){
+        if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands', 'sessions'])) {
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
-            if($trashed===true){
+            if ($trashed === true) {
                 $collections = $model::onlyTrashed()->get();
-            }else{
-                if(!in_array($data,['users','demands','years','sessions'])){
+            } else {
+                if (!in_array($data, ['users', 'demands', 'years', 'sessions'])) {
                     $collections = $model::where('visibility', 'true')->get();
-                }else{
+                } else {
                     $collections = $model::all();
                 }
             }
-          foreach ($collections as $collection) {
-                 ($data === 'users')&& $all[]= $this->refactorUser($collection);
-                 ($data === 'articles')&& $all[]= $this->refactorArticle($collection);
-                 ($data === 'filieres')&& $all[]= $this->refactorFiliere($collection);
-                 ($data === 'events')&& $all[]= $this->refactorEvent($collection);
-                 ($data === 'demands')&& $all[]= $this->refactorDemand($collection);
-                 ($data === 'years')&& $all[]= $this->refactorYear($collection);
-                 ($data === 'sessions')&& $all[]= $this->refactorSession($collection);
+            foreach ($collections as $collection) {
+                ($data === 'users') && $all[] = $this->refactorUser($collection);
+                ($data === 'articles') && $all[] = $this->refactorArticle($collection);
+                ($data === 'filieres') && $all[] = $this->refactorFiliere($collection);
+                ($data === 'events') && $all[] = $this->refactorEvent($collection);
+                ($data === 'demands') && $all[] = $this->refactorDemand($collection);
+                ($data === 'years') && $all[] = $this->refactorYear($collection);
+                ($data === 'sessions') && $all[] = $this->refactorSession($collection);
             }
-        }else{
-            return response()->json(['message'=>'undefined api'],400);
+        } else {
+            return response()->json(['message' => 'undefined api'], 400);
         }
-        if(!isset($all) ){
+        if (!isset($all)) {
             return [];
-        }
-        else{
+        } else {
             return $all;
         }
     }
-    public function GetByDataId($data,$id){
+    public function GetByDataId($data, $id)
+    {
         if (in_array($data, ['users', 'articles', 'filieres', 'events'])) {
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
             $collection = $model::where('id', $id)->where('visibility', 'true')->first();
-            if($collection){
+            if ($collection) {
                 ($data === 'users') && $results = $this->refactorUser($collection);
                 ($data === 'articles') && $results = $this->refactorArticle($collection);
                 ($data === 'filieres') && $results = $this->refactorFiliere($collection);
                 ($data === 'events') && $results = $this->refactorEvent($collection);
-            }else{
+            } else {
                 return response()->json(['message' => 'Looking for undefined data, try with a different id'], 404);
             }
-        }else{
+        } else {
             return response()->json(['message' => 'Looking for undefined api'], 404);
         }
         return $results;
     }
-    public function getElementFiles($element){
-        if ($element){
+    public function getElementFiles($element)
+    {
+        if ($element) {
             $files = $element->files;
-            foreach($files as $file){
-                $Allfiles[] = ['id'=>$file->id,'url' =>$file->url,'type'=>$file->type];
+            foreach ($files as $file) {
+                $Allfiles[] = ['id' => $file->id, 'url' => $file->url, 'type' => $file->type];
             }
         }
-        return $Allfiles??[];
+        return $Allfiles ?? [];
     }
-    public function getSectors($onlyVisible = false,$onyTrashed = false){
+    public function getSectors($onlyVisible = false, $onyTrashed = false)
+    {
         $sectors = Filiere::all()->pluck('sector')->toArray();
-        if($onlyVisible){
+        if ($onlyVisible) {
             $sectors = Filiere::where('visibility', 'true')->get()->pluck('sector')->toArray();
         }
-        if($onyTrashed){
+        if ($onyTrashed) {
             $sectors = Filiere::onlyTrashed()->get()->pluck('sector')->toArray();
         }
         return array_keys(array_flip($sectors)) ?? [];
     }
-    public function getCategories($onlyVisible = false,$onyTrashed = false){
+    public function getCategories($onlyVisible = false, $onyTrashed = false)
+    {
         $categories = Article::all()->pluck('categorie')->toArray();
-        if($onlyVisible){
+        if ($onlyVisible) {
             $categories = Article::where('visibility', 'true')->get()->pluck('categorie')->toArray();
         }
-        if($onyTrashed){
+        if ($onyTrashed) {
             $categories = Article::onlyTrashed()->get()->pluck('categorie')->toArray();
         }
         return array_keys(array_flip($categories)) ?? [];
     }
-    public function getStats($for){
+    public function getStats($for)
+    {
         $superAdmins = User::role('super-admin')->count();
         $gestionaires = User::role('gestionaire')->count();
         $admins = User::role('admin')->count();
-        $users= [
+        $users = [
             'total' => $this->GetCount('users'),
             'trashed' => count(User::onlyTrashed()->get()),
             'superAdmins' => $superAdmins,
@@ -106,11 +113,11 @@ trait Get{
             'visible' => count(Article::where('visibility', 'true')->get()),
             'hidden' => count(Article::where('visibility', 'false')->get()),
         ];
-        $visibleCategories = $this->getCategories(true,false);
+        $visibleCategories = $this->getCategories(true, false);
         $allCategories = $this->getCategories();
-        ($for === 'homepage')? $categories = $visibleCategories:$categories = $allCategories;
-        foreach($categories as $categorie){
-            $articles['categories'][$categorie] = Article::where('categorie',$categorie)->count();
+        ($for === 'homepage') ? $categories = $visibleCategories : $categories = $allCategories;
+        foreach ($categories as $categorie) {
+            $articles['categories'][$categorie] = Article::where('categorie', $categorie)->count();
         }
         $filieres = [
             'total' => $this->GetCount('filieres'),
@@ -120,36 +127,37 @@ trait Get{
             'active' => count(Filiere::where('isActive', 'true')->get()),
             'inactive' => count(Filiere::where('isActive', 'false')->get()),
         ];
-        $visibleSectores = $this->getSectors(true,false);
+        $visibleSectores = $this->getSectors(true, false);
         $allSectors = $this->getSectors();
-        ($for === 'homepage')?$sectors = $visibleSectores:$sectors = $allSectors;
-        foreach($sectors as $sector){
-            $filieres['sectors'][$sector] = Filiere::where('sector',$sector)->count();
+        ($for === 'homepage') ? $sectors = $visibleSectores : $sectors = $allSectors;
+        foreach ($sectors as $sector) {
+            $filieres['sectors'][$sector] = Filiere::where('sector', $sector)->count();
         }
         $events = [
             'total' => $this->GetCount('events'),
             'trashed' => count(Event::onlyTrashed()->get()),
             'visible' => count(Event::where('visibility', 'true')->get()),
             'hidden' => count(Event::where('visibility', 'false')->get()),
-            "upcoming" => count(Event::where('upcoming','true')->get()),
+            "upcoming" => count(Event::where('upcoming', 'true')->get()),
         ];
         $demands = ['totale' => count(Demand::all())];
         $years = [
             'total' => $this->GetCount('years'),
         ];
-        foreach(Year::all() as $year){
+        foreach (Year::all() as $year) {
             $years['years'][$year->year] = [
                 'filieres' => count(Filiere::where('year_id', $year->id)->get()),
                 'events' => count(Event::where('year_id', $year->id)->get()),
                 'articles' => count(Article::where('year_id', $year->id)->get()),
             ];
         }
-        if($for === 'homepage') return compact('filieres','years');
-        if ('super-admin') return compact('users', 'articles', 'filieres', 'events', 'demands','years');
-        if ($for === 'admin') return compact( 'articles', 'filieres', 'events', 'demands','years');
+        if ($for === 'homepage') return compact('filieres', 'years');
+        if ('super-admin') return compact('users', 'articles', 'filieres', 'events', 'demands', 'years');
+        if ($for === 'admin') return compact('articles', 'filieres', 'events', 'demands', 'years');
         if ($for === 'gestionaire')  return compact('articles', 'filieres', 'events');
     }
-    public function GetCount($data){
+    public function GetCount($data)
+    {
         if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands'])) {
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
             $count = $model::count();

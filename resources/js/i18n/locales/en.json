@@ -153,6 +153,7 @@
       "demands": "Demands",
       "events": "Events",
       "users": "Users",
+      "sessions": "Sessions",
       "roles": "Roles",
       "settings": "Settings",
       "logout": "Logout"
