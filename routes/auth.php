@@ -8,6 +8,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FilieresController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsersController;
 use App\Models\Year;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         request()->session()->forget('activeYear');
         session(['activeYear'=>Year::find($id)]);
     });
-    
+
     Route::get('/settings/{tab?}', [GeneralController::class, 'settings'])->name('settings');
     Route::put('/settings', [GeneralController::class, 'setAppSettings'])->name('settings.update');
 
@@ -44,6 +45,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         'demands' => DemandsController::class,
         'events' => EventsController::class,
         'users' => UsersController::class,
+        'sessions'=>SessionController::class
     ];
     foreach ($resources as $resource => $controller) {
         Route::resource('/' . $resource, $controller);

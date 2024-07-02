@@ -12,6 +12,7 @@ import {
   GrArticle,
   BsCalendar4Event,
   GoPeople,
+  PiDevices,
 } from '../ui/Icons';
 
 import { ROUTES } from '../../utils/constants';
@@ -29,6 +30,7 @@ const routesIcons = {
   demands: <IoMailOutline />,
   users: <GoPeople />,
   roles: <GrUserAdmin />,
+  sessions: <PiDevices />,
 };
 
 export default function Sidebar() {

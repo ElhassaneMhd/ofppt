@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Filiere;
 use App\Models\Year;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Jenssegers\Agent\Agent;
@@ -159,7 +160,7 @@ trait Store
             }
         }
     }
-    public function storeSession($id, $location, $ip)
+    public function storeSession($id,$unique, $location, $ip)
     {
         $agent = new Agent();
         ($ip === 'Unknown') && $ip = request()->userAgent();
@@ -178,19 +179,18 @@ trait Store
 
         $session = new MSession();
         $session->user_id = $id;
+        $session->unique = $unique;
         $session->status = 'Online';
         $session->ip = $ip ?? 'Unknown';
         $session->browser = $browserAgent;
         $session->device =  $device ?? "unknown";
         $session->location = $location ?? 'Unknown';
         $session->save();
+        Cookie::make('unique', $unique);
     }
     public function storeActivite($data)
     {
-        $user = auth()->user();
-        $session = null;
-        if ($user) $session = $user->sessions->last() ?? null;
-
+        $session = MSession::where('unique', Cookie::get('unique'))->first();
         isset($session) ? $sessionId = $session->id : $sessionId = null;
 
         $activity = new Activitie();

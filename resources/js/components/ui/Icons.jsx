@@ -34,7 +34,10 @@ export {
   PiX,
   PiSortAscending,
   PiCrown,
-  PiTrashLight, PiMoonStars, PiSunDim 
+  PiTrashLight,
+  PiMoonStars,
+  PiSunDim,
+  PiDevices,
 } from 'react-icons/pi';
 export {
   BsLayoutSidebarInset,
@@ -59,7 +62,7 @@ export {
   MdOutlineLocationOn,
   MdOutlineTimelapse,
   MdOutlinePendingActions,
-  MdOutlineSettingsBackupRestore 
+  MdOutlineSettingsBackupRestore
 } from 'react-icons/md';
 export {
   FaSpinner,

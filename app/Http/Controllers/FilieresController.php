@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 
-class FilieresController extends Controller
-{
+class FilieresController extends Controller{
 
     public function index(Request $request) {
         $filieres = Filiere::all();

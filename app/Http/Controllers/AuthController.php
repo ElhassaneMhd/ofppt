@@ -39,13 +39,13 @@ class AuthController extends Controller{
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            // $this->storeSession($user->id,$from,$ip);
-
+            $unique = uniqid();
+            $this->storeSession($user->id,$unique,$from,$ip);
         }
         else{
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
-        return to_route('dashboard');
+        return to_route('dashboard')->withCookie(cookie('unique', $unique));
     }
 // logout
     public function logout(Request $request) {

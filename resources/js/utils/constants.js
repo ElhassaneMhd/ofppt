@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
 export const ROUTES = {
-  'super-admin': ['dashboard', 'filieres', 'articles', 'demands', 'events', 'users'],
+  'super-admin': ['dashboard', 'filieres', 'articles', 'demands', 'events', 'users', 'sessions'],
   admin: ['dashboard', 'filieres', 'articles', 'demands', 'events'],
   gestionaire: ['dashboard', 'filieres', 'articles', 'events'],
 };
@@ -30,6 +30,10 @@ export const routes = [
   {
     path: '/contact',
     label: 'Contact',
+  },
+  {
+    path: '/sessions',
+    label: 'Sessions',
   },
 ];
 

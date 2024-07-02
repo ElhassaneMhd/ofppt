@@ -33,16 +33,12 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->text('token')->default(2);
+            $table->text('unique')->unique();
             $table->string('status')->default('Online');
             $table->string('browser');
             $table->string('device');
             $table->string('ip');
             $table->string('location');
-            $table->text('payload')->nullable();
-            $table->timestamp('last_activity')->nullable();
-            $table->text('user_agent')->nullable();
-            $table->text('ip_address')->nullable();
             $table->timestamps();
         });
     }

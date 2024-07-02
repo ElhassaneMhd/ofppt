@@ -2,8 +2,10 @@
 
 namespace App\Traits;
 
+use App\Models\Session;
 use App\Models\Setting;
 use App\Models\User;
+use Illuminate\Support\Facades\Cookie;
 
 trait Refactor
 {
@@ -15,6 +17,7 @@ trait Refactor
             ($data === 'events') && $all[] = $this->refactorEvent($element);
             ($data === 'demands') && $all[] = $this->refactorDemand($element);
             ($data === 'years') && $all[] = $this->refactorYear($element);
+            ($data === 'sessions') && $all[] = $this->refactorSession($element);
         }
         return $all ?? [];
     }
@@ -141,7 +144,7 @@ trait Refactor
             $activities[]=$this->refactorActivity($actevitie);
         }
 
-        $currentSession = auth()->user()->session??null;
+        $currentSession = Session::where('unique',Cookie::get('unique'))->first();
         ($currentSession&&$currentSession->id ===$session->id)?$isCurrent = 'true':$isCurrent= 'false';
 
         return [
