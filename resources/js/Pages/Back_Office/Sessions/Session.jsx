@@ -96,7 +96,7 @@ function ActivitiesList() {
       >
         {render()}
       </div>
-      <Operations.Pagination onlyButtons={true} />
+      <Operations.Pagination  />
     </>
   );
 }

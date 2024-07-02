@@ -2,6 +2,8 @@
 
 - [ ] Sectors section
 - [ ] Footer
+- [ ] Details css 
+- [ ] Events Calendar
 
 # Bugs
 

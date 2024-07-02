@@ -140,7 +140,7 @@ export const InputField = forwardRef(
           {type === 'textarea' ? (
             <textarea ref={ref} {...props}></textarea>
           ) : (
-            <input type={type || 'text'} ref={ref} {...props} />
+            <input type={type || ''} ref={ref} {...props} />
           )}
           {children}
         </div>

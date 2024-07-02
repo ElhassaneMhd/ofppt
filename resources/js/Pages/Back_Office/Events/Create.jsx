@@ -37,7 +37,7 @@ export default function Create({
           {
             name: 'date',
             label: 'Date',
-            type: 'date',
+            type: 'datetime-local',
           },
           {
             name: 'duration',

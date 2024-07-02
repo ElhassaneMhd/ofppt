@@ -2,7 +2,7 @@ import Section from '@/components/Front_End/Section';
 
 export default function HeroSection() {
   return (
-    <Section>
+    <Section className='bg-background-secondary'>
       <div className='flex h-[70vh] w-full items-center justify-between gap-14 lg:h-auto'>
         <LeftSide />
         <RightSide />

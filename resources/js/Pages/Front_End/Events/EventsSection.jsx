@@ -10,7 +10,7 @@ const ids = {
 
 export default function EventsSection({ events }) {
   return (
-    <Section>
+    <Section className='bg-background-secondary'>
       <Slider
         defaultSlidesPerView={1}
         navigationIds={{
@@ -21,7 +21,7 @@ export default function EventsSection({ events }) {
       >
         <div className='mt-3 flex items-end justify-center md:justify-between'>
           <div className='text-center md:text-start'>
-            <h2 className='text-4xl font-bold tracking-widest text-text-primary sm:text-5xl'>Events</h2>
+            <h2 className='text-4xl font-bold tracking-widest text-text-primary sm:text-5xl'>Upcoming Events</h2>
           </div>
           <Slider.Navigation />
         </div>

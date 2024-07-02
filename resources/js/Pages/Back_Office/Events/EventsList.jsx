@@ -1,8 +1,8 @@
 import { TableLayout } from '@/layouts/Back_Office/TableLayout';
 import { useOptions } from '../Shared';
 
-export default function EventsList({ events ,formationYears, isTrashed}) {
-  const { columns, options } = useOptions({ routeName: 'events', resourceName: 'Event',formationYears,isTrashed });
+export default function EventsList({ events , isTrashed}) {
+  const { columns, options } = useOptions({ routeName: 'events', resourceName: 'Event',isTrashed });
 
   return (
     <TableLayout

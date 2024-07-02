@@ -33,7 +33,7 @@ export default function FilieresList() {
           'filieres'
         )}
       </div>
-      <Operations.Pagination onlyButtons={true} name='projects' />
+      <Operations.Pagination  name='filieres' />
     </div>
   );
 }

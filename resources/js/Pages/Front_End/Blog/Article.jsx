@@ -1,6 +1,7 @@
 import { Tag } from '@/components/ui/Tag';
 import { formatDate, getImage } from '@/utils/helpers';
 import { Link } from '@inertiajs/react';
+import { sanitize } from '@/utils/helpers/';
 import { FaUserCircle } from 'react-icons/fa';
 
 export default function Article({ article, layout = 'grid' }) {
@@ -15,7 +16,10 @@ export default function Article({ article, layout = 'grid' }) {
             <h4 className='w-fit truncate font-bold leading-tight text-text-primary sm:text-lg' title={title}>
               {title}
             </h4>
-            <p className='line-clamp-2 text-xs font-medium text-text-secondary'>{details}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+              className='line-clamp-2 text-sm font-medium text-text-secondary'
+            />
 
             <div className='mt-auto flex items-center gap-1 text-xs font-medium text-text-tertiary'>
               <FaUserCircle />
@@ -38,8 +42,10 @@ export default function Article({ article, layout = 'grid' }) {
           >
             {title}
           </h4>
-          <p className='line-clamp-2 text-sm font-medium text-text-secondary'>{details}</p>
-
+          <p
+              dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+              className='line-clamp-2 text-sm font-medium text-text-secondary'
+            />
           <hr className='mt-auto border-border' />
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-1 text-xs font-medium text-text-tertiary'>

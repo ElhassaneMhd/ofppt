@@ -2,7 +2,7 @@ import { CiImageOff } from 'react-icons/ci';
 import { FaCalendar, FaUserCircle } from 'react-icons/fa';
 import { TagsPreview } from '../Shared';
 import { formatDate, getFile } from '@/utils/helpers';
-import DOMPurify from 'dompurify';
+import { sanitize } from '@/utils/helpers/';
 import { MdOutlineCategory } from 'react-icons/md';
 
 export default function Show({ article = {} }) {
@@ -38,7 +38,7 @@ export default function Show({ article = {} }) {
         <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
         <div
           className='details flex-1 text-text-primary overflow-auto'
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
+          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
         />
       </div>
       <div className='border-t border-border pt-2'>

@@ -50,11 +50,6 @@ class ArticlesController extends Controller
         $this->destroyElement(Article::class, $id);
         return redirect()->route('articles.index');
     }
-    public function trash(Request $request){
-        $articles = Article::all();
-        $trashedArticles = Article::onlyTrashed()->get();
-        return Inertia::render('Back_Office/Articles/Trash', compact('articles','trashedArticles'));
-    }
     public function forceDelete(string $id){
         $this->forceDeleteData(Article::class, $id);
            return to_route('articles.index');

@@ -18,7 +18,7 @@ export default function Filieres({ filieres, sectors }) {
         defaultLayout='grid'
         fieldsToSearch={['title']}
       >
-        <FilieresList filieres={filieres} sectors={sectors} />
+        <FilieresList  />
       </Operations>
     </PageLayout>
   );

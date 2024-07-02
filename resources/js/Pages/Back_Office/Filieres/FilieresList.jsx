@@ -2,8 +2,8 @@ import { TableLayout } from '@/layouts/Back_Office/TableLayout';
 import { useOptions } from '../Shared';
 import { getFilter } from '@/utils/helpers';
 
-export default function FilieresList({ filieres, sectors,formationYears,isTrashed }) {
-  const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere',formationYears,isTrashed });
+export default function FilieresList({ filieres, sectors,isTrashed }) {
+  const { columns, options } = useOptions({ routeName: 'filieres', resourceName: 'Filiere',isTrashed });
 
   return (
     <TableLayout

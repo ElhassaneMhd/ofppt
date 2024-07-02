@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui';
 import { getImage } from '@/utils/helpers';
 import { Link } from '@inertiajs/react';
+import { sanitize } from '@/utils/helpers/';
 
 export default function Filiere({ filiere, layout = 'grid' }) {
   const { id, title, details, isActive, sector, formationYear, files } = filiere || {};
@@ -25,7 +26,10 @@ export default function Filiere({ filiere, layout = 'grid' }) {
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>
             </div>
             <h4 className='text-lg font-bold leading-snug text-text-primary'>{title}</h4>
-            <p className='mb-3 line-clamp-3 text-sm font-medium text-text-secondary'>{details}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+              className='mb-3 line-clamp-3 text-sm font-medium text-text-secondary'
+            />
             <Link href={`/filieres/${id}`} className='mt-auto'>
               <Button size='small' className='mx-auto'>
                 En savoir plus
@@ -52,7 +56,10 @@ export default function Filiere({ filiere, layout = 'grid' }) {
         <div className='relative flex flex-col justify-between gap-5 bg-background-primary p-5 sm:flex-row'>
           <div className='flex flex-col gap-2'>
             <h4 className='text-xl font-bold leading-snug text-text-primary'>{title}</h4>
-            <p className='line-clamp-3 text-sm font-medium text-text-secondary'>{details}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+              className='line-clamp-3 text-sm font-medium text-text-secondary'
+            />
             <div className='mt-auto flex items-center gap-5 text-sm'>
               <span className='font-medium text-secondary'>{sector}</span>
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>

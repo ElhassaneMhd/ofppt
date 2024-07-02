@@ -2,8 +2,8 @@ import { TableLayout } from '@/layouts/Back_Office/TableLayout';
 import { useOptions } from '../Shared';
 import { getFilter } from '@/utils/helpers';
 
-export default function ArticlesList({ articles, categories, formationYears, isTrashed }) {
-  const { columns, options } = useOptions({ routeName: 'articles', resourceName: 'Article', formationYears ,isTrashed});
+export default function ArticlesList({ articles, categories, isTrashed }) {
+  const { columns, options } = useOptions({ routeName: 'articles', resourceName: 'Article', isTrashed });
 
   return (
     <TableLayout

@@ -4,14 +4,17 @@ import { useNavigate } from '@/hooks/useNavigate';
 import { formatDate, getFilter, getIntervals } from '@/utils/helpers';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { usePage } from '@inertiajs/react';
-import DOMPurify from 'dompurify';
+import { sanitize } from '@/utils/helpers/';
 import { useState } from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { PiCheckBold } from 'react-icons/pi';
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useOptions({ routeName, resourceName, formationYears = [], isTrashed }) {
+export function useOptions({ routeName, resourceName, isTrashed }) {
   const { navigate } = useNavigate();
+  const {
+    props: { formationYears },
+  } = usePage();
 
   const columns = {
     id: {
@@ -72,7 +75,7 @@ export function useOptions({ routeName, resourceName, formationYears = [], isTra
     filters: {
       created_at: getIntervals('created_at', ['present', 'past']),
       date: getIntervals('date', ['present', 'past', 'future']),
-      ...(formationYears && getFilter('formationYear', formationYears, 'year', )),
+      ...(formationYears && getFilter('formationYear', formationYears, 'year')),
     },
     selectedOptions: {
       actions: [
@@ -93,7 +96,11 @@ export function useOptions({ routeName, resourceName, formationYears = [], isTra
       deleteOptions: {
         resourceName,
         onConfirm: (ids) =>
-          navigate({ url: `${routeName}.multiple.${isTrashed ? 'forceDelete' : 'destroy'}`, method: 'post', data: { ids } }),
+          navigate({
+            url: `${routeName}.multiple.${isTrashed ? 'forceDelete' : 'destroy'}`,
+            method: 'post',
+            data: { ids },
+          }),
       },
     },
     layoutOptions: {
@@ -246,7 +253,7 @@ export function DetailsPreview({ details, label = true }) {
       {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>}
       <div
         className='flex-1 overflow-auto rounded-lg border border-border p-3 text-text-primary'
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
+        dangerouslySetInnerHTML={{ __html: sanitize(details) }}
       />
     </div>
   );

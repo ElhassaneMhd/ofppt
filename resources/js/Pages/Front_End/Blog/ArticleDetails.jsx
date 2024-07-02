@@ -2,6 +2,7 @@ import NotFound from '@/Pages/NotFound';
 import { Tag } from '@/components/ui/Tag';
 import { formatDate, getImage } from '@/utils/helpers';
 import { Head, Link } from '@inertiajs/react';
+import { sanitize } from '@/utils/helpers/';
 import { FaUserCircle } from 'react-icons/fa';
 import {
   FacebookShareButton,
@@ -63,7 +64,10 @@ function Details({ article: { title, details, date, files, tags, publisher } }) 
         </div>
         <img src={getImage(files)} alt={title} className='h-72 w-full rounded-xl object-cover sm:h-96' />
         <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
-        <p className='leading-relaxed text-text-primary'>{details}</p>
+        <div
+          className='article leading-relaxed text-text-primary'
+          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+        />
       </div>
       <div className='mt-auto flex flex-wrap items-center gap-x-3 gap-y-2'>
         {tags?.map((tag) => (

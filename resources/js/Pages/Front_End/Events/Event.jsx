@@ -1,64 +1,71 @@
-import { MdCalendarToday, MdLocationPin } from 'react-icons/md';
-import { GoClockFill } from 'react-icons/go';
 import { Button } from '@/components/ui';
-import { getImage } from '@/utils/helpers';
+import { formatDate, getImage } from '@/utils/helpers';
 import { FaChevronRight } from 'react-icons/fa';
 import { Link } from '@inertiajs/react';
+import { sanitize } from '@/utils/helpers/';
+import { MdCalendarToday, MdLocationPin } from 'react-icons/md';
 
 export default function Event({ event }) {
+  const { id, title, details, date, location, duration, files, upcoming } = event;
+  const formattedDate = formatDate(date).split(' ');
+
   return (
-    <div className='grid grid-cols-2 items-center gap-10'>
-      <Images images={event.files} />
-      <Info event={event} />
+    <div className='grid gap-5 md:grid-cols-[120px_1fr_1fr]'>
+      <div className='flex flex-col items-center md:items-start'>
+        <span className='font-medium text-text-secondary'>{formattedDate[0]}</span>
+        <span className='text-7xl font-bold text-text-secondary'>{formattedDate[1].slice(0, -1)}</span>
+        {upcoming === 'true' && (
+          <div className='mt-3 flex flex-col items-center'>
+            <div className='mb-5 h-12 w-0.5 bg-border'></div>
+            <h3 className='vertical text-xs font-medium uppercase text-text-tertiary'>Upcoming</h3>
+            <div className='mb-5 h-12 w-0.5 bg-border'></div>
+          </div>
+        )}
+      </div>
+      <Images images={files} />
+      <div className='flex flex-col gap-3'>
+        <h3 className='text-2xl font-bold text-text-primary'>{title}</h3>
+        <div className='flex flex-col gap-2 text-sm font-medium text-text-tertiary'>
+          <div className='flex items-center gap-2'>
+            <Button size='small' shape='icon' className='rounded-full'>
+              <MdLocationPin />
+            </Button>
+            <h4>{location}</h4>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Button size='small' shape='icon' className='rounded-full'>
+              <MdCalendarToday />
+            </Button>
+            <h4>{formatDate(date, true)}</h4>
+            {duration > 1 && <h4 className='border-l-2 border-border pl-2'>{duration} days</h4>}
+          </div>
+        </div>
+        <p
+          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+          className='mb-4 line-clamp-5 font-medium leading-relaxed text-text-secondary'
+        />
+        <hr className='mb-4 mt-auto border-border' />
+        <Link href={`/events/${id}`} className='w-fit'>
+          <Button type='outline' display='with-icon'>
+            View Event Details
+            <FaChevronRight />
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
 
-function Info({ event: {id, title, details, date, location, duration } }) {
-  return (
-    <div className='flex-1 space-y-5 rounded-lg bg-background-secondary p-5 text-center md:text-start'>
-      <div>
-        <h2 className='text-2xl font-bold text-text-primary sm:text-4xl'>{title}</h2>
-      </div>
-      <p className='line-clamp-4 text-text-secondary'>{details}</p>
-      <div className='flex flex-wrap gap-5'>
-        <div className='grid grid-cols-[40px_auto] items-center'>
-          <span className='grid h-8 w-8 place-content-center rounded-full border border-border bg-background-tertiary text-sm'>
-            <MdCalendarToday className='text-white' />
-          </span>
-          <h4 className='text-sm font-medium text-text-tertiary'>{date}</h4>
-        </div>
-        <div className='grid grid-cols-[40px_auto] items-center'>
-          <span className='grid h-8 w-8 place-content-center rounded-full border border-border bg-background-tertiary text-sm'>
-            <MdLocationPin className='text-white' />
-          </span>
-          <h4 className='text-sm font-medium text-text-tertiary'>{location}</h4>
-        </div>
-        <div className='grid grid-cols-[40px_auto] items-center'>
-          <span className='grid h-8 w-8 place-content-center rounded-full border border-border bg-background-tertiary text-sm'>
-            <GoClockFill className='text-white' />
-          </span>
-          <h4 className='text-sm font-medium text-text-tertiary'>{duration} jours</h4>
-        </div>
-      </div>
-      <Link href={`/events/${id}`}></Link>
-      <Button display='with-icon' className='w-full md:w-fit'>
-        Lire Plus
-        <FaChevronRight />
-      </Button>
-    </div>
-  );
-}
 function Images({ images }) {
   const className = images.length === 1 ? '' : images.length === 2 ? 'grid-cols-2 ' : 'grid-cols-3 ';
   return (
-    <div className={`grid h-full gap-5 ${className}`}>
-      {images.slice(0,3).map((_, index) => (
+    <div className={`grid h-full gap-3 ${className}`}>
+      {images.slice(0, 3).map((_, index) => (
         <img
           key={index}
           src={getImage(images, index)}
           alt=''
-          className={`rounded-xl h-full w-full object-cover max-h-[350px] ${index === 0 && images.length === 3 ? 'col-span-2 row-span-2' : ''}`}
+          className={`h-full max-h-[350px] w-full rounded-xl object-cover ${index === 0 && images.length === 3 ? 'col-span-2 row-span-2' : ''}`}
         />
       ))}
     </div>

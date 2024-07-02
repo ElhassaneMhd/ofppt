@@ -108,14 +108,14 @@ function Filters({ isExpanded, className = '', title }) {
                 className={`transition-transform duration-300 ${expanded[key] ? 'rotate-180' : 'rotate-0'}`}
               />
             </Button>
-            {filters[key]?.map(({ value, checked }) => (
+            {filters[key]?.map(({ value,display, checked }) => (
               <div
                 key={value?.value || value}
                 className={`space-y-4 overflow-hidden px-3 ${expanded[key] ? 'h-auto' : 'h-0 pb-0'}`}
               >
                 <div className='flex items-center gap-3 text-sm'>
                   <CheckBox checked={checked} onChange={() => onFilter(key, value)} />
-                  <span className='flex-1 font-medium text-text-secondary'>{value?.value || value}</span>
+                  <span className='flex-1 font-medium text-text-secondary'>{display || value?.value || value}</span>
                   <span className='count text-xs'>
                     {initialData?.filter((o) => (value.value ? value.condition(o) : value === o[key])).length}
                   </span>

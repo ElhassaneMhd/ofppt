@@ -3,7 +3,7 @@ import Article from './Article';
 
 export default function ArticlesSection({ articles }) {
   return (
-    <Section>
+    <Section >
       <div className='text-center'>
         <h2 className='text-4xl font-bold tracking-widest text-text-primary sm:text-5xl'>Latest Articles</h2>
       </div>

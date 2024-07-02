@@ -18,7 +18,7 @@ export default function Blog({ articles, categories }) {
         defaultLayout='grid'
         fieldsToSearch={['title']}
       >
-        <ArticlesList categories={categories} />
+        <ArticlesList />
       </Operations>
     </PageLayout>
   );
