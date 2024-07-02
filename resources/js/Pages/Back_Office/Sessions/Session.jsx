@@ -130,14 +130,12 @@ function Activity({ activity: { action, activity, object, created_at, model }, s
 }
 
 const getIcon = (action, model) => {
-  if (model === 'User') {
-    return { Create: <LiaUserPlusSolid />, Update: <LiaUserEditSolid />, Delete: <LiaUserMinusSolid /> }[action];
-  }
+
   return {
-    Create: <LuPlus />,
-    Update: <MdDriveFileRenameOutline />,
-    Delete: <IoTrashOutline />,
+    Create: model === 'User' ? <LiaUserPlusSolid /> : <LuPlus />,
+    Update: model === 'User' ? <LiaUserEditSolid /> : <MdDriveFileRenameOutline />,
+    Delete: model === 'User' ? <LiaUserMinusSolid /> : <IoTrashOutline />,
     'Force Delete': <IoTrashOutline />,
-    Restore: <MdOutlineSettingsBackupRestore />,
+    Restore: model === 'User' ? <MdOutlineSettingsBackupRestore />: <MdOutlineSettingsBackupRestore />,
   }[action];
 };

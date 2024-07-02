@@ -8,7 +8,7 @@ trait Delete{
         $element->delete();
     }
     protected function forceDeleteData($model, $id){
-        $element = $model::findOrFail($id);
+        $element = $model::onlyTrashed()->findOrFail($id);
         $element->forceDelete();
     }
     public function deletOldElementFile($element,$id = null){
@@ -28,7 +28,7 @@ trait Delete{
     }
     protected function restoreData($model, $id){
         $modelInstance = $model::onlyTrashed()->findOrFail($id);
-        $modelInstance->restore();        
+        $modelInstance->restore();
     }
 
 }

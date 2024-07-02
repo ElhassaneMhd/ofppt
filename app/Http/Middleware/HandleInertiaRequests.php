@@ -52,6 +52,7 @@ class HandleInertiaRequests extends Middleware
                 'events' => $this->GetCount('events'),
                 'articles' => $this->GetCount('articles'),
                 'demands' => $this->GetCount('demands'),
+                'sessions' => $this->GetCount('sessions'),
             ],
             'settings' => $this->refactorSettings(),
         ];

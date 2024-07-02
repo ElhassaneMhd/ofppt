@@ -78,7 +78,9 @@ export default function Sidebar() {
             >
               {routesIcons[route]}
               <span className={spanClass}>{t(`app.sidebar.${route}`)}</span>
-              {props.count[route] && <span className='count justify-self-end text-xs'>{props.count[route]}</span>}
+              {isFinite(props.count[route]) && (
+                <span className='count justify-self-end text-xs'>{props.count[route]}</span>
+              )}
             </Link>
           </li>
         ))}
@@ -86,7 +88,7 @@ export default function Sidebar() {
 
       <div className='mt-auto'>
         <div className={`flex items-center gap-3 ${isExpanded ? '' : 'flex-col'}`}>
-          <ThemeToggler layout={isExpanded ? 'long' : ''}/>
+          <ThemeToggler layout={isExpanded ? 'long' : ''} />
           <LanguageSwitcher layout={isExpanded ? 'long' : ''} iconDirection='up' size={isExpanded ? 'small' : ''} />
         </div>
         <div
@@ -100,5 +102,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-
-

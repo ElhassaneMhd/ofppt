@@ -16,8 +16,7 @@ class FilieresController extends Controller{
         $filieres = Filiere::all();
         $filieres = $this->refactorManyElements($filieres, 'filieres');
         $sectors = $this->getSectors();
-        $formationYears = Year::all();
-        return Inertia::render('Back_Office/Filieres/Index', compact('filieres',  'sectors','formationYears'));
+        return Inertia::render('Back_Office/Filieres/Index', compact('filieres',  'sectors'));
     }
     public function create(){
         $sectors = $this->getSectors();
@@ -57,6 +56,5 @@ class FilieresController extends Controller{
     public function restore(string $id)
     {
         $this->restoreData(Filiere::class, $id);
-        return to_route("filieres.index");
     }
 }

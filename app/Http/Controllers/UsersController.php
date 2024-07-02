@@ -67,6 +67,12 @@ class UsersController extends Controller
         $this->destroyElement(User::class, $id);
         return redirect()->route('users.index');
     }
+       public function restore(string $id){
+        $this->restoreData(User::class, $id);
+    }
+    public function forceDelete(string $id){
+        $this->forceDeleteData(User::class, $id);
+    }
     public function assignRole(Request $request, $id){
         $user = User::find($id);
         if ($user->hasRole($request->role)) {

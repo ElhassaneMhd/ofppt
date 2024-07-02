@@ -14,8 +14,7 @@ class EventsController extends Controller
     {
         $events = Event::all();
         $events = $this->refactorManyElements($events, 'events');
-        $formationYears = Year::all();
-        return Inertia::render('Back_Office/Events/Index', compact('events', 'formationYears'));
+        return Inertia::render('Back_Office/Events/Index', compact('events'));
     }
     public function create()
     {
@@ -60,6 +59,5 @@ class EventsController extends Controller
     {
         //restore events from trash
         $this->restoreData(Event::class, $id);
-        return to_route('events.index');
     }
 }
