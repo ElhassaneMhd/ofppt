@@ -102,4 +102,8 @@ export {
 } from 'react-icons/tb';
 export {  GrMapLocation, GrPowerReset,GrArticle ,GrUserAdmin  } from 'react-icons/gr';
 export { GoLink, GoUnlink,GoPeople  } from 'react-icons/go';
-export { LiaUserPlusSolid, LiaUserMinusSolid, LiaUserEditSolid } from 'react-icons/lia';
+export {
+  LiaUserPlusSolid,
+  LiaUserMinusSolid,
+  LiaUserEditSolid,
+} from 'react-icons/lia';

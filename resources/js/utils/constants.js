@@ -30,11 +30,7 @@ export const routes = [
   {
     path: '/contact',
     label: 'Contact',
-  },
-  {
-    path: '/sessions',
-    label: 'Sessions',
-  },
+  }
 ];
 
 export const PAGE_LIMIT = 10;
