@@ -23,7 +23,8 @@ trait Get
             } else {
                 if (!in_array($data, ['users', 'demands', 'years', 'sessions'])) {
                     $collections = $model::where('visibility', 'true')->get();
-                } else {
+
+                }else{
                     $collections = $model::all();
                 }
             }
@@ -158,7 +159,7 @@ trait Get
     }
     public function GetCount($data)
     {
-        if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands'])) {
+        if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands','sessions'])) {
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
             $count = $model::count();
         }

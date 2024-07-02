@@ -13,8 +13,7 @@ class ArticlesController extends Controller
         //table all articles
         $articles = $this->refactorManyElements(Article::all(),'articles');
         $categories = $this->getCategories();
-        $formationYears = Year::all();
-        return Inertia::render('Back_Office/Articles/Index', compact('articles','categories','formationYears'));
+        return Inertia::render('Back_Office/Articles/Index', compact('articles','categories'));
     }
     public function create(){
     //form to add article
@@ -56,6 +55,5 @@ class ArticlesController extends Controller
     }
     public function restore(string $id){
         $this->restoreData(Article::class, $id);
-        return redirect()->route('articles.index');
     }
 }

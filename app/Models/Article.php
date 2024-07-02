@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 class Article extends Model
 {
   use SoftDeletes, HasFactory;
-  protected $fillable=["title","details",'date','tags','categorie','visibility','year_id','user_id'];
+  protected $fillable=["title","details",'date','tags','categorie','visibility','year_id','user_id','deleted_at'];
 
   public function files() {
       return $this->morphMany(File::class, 'fileable');

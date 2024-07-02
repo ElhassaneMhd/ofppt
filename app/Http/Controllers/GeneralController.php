@@ -14,13 +14,11 @@ class GeneralController extends Controller
     {
         $path = 'Back_Office/' . ucfirst($data) . '/TrashedList';
         $categories = $this->getCategories(false, true);
-        $formationYears = Year::all();
         $sectors = $this->getSectors(false, true);
         $roles = Role::all();
         $data = $this->GetAll($data, true);
         $additionalData = [
             'categories' => $categories,
-            'formationYears' => $formationYears,
             'sectors' => $sectors,
             'roles' => $roles,
         ];
@@ -30,7 +28,7 @@ class GeneralController extends Controller
     public function multipleAction(Request $request, $data, $action)
     {
         $ids = request()['ids'];
-        $model = 'App\\Models\\' . ucfirst(Str::singular($data));
+        $model = 'App\\Models\\'.ucfirst(Str::singular($data));
         foreach ($ids as $id) {
             if ($action === 'destroy') {
                 $this->destroyElement($model, $id);

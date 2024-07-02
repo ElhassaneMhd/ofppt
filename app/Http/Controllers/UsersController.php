@@ -16,7 +16,7 @@ class UsersController extends Controller
         $this->middleware(['role:super-admin'])->except('updateInfo','updatePassword');
     }
     public function index()  {
-        $users = $this->refactorManyElements(User::all(),'users');
+        $users = $this->refactorManyElements(User::role(['admin','gestionaire'])->get(),'users');
         $roles = Role::all();
         $permissions = Permission::all();
         return Inertia::render('Back_Office/Users/Index', compact('users','roles','permissions'));
@@ -66,6 +66,12 @@ class UsersController extends Controller
     public function destroy($id){
         $this->destroyElement(User::class, $id);
         return redirect()->route('users.index');
+    }
+       public function restore(string $id){
+        $this->restoreData(User::class, $id);
+    }
+    public function forceDelete(string $id){
+        $this->forceDeleteData(User::class, $id);
     }
     public function assignRole(Request $request, $id){
         $user = User::find($id);
