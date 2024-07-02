@@ -42,8 +42,8 @@ class HomeController extends Controller
     {
         $route = $this->getRouteName();
         $data = $this->GetAll($route === 'blog' ? 'articles' : $route);
-        $sectors = $this->getSectors(true, true);
-        $categories = $this->getCategories(true, true);
+        $sectors = $this->getSectors(true, false);
+        $categories = $this->getCategories(true, false);
 
         $path = 'Front_End/' . ucfirst($route) . '/' . ucfirst($route);
 
@@ -64,8 +64,8 @@ class HomeController extends Controller
         $route = $this->getRouteName() === 'blog' ? 'articles' : $this->getRouteName();
         $element = $this->GetByDataId($route, $id);
         $elements = $this->GetAll($route);
-        $sectors = $this->getSectors(true, true);
-        $categories = $this->getCategories(true, true);
+        $sectors = $this->getSectors(true, false);
+        $categories = $this->getCategories(true, false);
         // $tags = $this->getTags(true, true);
 
         $path = 'Front_End/' . ucfirst($this->getRouteName()) . '/' . ucfirst(Str::singular($route)) . 'Details';
