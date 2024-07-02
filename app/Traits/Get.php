@@ -23,7 +23,8 @@ trait Get
             } else {
                 if (!in_array($data, ['users', 'demands', 'years', 'sessions'])) {
                     $collections = $model::where('visibility', 'true')->get();
-                } else {
+
+                }else{
                     $collections = $model::all();
                 }
             }

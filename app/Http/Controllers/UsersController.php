@@ -16,7 +16,7 @@ class UsersController extends Controller
         $this->middleware(['role:super-admin'])->except('updateInfo','updatePassword');
     }
     public function index()  {
-        $users = $this->refactorManyElements(User::all(),'users');
+        $users = $this->refactorManyElements(User::role(['admin','gestionaire'])->get(),'users');
         $roles = Role::all();
         $permissions = Permission::all();
         return Inertia::render('Back_Office/Users/Index', compact('users','roles','permissions'));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use App\Traits\Get;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -46,7 +47,7 @@ class HandleInertiaRequests extends Middleware
             'year' => Session::get('activeYear'),
             'formationYears' => $this->GetAll('years'),
             'count' => [
-                'users' => $this->GetCount('users'),
+                'users' => User::role(['admin','gestionaire'])->count(),
                 'filieres' => $this->GetCount('filieres'),
                 'events' => $this->GetCount('events'),
                 'articles' => $this->GetCount('articles'),
