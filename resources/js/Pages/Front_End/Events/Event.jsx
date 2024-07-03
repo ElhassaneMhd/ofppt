@@ -2,8 +2,8 @@ import { Button } from '@/components/ui';
 import { formatDate, getImage } from '@/utils/helpers';
 import { FaChevronRight } from 'react-icons/fa';
 import { Link } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
 import { MdCalendarToday, MdLocationPin } from 'react-icons/md';
+import { ShortDetails } from '@/components/Front_End/Details';
 
 export default function Event({ event }) {
   const { id, title, details, date, location, duration, files, upcoming } = event;
@@ -15,10 +15,10 @@ export default function Event({ event }) {
         <span className='font-medium text-text-secondary'>{formattedDate[0]}</span>
         <span className='text-7xl font-bold text-secondary'>{formattedDate[1].slice(0, -1)}</span>
         {upcoming === 'true' && (
-          <div className='mt-3 flex flex-col items-center'>
-            <div className='mb-5 h-12 w-0.5 bg-border'></div>
+          <div className='mt-3 flex flex-col items-center gap-4'>
+            <div className='h-12 w-0.5 bg-border'></div>
             <h3 className='vertical text-xs font-medium uppercase text-text-tertiary'>Upcoming</h3>
-            <div className='mb-5 h-12 w-0.5 bg-border'></div>
+            <div className='h-12 w-0.5 bg-border'></div>
           </div>
         )}
       </div>
@@ -40,10 +40,7 @@ export default function Event({ event }) {
             {duration > 1 && <h4 className='border-l-2 border-border pl-2'>{duration} days</h4>}
           </div>
         </div>
-        <p
-          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-          className='mb-4 line-clamp-5 font-medium leading-relaxed text-text-secondary'
-        />
+        <ShortDetails details={details} className='mb-4 line-clamp-5' />
         <hr className='mb-4 mt-auto border-border' />
         <Link href={`/events/${id}`} className='w-fit'>
           <Button type='outline' display='with-icon'>
@@ -56,7 +53,7 @@ export default function Event({ event }) {
   );
 }
 
- function Images({ images }) {
+function Images({ images }) {
   const className = images.length === 1 ? '' : images.length === 2 ? 'grid-cols-2 ' : 'grid-cols-3 ';
   return (
     <div className={`grid h-full gap-3 ${className}`}>

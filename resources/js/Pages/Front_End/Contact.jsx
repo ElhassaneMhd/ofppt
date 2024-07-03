@@ -81,9 +81,10 @@ function Socials() {
   if (!isSet(settings)) return null;
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex gap-4 flex-col items-center'>
+      <div className='h-10 w-0.5 bg-border'></div>
       <h3 className='vertical text-xs font-medium uppercase text-text-tertiary'>Follow Us</h3>
-      <div className='mb-5 h-20 w-0.5 bg-border'></div>
+      <div className='h-10 w-0.5 bg-border'></div>
       <SocialMedia settings={settings} className='flex-col gap-2' />
     </div>
   );

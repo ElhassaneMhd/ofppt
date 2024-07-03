@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import DOMPurify from 'dompurify';
 import { DateTime, Interval } from 'luxon';
 import { twMerge } from 'tailwind-merge';
 
@@ -223,4 +222,3 @@ export const getImage = (files = [], index = 0) => {
   return file ? file.url : null;
 };
 
-export const sanitize = (source) => DOMPurify.sanitize(source);

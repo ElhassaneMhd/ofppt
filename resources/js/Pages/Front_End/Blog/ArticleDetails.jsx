@@ -2,7 +2,6 @@ import NotFound from '@/Pages/NotFound';
 import { Tags } from '@/components/ui/Tag';
 import { formatDate, getImage } from '@/utils/helpers';
 import { Head, Link } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
 import { FaUserCircle } from 'react-icons/fa';
 import {
   FacebookShareButton,
@@ -14,6 +13,7 @@ import {
   TwitterIcon,
   WhatsappIcon,
 } from 'react-share';
+import { LongDetails, ShortDetails } from '@/components/Front_End/Details';
 
 export default function ArticleDetails({ article, articles }) {
   return (
@@ -29,12 +29,12 @@ export default function ArticleDetails({ article, articles }) {
         )}
         <aside className='mt-10 space-y-10 border-l-2 border-border pl-6 lg:mt-0'>
           <LatestArticles currentArticleId={article.id} articles={articles} />
-          {!article.original?.message &&
-          <>
-          <Tags tags={article?.tags} />
-           <Share title={article.title} />
-          </>
-           }
+          {!article.original?.message && (
+            <>
+              <Tags tags={article?.tags} />
+              <Share title={article.title} />
+            </>
+          )}
         </aside>
       </div>
     </>
@@ -51,10 +51,7 @@ function Details({ article: { title, details, date, files, publisher } }) {
           <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>
         </div>
         <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
-        <div
-          className='details leading-relaxed text-text-primary'
-          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-        />
+        <LongDetails details={details} />
       </div>
     </div>
   );
@@ -78,10 +75,7 @@ function LatestArticles({ articles, currentArticleId }) {
                 <h4 className='truncate text-sm font-bold text-text-primary sm:text-base' title={title}>
                   {title}
                 </h4>
-                <p
-                  className='line-clamp-1 text-sm font-medium text-text-secondary'
-                  dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-                />
+                <ShortDetails details={details} className='line-clamp-1' />
                 <div className='mt-auto flex items-center gap-2 text-xs text-text-tertiary'>
                   <FaUserCircle />
                   <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>

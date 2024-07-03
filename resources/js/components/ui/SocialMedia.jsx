@@ -39,7 +39,7 @@ export function SocialMedia({ settings, className = 'gap-3', size }) {
 
           return (
             <a
-              key={s.href}
+              key={s.name}
               href={href}
               target='_blank'
               className='group'

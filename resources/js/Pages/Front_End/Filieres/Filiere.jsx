@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui';
 import { getImage } from '@/utils/helpers';
 import { Link } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
+import { ShortDetails } from '@/components/Front_End/Details';
 
 export default function Filiere({ filiere, layout = 'grid' }) {
   const { id, title, details, isActive, sector, formationYear, files } = filiere || {};
@@ -20,16 +20,13 @@ export default function Filiere({ filiere, layout = 'grid' }) {
             alt={title}
             className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-110'
           />
-          <div className='relative flex flex-col gap-2 rounded-b-xl border-border bg-background-secondary p-3'>
+          <div className='relative flex flex-col gap-2 rounded-b-xl border border-border p-3'>
             <div className='flex items-center justify-between gap-3 border-b border-border pb-2 text-sm'>
               <span className='font-medium text-secondary'>{sector}</span>
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>
             </div>
             <h4 className='text-lg font-bold leading-snug text-text-primary'>{title}</h4>
-            <p
-              dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-              className='mb-3 line-clamp-3 text-sm font-medium text-text-secondary'
-            />
+            <ShortDetails details={details} className='mb-3 line-clamp-3' />
             <Link href={`/filieres/${id}`} className='mt-auto'>
               <Button size='small' className='mx-auto'>
                 En savoir plus
@@ -56,10 +53,7 @@ export default function Filiere({ filiere, layout = 'grid' }) {
         <div className='relative flex flex-col justify-between gap-5 bg-background-primary p-5 sm:flex-row'>
           <div className='flex flex-col gap-2'>
             <h4 className='text-xl font-bold leading-snug text-text-primary'>{title}</h4>
-            <p
-              dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-              className='line-clamp-3 text-sm font-medium text-text-secondary'
-            />
+            <ShortDetails details={details} className='line-clamp-3' />
             <div className='mt-auto flex items-center gap-5 text-sm'>
               <span className='font-medium text-secondary'>{sector}</span>
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>

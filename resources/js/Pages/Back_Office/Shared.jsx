@@ -1,13 +1,13 @@
-import Editor from '@/components/shared/Editor/Editor';
+import { useState } from 'react';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Button, DropDown, InputField, Switch } from '@/components/ui';
 import { useNavigate } from '@/hooks/useNavigate';
 import { formatDate, getFilter, getIntervals } from '@/utils/helpers';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+import Editor from '@/components/shared/Editor/Editor';
 import { usePage } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
-import { useState } from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { PiCheckBold } from 'react-icons/pi';
+import { LongDetails } from '@/components/Front_End/Details';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useOptions({ routeName, resourceName, isTrashed }) {
@@ -251,10 +251,7 @@ export function DetailsPreview({ details, label = true }) {
   return (
     <div className='details flex min-h-60 flex-1 flex-col gap-1.5 overflow-hidden'>
       {label && <label className='text-sm font-medium capitalize text-text-tertiary'>Details :</label>}
-      <div
-        className='flex-1 overflow-auto rounded-lg border border-border p-3 text-text-primary'
-        dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-      />
+      <LongDetails details={details} className='flex-1 overflow-auto rounded-lg border border-border p-3' />
     </div>
   );
 }
