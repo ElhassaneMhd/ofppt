@@ -19,8 +19,8 @@ export default function Header() {
   }, [url]);
 
   return (
-    <header className='flex relative items-center justify-between border-b border-border bg-background-primary px-5 py-3 shadow-md'>
-      <Logo className='w-16' />
+    <header className='relative flex items-center justify-between border-b border-border bg-background-primary px-5 py-3 shadow-md'>
+      <Logo className='w-20' />
       <Links />
 
       <div className='flex items-center gap-2'>
@@ -39,7 +39,7 @@ export default function Header() {
 
 function Links() {
   const { url } = usePage();
-  const { ref, indicator } = useIndicator('/','bottom-0');
+  const { ref, indicator } = useIndicator('/', 'bottom-0');
 
   return (
     <ul className='hidden gap-8 lg:flex lg:flex-1 lg:justify-center' ref={ref}>

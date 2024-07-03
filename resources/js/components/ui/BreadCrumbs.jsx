@@ -6,7 +6,7 @@ export function Breadcrumbs() {
       {location.pathname.split('/').map((crumb) => (
         <Link
           key={crumb}
-          className='font-bold capitalize text-text-secondary transition-colors duration-300 before:mr-2 before:content-[">"] first:before:content-none hover:text-text-tertiary'
+          className='font-bold capitalize text-white/50 transition-colors duration-300 before:mr-2 before:content-[">"] first:before:content-none hover:text-secondary'
           href={`/${crumb}`}
         >
           {crumb === '' ? 'home' : crumb}
