@@ -21,8 +21,8 @@ export default function Article({ article, layout = 'grid' }) {
             />
           <div className='flex items-center mt-3 justify-between'>
 
-            <span className='text-sm font-medium capitalize text-secondary'>{categorie}</span>
-            <div className='mt-auto flex items-center gap-1 text-xs font-medium text-text-primary'>
+          <span className='bg-background-secondary px-4 py-1 rounded-lg text-xs font-semibold capitalize text-primary'>{categorie}</span>
+          <div className='mt-auto flex items-center gap-1 text-xs font-medium text-text-primary'>
               <FaUserCircle />
               <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>
             </div>
@@ -49,7 +49,7 @@ export default function Article({ article, layout = 'grid' }) {
           />
           <hr className='mt-auto border-border' />
           <div className='flex items-center justify-between'>
-            <span className='text-sm font-medium capitalize text-secondary'>{categorie}</span>
+            <span className='bg-background-secondary px-4 py-1 rounded-lg text-xs font-semibold capitalize text-primary'>{categorie}</span>
             <div className='flex items-center gap-1 text-xs font-medium text-text-primary'>
               <FaUserCircle />
               <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>

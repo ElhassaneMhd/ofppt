@@ -107,7 +107,7 @@
 
 /* Header */
 a.active li {
-  @apply text-text-primary font-bold ;
+  @apply font-bold text-text-primary;
 }
 
 /* Slider */
@@ -175,12 +175,4 @@ a.active li {
     }
   }
 }
-
-/*  */
-header,
-main,
-footer {
-  @apply xl:container  xl:mx-auto;
-}
-
 

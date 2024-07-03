@@ -17,17 +17,17 @@ export default function Header() {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [url]);
-
   return (
-    <header className='flex relative items-center justify-between border-b border-border bg-background-primary px-5 py-3 shadow-md'>
+    <header className='relative border-b border-border bg-background-primary px-5 py-3 shadow-md'>
+      <div className='xl:container  xl:mx-auto flex  items-center justify-between'>
       <Logo className='w-16' />
       <Links />
-
       <div className='flex items-center gap-2'>
         <ThemeToggler layout='' />
         <Button shape='icon' onClick={() => setIsMobileMenuOpen(true)} className='bg-transparent lg:hidden'>
           <RxHamburgerMenu size={18} />
         </Button>
+      </div>
       </div>
 
       <MobileHeader isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

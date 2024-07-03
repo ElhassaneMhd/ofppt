@@ -29,8 +29,12 @@ export default function ArticleDetails({ article, articles }) {
         )}
         <aside className='mt-10 space-y-10 border-l-2 border-border pl-6 lg:mt-0'>
           <LatestArticles currentArticleId={article.id} articles={articles} />
+          {!article.original?.message &&
+          <>
           <Tags tags={article?.tags} />
-          {!article.original?.message && <Share title={article.title} />}
+           <Share title={article.title} />
+          </>
+           }
         </aside>
       </div>
     </>

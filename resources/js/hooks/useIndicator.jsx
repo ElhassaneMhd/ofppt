@@ -5,7 +5,9 @@ export const useIndicator = (split, className = '') => {
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const ref = useRef(null);
 
-  const currentTab = usePage().url.split(split)[1];
+  let currentTab = usePage().url.split(split)[1];
+  currentTab.includes('?') ? (currentTab = currentTab.split('?')[0]) : currentTab;
+
 
   useEffect(() => {
     const activeTabElement = ref.current?.querySelector(`[data-tab="${currentTab}"]`);
