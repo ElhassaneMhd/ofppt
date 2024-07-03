@@ -19,15 +19,15 @@ export default function Header() {
   }, [url]);
   return (
     <header className='relative border-b border-border bg-background-primary px-5 py-3 shadow-md'>
-      <div className='xl:container  xl:mx-auto flex  items-center justify-between'>
-      <Logo className='w-16' />
-      <Links />
-      <div className='flex items-center gap-2'>
-        <ThemeToggler layout='' />
-        <Button shape='icon' onClick={() => setIsMobileMenuOpen(true)} className='bg-transparent lg:hidden'>
-          <RxHamburgerMenu size={18} />
-        </Button>
-      </div>
+      <div className='flex items-center justify-between xl:container xl:mx-auto'>
+        <Logo className='w-16' />
+        <Links />
+        <div className='flex items-center gap-2'>
+          <ThemeToggler layout='' />
+          <Button shape='icon' onClick={() => setIsMobileMenuOpen(true)} className='bg-transparent lg:hidden'>
+            <RxHamburgerMenu size={18} />
+          </Button>
+        </div>
       </div>
 
       <MobileHeader isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
@@ -39,7 +39,7 @@ export default function Header() {
 
 function Links() {
   const { url } = usePage();
-  const { ref, indicator } = useIndicator('/','bottom-0');
+  const { ref, indicator } = useIndicator('/', 'bottom-0');
 
   return (
     <ul className='hidden gap-8 lg:flex lg:flex-1 lg:justify-center' ref={ref}>
