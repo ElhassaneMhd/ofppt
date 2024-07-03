@@ -18,7 +18,7 @@ export default function FiliereDetails({ filiere, filieres }) {
           <Details filiere={filiere} />
         )}
         <aside className='mt-10 space-y-10 border-l-2 border-border pl-6 lg:mt-0'>
-          <LatestArticles currentFiliereId={filiere.id} filieres={filieres} />
+          <OtherFilieres currentFiliereId={filiere.id} filieres={filieres} />
           <Sectors filieres={filieres} />
           {!filiere.original?.message && (
             <>
@@ -44,15 +44,15 @@ function Details({ filiere: { title, details, files, max_stagiaires, isActive, s
         </div>
         <div className='relative'>
           <img src={getImage(files)} alt={title} className='h-72 w-full rounded-xl object-cover sm:h-96' />
-          <div className='absolute bottom-24 right-8 flex items-center justify-center rounded-lg bg-primary p-2 font-bold'>
+          <div className=' animate-wiggle-1s-delay-2s absolute bottom-24 right-8 flex items-center justify-center rounded-lg bg-primary p-2'>
             <span className='text-white'>Places : {max_stagiaires}</span>
           </div>
           <div
-            className={`absolute bottom-80 right-5 flex items-center justify-center rounded-lg ${isActive === 'true' ? 'animate-pulse bg-green-600' : 'bg-red-600'} p-2 font-bold`}
+            className={`absolute bottom-80 right-5 flex items-center justify-center rounded-lg ${isActive === 'true' ? 'bg-green-600' : 'bg-red-600'} animate-wiggle-1s-delay-1s p-2 font-bold`}
           >
             <span className='text-white'>Inscription {isActive === 'true' ? ' Ouvert' : ' Termine'}</span>
           </div>
-          <div className='absolute bottom-48 left-5 flex items-center justify-center rounded-lg bg-secondary p-2 font-bold'>
+          <div className=' animate-wiggle-1s absolute bottom-48 left-5 flex items-center justify-center rounded-lg bg-secondary p-2 font-bold'>
             <span className='text-white'> {sector}</span>
           </div>
         </div>
@@ -63,14 +63,14 @@ function Details({ filiere: { title, details, files, max_stagiaires, isActive, s
   );
 }
 
-function LatestArticles({ filieres, currentFiliereId }) {
-  const latestArticles = filieres?.filter((filiere) => +filiere.id !== +currentFiliereId).slice(-4);
+function OtherFilieres({ filieres, currentFiliereId }) {
+  const otherFilieres = filieres?.filter((filiere) => +filiere.id !== +currentFiliereId).slice(-4);
 
   const render = () => {
-    if (!latestArticles.length) return <p className='text-sm font-medium text-text-secondary'>No filieres found...</p>;
+    if (!otherFilieres.length) return <p className='text-sm font-medium text-text-secondary'>No filieres found...</p>;
     return (
       <ul className='space-y-3'>
-        {latestArticles.map(({ id, title, files, sector, formationYear }) => (
+        {otherFilieres.map(({ id, title, files, sector,formationYear }) => (
           <li key={id}>
             <Link
               href={`/filieres/${id}`}

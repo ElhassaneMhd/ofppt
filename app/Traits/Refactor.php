@@ -41,12 +41,13 @@ trait Refactor
             "id" => $article->id,
             "title" => $article->title,
             "details" => $article->details,
-            "publisher" => $article->user->firstName ?? "unknown" . ' ' . $article->user->lastName ?? "publisher",
-            "formationYear" => $this->refactorYear($article->year),
             "categorie" => $article->categorie,
-            "date" => $article->date,
+            "publisher" => $article->user->firstName ?? "unknown" . ' ' . $article->user->lastName ?? "publisher",
             "tags" => explode(',', $article->tags) ?? [],
             "files" => $this->getElementFiles($article) ?? [],
+            "formationYear" => $this->refactorYear($article->year),
+            "date" => $article->date,
+            "visibility" => $article->visibility,
             "created_at" => $article->created_at
         ];
     }
@@ -55,14 +56,15 @@ trait Refactor
         return [
             "id" => $event->id,
             "title" => $event->title,
-            "formationYear" => $this->refactorYear($event->year),
             "details" => $event->details,
             "date" => $event->date,
             'location' => $event->location,
             'upcoming' => $event->upcoming,
             "duration" => $event->duration,
             "tags" => explode(',', $event->tags) ?? [],
+            "visibility" => $event->visibility,
             "files" => $this->getElementFiles($event) ?? [],
+            "formationYear" => $this->refactorYear($event->year),
             "created_at" => $event->created_at
         ];
     }
@@ -71,13 +73,14 @@ trait Refactor
         return  [
             "id" => $filiere->id,
             "title" => $filiere->title,
-            "formationYear" => $this->refactorYear($filiere->year) ,
             "details" => $filiere->details,
             "sector" => $filiere->sector,
+            'max_stagiaires' => $filiere->max_stagiaires,
             "isActive" => $filiere->isActive,
             "tags" => explode(',', $filiere->tags) ?? [],
-            'max_stagiaires' => $filiere->max_stagiaires,
+            "visibility" => $filiere->visibility,
             "files" => $this->getElementFiles($filiere) ?? [],
+            "formationYear" => $this->refactorYear($filiere->year) ,
             "created_at" => $filiere->created_at
         ];
     }
