@@ -180,6 +180,7 @@ a.active li {
 header,
 main,
 footer {
-  @apply xl:container xl:mx-auto;
+  @apply xl:container  xl:mx-auto;
 }
+
 

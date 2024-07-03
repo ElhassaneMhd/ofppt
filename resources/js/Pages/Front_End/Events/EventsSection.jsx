@@ -10,7 +10,7 @@ const ids = {
 
 export default function EventsSection({ events }) {
   return (
-    <Section className='bg-background-secondary'>
+    <Section >
       <Slider
         defaultSlidesPerView={1}
         navigationIds={{
