@@ -1,18 +1,9 @@
 import NotFound from '@/Pages/NotFound';
-import { Tag } from '@/components/ui/Tag';
+import { Tags } from '@/components/ui/Tag';
 import { getImage } from '@/utils/helpers';
 import { Head, Link } from '@inertiajs/react';
 import { sanitize } from '@/utils/helpers/';
-import {
-  FacebookShareButton,
-  PocketShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  FacebookIcon,
-  PocketIcon,
-  TwitterIcon,
-  WhatsappIcon,
-} from 'react-share';
+import { Share } from '../Blog/ArticleDetails';
 
 export default function FiliereDetails({ filiere, filieres }) {
   return (
@@ -29,15 +20,15 @@ export default function FiliereDetails({ filiere, filieres }) {
         <aside className='mt-10 space-y-10 border-l-2 border-border pl-6 lg:mt-0'>
           <LatestArticles currentFiliereId={filiere.id} filieres={filieres} />
           <Sectors filieres={filieres} />
+          <Tags tags={filiere.tags} />
+          <Share />
         </aside>
       </div>
     </>
   );
 }
 
-function Details({ filiere: { title, details, files, max_stagiaires, isActive, formationYear, tags } }) {
-  const url = window.location.href;
-
+function Details({ filiere: { title, details, files, max_stagiaires, isActive, sector, formationYear } }) {
   return (
     <div className='col-span-2 flex flex-col gap-5'>
       <div className='space-y-4'>
@@ -49,13 +40,16 @@ function Details({ filiere: { title, details, files, max_stagiaires, isActive, f
         </div>
         <div className='relative'>
           <img src={getImage(files)} alt={title} className='h-72 w-full rounded-xl object-cover sm:h-96' />
-          <div className='absolute bottom-60 right-[14.5px] flex items-center justify-center bg-primary p-2 font-bold'>
+          <div className='absolute bottom-24 right-8 flex items-center justify-center rounded-lg bg-primary p-2 font-bold'>
             <span className='text-white'>Places : {max_stagiaires}</span>
           </div>
           <div
-            className={`absolute bottom-80 right-[14.5px] flex items-center justify-center ${isActive === 'true' ? 'animate-pulse bg-green-600' : 'bg-black'} p-2 font-bold`}
+            className={`absolute bottom-80 right-5 flex items-center justify-center rounded-lg ${isActive === 'true' ? 'animate-pulse bg-green-600' : 'bg-red-600'} p-2 font-bold`}
           >
             <span className='text-white'>Inscription {isActive === 'true' ? ' Ouvert' : ' Termine'}</span>
+          </div>
+          <div className='absolute bottom-48 left-5 flex items-center justify-center rounded-lg bg-secondary p-2 font-bold'>
+            <span className='text-white'> {sector}</span>
           </div>
         </div>
         <p className='text-center text-xl font-bold'>Présentation de la filière</p>
@@ -63,13 +57,6 @@ function Details({ filiere: { title, details, files, max_stagiaires, isActive, f
           className='filiere leading-relaxed text-text-primary'
           dangerouslySetInnerHTML={{ __html: sanitize(details) }}
         />
-      </div>
-      <div className='mt-auto flex flex-wrap items-center gap-x-3 gap-y-2'>
-        {tags?.map((tag) => (
-          <Link key={tag} href={`/blog?f=${tag.toLowerCase()}`}>
-            <Tag tag={tag} className='rounded-md bg-background-secondary p-2' />
-          </Link>
-        ))}
       </div>
     </div>
   );
@@ -120,14 +107,16 @@ function Sectors({ filieres }) {
     return acc;
   }, {});
   return (
-    <div className='w-full'>
-      <h4 className='mb-5 text-lg font-bold text-text-primary'>Sectors</h4>
-      <div className='flex flex-col'>
+    <div className='w-full border-t-[1px] border-border pt-4'>
+      <h4 className='mb-3 text-lg font-bold text-text-primary'>Sectors</h4>
+      <div className='flex flex-col gap-3'>
         {Object.entries(sectorsCount).map(([sector, count]) => (
-          <div key={sector} className='flex items-center justify-between rounded-lg p-3'>
-            <h4 className='text-lg text-text-primary'>{sector}</h4>
-            <span>{count} </span>
-          </div>
+          <Link key={sector} href={`/filieres?sector=${sector}`}>
+            <div className='flex items-center justify-between rounded-lg'>
+              <h4 className='text-md text-text-primary'>{sector}</h4>
+              <span className='count text-xs'>{count} </span>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
