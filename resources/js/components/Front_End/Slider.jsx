@@ -12,7 +12,7 @@ import '@/styles/App.css';
 
 const SliderContext = createContext();
 
-export default function Slider({ defaultSlidesPerView, children, navigationIds, paginationId }) {
+export default function Slider({ defaultSlidesPerView, children, navigationIds = {}, paginationId,className='my-10 px-6 py-3' }) {
   const [slidesPerView, setSlidesPerView] = useState(3);
 
   useEffect(() => {
@@ -43,11 +43,11 @@ export default function Slider({ defaultSlidesPerView, children, navigationIds, 
         modules={[Navigation, Pagination, Autoplay, Virtual, A11y, Keyboard]}
         spaceBetween={50}
         slidesPerView={defaultSlidesPerView || slidesPerView}
-        className='my-10 px-6 py-3'
+        className={className}
         navigation={{ nextEl: `#${navigationIds.next}`, prevEl: `#${navigationIds.prev}` }}
         mousewheel
         pagination={{ clickable: true, el: `#${paginationId}` }}
-        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         keyboard={{ enabled: true, onlyInViewport: true }}
         virtual
       >
@@ -60,7 +60,7 @@ export default function Slider({ defaultSlidesPerView, children, navigationIds, 
 
 function SliderPagination() {
   const { paginationId } = useContext(SliderContext);
-  return <div id={paginationId} className='static mt-10 flex justify-center gap-2'></div>;
+  return <div id={paginationId} className='static flex justify-center gap-2'></div>;
 }
 
 function SliderNavigation() {

@@ -13,7 +13,7 @@ export default function Event({ event }) {
     <div className='grid gap-5 md:grid-cols-[120px_1fr_1fr]'>
       <div className='flex flex-col items-center md:items-start'>
         <span className='font-medium text-text-secondary'>{formattedDate[0]}</span>
-        <span className='text-7xl font-bold text-text-secondary'>{formattedDate[1].slice(0, -1)}</span>
+        <span className='text-7xl font-bold text-secondary'>{formattedDate[1].slice(0, -1)}</span>
         {upcoming === 'true' && (
           <div className='mt-3 flex flex-col items-center'>
             <div className='mb-5 h-12 w-0.5 bg-border'></div>
@@ -56,7 +56,7 @@ export default function Event({ event }) {
   );
 }
 
-function Images({ images }) {
+ function Images({ images }) {
   const className = images.length === 1 ? '' : images.length === 2 ? 'grid-cols-2 ' : 'grid-cols-3 ';
   return (
     <div className={`grid h-full gap-3 ${className}`}>

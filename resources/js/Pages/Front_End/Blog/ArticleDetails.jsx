@@ -1,5 +1,5 @@
 import NotFound from '@/Pages/NotFound';
-import { Tag } from '@/components/ui/Tag';
+import { Tags } from '@/components/ui/Tag';
 import { formatDate, getImage } from '@/utils/helpers';
 import { Head, Link } from '@inertiajs/react';
 import { sanitize } from '@/utils/helpers/';
@@ -15,7 +15,7 @@ import {
   WhatsappIcon,
 } from 'react-share';
 
-export default function ArticleDetails({ article, articles, tags }) {
+export default function ArticleDetails({ article, articles }) {
   return (
     <>
       <Head title={article.title} />
@@ -29,52 +29,28 @@ export default function ArticleDetails({ article, articles, tags }) {
         )}
         <aside className='mt-10 space-y-10 border-l-2 border-border pl-6 lg:mt-0'>
           <LatestArticles currentArticleId={article.id} articles={articles} />
-          <Tags tags={tags} />
+          <Tags tags={article?.tags} />
+          {!article.original?.message && <Share title={article.title} />}
         </aside>
       </div>
     </>
   );
 }
 
-function Details({ article: { title, details, date, files, tags, publisher } }) {
-  const url = window.location.href;
-
+function Details({ article: { title, details, date, files, publisher } }) {
   return (
     <div className='col-span-2 flex flex-col gap-5'>
       <div className='space-y-4'>
-        <div className='flex items-center justify-between gap-3'>
-          <div className='flex items-center gap-2 text-sm font-medium text-text-tertiary'>
-            <FaUserCircle size={18} />
-            <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <FacebookShareButton url={url} hashtag={title}>
-              <FacebookIcon round size={28} className='transition-transform duration-200 hover:scale-110' />
-            </FacebookShareButton>
-            <TwitterShareButton url={url} title={title}>
-              <TwitterIcon round size={28} className='transition-transform duration-200 hover:scale-110' />
-            </TwitterShareButton>
-            <WhatsappShareButton url={url} title={title}>
-              <WhatsappIcon round size={28} className='transition-transform duration-200 hover:scale-110' />
-            </WhatsappShareButton>
-            <PocketShareButton url={url} title={title}>
-              <PocketIcon round size={28} className='transition-transform duration-200 hover:scale-110' />
-            </PocketShareButton>
-          </div>
-        </div>
         <img src={getImage(files)} alt={title} className='h-72 w-full rounded-xl object-cover sm:h-96' />
+        <div className='flex items-center gap-2 text-sm font-medium text-text-tertiary'>
+          <FaUserCircle size={18} />
+          <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>
+        </div>
         <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
         <div
-          className='article leading-relaxed text-text-primary'
+          className='details leading-relaxed text-text-primary'
           dangerouslySetInnerHTML={{ __html: sanitize(details) }}
         />
-      </div>
-      <div className='mt-auto flex flex-wrap items-center gap-x-3 gap-y-2'>
-        {tags?.map((tag) => (
-          <Link key={tag} href={`/blog?f=${tag.toLowerCase()}`}>
-            <Tag tag={tag} className='rounded-md bg-background-secondary p-2' />
-          </Link>
-        ))}
       </div>
     </div>
   );
@@ -98,8 +74,10 @@ function LatestArticles({ articles, currentArticleId }) {
                 <h4 className='truncate text-sm font-bold text-text-primary sm:text-base' title={title}>
                   {title}
                 </h4>
-                <p className='line-clamp-1 text-sm font-medium text-text-secondary'>{details}</p>
-
+                <p
+                  className='line-clamp-1 text-sm font-medium text-text-secondary'
+                  dangerouslySetInnerHTML={{ __html: sanitize(details) }}
+                />
                 <div className='mt-auto flex items-center gap-2 text-xs text-text-tertiary'>
                   <FaUserCircle />
                   <span className='capitalize'>{publisher}</span>•<span>{formatDate(date)}</span>
@@ -113,31 +91,33 @@ function LatestArticles({ articles, currentArticleId }) {
   };
 
   return (
-    <div className='relative min-h-[400px] rounded-xl'>
+    <div className='relative rounded-xl'>
       <h4 className='mb-5 text-lg font-bold text-text-primary'>Latest Articles</h4>
       {render()}
     </div>
   );
 }
 
-function Tags({ tags = [] }) {
-  const render = () => {
-    if (!tags.length) return <p className='text-sm font-medium text-text-secondary'>No tags found...</p>;
-    return (
-      <ul className='flex max-h-[250px] flex-wrap gap-x-3 gap-y-1 overflow-auto py-1.5'>
-        {tags?.map(({ id, name }) => (
-          <Link key={id} href={`/blog?f=${name.toLowerCase()}`}>
-            <Tag tag={name} />
-          </Link>
-        ))}
-      </ul>
-    );
-  };
+export function Share({ title }) {
+  const url = window.location.href;
 
   return (
-    <div className='relative min-h-[200px] border-t border-border pt-4'>
-      <h4 className='mb-5 text-lg font-bold text-text-primary'>Tags</h4>
-      {render()}
+    <div className='border-t border-border pt-4'>
+      <h4 className='mb-4 text-lg font-bold text-text-primary'>Share with friends</h4>
+      <div className='flex items-center gap-2'>
+        <FacebookShareButton url={url} hashtag={title}>
+          <FacebookIcon round size={28} className='transition-transform duration-200 hover:scale-[120%]' />
+        </FacebookShareButton>
+        <TwitterShareButton url={url} title={title}>
+          <TwitterIcon round size={28} className='transition-transform duration-200 hover:scale-[120%]' />
+        </TwitterShareButton>
+        <WhatsappShareButton url={url} title={title}>
+          <WhatsappIcon round size={28} className='transition-transform duration-200 hover:scale-[120%]' />
+        </WhatsappShareButton>
+        <PocketShareButton url={url} title={title}>
+          <PocketIcon round size={28} className='transition-transform duration-200 hover:scale-[120%]' />
+        </PocketShareButton>
+      </div>
     </div>
   );
 }

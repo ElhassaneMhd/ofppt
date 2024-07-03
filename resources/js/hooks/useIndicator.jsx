@@ -1,7 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
-export const useIndicator = (split,className='') => {
+export const useIndicator = (split, className = '') => {
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const ref = useRef(null);
 
@@ -9,10 +9,17 @@ export const useIndicator = (split,className='') => {
 
   useEffect(() => {
     const activeTabElement = ref.current?.querySelector(`[data-tab="${currentTab}"]`);
-    if (activeTabElement) {
-      const { offsetLeft: left, offsetWidth: width } = activeTabElement;
-      setIndicatorStyle({ left, width });
-    }
+
+    const setIndicator = () => {
+      if (activeTabElement) {
+        const { offsetLeft: left, offsetWidth: width } = activeTabElement;
+        setIndicatorStyle({ left, width });
+      }
+    };
+    setIndicator();
+
+    window.addEventListener('resize', setIndicator);
+    return () => window.removeEventListener('resize', setIndicator);
   }, [currentTab]);
 
   return {

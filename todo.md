@@ -4,6 +4,7 @@
 - [ ] Footer
 - [ ] Details css 
 - [ ] Events Calendar
+- [ ] Slugs
 
 # Bugs
 
