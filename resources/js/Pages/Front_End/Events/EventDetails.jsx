@@ -2,9 +2,9 @@ import NotFound from '@/Pages/NotFound';
 import { Tags } from '@/components/ui/Tag';
 import { formatDate, getImage } from '@/utils/helpers';
 import { Head, Link } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
 import Slider from '@/components/Front_End/Slider';
 import { Share } from '../Blog/ArticleDetails';
+import { LongDetails, ShortDetails } from '@/components/Front_End/Details';
 
 export default function EventDetails({ event, events }) {
   const { title, details, files } = event;
@@ -21,18 +21,19 @@ export default function EventDetails({ event, events }) {
             <div className='space-y-4'>
               <Images images={files} />
               <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
-              <div
-                className='details leading-relaxed text-text-primary'
-                dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-              />
+              <LongDetails details={details} />
             </div>
           </div>
         )}
         <aside className='mt-10 space-y-6 border-l-2 border-border pl-6 lg:mt-0'>
-          <Details {...event} />
+          {!event.original?.message && <Details {...event} />}
           <LatestEvents currentEventId={event.id} events={events} />
-          <Tags tags={event?.tags} />
-          {!event.original?.message && <Share title={event.title} />}
+          {!event.original?.message && (
+            <>
+              <Tags tags={event?.tags} />
+              <Share title={event.title} />
+            </>
+          )}
         </aside>
       </div>
     </>
@@ -111,11 +112,8 @@ function LatestEvents({ events, currentEventId }) {
                   <h4 className='truncate text-sm font-bold text-text-primary sm:text-base' title={title}>
                     {title}
                   </h4>
-                  <p
-                    className='line-clamp-1 text-sm font-medium text-text-secondary'
-                    dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-                  />
-                  <span className='mt-auto font-semibold text-xs capitalize text-text-tertiary'>{location}</span>
+                  <ShortDetails details={details} className='line-clamp-1' />
+                  <span className='mt-auto text-xs font-semibold capitalize text-text-tertiary'>{location}</span>
                 </div>
               </Link>
             </li>

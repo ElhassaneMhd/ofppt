@@ -2,8 +2,8 @@ import { CiImageOff } from 'react-icons/ci';
 import { FaCalendar, FaUserCircle } from 'react-icons/fa';
 import { TagsPreview } from '../Shared';
 import { formatDate, getFile } from '@/utils/helpers';
-import { sanitize } from '@/utils/helpers/';
 import { MdOutlineCategory } from 'react-icons/md';
+import { LongDetails } from '@/components/Front_End/Details';
 
 export default function Show({ article = {} }) {
   const { title, files, publisher, created_at, details, tags, categorie } = article;
@@ -36,10 +36,7 @@ export default function Show({ article = {} }) {
           </div>
         </div>
         <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
-        <div
-          className='details flex-1 text-text-primary overflow-auto'
-          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-        />
+        <LongDetails details={details} className='flex-1 overflow-auto' />
       </div>
       <div className='border-t border-border pt-2'>
         <TagsPreview tags={tags} label={false} />

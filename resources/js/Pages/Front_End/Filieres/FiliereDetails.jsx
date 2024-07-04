@@ -2,8 +2,8 @@ import NotFound from '@/Pages/NotFound';
 import { Tags } from '@/components/ui/Tag';
 import { getImage } from '@/utils/helpers';
 import { Head, Link } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
 import { Share } from '../Blog/ArticleDetails';
+import { LongDetails } from '@/components/Front_End/Details';
 
 export default function FiliereDetails({ filiere, filieres }) {
   return (
@@ -20,8 +20,12 @@ export default function FiliereDetails({ filiere, filieres }) {
         <aside className='mt-10 space-y-10 border-l-2 border-border pl-6 lg:mt-0'>
           <OtherFilieres currentFiliereId={filiere.id} filieres={filieres} />
           <Sectors filieres={filieres} />
-          <Tags tags={filiere.tags} />
-          <Share />
+          {!filiere.original?.message && (
+            <>
+              <Tags tags={filiere.tags} />
+              <Share />
+            </>
+          )}
         </aside>
       </div>
     </>
@@ -35,7 +39,7 @@ function Details({ filiere: { title, details, files, max_stagiaires, isActive, s
         <div className='flex items-center justify-between gap-3'>
           <div className='flex items-center gap-2 text-sm font-medium text-text-tertiary'>
             <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
-            <span className='text-lg text-text-disabled'> {formationYear.year}</span>
+            <span className='text-lg font-bold text-primary'> {formationYear?.year}</span>
           </div>
         </div>
         <div className={`relative`}>
@@ -53,10 +57,7 @@ function Details({ filiere: { title, details, files, max_stagiaires, isActive, s
           </div>
         </div>
         <p className='text-center text-xl font-bold'>Présentation de la filière</p>
-        <div
-          className='filiere leading-relaxed text-text-primary'
-          dangerouslySetInnerHTML={{ __html: sanitize(details) }}
-        />
+        <LongDetails details={details} />
       </div>
     </div>
   );
@@ -69,22 +70,23 @@ function OtherFilieres({ filieres, currentFiliereId }) {
     if (!otherFilieres.length) return <p className='text-sm font-medium text-text-secondary'>No filieres found...</p>;
     return (
       <ul className='space-y-3'>
-        {otherFilieres.map(({ id, title, files, sector }) => (
+        {otherFilieres.map(({ id, title, files, sector,formationYear }) => (
           <li key={id}>
             <Link
               href={`/filieres/${id}`}
-              className='grid grid-cols-[100px_auto] gap-5 rounded-lg bg-background-secondary p-2 transition-transform duration-300 hover:scale-95'
+              className='grid grid-cols-[100px_auto] gap-5 rounded-lg transition-transform duration-300 hover:scale-95'
             >
               <img
                 src={getImage(files)}
                 alt={title.slice(0, 10) + '...'}
                 className='h-20 w-full rounded-lg object-cover'
               />
-              <div className='space-y-2 overflow-hidden'>
+              <div className='space-y-1 overflow-hidden'>
                 <h4 className='truncate text-sm font-bold text-text-primary sm:text-base' title={title}>
                   {title}
                 </h4>
-                <p className='line-clamp-1 text-sm font-medium text-text-secondary'>{sector}</p>
+                <p className='line-clamp-1 text-sm font-medium text-secondary'>{sector}</p>
+                <p className='line-clamp-1 text-xs font-medium text-text-secondary'>{formationYear?.year}</p>
               </div>
             </Link>
           </li>
@@ -94,7 +96,7 @@ function OtherFilieres({ filieres, currentFiliereId }) {
   };
 
   return (
-    <div className='relative min-h-[400px] rounded-xl'>
+    <div className='relative min-h-[200px] rounded-xl'>
       <h4 className='mb-5 text-lg font-bold text-text-primary'>Other Filiers</h4>
       {render()}
     </div>
@@ -109,10 +111,14 @@ function Sectors({ filieres }) {
   return (
     <div className='w-full border-t-[1px] border-border pt-4'>
       <h4 className='mb-3 text-lg font-bold text-text-primary'>Sectors</h4>
-      <div className='flex flex-col gap-3'>
+      <div className='flex flex-col'>
         {Object.entries(sectorsCount).map(([sector, count]) => (
-          <Link key={sector} href={`/filieres?sector=${sector}`}>
-            <div className='flex items-center justify-between rounded-lg'>
+          <Link
+            key={sector}
+            href={`/filieres?sector=${sector}`}
+            className='rounded-lg px-4 py-2 transition-colors duration-300 hover:bg-background-secondary'
+          >
+            <div className='flex items-center justify-between'>
               <h4 className='text-md text-text-primary'>{sector}</h4>
               <span className='count text-xs'>{count} </span>
             </div>

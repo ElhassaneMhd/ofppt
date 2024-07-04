@@ -1,5 +1,5 @@
 import { Head, usePage } from '@inertiajs/react';
-import { sanitize } from '@/utils/helpers/';
+import { LongDetails } from '@/components/Front_End/Details';
 
 export default function About() {
   const settings = usePage().props.settings;
@@ -8,7 +8,7 @@ export default function About() {
     <>
       <Head title='About Us' />
       <div className='w-full space-y-3 px-5 py-8'>
-        <div dangerouslySetInnerHTML={{ __html: sanitize(settings?.aboutDescription) }} />
+        <LongDetails details={settings?.aboutDetails} />
       </div>
     </>
   );
