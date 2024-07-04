@@ -78,6 +78,8 @@ trait Get
     {
         $sectors = ['Agriculture' ,'Artisanat','Arts et Industries Graphiques','Digital et Intelligence Artificielle'
             ,'Tourisme Hôtellerie Restauration' ,'Audiovisuel et Cinéma' ,'Gestion et Commerce','Marketing',"Métiers de l'Automobile"];
+
+        $sectors = array_unique(array_merge($sectors, Filiere::all()->pluck('sector')->toArray()));
         if ($onlyVisible) {
             $sectors = Filiere::where('visibility', 'true')->get()->pluck('sector')->toArray();
         }

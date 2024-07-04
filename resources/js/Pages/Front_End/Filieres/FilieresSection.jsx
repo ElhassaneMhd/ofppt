@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/Button';
 import Section from '@/components/Front_End/Section';
 import Slider from '@/components/Front_End/Slider';
 import Filiere from './Filiere';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 const ids = {
   pagination: 'filieres-pagination',
@@ -41,15 +41,16 @@ export default function FilieresSection({ filieres }) {
 }
 
 function More() {
+  const { filieres } = usePage().props.count;
   return (
     <div className='mx-auto mt-10 flex w-fit flex-col items-center justify-between gap-3 rounded-3xl border-2 border-text-tertiary py-2 pl-6 pr-3 sm:flex-row sm:rounded-full md:gap-5'>
       <p className='text-text-primary'>
         <span className='text-sm sm:text-base'>
-          <span className='font-bold sm:text-lg'>1,000+</span> Filières compétentes à explorer
+          <span className='font-bold sm:text-lg'>{filieres ?? 0}+</span> Filières compétentes à explorer
         </span>
       </p>
       <Link href='/filieres'>
-      <Button className='rounded-full'>Explorer Tous</Button>
+        <Button className='rounded-full'>Explorer Tous</Button>
       </Link>
     </div>
   );
