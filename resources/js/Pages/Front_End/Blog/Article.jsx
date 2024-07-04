@@ -34,7 +34,7 @@ export default function Article({ article, layout = 'grid' }) {
     <Link href={`/blog/${id}`}>
       <div className='flex h-full flex-col transition-transform duration-300 hover:scale-95'>
         <img src={getImage(files)} alt={title} className='h-[230px] w-full rounded-t-xl object-cover' />
-        <div className='flex flex-1 flex-col gap-3 rounded-b-xl border border-border bg-background-primary p-3'>
+        <div className='flex flex-1 flex-col gap-3 overflow-hidden rounded-b-xl border border-border bg-background-primary p-3'>
           <h4
             className='line-clamp-2 w-fit text-wrap font-bold leading-tight text-text-primary sm:text-lg'
             title={title}

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@/hooks/useNavigate';
 import { Head } from '@inertiajs/react';
+import { Logo } from '@/components/ui/Logo';
 
 function Login() {
   const { t } = useTranslation();
@@ -29,21 +30,23 @@ function Login() {
   return (
     <>
       <Head title='Login' />
-      <div className='grid h-screen bg-background-primary w-full place-content-center'>
-        <div className='flex w-full flex-col gap-3 rounded-xl bg-background-secondary p-5 shadow-md sm:w-[600px]'>
-        <div>
-          <img src='/images/logo.png' alt='Logo' className='mx-auto w-16' />
-        </div>
-          {Form}
-          <Button
-            className={'my-4 w-full self-end'}
-            disabled={!isValid}
-            isLoading={isLoading}
-            color={'secondary'}
-            onClick={() => handleSubmit()}
-          >
-            {isLoading ? 'Logging In...' : t('form.login')}
-          </Button>
+      <div className='grid h-screen w-full gap-3 bg-background-primary md:grid-cols-2'>
+        <div className='relative hidden place-content-center bg-background-secondary md:grid'></div>
+        <div className='w- flex flex-col p-3'>
+          <Logo className='w-20' />
+          <div className='flex w-full flex-1 flex-col justify-center gap-3 px-4'>
+            <h1 className='mb-5 text-4xl font-bold text-text-primary'>Welcome Back</h1>
+            {Form}
+            <Button
+              className={'my-4 w-full self-end'}
+              disabled={!isValid}
+              isLoading={isLoading}
+              color={'secondary'}
+              onClick={() => handleSubmit()}
+            >
+              {isLoading ? 'Logging In...' : t('form.login')}
+            </Button>
+          </div>
         </div>
       </div>
     </>

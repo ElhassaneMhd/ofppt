@@ -6,7 +6,7 @@ import { FaReply } from 'react-icons/fa';
 import { IoChevronBackOutline } from 'react-icons/io5';
 
 export default function Show({ demand = {} }) {
-  const { fullName, email, message, subject, created_at } = demand;
+  const { fullName, email, message, subject, created_at, phone } = demand;
   return (
     <>
       <div className='grid gap-5 xs:grid-cols-2'>
@@ -18,10 +18,14 @@ export default function Show({ demand = {} }) {
           <label className='font-medium capitalize text-text-tertiary'>Email :</label>
           <p className='text-sm font-medium text-text-primary'>{email}</p>
         </div>
-      </div>
-      <div className='flex flex-col gap-1.5'>
-        <label className='font-medium capitalize text-text-tertiary'>Subject :</label>
-        <p className='text-sm font-medium text-text-primary'>{subject}</p>
+        <div className='flex flex-col gap-1.5'>
+          <label className='font-medium capitalize text-text-tertiary'>Phone Number :</label>
+          <p className='text-sm font-medium text-text-primary'>{phone}</p>
+        </div>
+        <div className='flex flex-col gap-1.5'>
+          <label className='font-medium capitalize text-text-tertiary'>Subject :</label>
+          <p className='text-sm font-medium text-text-primary'>{subject}</p>
+        </div>
       </div>
       <div className='flex flex-col gap-1.5'>
         <label className='font-medium capitalize text-text-tertiary'>Sent Date :</label>

@@ -8,19 +8,19 @@ export default function Filiere({ filiere, layout = 'grid' }) {
 
   if (layout === 'grid') {
     return (
-      <div className='group relative h-full overflow-hidden shadow-md'>
+      <div className='group relative h-full overflow-hidden shadow-md rounded-xl'>
         {!isActive && (
           <div className='absolute -right-[55px] top-[38px] z-20 rotate-45 bg-red-500 px-10 py-1.5 text-sm font-semibold text-white'>
             Inscription Fermée
           </div>
         )}
-        <div className='grid h-full grid-rows-[250px_auto] overflow-hidden rounded-xl'>
+        <div className='grid grid-rows-[250px_auto] h-full overflow-hidden rounded-xl'>
           <img
             src={getImage(files)}
             alt={title}
             className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-110'
           />
-          <div className='relative flex flex-col gap-2 rounded-b-xl border border-border p-3'>
+          <div className='relative min-h-[230px] overflow-hidden flex flex-col gap-2 rounded-b-xl border border-border p-3'>
             <div className='flex items-center justify-between gap-3 border-b border-border pb-2 text-sm'>
               <span className='font-medium text-secondary'>{sector}</span>
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>
@@ -50,8 +50,8 @@ export default function Filiere({ filiere, layout = 'grid' }) {
           alt={title}
           className='h-full object-cover transition-transform duration-300 hover:scale-105'
         />
-        <div className='relative flex flex-col justify-between gap-5 bg-background-primary p-5 sm:flex-row'>
-          <div className='flex flex-col gap-2'>
+        <div className='relative flex flex-col overflow-hidden justify-between gap-5 bg-background-primary p-5 sm:flex-row'>
+          <div className='flex flex-col overflow-hidden gap-2'>
             <h4 className='text-xl font-bold leading-snug text-text-primary'>{title}</h4>
             <ShortDetails details={details} className='line-clamp-3' />
             <div className='mt-auto flex items-center gap-5 text-sm'>
@@ -59,8 +59,8 @@ export default function Filiere({ filiere, layout = 'grid' }) {
               <span className='font-medium text-text-secondary'>{formationYear?.year}</span>
             </div>
           </div>
-          <Link href={`/filieres/${id}`}>
-            <Button className='h-fit w-fit self-center'>En savoir plus</Button>
+          <Link href={`/filieres/${id}`} className='self-center'>
+            <Button className='h-fit w-fit text-nowrap self-center'>En savoir plus</Button>
           </Link>
         </div>
       </div>

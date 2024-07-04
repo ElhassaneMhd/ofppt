@@ -12,7 +12,7 @@ export function LongDetails({ details, className = '' }) {
 export function ShortDetails({ details, className = '' }) {
   return (
     <p
-      className={`text-ellipsis text-sm font-medium text-text-secondary ${className}`}
+      className={`break-words text-ellipsis text-sm font-medium text-text-secondary ${className}`}
       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
     />
   );

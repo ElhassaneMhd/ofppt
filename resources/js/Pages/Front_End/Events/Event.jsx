@@ -23,7 +23,7 @@ export default function Event({ event }) {
         )}
       </div>
       <Images images={files} />
-      <div className='flex flex-col gap-3'>
+      <div className='flex overflow-hidden flex-col gap-3'>
         <h3 className='text-2xl font-bold text-text-primary'>{title}</h3>
         <div className='flex flex-col gap-2 text-sm font-medium text-text-tertiary'>
           <div className='flex items-center gap-2'>
