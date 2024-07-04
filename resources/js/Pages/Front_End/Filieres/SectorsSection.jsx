@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 export default function SectorsSection({ sectors }) {
   return (
-    <Section className='rounded-xl border border-border bg-background-secondary'>
+    <Section  colored>
       <div className=''>
         <h2 className='text-center text-4xl font-bold tracking-widest text-text-primary sm:text-5xl'>
           Popular Sectors
