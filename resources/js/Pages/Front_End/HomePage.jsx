@@ -6,7 +6,6 @@ import EventsSection from './Events/EventsSection';
 import SectorsSection from './Filieres/SectorsSection';
 
 export default function HomePage({ articles, events, filieres, sectorsWithCount }) {
-  console.log(articles);
   return (
     <>
       <Head title='Home' />

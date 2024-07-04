@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 export default function SectorsSection({ sectors }) {
   return (
-    <Section className='rounded-xl border border-border bg-background-secondary'>
+    <Section  colored>
       <div className=''>
         <h2 className='text-center text-4xl font-bold tracking-widest text-text-primary sm:text-5xl'>
           Popular Sectors
@@ -24,9 +24,8 @@ function Sector({ sector: { name, count } }) {
       href={`/filieres?sector=${name}`}
       className='z-100 group relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-background-primary p-3 px-8 py-2 font-semibold shadow-sm'
     >
-      {/* <img src={sector.image} alt={sector.name} className='h-20 w-20' /> */}
       <div className='grid gap-1 text-center'>
-        <h3 className='relative z-10 text-xl font-semibold text-primary transition-colors duration-500 group-hover:text-white'>
+        <h3 className='relative z-10 text-lg font-semibold text-primary transition-colors duration-500 group-hover:text-white'>
           {name}
         </h3>
         <h5 className='relative z-10 text-xs font-medium text-text-secondary transition-colors duration-300 group-hover:text-white'>
