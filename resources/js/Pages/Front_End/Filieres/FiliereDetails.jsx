@@ -35,24 +35,24 @@ export default function FiliereDetails({ filiere, filieres }) {
 function Details({ filiere: { title, details, files, max_stagiaires, isActive, sector, formationYear } }) {
   return (
     <div className='col-span-2 flex flex-col gap-5'>
-      <div className='space-y-4'>
+      <div className='space-y-4 overflow-hidden'>
         <div className='flex items-center justify-between gap-3'>
           <div className='flex items-center gap-2 text-sm font-medium text-text-tertiary'>
             <h2 className='mb-3 text-3xl font-medium text-text-primary'>{title}</h2>
             <span className='text-lg font-bold text-primary'> {formationYear?.year}</span>
           </div>
         </div>
-        <div className='relative'>
-          <img src={getImage(files)} alt={title} className='h-72 w-full rounded-xl object-cover sm:h-96' />
-          <div className=' animate-wiggle-1s-delay-2s absolute bottom-24 right-8 flex items-center justify-center rounded-lg bg-primary p-2'>
+        <div className={`relative`}>
+          <img src={getImage(files)} alt={title} className='h-full w-full rounded-xl object-cover sm:h-96' />
+          <div className='animate-wiggle-14s absolute bottom-24 right-8 flex items-center justify-center rounded-lg bg-primary p-2'>
             <span className='text-white'>Places : {max_stagiaires}</span>
           </div>
           <div
-            className={`absolute bottom-80 right-5 flex items-center justify-center rounded-lg ${isActive === 'true' ? 'bg-green-600' : 'bg-red-600'} animate-wiggle-1s-delay-1s p-2 font-bold`}
+            className={`absolute bottom-80 right-5 flex items-center justify-center rounded-lg ${isActive === 'true' ? 'bg-green-600' : 'bg-red-600'} animate-wiggle-17s p-2 font-bold`}
           >
             <span className='text-white'>Inscription {isActive === 'true' ? ' Ouvert' : ' Termine'}</span>
           </div>
-          <div className=' animate-wiggle-1s absolute bottom-48 left-5 flex items-center justify-center rounded-lg bg-secondary p-2 font-bold'>
+          <div className='animate-wiggle-20s absolute bottom-48 left-5 flex items-center justify-center rounded-lg bg-secondary p-2 font-bold'>
             <span className='text-white'> {sector}</span>
           </div>
         </div>

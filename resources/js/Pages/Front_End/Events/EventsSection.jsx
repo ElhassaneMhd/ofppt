@@ -10,7 +10,7 @@ const ids = {
 
 export default function EventsSection({ events }) {
   return (
-    <Section colored>
+    <Section colored borderd>
       <Slider
         defaultSlidesPerView={1}
         navigationIds={{

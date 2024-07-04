@@ -5,17 +5,16 @@ import ArticlesSection from './Blog/ArticlesSection';
 import EventsSection from './Events/EventsSection';
 import SectorsSection from './Filieres/SectorsSection';
 
-export default function HomePage({ articles, events, filieres, sectors}) {
+export default function HomePage({ articles, events, filieres, sectorsWithCount }) {
+  console.log(articles);
   return (
     <>
       <Head title='Home' />
       <HeroSection />
-      <SectorsSection 
-      // sectors={sectors} 
-      />
-      <FilieresSection filieres={filieres?.slice(0, 10)} />
-      <EventsSection events={events.slice(0, 10)} />
-      <ArticlesSection articles={articles.slice(0, 3)} />
+      <SectorsSection sectors={sectorsWithCount} />
+      <FilieresSection filieres={filieres} />
+      <EventsSection events={events} />
+      <ArticlesSection articles={articles} />
     </>
   );
 }
