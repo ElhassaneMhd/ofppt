@@ -40,8 +40,8 @@ export default function SectorsSection({
     <Section colored >
       <h2 className='text-center text-4xl font-bold tracking-widest text-text-primary sm:text-5xl'>Popular Sectors</h2>
       <div className='mt-12 grid grid-cols-4 gap-4'>
-        {sectors.map((s) => (
-          <Sector key={s} sector={s} />
+        {sectors.map((s,i) => (
+          <Sector key={i} sector={s} />
         ))}
       </div>
     </Section>

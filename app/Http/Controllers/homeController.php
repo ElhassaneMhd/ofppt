@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Inertia\Inertia;
 use App\Models\Filiere;
 use Illuminate\Http\Request;
@@ -15,16 +16,30 @@ class HomeController extends Controller
     public function index()
     {
         $articles = $this->GetAll('articles');
-        $events = $this->GetAll('events');
-        $filieres = $this->GetAll('filieres');
-        $sectors = $this->getSectors(true, false);
+
+        $upcomingEvents = $this->refactorManyElements(Event::where('upcoming','true')->get(),'events');
+        $otherEvents = $this->refactorManyElements(Event::where('upcoming','false')->get(),'events');
+        if (count($upcomingEvents) < 4) {
+            $events = array_slice(array_merge($upcomingEvents, $otherEvents), 0, 4);
+        }else{
+            $events = array_slice($upcomingEvents,0,4) ;
+        }
+        $activeFilieres = $this->refactorManyElements(Filiere::where('isActive','true')->get(),'filieres');
+        $otherfilieres = $this->refactorManyElements(Filiere::where('isActive','false')->get(),'filieres');
+        if (count($activeFilieres) < 8) {
+            $filieres = array_slice(array_merge($activeFilieres, $otherfilieres), 0, 8);
+        }else{
+            $filieres = array_slice($activeFilieres,0,8) ;
+        }
+        $sectors = $this->getSectors();
         $stats = $this->getStats("homepage");
-        $sectorsWithStats = [];
-        // foreach ($stats["filieres"]["sectors"]??[] as $key => $value) {
-        //     if(in_array($key ,$sectors)) $sectorsWithStats[] = ["name" => $key, "count" => $value];
-        //     else $sectorsWithStats[] = ["name" => $key, "count" => 0];
-        // }
-        return Inertia::render('Front_End/HomePage', compact('articles', 'events', 'filieres', 'sectors', 'sectorsWithStats',));
+        $sectorsWithCount = [];
+        foreach ($sectors??[] as $sector) {
+             $sectorsWithCount[] = ["name" => $sector, "count" =>  Filiere::where('sector', $sector)->count()];
+        }
+        usort($sectorsWithCount, function($a, $b) {    return $b['count'] - $a['count'];});
+        $sectorsWithCount = array_slice($sectorsWithCount, 0, 8);
+        return Inertia::render('Front_End/HomePage', compact('articles', 'events', 'filieres', 'sectors', 'sectorsWithCount',));
     }
 
     public function storeDemands(Request $request)
@@ -83,5 +98,5 @@ class HomeController extends Controller
         );
         return Inertia::render($path, ['event' => $element, 'events' => $elements]);
     }
-    
+
 }

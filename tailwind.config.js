@@ -30,14 +30,14 @@ export default {
         mobile: '540px',
       },
       animation: {
-        'wiggle-1s': 'filiereImg 3.5s infinite',
-        'wiggle-1s-delay-1s': 'filiereImg 3.5s infinite 1s', // 2s delay
-        'wiggle-1s-delay-2s': 'filiereImg 4s infinite 2s', // 4s delay
+        'wiggle-14s': 'filiereImg 14s ease-in-out infinite',
+        'wiggle-17s': 'filiereImg 17s infinite ', // 2s delay
+        'wiggle-20s': 'filiereImg 20s infinite ', // 4s delay
       },
       keyframes: {
         filiereImg: {
           '0%': {
-            transform: 'translate(0px,-10px)',
+            transform: 'translate(0px,-5px)',
           },
           '25%': {
             transform: 'translate(10px,0px) scale(1)',

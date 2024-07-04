@@ -24,7 +24,7 @@ class FiliereSeeder extends Seeder
         'max_stagiaires' => 30,
         'tags' => 'web,development,html,css,javascript',
         'year_id' => 9,
-        'sector' => 'Technology',
+        'sector' => 'Digital et Intelligence Artificielle',
             ],
             [
                 'title' => 'Digital Marketing Fundamentals',
@@ -44,7 +44,7 @@ class FiliereSeeder extends Seeder
                 'max_stagiaires' => 20,
                 'tags' => 'data science',
                 'year_id' => 7,
-                'sector' => 'Data Science',
+                'sector' => 'Digital et Intelligence Artificielle',
             ],
             [
                 'title' => 'Graphic Design Essentials',
@@ -54,7 +54,7 @@ class FiliereSeeder extends Seeder
                 'max_stagiaires' => 15,
                 'tags' => 'graphic design',
                 'year_id' => 14,
-                'sector' => 'Design',
+                'sector' => 'Arts et Industries Graphiques',
             ],
             [
                 'title' => 'Project Management Basics',
@@ -64,7 +64,7 @@ class FiliereSeeder extends Seeder
                 'max_stagiaires' => 18,
                 'tags' => 'project management',
                 'year_id' => 11,
-                'sector' => 'Management',
+                'sector' => 'Gestion et Commerce',
             ],
         ];
         foreach($filieres as $f){
