@@ -1,7 +1,7 @@
 import { SearchInput } from '@/components/ui';
 import { useOperations } from './useOperations';
 
-export function Search({ placeholder, className = '' }) {
+export function Search({ placeholder, className = '',...props }) {
   const { query, onSearch, disabled } = useOperations();
 
   return (
@@ -11,6 +11,7 @@ export function Search({ placeholder, className = '' }) {
       query={query}
       onChange={onSearch}
       disabled={disabled}
+      {...props}
     />
   );
 }
