@@ -6,7 +6,7 @@ use App\Models\Session;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class SessionController extends Controller
+class SessionsController extends Controller
 {
 
     public function index(Request $request) {

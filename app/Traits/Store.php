@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Activitie;
+use App\Models\Announce;
 use App\Models\Article;
 use App\Models\Demand;
 use App\Models\Event;
@@ -160,8 +161,7 @@ trait Store
             }
         }
     }
-    public function storeSession($id,$unique, $location, $ip)
-    {
+    public function storeSession($id,$unique, $location, $ip){
         $agent = new Agent();
         ($ip === 'Unknown') && $ip = request()->userAgent();
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge', 'Firefox', 'Opera', 'DuckDuck'];
@@ -200,5 +200,19 @@ trait Store
         $activity->activity = $data['activity'];
         $activity->object = $data['object'];
         $activity->save();
+    }
+
+    public function storeAnnounce($request){
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'startDate' => 'required|date',
+            'endDate' => 'required|date',
+            'visibility'=>'in:true,false'
+        ]);
+        $announce = new Announce();
+        $announce->text = $request->text;
+        $announce->visibility = $request->visibility;
+        $announce->save();
     }
 }

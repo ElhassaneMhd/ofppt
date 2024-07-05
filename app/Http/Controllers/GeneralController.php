@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announce;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -67,7 +68,10 @@ class GeneralController extends Controller
         }
         $path = 'Back_Office/Settings/' . ucfirst($tab);
         $settings = $this->refactorSettings();
-
+        $announces = $this->refactorManyElements(Announce::all(),'announces');
+        if ($tab==='general'){
+            return Inertia::render($path, compact('settings','tabs','announces'));
+        }
         return Inertia::render($path, compact('settings','tabs'));
     }
     public function dashboard()
@@ -75,7 +79,6 @@ class GeneralController extends Controller
         $user = auth()->user();
         $role = $user  ? $user->roles->first()->name : 'super-admin';
         $stats = $this->getStats($role);
-        // return $stats;
         return Inertia::render('Back_Office/Dashboard/Dashboard', compact('stats'));
     }
 }

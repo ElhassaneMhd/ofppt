@@ -16,12 +16,12 @@ trait Get
     public function GetAll($data, $trashed = false)
     {
         $all = [];
-        if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands', 'sessions'])) {
+        if (in_array($data, ['users', 'articles', 'filieres', 'events', 'years', 'demands', 'sessions','announces'])) {
             $model = 'App\\Models\\' . ucfirst(Str::singular($data));
             if ($trashed === true) {
                 $collections = $model::onlyTrashed()->get();
             } else {
-                if (!in_array($data, ['users', 'demands', 'years', 'sessions'])) {
+                if (!in_array($data, ['users', 'demands', 'years', 'sessions','announces'])) {
                     $collections = $model::where('visibility', 'true')->get();
 
                 }else{
@@ -36,6 +36,7 @@ trait Get
                 ($data === 'demands') && $all[] = $this->refactorDemand($collection);
                 ($data === 'years') && $all[] = $this->refactorYear($collection);
                 ($data === 'sessions') && $all[] = $this->refactorSession($collection);
+                ($data === 'announces') && $all[] = $this->refactorAnnounce($collection);
             }
         } else {
             return response()->json(['message' => 'undefined api'], 400);

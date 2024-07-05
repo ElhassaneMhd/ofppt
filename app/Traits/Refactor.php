@@ -18,6 +18,7 @@ trait Refactor
             ($data === 'demands') && $all[] = $this->refactorDemand($element);
             ($data === 'years') && $all[] = $this->refactorYear($element);
             ($data === 'sessions') && $all[] = $this->refactorSession($element);
+            ($data === 'announces') && $all[] = $this->refactorAnnounce($element);
         }
         return $all ?? [];
     }
@@ -172,6 +173,16 @@ trait Refactor
             'activity' => $activitie->activity,
             'object' => $activitie->object,
             'created_at' => $activitie->created_at,
+        ];
+    }
+    public function refactorAnnounce($announce){
+        return [
+            'id'=>$announce->id,
+            'title'=>$announce->title,
+            "description"=>$announce->description,
+            'stratDate'=>$announce->startDate,
+            'endDate'=>$announce->endDate,
+            'visiblity'=>$announce->visibility,
         ];
     }
 }
