@@ -177,9 +177,12 @@ trait Refactor
     }
     public function refactorAnnounce($announce){
         return [
-            'text'=>$announce->text,
+            'id'=>$announce->id,
+            'title'=>$announce->title,
+            "description"=>$announce->description,
+            'stratDate'=>$announce->startDate,
+            'endDate'=>$announce->endDate,
             'visiblity'=>$announce->visibility,
-            "created_at"=>$announce->created_at
         ];
     }
 }

@@ -17,7 +17,10 @@ class AnnounceFactory extends Factory
     public function definition(): array
     {
         return [
-            'text'=>$this->faker->sentence,
+            'title'=>$this->faker->sentence,
+            'description'=>$this->faker->sentence,
+            'startDate'=>$this->faker->date,
+            'endDate'=>$this->faker->date,
             'visibility' => $this->faker->randomElement(['true', 'false']),
         ];
     }
