@@ -3,7 +3,7 @@
 - [ ] Sectors section
 - [ ] Footer
 - [ ] Details css
-- [ ] Events Calendar
+- [x] Events Date picker
 - [ ] Slugs
 - [x] return upcaming or public event 4
 - [x] return active filiere 8
@@ -14,3 +14,4 @@
 - [ ] Updating images doesn't count as change
 - [x] Old images are deleted on update
 - [x] toggle visiblite dosent work ( one and multiple)
+- [ ] Dashboard Pie Chart text behind

@@ -223,7 +223,7 @@ export function useForm({ fields, defaultValues: def, gridLayout, onSubmit, subm
   return {
     Form: (
       <form
-        className={`grid gap-x-5 gap-y-3 ${gridLayout ? 'md:grid-cols-2' : ''} `}
+        className={`grid w-full gap-x-5 gap-y-3 ${gridLayout ? 'md:grid-cols-2' : ''} `}
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();

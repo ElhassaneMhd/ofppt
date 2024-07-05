@@ -9,6 +9,7 @@ import { usePage } from '@inertiajs/react';
 import { FormationYear } from '../Shared';
 import { socialMediaLinks } from '@/components/ui/SocialMedia';
 import { GrMapLocation } from 'react-icons/gr';
+import { AnnouncementBanner } from './AnnouncementBanner';
 
 export default function General({ settings = {} }) {
   const { navigate } = useNavigate();
@@ -29,6 +30,7 @@ export default function General({ settings = {} }) {
       linkedin: settings?.linkedin,
       youtube: settings?.youtube,
       formationYear: currentYear,
+      announcementBanner : settings?.announcementBanner
     },
     fields: [
       {
@@ -105,7 +107,7 @@ export default function General({ settings = {} }) {
         customIcon: (
           <span
             className='absolute left-0 top-0 z-10 grid h-full w-7 place-content-center border-r border-border text-white'
-            style={{ backgroundColor: s.color }}
+            style={{ backgroundColor: s.bgColor }}
           >
             {s.icon}
           </span>
@@ -116,7 +118,7 @@ export default function General({ settings = {} }) {
       navigate({
         url: 'settings.update',
         method: 'put',
-        data: { ...data, files: [data.appLogo?.file], maps: extractSrc(data.maps),year_id: data.formationYear?.id},
+        data: { ...data, files: [data.appLogo?.file], maps: extractSrc(data.maps), year_id: data.formationYear?.id },
       });
     },
     gridLayout: true,
@@ -184,8 +186,12 @@ export default function General({ settings = {} }) {
             ></iframe>
           </div>
         </div>
-        <div className='mt-4'>
+      </div>
+      <div>
+        <h3 className='mb-4 font-bold text-text-secondary'>General</h3>
+        <div className='space-y-5'>
           <FormationYear getValue={getValue} setValue={setValue} />
+          <AnnouncementBanner getValue={getValue} setValue={setValue} />
         </div>
       </div>
     </ModalFormLayout>

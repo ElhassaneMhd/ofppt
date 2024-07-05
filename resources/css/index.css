@@ -37,8 +37,8 @@
         color-scheme: dark;
     }
     
-    --primary: rgb(91, 180, 81);
-    --primary-hover: rgb(61, 131, 54);
+    --primary: rgb(61, 131, 54);
+    --primary-hover: rgb(39 91 34);
     --secondary: rgb(58, 85, 180);
     --secondary-hover: rgb(46, 70, 155);
 

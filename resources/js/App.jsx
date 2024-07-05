@@ -35,7 +35,7 @@ createInertiaApp({
         }
       : (page) => <FrontAppLayout> {page}</FrontAppLayout>;
 
-    // console.log(name, page);
+    if (name.startsWith('Front_End')) document.documentElement.setAttribute('data-p', 'fr');
 
     if (!page) return NotFound;
 

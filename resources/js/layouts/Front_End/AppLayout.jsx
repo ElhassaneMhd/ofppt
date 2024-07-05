@@ -2,7 +2,6 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import Footer from '@/components/Front_End/Footer';
 import Header from '@/components/Front_End/Header';
 
-document.documentElement.setAttribute('data-p', 'fr');
 
 export default function AppLayout({ children }) {
   const [parent] = useAutoAnimate({ duration: 400, easing: 'ease-in-out' });

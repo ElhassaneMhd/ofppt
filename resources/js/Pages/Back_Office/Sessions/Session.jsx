@@ -22,7 +22,7 @@ export default function Session({ isOpen, onClose, activities }) {
       closeButton={false}
     >
       <div className='mb-5 flex items-center justify-between gap-3 pt-7 md:pt-0'>
-        <h1 className='mobile::text-xl flex items-center gap-2 text-lg font-bold text-text-primary'>
+        <h1 className='mobile:text-xl flex items-center gap-2 text-lg font-bold text-text-primary'>
           Activities
           <span className='count text-xs'>{activities?.length}</span>
         </h1>
@@ -60,7 +60,7 @@ function ActivitiesList() {
     if (initialData.length === 0 && !query && !appliedFiltersNumber('all')) {
       return (
         <div className='absolute grid h-full w-full place-content-center place-items-center gap-5'>
-          <img src='/SVG/no-applications.svg' alt='' className='w-[140px]' />
+          <img src='/images/empty.svg' alt='' className='w-[100px]' />
           <div className='space-y-2 text-center'>
             <h2 className='font-medium text-text-primary'>This sessions has no activities yet</h2>
             <p className='text-sm text-text-secondary'>Activities will be displayed here once they are available.</p>
@@ -73,7 +73,7 @@ function ActivitiesList() {
       return (
         <Status
           status='noResults'
-          heading='No applications found'
+          heading='No activities found'
           message='Try changing your search query or filters'
         />
       );

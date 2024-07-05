@@ -10,7 +10,6 @@ export const socialMediaLinks = [
     url: 'https://www.facebook.com/ofppt.page.officielle/',
     bgColor: '#1877f2',
   },
-  { name: 'Youtube', icon: <GrYoutube />, url: 'https://www.youtube.com/c/ofpptchaineofficielle', bgColor: '#ff0000' },
   { name: 'Twitter', icon: <GrTwitter />, url: 'https://twitter.com/OFPPT_Officiel', bgColor: '#1da1f2' },
   { name: 'Instagram', icon: <GrInstagram />, url: 'https://www.instagram.com/ofppt.officiel/', bgColor: '#e1306c' },
   {
@@ -19,6 +18,7 @@ export const socialMediaLinks = [
     url: 'https://www.linkedin.com/company/ofpptpageofficielle/',
     bgColor: '#0a66c2',
   },
+  { name: 'Youtube', icon: <GrYoutube />, url: 'https://www.youtube.com/c/ofpptchaineofficielle', bgColor: '#ff0000' },
 ];
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -30,7 +30,7 @@ export function SocialMedia({ settings, className = 'gap-3', size }) {
   if (!isSet(settings)) return null;
 
   return (
-    <div className={`relative flex items-center justify-center  ${className}`}>
+    <div className={`relative flex items-center justify-center ${className}`}>
       {socialMediaLinks
         .filter((s) => settings?.[s.name.toLocaleLowerCase()])
         .map((s, index) => {

@@ -3,7 +3,6 @@ import Sidebar from '@/components/Back_Office/Sidebar';
 
 import '@/styles/App.css';
 
-document.documentElement.removeAttribute('data-p');
 
 export default function AppLayout({ children }) {
   const [parent] = useAutoAnimate({ duration: 300 });
