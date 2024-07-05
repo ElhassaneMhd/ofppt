@@ -11,7 +11,7 @@ import { socialMediaLinks } from '@/components/ui/SocialMedia';
 import { GrMapLocation } from 'react-icons/gr';
 import { AnnouncementBanner } from './AnnouncementBanner';
 
-export default function General({ settings = {} }) {
+export default function General({ settings = {}, announces }) {
   const { navigate } = useNavigate();
   const currentYear = usePage().props.year;
 
@@ -30,7 +30,7 @@ export default function General({ settings = {} }) {
       linkedin: settings?.linkedin,
       youtube: settings?.youtube,
       formationYear: currentYear,
-      announcementBanner : settings?.announcementBanner
+      announcementBanner: settings?.announcementBanner,
     },
     fields: [
       {
@@ -191,7 +191,7 @@ export default function General({ settings = {} }) {
         <h3 className='mb-4 font-bold text-text-secondary'>General</h3>
         <div className='space-y-5'>
           <FormationYear getValue={getValue} setValue={setValue} />
-          <AnnouncementBanner getValue={getValue} setValue={setValue} />
+          <AnnouncementBanner getValue={getValue} setValue={setValue} announcements={announces} />
         </div>
       </div>
     </ModalFormLayout>

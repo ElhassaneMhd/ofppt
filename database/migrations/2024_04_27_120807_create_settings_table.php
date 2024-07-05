@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('maps')->nullable();
             $table->string('location')->nullable()->default('Maroc, Sale');
             $table->text('aboutDescription')->nullable();
+            $table->enum('announcementBanner',['true','false'])->default('true');
             $table->timestamps();
         });
     }

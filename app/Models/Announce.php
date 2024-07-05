@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Announce extends Model
 {
     use HasFactory;
-    protected $fillable = ['text','visiblity'];
-    
+    protected $fillable = ['content', 'visibility', 'startDate', 'endDate'];
 }

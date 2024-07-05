@@ -18,7 +18,8 @@ class Setting extends Model
         'linkedin',
         'maps',
         'location',
-        'AboutDescription'
+        'AboutDescription',
+        'announcementBanner'
     ];
     public function files() {
  	    return $this->morphMany(File::class, 'fileable');

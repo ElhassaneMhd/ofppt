@@ -178,11 +178,11 @@ trait Refactor
     public function refactorAnnounce($announce){
         return [
             'id'=>$announce->id,
-            'title'=>$announce->title,
-            "description"=>$announce->description,
-            'stratDate'=>$announce->startDate,
+            'content'=>$announce->content,
+            'startDate'=>$announce->startDate,
             'endDate'=>$announce->endDate,
-            'visiblity'=>$announce->visibility,
+            'visibility'=>$announce->visibility,
+            'created_at' => $announce->created_at,
         ];
     }
 }

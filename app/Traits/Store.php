@@ -204,14 +204,15 @@ trait Store
 
     public function storeAnnounce($request){
         $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
+            'content' => 'required|string',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
             'visibility'=>'in:true,false'
         ]);
         $announce = new Announce();
-        $announce->text = $request->text;
+        $announce->content = $request->content;
+        $announce->startDate = $request->startDate;
+        $announce->endDate = $request->endDate;
         $announce->visibility = $request->visibility;
         $announce->save();
     }

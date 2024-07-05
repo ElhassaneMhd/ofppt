@@ -21,7 +21,7 @@ export {
   IoLocationOutline,
   IoLocationSharp,
   IoMail,
-  IoPeople
+  IoPeople,
 } from 'react-icons/io5';
 export {
   PiCheckBold,
@@ -62,7 +62,7 @@ export {
   MdOutlineLocationOn,
   MdOutlineTimelapse,
   MdOutlinePendingActions,
-  MdOutlineSettingsBackupRestore
+  MdOutlineSettingsBackupRestore,
 } from 'react-icons/md';
 export {
   FaSpinner,
@@ -87,8 +87,9 @@ export {
   FaRegCalendarCheck,
   FaBell,
 } from 'react-icons/fa6';
-export {  LuUser, LuUpload, LuClipboardList, LuListTodo, LuPlus, LuTimerReset } from 'react-icons/lu';
-export {  LiaClipboardListSolid } from 'react-icons/lia';
+export { FaEdit } from 'react-icons/fa';
+export { LuUser, LuUpload, LuClipboardList, LuListTodo, LuPlus, LuTimerReset } from 'react-icons/lu';
+export { LiaClipboardListSolid } from 'react-icons/lia';
 export { FiLogOut, FiSettings, FiPhone, FiCheck } from 'react-icons/fi';
 export { HiMiniXMark } from 'react-icons/hi2';
 export { RxDashboard, RxViewVertical } from 'react-icons/rx';
@@ -100,10 +101,6 @@ export {
   TbLayoutBottombarExpandFilled,
   TbFilter,
 } from 'react-icons/tb';
-export {  GrMapLocation, GrPowerReset,GrArticle ,GrUserAdmin  } from 'react-icons/gr';
-export { GoLink, GoUnlink,GoPeople  } from 'react-icons/go';
-export {
-  LiaUserPlusSolid,
-  LiaUserMinusSolid,
-  LiaUserEditSolid,
-} from 'react-icons/lia';
+export { GrMapLocation, GrPowerReset, GrArticle, GrUserAdmin } from 'react-icons/gr';
+export { GoLink, GoUnlink, GoPeople } from 'react-icons/go';
+export { LiaUserPlusSolid, LiaUserMinusSolid, LiaUserEditSolid } from 'react-icons/lia';

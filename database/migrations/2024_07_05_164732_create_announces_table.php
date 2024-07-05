@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('announces', function (Blueprint $table) {
             $table->id();
-            $table->text('title');
-            $table->text('description');
-            $table->enum('visibility',['true','false']);
-            $table->date('startDate');
-            $table->date('endDate');
-
+            $table->text('content');
+            $table->enum('visibility', ['true', 'false'])->default('true');
+            $table->dateTime('startDate');
+            $table->dateTime('endDate');
             $table->timestamps();
         });
     }

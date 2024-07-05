@@ -34,6 +34,7 @@ const icons = {
   phone: <FiPhone />,
   text: <MdDriveFileRenameOutline />,
   date: <IoCalendarNumberOutline />,
+  'datetime-local': <IoCalendarNumberOutline />,
   establishment: <BsBuilding />,
   academicLevel: <IoSchool />,
   city: <FaCity />,
@@ -62,7 +63,7 @@ export function ErrorTooltip({ message }) {
         </p>
       ))}
       placement='top'
-      className=' rounded-lg bg-red-500 p-2 text-xs font-semibold text-white'
+      className='rounded-lg bg-red-500 p-2 text-xs font-semibold text-white'
     >
       <span
         className={`cursor-pointer text-lg text-red-500 transition-transform duration-300 ${message ? 'scale-100' : 'scale-0'}`}

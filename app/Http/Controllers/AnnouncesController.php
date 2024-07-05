@@ -15,7 +15,9 @@ class AnnouncesController extends Controller
     }
     public function update(Request $request, string $id){
         $announce = Announce::find($id);
-        $announce->text = $request->text;
+        $announce->content = $request->content;
+        $announce->startDate = $request->startDate;
+        $announce->endDate = $request->endDate;
         $announce->visibility = $request->visibility;
         $announce->save();
         return redirect()->back();

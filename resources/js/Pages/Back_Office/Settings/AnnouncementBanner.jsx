@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { DateTime } from 'luxon';
 import { Operations } from '@/components/shared/Operations/Operations';
 import { useOperations } from '@/components/shared/Operations/useOperations';
 import { Button, Switch, Modal, Status, DropDown } from '@/components/ui';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useEffect, useState } from 'react';
-import { FaEdit, FaPlus } from 'react-icons/fa';
 import {
   IoEllipsisHorizontalSharp,
   IoTrashOutline,
@@ -11,12 +11,15 @@ import {
   IoEyeOffOutline,
   IoEyeOutline,
   BsCalendar4Event,
+  FaPlus,
+  FaEdit
 } from '@/components/ui/Icons';
 import { useConfirmationModal, useForm } from '@/hooks';
 import { Overlay } from '@/components/ui/Modal';
 import { useNavigate } from '@/hooks/useNavigate';
+import { formatDate, getIntervals } from '@/utils/helpers';
 
-export function AnnouncementBanner({ getValue, setValue }) {
+export function AnnouncementBanner({ getValue, setValue, announcements }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,55 +41,12 @@ export function AnnouncementBanner({ getValue, setValue }) {
           onChange={(e) => setValue('announcementBanner', e.target.checked)}
         />
       </div>
-      <Announcements isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Announcements isOpen={isOpen} setIsOpen={setIsOpen} announcements={announcements} />
     </>
   );
 }
 
-const an = [
-  {
-    id: 1,
-    content: "We're extending our free trial period to 60 days for all new sign-ups until the end of November!",
-    visibility: 'false',
-    created_at: '2023-10-01',
-    startDate: '2023-10-01',
-    endDate: '2023-11-30',
-  },
-  {
-    id: 2,
-    content: 'Get ready for our biggest sale of the year this December. Exclusive discounts on all products!',
-    visibility: 'true',
-    created_at: '2023-12-01',
-    startDate: '2023-12-01',
-    endDate: '2023-12-25',
-  },
-  {
-    id: 3,
-    content: "We're excited to announce the opening of our new office in downtown San Francisco!",
-    visibility: 'true',
-    created_at: '2023-11-15',
-    startDate: '2023-11-15',
-    endDate: '2023-12-15',
-  },
-  {
-    id: 4,
-    content: 'Join us for a webinar on the latest product updates and features on November 20th, 2023.',
-    visibility: 'false',
-    created_at: '2023-11-20',
-    startDate: '2023-11-20',
-    endDate: '2023-11-20',
-  },
-  {
-    id: 5,
-    content: 'Help us give back this holiday season. Participate in our charity event starting December 1st.',
-    visibility: 'true',
-    created_at: '2023-12-01',
-    startDate: '2023-12-01',
-    endDate: '2023-12-31',
-  },
-];
-
-function Announcements({ isOpen, setIsOpen, announcements = an }) {
+function Announcements({ isOpen, setIsOpen, announcements }) {
   const [currentAnnouncement, setCurrentAnnouncement] = useState({ action: null, announcement: null });
 
   return (
@@ -109,7 +69,7 @@ function Announcements({ isOpen, setIsOpen, announcements = an }) {
               action: 'add',
               announcement: {
                 content: '',
-                startDate: new Date().toISOString().split('T')[0],
+                startDate: DateTime.now().toFormat('yyyy-LL-dd\'T\'HH:mm'),
                 endDate: '',
                 visibility: 'true',
               },
@@ -130,12 +90,14 @@ function Announcements({ isOpen, setIsOpen, announcements = an }) {
           { key: 'endDate', display: 'End Date', type: 'date' },
         ]}
         filters={{
-          visibility : [
-            {value : 'true', display : 'Visible',id : 'visible'},
-            {value : 'false', display : 'Hidden' , id : 'hidden'}
-          ]
+          visibility: [
+            { value: 'true', display: 'Visible', id: 'visible' },
+            { value: 'false', display: 'Hidden', id: 'hidden' },
+          ],
+          startDate: getIntervals('startDate', ['present', 'past', 'future']),
+          endDate: getIntervals('endDate', ['present', 'past', 'future']),
         }}
-        fieldsToSearch={['title', 'description']}
+        fieldsToSearch={['content']}
       >
         <AnnouncementsList currentAnnouncement={currentAnnouncement} setCurrentAnnouncement={setCurrentAnnouncement} />
       </Operations>
@@ -184,13 +146,15 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
         key={announcement.id}
         announcement={announcement}
         onEdit={() => setCurrentAnnouncement({ action: 'edit', announcement })}
-        onToggle={() => navigate({ url: `annonces.multiple.toggle`, method: 'post', data: { ids: [announcement.id] } })}
+        onToggle={() =>
+          navigate({ url: `announces.multiple.toggle`, method: 'post', data: { ids: [announcement.id] } })
+        }
         onDelete={() =>
           openModal({
             message: 'Are you sure you want to delete this announcement',
             title: 'Delete Announcement',
             onConfirm: () => {
-              navigate({ url: '', params: announcement.id, method: 'delete' });
+              navigate({ url: 'announces.destroy', params: announcement.id, method: 'delete' });
               announcements?.length === 1 && onPaginate(page - 1);
             },
           })
@@ -209,7 +173,7 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
         <Operations.Search />
       </div>
       <div
-        className='relative w-full flex-1 space-y-3 overflow-y-auto overflow-x-hidden pr-2'
+        className='relative w-full flex-1 space-y-3 mb-2 overflow-y-auto overflow-x-hidden pr-2'
         ref={announcements.length ? parent : null}
       >
         {render()}
@@ -218,7 +182,11 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
       <NewAnnouncement
         defaultValues={currentAnnouncement?.announcement}
         action={currentAnnouncement?.action}
-        onSubmit={currentAnnouncement?.action === 'edit' ? () => navigate({}) : () => navigate({})}
+        onSubmit={
+          currentAnnouncement?.action === 'edit'
+            ? (data) => navigate({ url: 'announces.update', method: 'put', params: data.id, data })
+            : (data) => navigate({ url: 'announces.store', method: 'post', data })
+        }
         onClose={() => setCurrentAnnouncement({ action: null, announcement: null })}
       />
     </>
@@ -227,13 +195,13 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
 
 function Announcement({ announcement: { content, visibility, startDate, endDate }, onEdit, onToggle, onDelete }) {
   return (
-    <div className='flex w-full flex-col items-center gap-5 rounded-md px-3 py-2 text-center transition-colors duration-200 hover:bg-background-secondary xs:flex-row xs:text-start'>
-      <div className='flex-1 space-y-1'>
+    <div className='flex w-full  items-center gap-5 rounded-md px-3 py-2 transition-colors duration-200 hover:bg-background-secondary flex-row '>
+      <div className={`flex-1 space-y-1 ${visibility === 'false' ? 'opacity-50' : ''}`}>
         <h5 className='text-sm font-medium capitalize text-text-primary'>{content}</h5>
         <h6 className='flex items-center gap-2 text-wrap text-xs text-text-secondary'>
           <BsCalendar4Event />
           <span>
-            {startDate} - {endDate}
+            {formatDate(startDate,true)} - {formatDate(endDate,true)}
           </span>
         </h6>
       </div>
@@ -277,12 +245,12 @@ function NewAnnouncement({ defaultValues, action, onSubmit, onClose }) {
       {
         name: 'startDate',
         label: 'Start Date',
-        type: 'date',
+        type: 'datetime-local',
       },
       {
         name: 'endDate',
         label: 'End Date',
-        type: 'date',
+        type: 'datetime-local',
       },
       {
         name: 'visibility',
@@ -291,7 +259,7 @@ function NewAnnouncement({ defaultValues, action, onSubmit, onClose }) {
             <label className='text-sm font-medium text-text-tertiary'>Visibility</label>
             <Switch
               checked={getValue('visibility') === 'true'}
-              onChange={(e) => setValue('visibility', e.target.checked)}
+              onChange={(e) => setValue('visibility', String(e.target.checked))}
             />
           </div>
         ),
@@ -320,7 +288,7 @@ function NewAnnouncement({ defaultValues, action, onSubmit, onClose }) {
           <Button color='tertiary' onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={!isUpdated}>
+          <Button onClick={() => handleSubmit(onClose)} disabled={!isUpdated}>
             {action === 'edit' ? 'Update Announcement' : 'Create Announcement'}
           </Button>
         </div>

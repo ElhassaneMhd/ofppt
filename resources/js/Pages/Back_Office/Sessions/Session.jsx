@@ -91,7 +91,7 @@ function ActivitiesList() {
         <Operations.Search />
       </div>
       <div
-        className='relative w-full flex-1 space-y-3 overflow-y-auto overflow-x-hidden pr-2'
+        className='relative w-full flex-1  mb-2 space-y-3 overflow-y-auto overflow-x-hidden pr-2'
         ref={activities.length ? parent : null}
       >
         {render()}
