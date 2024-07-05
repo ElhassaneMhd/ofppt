@@ -7,8 +7,8 @@
 - [ ] Slugs
 - [x] return upcaming or public event 4
 - [x] return active filiere 8
-- [ ] gradient homepage sections
-
+- [x] gradient homepage sections
+- [ ] annonce
 # Bugs
 
 - [ ] Updating images doesn't count as change

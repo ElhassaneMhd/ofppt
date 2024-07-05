@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncesController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\AuthController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FilieresController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\UsersController;
 use App\Models\Year;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +46,8 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         'demands' => DemandsController::class,
         'events' => EventsController::class,
         'users' => UsersController::class,
-        'sessions'=>SessionController::class
+        'sessions'=>SessionsController::class,
+        'announces'=>AnnouncesController::class
     ];
     foreach ($resources as $resource => $controller) {
         Route::resource('/' . $resource, $controller);
@@ -55,7 +57,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
         foreach (['restore', 'forceDelete', 'destroy'] as $action) {
             Route::post('/' . $resource . '/multiple/' . $action, [GeneralController::class, 'multipleAction'])->name($resource . '.multiple.' . $action);
         }
-        if (in_array($resource, ['articles', 'filieres', 'events'])) {
+        if (in_array($resource, ['articles', 'filieres', 'events','announces'])) {
             Route::post('/' . $resource . '/multiple/toggle', [GeneralController::class, 'multipleAction'])->name($resource . '.multiple.toggle');
         }
     }

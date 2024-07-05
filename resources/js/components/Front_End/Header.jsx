@@ -18,7 +18,7 @@ export default function Header() {
     setIsMobileMenuOpen(false);
   }, [url]);
   return (
-    <header className='relative border-b border-border bg-background-primary px-5 py-3 shadow-md'>
+    <header className='relative border-b border-border bg-background-secondary px-5 py-3 shadow-md'>
       <div className='flex items-center justify-between xl:container xl:mx-auto'>
         <Logo className='w-16' />
         <Links />

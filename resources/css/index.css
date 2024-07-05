@@ -44,9 +44,9 @@
 
     /* Front End Pages */
     &[data-p='fr'] {
-        --primary: #00A3A6;
+        --primary: #00c3c6;
         --primary-hover: rgb(0, 163, 166, 0.8);
-        --secondary: #e48b25;
+        --secondary: #ee9128;
         --secondary-hover: rgb(228, 139, 37, 0.8);
     }
 }
