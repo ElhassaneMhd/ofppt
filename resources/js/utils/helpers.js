@@ -222,3 +222,10 @@ export const getImage = (files = [], index = 0) => {
   return file ? file.url : null;
 };
 
+
+export const isContentEmpty = (content) => {
+  if (!content) return true;
+  const div = document.createElement('div');
+  div.innerHTML = content;
+  return div.textContent.trim() === '';
+};

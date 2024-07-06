@@ -18,7 +18,6 @@ export default function CreatePageLayout({ children, name, formOptions, isEdit }
         ...(isEdit && data.formationYear && { year_id: data.formationYear.id }),
       };
 
-      console.log(newData);
       navigate({
         url: `${name.toLowerCase()}s.${isEdit ? 'update' : 'store'}`,
         method: isEdit ? 'put' : 'post',

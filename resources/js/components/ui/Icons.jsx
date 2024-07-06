@@ -63,6 +63,7 @@ export {
   MdOutlineTimelapse,
   MdOutlinePendingActions,
   MdOutlineSettingsBackupRestore,
+  MdOutlinePreview 
 } from 'react-icons/md';
 export {
   FaSpinner,

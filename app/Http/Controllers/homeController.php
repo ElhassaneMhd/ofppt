@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announce;
 use App\Models\Article;
 use App\Models\Event;
 use Inertia\Inertia;
@@ -16,44 +17,46 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $articles = $this->refactorManyElements(Article::orderBy('created_at','desc')->take(4)->get(),'articles');
+        $articles = $this->refactorManyElements(Article::orderBy('created_at', 'desc')->take(4)->get(), 'articles');
+        $upcomingEvents = $this->refactorManyElements(Event::where('upcoming', 'true')->take(4)->get(), 'events');
+        $otherEvents = $this->refactorManyElements(Event::where('upcoming', 'false')->take(4)->get(), 'events');
 
-        $upcomingEvents = $this->refactorManyElements(Event::where('upcoming','true')->take(4)->get(),'events');
-        $otherEvents = $this->refactorManyElements(Event::where('upcoming','false')->take(4)->get(),'events');
-        if (count($upcomingEvents) < 4) {
-            $events = array_slice(array_merge($upcomingEvents, $otherEvents), 0, 4);
-        }else{
-            $events = array_slice($upcomingEvents,0,4) ;
-        }
-        $activeFilieres = $this->refactorManyElements(Filiere::where('isActive','true')->take(8)->get(),'filieres');
-        $otherfilieres = $this->refactorManyElements(Filiere::where('isActive','false')->take(8)->get(),'filieres');
-        if (count($activeFilieres) < 8) {
-            $filieres = array_slice(array_merge($activeFilieres, $otherfilieres), 0, 8);
-        }else{
-            $filieres = array_slice($activeFilieres,0,8) ;
-        }
+        if (count($upcomingEvents) < 4) $events = array_slice(array_merge($upcomingEvents, $otherEvents), 0, 4);
+        else $events = array_slice($upcomingEvents, 0, 4);
+
+        $activeFilieres = $this->refactorManyElements(Filiere::where('isActive', 'true')->take(8)->get(), 'filieres');
+        $otherFilieres = $this->refactorManyElements(Filiere::where('isActive', 'false')->take(8)->get(), 'filieres');
+
+        if (count($activeFilieres) < 8)  $filieres = array_slice(array_merge($activeFilieres, $otherFilieres), 0, 8);
+        else $filieres = array_slice($activeFilieres, 0, 8);
+
         $sectors = $this->getSectors();
         $sectorsWithCount = [];
-        foreach ($sectors??[] as $sector) {
-             $sectorsWithCount[] = ["name" => $sector, "count" =>  Filiere::where('sector', $sector)->count()];
+        foreach ($sectors ?? [] as $sector) {
+            $sectorsWithCount[] = ["name" => $sector, "count" =>  Filiere::where('sector', $sector)->count()];
         }
         usort($sectorsWithCount, function ($a, $b) {
             return $b['count'] - $a['count'];
         });
         $sectorsWithCount = array_slice($sectorsWithCount, 0, 8);
-        return Inertia::render('Front_End/HomePage', compact('articles', 'events', 'filieres', 'sectors', 'sectorsWithCount'));
+        $announcements = $this->GetAll('announces');
+
+        return Inertia::render('Front_End/HomePage', compact('articles', 'events', 'filieres', 'sectors', 'sectorsWithCount', 'announcements'));
     }
 
-    public function storeDemands(Request $request){
+    public function storeDemands(Request $request)
+    {
         $this->storeDemand($request);
     }
 
-    public function getRouteName(){
+    public function getRouteName()
+    {
         return explode('/', Route::getFacadeRoot()->current()->uri())[0];
     }
 
     // /Filieres | /Blog | /Events
-    public function dataPage(){
+    public function dataPage()
+    {
         $route = $this->getRouteName();
         $data = $this->GetAll($route === 'blog' ? 'articles' : $route);
         $sectors = $this->getSectors(true, false);
@@ -97,5 +100,4 @@ class HomeController extends Controller
         );
         return Inertia::render($path, ['event' => $element, 'events' => $elements]);
     }
-
 }

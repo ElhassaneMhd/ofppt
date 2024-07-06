@@ -134,6 +134,7 @@ trait Refactor
             "maps" => $setting->maps,
             "location" => $setting->location,
             "aboutDescription" => $setting->aboutDescription,
+            "announcementBanner" => $setting->announcementBanner,
             "files" => $this->getElementFiles($setting) ?? []
         ];
     }

@@ -1,15 +1,16 @@
+import { useEffect } from 'react';
 import { BubbleMenu, useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
-import '@/styles/Editor.css';
-import Menubar, { CustomBubbleMenu } from './Menubar';
-import { useFullScreen } from '@/hooks/useFullScreen';
 import Color from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
-import { useEffect } from 'react';
+import Menubar, { CustomBubbleMenu } from './Menubar';
+import { useFullScreen } from '@/hooks/useFullScreen';
+
+import '@/styles/Editor.css';
 
 export default function Editor({
   readOnly,
@@ -19,10 +20,11 @@ export default function Editor({
   className,
   fullScreen = true,
   content,
-  onUpdate ,
-  setEditorInstance
+  onUpdate,
+  setEditorInstance,
+  visibleButtons,
 }) {
-  const { element, toggler } = useFullScreen({size});
+  const { element, toggler } = useFullScreen({ size });
 
   const editor = useEditor({
     extensions: [
@@ -47,6 +49,7 @@ export default function Editor({
       Link.configure({
         validate: (href) => /^https?:\/\//.test(href),
         autolink: false,
+        HTMLAttributes: { target: '_blank', rel: 'noopener noreferrer' },
       }),
       TextStyle,
       Color,
@@ -71,7 +74,7 @@ export default function Editor({
       className={`tiptap relative flex h-full flex-1 flex-col gap-1 overflow-auto rounded-lg border border-border bg-background-primary ${className}`}
       ref={element}
     >
-      {readOnly || <Menubar editor={editor} size={size} />}
+      {readOnly || <Menubar editor={editor} size={size} visibleButtons={visibleButtons} />}
       <EditorContent editor={editor} />
       {bubbleMenu && editor && (
         <BubbleMenu
@@ -90,11 +93,3 @@ export default function Editor({
     </div>
   );
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const isContentEmpty = (content) => {
-  if (!content) return true;
-  const div = document.createElement('div');
-  div.innerHTML = content;
-  return div.textContent.trim() === '';
-};
