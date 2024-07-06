@@ -144,6 +144,7 @@ trait Store
         $setting->maps =  $request->input('maps') ?? $setting->maps ?? null;
         $setting->location =  $request->input('location') ?? $setting->location ?? null;
         $setting->aboutDescription =  $request->input('aboutDescription') ?? $setting->aboutDescription ?? null;
+        $setting->announcementBanner =  $request->input('announcementBanner') ?? $setting->announcementBanner ?? 'true';
         $setting->save();
         if ($request->has('year_id')) {
             $year = Year::findOrfail($request->input('year_id'));
@@ -161,7 +162,8 @@ trait Store
             }
         }
     }
-    public function storeSession($id,$unique, $location, $ip){
+    public function storeSession($id, $unique, $location, $ip)
+    {
         $agent = new Agent();
         ($ip === 'Unknown') && $ip = request()->userAgent();
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge', 'Firefox', 'Opera', 'DuckDuck'];
@@ -202,12 +204,13 @@ trait Store
         $activity->save();
     }
 
-    public function storeAnnounce($request){
+    public function storeAnnounce($request)
+    {
         $request->validate([
             'content' => 'required|string',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
-            'visibility'=>'in:true,false'
+            'visibility' => 'in:true,false'
         ]);
         $announce = new Announce();
         $announce->content = $request->content;

@@ -1,6 +1,7 @@
-import Editor, { isContentEmpty } from '@/components/shared/Editor/Editor';
+import Editor from '@/components/shared/Editor/Editor';
 import { Button } from '@/components/ui';
 import { useNavigate } from '@/hooks/useNavigate';
+import { isContentEmpty } from '@/utils/helpers';
 import { useEffect, useState } from 'react';
 
 export default function About({ settings = {} }) {
@@ -25,7 +26,7 @@ export default function About({ settings = {} }) {
   return (
     <div className='flex flex-1 flex-col gap-2 overflow-auto'>
       <Editor
-      size='small'
+        size='small'
         className='flex-1'
         onUpdate={(text) => setAbout(text)}
         bubbleMenu={true}

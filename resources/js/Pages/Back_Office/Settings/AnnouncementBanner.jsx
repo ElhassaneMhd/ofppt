@@ -12,12 +12,15 @@ import {
   IoEyeOutline,
   BsCalendar4Event,
   FaPlus,
-  FaEdit
+  FaEdit,
+  MdOutlinePreview,
 } from '@/components/ui/Icons';
 import { useConfirmationModal, useForm } from '@/hooks';
 import { Overlay } from '@/components/ui/Modal';
 import { useNavigate } from '@/hooks/useNavigate';
 import { formatDate, getIntervals } from '@/utils/helpers';
+import Editor from '@/components/shared/Editor/Editor';
+import DOMPurify from 'dompurify';
 
 export function AnnouncementBanner({ getValue, setValue, announcements }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,8 +40,8 @@ export function AnnouncementBanner({ getValue, setValue, announcements }) {
           </p>
         </div>
         <Switch
-          checked={getValue('announcementBanner')}
-          onChange={(e) => setValue('announcementBanner', e.target.checked)}
+          checked={getValue('announcementBanner') === 'true'}
+          onChange={(e) => setValue('announcementBanner', String(e.target.checked))}
         />
       </div>
       <Announcements isOpen={isOpen} setIsOpen={setIsOpen} announcements={announcements} />
@@ -69,7 +72,7 @@ function Announcements({ isOpen, setIsOpen, announcements }) {
               action: 'add',
               announcement: {
                 content: '',
-                startDate: DateTime.now().toFormat('yyyy-LL-dd\'T\'HH:mm'),
+                startDate: DateTime.now().toFormat("yyyy-LL-dd'T'HH:mm"),
                 endDate: '',
                 visibility: 'true',
               },
@@ -115,6 +118,7 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
     totalPages,
     onPaginate,
   } = useOperations();
+  const [previewed, setPreviewed] = useState(null);
   const [parent] = useAutoAnimate({ duration: 400 });
   const { openModal } = useConfirmationModal();
   const { navigate } = useNavigate();
@@ -146,10 +150,10 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
         key={announcement.id}
         announcement={announcement}
         onEdit={() => setCurrentAnnouncement({ action: 'edit', announcement })}
-        onToggle={() =>
-          navigate({ url: `announces.multiple.toggle`, method: 'post', data: { ids: [announcement.id] } })
-        }
-        onDelete={() =>
+        onToggle={() => {
+          navigate({ url: `announces.multiple.toggle`, method: 'post', data: { ids: [announcement.id] } });
+        }}
+        onDelete={() => {
           openModal({
             message: 'Are you sure you want to delete this announcement',
             title: 'Delete Announcement',
@@ -157,11 +161,17 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
               navigate({ url: 'announces.destroy', params: announcement.id, method: 'delete' });
               announcements?.length === 1 && onPaginate(page - 1);
             },
-          })
-        }
+          });
+        }}
+        onPreview={() => setPreviewed(announcement)}
       />
     ));
   };
+
+  useEffect(() => {
+    const id = setTimeout(() => setPreviewed(null), 5000);
+    return () => clearTimeout(id);
+  });
 
   return (
     <>
@@ -173,7 +183,7 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
         <Operations.Search />
       </div>
       <div
-        className='relative w-full flex-1 space-y-3 mb-2 overflow-y-auto overflow-x-hidden pr-2'
+        className='relative mb-2 w-full flex-1 space-y-3 overflow-y-auto overflow-x-hidden pr-2'
         ref={announcements.length ? parent : null}
       >
         {render()}
@@ -189,19 +199,34 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
         }
         onClose={() => setCurrentAnnouncement({ action: null, announcement: null })}
       />
+
+      <div
+        className={`fixed left-0 w-full bg-blue-500 p-3 transition-[top] duration-500 ${previewed ? 'top-0' : '-top-10'}`}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(previewed?.content) }}
+      />
     </>
   );
 }
 
-function Announcement({ announcement: { content, visibility, startDate, endDate }, onEdit, onToggle, onDelete }) {
+function Announcement({
+  announcement: { content, visibility, startDate, endDate },
+  onEdit,
+  onToggle,
+  onDelete,
+  onPreview,
+}) {
+  const cleanContent = new DOMParser().parseFromString(content, 'text/html').body.textContent;
+
   return (
-    <div className='flex w-full  items-center gap-5 rounded-md px-3 py-2 transition-colors duration-200 hover:bg-background-secondary flex-row '>
+    <div
+      className='flex w-full cursor-pointer flex-row items-center gap-5 rounded-md px-3 py-2 transition-colors duration-200 hover:bg-background-secondary'
+    >
       <div className={`flex-1 space-y-1 ${visibility === 'false' ? 'opacity-50' : ''}`}>
-        <h5 className='text-sm font-medium capitalize text-text-primary'>{content}</h5>
+        <p className='text-sm capitalize text-text-primary'>{cleanContent}</p>
         <h6 className='flex items-center gap-2 text-wrap text-xs text-text-secondary'>
           <BsCalendar4Event />
           <span>
-            {formatDate(startDate,true)} - {formatDate(endDate,true)}
+            {formatDate(startDate, true)} - {formatDate(endDate, true)}
           </span>
         </h6>
       </div>
@@ -212,6 +237,10 @@ function Announcement({ announcement: { content, visibility, startDate, endDate 
           </Button>
         }
       >
+        <DropDown.Option onClick={onPreview}>
+          <MdOutlinePreview  />
+          Preview
+        </DropDown.Option>
         <DropDown.Option onClick={onEdit}>
           <MdDriveFileRenameOutline />
           Edit
@@ -230,6 +259,7 @@ function Announcement({ announcement: { content, visibility, startDate, endDate 
 }
 
 function NewAnnouncement({ defaultValues, action, onSubmit, onClose }) {
+  const [editorInstance, setEditorInstance] = useState(null);
   const {
     Form,
     options: { isUpdated, handleSubmit, updateValues },
@@ -238,9 +268,31 @@ function NewAnnouncement({ defaultValues, action, onSubmit, onClose }) {
     fields: [
       {
         name: 'content',
-        label: 'Content',
-        type: 'textarea',
-        rows: 4,
+        customComponent: ({ getValue, setValue }) => (
+          <div className='mt-2 flex h-[250px] flex-col gap-3'>
+            <label className='text-sm font-medium text-text-tertiary'>Content</label>
+            <Editor
+              size='small'
+              visibleButtons={[
+                'bold',
+                'italic',
+                'strike',
+                'underline',
+                'link',
+                'unlink',
+                'text color',
+                'align left',
+                'align center',
+                'align right',
+              ]}
+              className='text-sm'
+              content={getValue('content')}
+              onUpdate={(val) => setValue('content', val)}
+              setEditorInstance={setEditorInstance}
+              fullScreen={false}
+            />
+          </div>
+        ),
       },
       {
         name: 'startDate',
@@ -269,26 +321,35 @@ function NewAnnouncement({ defaultValues, action, onSubmit, onClose }) {
   });
 
   useEffect(() => {
-    if (defaultValues) updateValues(defaultValues);
+    if (defaultValues) {
+      updateValues(defaultValues);
+      editorInstance && editorInstance.commands.setContent(defaultValues?.content || '');
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues]);
+
+  const close = () => {
+    editorInstance && editorInstance.commands.setContent(defaultValues?.content || '');
+    onClose();
+  };
 
   const isOpen = Boolean(defaultValues);
 
   return (
     <>
-      <Overlay isOpen={isOpen} onClose={onClose} closeOnBlur={true} className='z-30' />
+      <Overlay isOpen={isOpen} onClose={close} closeOnBlur={true} className='z-30' />
       <div
-        className={`absolute top-0 z-40 flex h-full w-full flex-col items-start gap-5 border-l border-border bg-background-primary p-4 transition-[right] duration-500 mobile:w-fit ${
+        className={`absolute top-0 z-40 flex h-full w-full flex-col items-start gap-5 overflow-auto border-l border-border bg-background-primary p-4 transition-[right] duration-500 mobile:w-[450px] ${
           isOpen ? 'right-0' : '-right-full'
         }`}
       >
         {Form}
         <div className='mt-auto grid w-full gap-3 xs:grid-cols-2'>
-          <Button color='tertiary' onClick={onClose}>
+          <Button color='tertiary' onClick={close}>
             Cancel
           </Button>
-          <Button onClick={() => handleSubmit(onClose)} disabled={!isUpdated}>
+          <Button onClick={() => handleSubmit(close)} disabled={!isUpdated}>
             {action === 'edit' ? 'Update Announcement' : 'Create Announcement'}
           </Button>
         </div>

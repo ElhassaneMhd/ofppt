@@ -52,7 +52,7 @@ function Links() {
           className={` ${url.startsWith(route.path) ? 'active' : ''}`}
         >
           <DropDown paths={route.nested}>
-            <li className='relative flex items-center gap-3 text-sm font-semibold text-text-secondary transition-colors duration-300'>
+            <li className='hover:text-text-primary hover:scale-105 relative flex items-center gap-3 text-sm font-semibold text-text-secondary transition-all duration-300'>
               <span>{route.label}</span>
               {route.nested && <FaChevronDown />}
             </li>

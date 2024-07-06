@@ -24,7 +24,7 @@ const render = (buttons, size) => {
     if (custom) return cloneElement(custom, { key: i });
     return (
       <ToolTip key={toolTip} content={toolTip}>
-        <Button onClick={onClick} disabled={disabled}  state={active ? 'active' : ''} shape='icon' size={size}>
+        <Button onClick={onClick} disabled={disabled} state={active ? 'active' : ''} shape='icon' size={size}>
           {icon}
         </Button>
       </ToolTip>
@@ -35,9 +35,8 @@ const AddLink = ({ editor, size }) => {
   const [url, setUrl] = useState('');
 
   const handleSetLink = (url) => {
-    // cancelled
+    console.log(url)
     if (url === null) return;
-    // empty
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
       return;
@@ -45,8 +44,7 @@ const AddLink = ({ editor, size }) => {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     handleSetLink(url);
     setUrl('');
   };
@@ -54,14 +52,14 @@ const AddLink = ({ editor, size }) => {
     <ToolTip
       content={
         <div className='relative'>
-          <form onSubmit={(e) => handleSubmit(e)} className='flex flex-col gap-2.5'>
+          <form className='flex flex-col gap-2.5'>
             <InputField
               label='Add Link'
               placeholder='https://example.com'
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
-            <Button size='small' color='secondary' onClick={() => handleSubmit} disabled={!/^https?:\/\//.test(url)}>
+            <Button size='small' color='secondary' onClick={handleSubmit} disabled={!/^https?:\/\//.test(url)}>
               Add
             </Button>
           </form>
@@ -111,7 +109,7 @@ const Headings = ({ editor, size }) => {
           }
         >
           <span className='flex items-baseline'>
-            <FaHeading  />
+            <FaHeading />
             <span className='font-bold'>{i + 1}</span>
           </span>
         </DropDown.Option>
@@ -150,14 +148,16 @@ const TextColor = ({ editor, size }) => {
       content={
         <div className='grid grid-cols-5 gap-1'>
           {colors.map((color, index) => (
-            <button
+            <div
               key={index}
-              className='h-7 w-7 rounded-full shadow-md transition-transform duration-200 hover:scale-110'
+              className={`cursor-pointer rounded-full shadow-md transition-transform duration-200 hover:scale-110 ${size === 'small' ? 'h-5 w-5' : 'h-7 w-7'}`}
               style={{ backgroundColor: color }}
               onClick={() => handleColorChange(color)}
             />
           ))}
-          <button className='relative  grid h-7 w-7 place-items-center rounded-full bg-background-tertiary shadow-md transition-colors duration-300 hover:bg-background-primary'>
+          <button
+            className={`relative grid place-items-center rounded-full bg-background-tertiary shadow-md transition-colors duration-300 hover:bg-background-primary ${size === 'small' ? 'h-5 w-5' : 'h-7 w-7'}`}
+          >
             <input
               type='color'
               value={color}
@@ -186,7 +186,29 @@ const TextColor = ({ editor, size }) => {
   );
 };
 
-export default function Menubar({ editor, size }) {
+export default function Menubar({
+  editor,
+  size,
+  visibleButtons = [
+    'bold',
+    'italic',
+    'strike',
+    'underline',
+    'link',
+    'unlink',
+    'text color',
+    'headings',
+    'bullets',
+    'numbered',
+    'horizontal rule',
+    'align left',
+    'align center',
+    'align right',
+    'clear content',
+    'undo',
+    'redo',
+  ],
+}) {
   if (!editor) return null;
 
   const buttons = [
@@ -219,6 +241,7 @@ export default function Menubar({ editor, size }) {
       icon: <FaUnderline />,
     },
     {
+      toolTip: 'Link',
       custom: <AddLink editor={editor} size={size} />,
     },
     {
@@ -229,9 +252,11 @@ export default function Menubar({ editor, size }) {
       icon: <FaLinkSlash />,
     },
     {
+      toolTip: 'Text Color',
       custom: <TextColor editor={editor} size={size} />,
     },
     {
+      toolTip: 'Headings',
       custom: <Headings editor={editor} size={size} />,
     },
     {
@@ -270,6 +295,7 @@ export default function Menubar({ editor, size }) {
       icon: <FaAlignRight />,
     },
     {
+      toolTip: 'Other',
       custom: (
         <div className='flex flex-1 justify-end gap-2'>
           {render(
@@ -300,8 +326,11 @@ export default function Menubar({ editor, size }) {
   ];
 
   return (
-    <div className='flex w-full  gap-2 overflow-auto border-b border-border p-2 transition-[inset] duration-300'>
-      {render(buttons, size)}
+    <div className='flex w-full gap-2 overflow-auto border-b border-border p-2 transition-[inset] duration-300'>
+      {render(
+        buttons.filter((button) => visibleButtons.includes(button.toolTip.toLowerCase())),
+        size
+      )}
     </div>
   );
 }
@@ -353,5 +382,5 @@ export function CustomBubbleMenu({ editor }) {
     },
   ];
 
-  return <div className='flex items-center gap-2 '> {render(buttons)}</div>;
+  return <div className='flex items-center gap-2'> {render(buttons)}</div>;
 }
