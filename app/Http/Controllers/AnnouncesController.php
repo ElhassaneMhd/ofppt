@@ -19,6 +19,7 @@ class AnnouncesController extends Controller
         $announce->startDate = $request->startDate;
         $announce->endDate = $request->endDate;
         $announce->visibility = $request->visibility;
+        $announce->styles = $request->styles;
         $announce->save();
         return redirect()->back();
     }

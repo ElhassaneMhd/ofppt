@@ -35,7 +35,7 @@ const AddLink = ({ editor, size }) => {
   const [url, setUrl] = useState('');
 
   const handleSetLink = (url) => {
-    console.log(url)
+    console.log(url);
     if (url === null) return;
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
@@ -117,25 +117,25 @@ const Headings = ({ editor, size }) => {
     </DropDown>
   );
 };
+
+const colors = [
+  'var(--text-primary)',
+  'var(--text-secondary)',
+  '#ff0000',
+  '#00ff00',
+  '#c8ff2d',
+  '#fadb14',
+  '#faad14',
+  '#ffda77',
+  '#fa8c16',
+  '#fa541c',
+  '#f5222d',
+  '#ff6b6b',
+  '#64c37e',
+  '#9775fa',
+];
 const TextColor = ({ editor, size }) => {
   const [color, setColor] = useState(document.documentElement.style.getPropertyValue('--editor-text-color'));
-
-  const colors = [
-    'var(--text-primary)',
-    'var(--text-secondary)',
-    '#ff0000',
-    '#00ff00',
-    '#c8ff2d',
-    '#fadb14',
-    '#faad14',
-    '#ffda77',
-    '#fa8c16',
-    '#fa541c',
-    '#f5222d',
-    '#ff6b6b',
-    '#64c37e',
-    '#9775fa',
-  ];
 
   const handleColorChange = (color) => {
     const chosenColor = color.target ? color.target.value : color;
@@ -146,27 +146,13 @@ const TextColor = ({ editor, size }) => {
   return (
     <ToolTip
       content={
-        <div className='grid grid-cols-5 gap-1'>
-          {colors.map((color, index) => (
-            <div
-              key={index}
-              className={`cursor-pointer rounded-full shadow-md transition-transform duration-200 hover:scale-110 ${size === 'small' ? 'h-5 w-5' : 'h-7 w-7'}`}
-              style={{ backgroundColor: color }}
-              onClick={() => handleColorChange(color)}
-            />
-          ))}
-          <button
-            className={`relative grid place-items-center rounded-full bg-background-tertiary shadow-md transition-colors duration-300 hover:bg-background-primary ${size === 'small' ? 'h-5 w-5' : 'h-7 w-7'}`}
-          >
-            <input
-              type='color'
-              value={color}
-              className='absolute h-8 w-8 cursor-pointer opacity-0'
-              onChange={handleColorChange}
-            />
-            <PiPlusBold />
-          </button>
-        </div>
+        <ColorPicker
+          colors={colors}
+          onChange={handleColorChange}
+          currentColor={color}
+          className='grid grid-cols-5 gap-1'
+          size={size}
+        />
       }
       trigger='click'
       interactive={true}
@@ -185,6 +171,30 @@ const TextColor = ({ editor, size }) => {
     </ToolTip>
   );
 };
+
+export function ColorPicker({ colors = [], onChange, currentColor, className = 'flex gap-1', size = 'small' }) {
+  return (
+    <div className={className}>
+      {colors.map((color, index) => (
+        <div
+          key={index}
+          className={`cursor-pointer rounded-full shadow-md transition-transform duration-200 ${currentColor === color ? 'border-2 border-text-primary' : 'border-2 border-background-secondary hover:scale-110'} ${size === 'small' ? 'h-6 w-6' : 'h-7 w-7'} `}
+          style={{ backgroundColor: color }}
+          onClick={() => onChange(color)}
+        />
+      ))}
+      <Button shape='icon' className={`relative rounded-full ${size === 'small' ? 'h-6 w-6' : 'h-7 w-7'}`}>
+        <input
+          type='color'
+          value={currentColor}
+          className='absolute h-8 w-8 cursor-pointer opacity-0'
+          onChange={onChange}
+        />
+        <PiPlusBold />
+      </Button>
+    </div>
+  );
+}
 
 export default function Menubar({
   editor,

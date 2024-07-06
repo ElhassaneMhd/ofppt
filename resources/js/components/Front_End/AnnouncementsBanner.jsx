@@ -10,7 +10,7 @@ export default function AnnouncementsBanner({ announcements }) {
   const { announcementBanner } = usePage().props.settings;
   const [visible, setVisible] = useLocalStorageState('banner', true);
 
-  if (!visible || announcementBanner === 'false') return null;
+  if (visible || announcementBanner === 'false') return null;
 
   return createPortal(
     <Swiper
@@ -24,7 +24,7 @@ export default function AnnouncementsBanner({ announcements }) {
       {announcements.map((announcement) => (
         <SwiperSlide key={announcement.id}>
           <div
-            className='w-full bg-blue-500 p-3'
+            style={announcement.styles || {}}
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(announcement.content) }}
           />
         </SwiperSlide>

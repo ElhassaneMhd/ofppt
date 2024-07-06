@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Cookie;
 
 trait Refactor
 {
-    protected function refactorManyElements($elements, $data){
+    protected function refactorManyElements($elements, $data)
+    {
         foreach ($elements as $element) {
             ($data === 'users') && $all[] = $this->refactorUser($element);
             ($data === 'articles') && $all[] = $this->refactorArticle($element);
@@ -81,7 +82,7 @@ trait Refactor
             "tags" => explode(',', $filiere->tags) ?? [],
             "visibility" => $filiere->visibility,
             "files" => $this->getElementFiles($filiere) ?? [],
-            "formationYear" => $this->refactorYear($filiere->year) ,
+            "formationYear" => $this->refactorYear($filiere->year),
             "created_at" => $filiere->created_at
         ];
     }
@@ -138,37 +139,39 @@ trait Refactor
             "files" => $this->getElementFiles($setting) ?? []
         ];
     }
-    public function refactorSession($session){
+    public function refactorSession($session)
+    {
         $user = User::find($session->user_id);
 
         $allActivities = $session->activities;
-        foreach($allActivities as $actevitie){
-            $activities[]=$this->refactorActivity($actevitie);
+        foreach ($allActivities as $actevitie) {
+            $activities[] = $this->refactorActivity($actevitie);
         }
 
-        $currentSession = Session::where('unique',Cookie::get('unique'))->first();
-        ($currentSession&&$currentSession->id ===$session->id)?$isCurrent = 'true':$isCurrent= 'false';
+        $currentSession = Session::where('unique', Cookie::get('unique'))->first();
+        ($currentSession && $currentSession->id === $session->id) ? $isCurrent = 'true' : $isCurrent = 'false';
 
         return [
-            'id'=>$session->id,
-            'fullName'=>$user->firstName.' '.$user->lastName ,
-            'email'=>$user->email ,
-            'ip'=>$session->ip,
-            'browser'=>$session->browser,
-            'device'=>$session->device,
-            'status'=>$session->status,
-            'isCurrent'=>$isCurrent,
-            'location'=>$session->location,
-            'activities'=>$activities??[],
-            'created_at'=>$session->created_at,
-            'updated_at'=>$session->updated_at,
+            'id' => $session->id,
+            'fullName' => $user->firstName . ' ' . $user->lastName,
+            'email' => $user->email,
+            'ip' => $session->ip,
+            'browser' => $session->browser,
+            'device' => $session->device,
+            'status' => $session->status,
+            'isCurrent' => $isCurrent,
+            'location' => $session->location,
+            'activities' => $activities ?? [],
+            'created_at' => $session->created_at,
+            'updated_at' => $session->updated_at,
         ];
     }
-    public function refactorActivity($activitie){
-        $user= $activitie->session->user;
+    public function refactorActivity($activitie)
+    {
+        $user = $activitie->session->user;
         return [
             'id' => $activitie->id,
-            'initiator' => $user->firstName.' '.$user->lastName,
+            'initiator' => $user->firstName . ' ' . $user->lastName,
             'model' => $activitie->model,
             'action' => $activitie->action,
             'activity' => $activitie->activity,
@@ -176,14 +179,16 @@ trait Refactor
             'created_at' => $activitie->created_at,
         ];
     }
-    public function refactorAnnounce($announce){
+    public function refactorAnnounce($announce)
+    {
         return [
-            'id'=>$announce->id,
-            'content'=>$announce->content,
-            'startDate'=>$announce->startDate,
-            'endDate'=>$announce->endDate,
-            'visibility'=>$announce->visibility,
+            'id' => $announce->id,
+            'content' => $announce->content,
+            'startDate' => $announce->startDate,
+            'endDate' => $announce->endDate,
+            'visibility' => $announce->visibility,
             'created_at' => $announce->created_at,
+            'styles' => json_decode($announce->styles ?? '[]', true),
         ];
     }
 }

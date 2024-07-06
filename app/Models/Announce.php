@@ -9,4 +9,7 @@ class Announce extends Model
 {
     use HasFactory;
     protected $fillable = ['content', 'visibility', 'startDate', 'endDate'];
+    protected $casts = [
+        'styles' => 'array',
+    ];
 }

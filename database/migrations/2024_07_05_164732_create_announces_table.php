@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('visibility', ['true', 'false'])->default('true');
             $table->dateTime('startDate');
             $table->dateTime('endDate');
+            $table->json('styles')->nullable();
             $table->timestamps();
         });
     }

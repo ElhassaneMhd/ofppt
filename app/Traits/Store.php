@@ -210,13 +210,15 @@ trait Store
             'content' => 'required|string',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
-            'visibility' => 'in:true,false'
+            'visibility' => 'in:true,false',
+            'styles' => 'nullable|json',
         ]);
         $announce = new Announce();
         $announce->content = $request->content;
         $announce->startDate = $request->startDate;
         $announce->endDate = $request->endDate;
         $announce->visibility = $request->visibility;
+        $announce->styles = $request->styles;
         $announce->save();
     }
 }

@@ -9,7 +9,7 @@ import { usePage } from '@inertiajs/react';
 import { FormationYear } from '../Shared';
 import { socialMediaLinks } from '@/components/ui/SocialMedia';
 import { GrMapLocation } from 'react-icons/gr';
-import { AnnouncementBanner } from './AnnouncementBanner';
+import { AnnouncementsBanner } from './AnnouncementsBanner/AnnouncementsBanner';
 
 export default function General({ settings = {}, announces }) {
   const { navigate } = useNavigate();
@@ -191,7 +191,7 @@ export default function General({ settings = {}, announces }) {
         <h3 className='mb-4 font-bold text-text-secondary'>General</h3>
         <div className='space-y-5'>
           <FormationYear getValue={getValue} setValue={setValue} />
-          <AnnouncementBanner getValue={getValue} setValue={setValue} announcements={announces} />
+          <AnnouncementsBanner getValue={getValue} setValue={setValue} announcements={announces} />
         </div>
       </div>
     </ModalFormLayout>

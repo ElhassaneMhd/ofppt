@@ -64,3 +64,16 @@ export const RULES = {
     },
   },
 };
+
+export const DEFAULT_STYLES=  {
+  backgroundColor: '#FF6B6B',
+  borderRadius: 0,
+  borderWidth: 0,
+  borderStyle: 'none',
+  borderColor: '#000000',
+  paddingTop: 0,
+  paddingRight: 0,
+  paddingLeft: 0,
+  paddingBottom: 0,
+  width : '100%',
+}
