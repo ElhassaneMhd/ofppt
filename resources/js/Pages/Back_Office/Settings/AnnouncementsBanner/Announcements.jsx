@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { DateTime } from 'luxon';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import {
   IoEllipsisHorizontalSharp,
   IoTrashOutline,
@@ -7,19 +10,14 @@ import {
   IoEyeOutline,
   BsCalendar4Event,
   MdOutlinePreview,
+  FaPlus,
 } from '@/components/ui/Icons';
 import { Operations } from '@/components/shared/Operations/Operations';
 import { Modal, Button, DropDown, Status } from '@/components/ui';
-import { formatDate, getIntervals } from '@/utils/helpers';
-import { useEffect, useState } from 'react';
-import { FaPlus } from 'react-icons/fa6';
 import { useOperations } from '@/components/shared/Operations/useOperations';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useConfirmationModal } from '@/hooks';
-import { useNavigate } from '@/hooks/useNavigate';
-import { createPortal } from 'react-dom';
-import DOMPurify from 'dompurify';
-import NewAnnouncement from './NewAnnouncement';
+import NewAnnouncement, { Announcement as AnnouncementPreview } from './NewAnnouncement';
+import { formatDate, getIntervals } from '@/utils/helpers';
+import { useConfirmationModal, useNavigate } from '@/hooks';
 import { DEFAULT_STYLES } from '@/utils/constants';
 
 export default function Announcements({ isOpen, setIsOpen, announcements }) {
@@ -27,7 +25,7 @@ export default function Announcements({ isOpen, setIsOpen, announcements }) {
 
   return (
     <Modal
-      isOpen={true}
+      isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       closeButton={false}
       className='relative overflow-y-auto p-3 sm:p-5 md:h-[550px] md:w-[800px] md:border'
@@ -186,10 +184,11 @@ function AnnouncementsList({ currentAnnouncement, setCurrentAnnouncement }) {
       />
 
       {createPortal(
-        <div
-          className={`fixed left-1/2 -translate-x-1/2 z-[99999] transition-[top] duration-500 ${previewed ? 'top-0' : '-top-10'}`}
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(previewed?.content) }}
-          style={previewed?.styles || {}}
+        <AnnouncementPreview
+          announcement={previewed || {}}
+          preview={true}
+          previewVisible={previewed !== null}
+          onClose={() => setPreviewed(null)}
         />,
         document.getElementById('app')
       )}

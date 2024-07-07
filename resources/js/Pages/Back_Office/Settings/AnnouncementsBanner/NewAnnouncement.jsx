@@ -8,6 +8,7 @@ import { isContentEmpty } from '@/utils/helpers';
 import DOMPurify from 'dompurify';
 import { useEffect, useState } from 'react';
 import { IoChevronDownOutline } from 'react-icons/io5';
+import { PiX } from 'react-icons/pi';
 
 const colors = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#9055FF', '#FFA45B', '#A5FECB'];
 
@@ -102,15 +103,9 @@ export default function NewAnnouncement({ defaultValues, action, onSubmit, onClo
         <AnnouncementStyles getValue={getValue} setValue={setValue} />
         <Section title='Preview' isExpanded={false}>
           {isContentEmpty(getValue('content')) ? (
-            <p className="font-medium text-text-secondary text-center text-sm mt-2">
-            No content to preview...
-            </p>
+            <p className='mt-2 text-center text-sm font-medium text-text-secondary'>No content to preview...</p>
           ) : (
-            <div
-              style={getValue('styles')}
-              className='mt-3'
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(getValue('content')) }}
-            />
+            <Announcement announcement={{ content: getValue('content'), styles: getValue('styles') }} />
           )}
         </Section>
 
@@ -178,31 +173,21 @@ function AnnouncementStyles({ getValue, setValue }) {
             <BorderStyle style={style} setStyle={setStyle} />
           </div>
           <Padding style={style} setStyle={setStyle} />
-          <Width style={style} setStyle={setStyle} />
+          <div className='flex flex-col gap-3'>
+            <Width style={style} setStyle={setStyle} />
+            <div className='flex items-center justify-between gap-3'>
+              <label className='text-sm font-medium text-text-tertiary'>Close Button</label>
+              <Switch
+                checked={style.closeButton}
+                onChange={(e) => setStyle({ ...style, closeButton: e.target.checked })}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </Section>
   );
 }
-
-const Section = ({ children, title, isExpanded = true }) => {
-  const [expanded, setExpanded] = useState(isExpanded);
-
-  return (
-    <div className={`rounded-lg border border-border p-1.5 ${expanded ? 'pb-3' : ''}`}>
-      <Button
-        display='with-icon'
-        type='transparent'
-        className='w-full justify-between hover:bg-background-secondary'
-        onClick={() => setExpanded((prev) => !prev)}
-      >
-        <h4 className='font-semibold text-text-primary'>{title}</h4>
-        <IoChevronDownOutline className={`transition-transform duration-300 ${expanded ? 'rotate-180' : 'rotate-0'}`} />
-      </Button>
-      <div className={`overflow-hidden px-3 ${expanded ? 'h-auto' : 'h-0 pb-0'}`}>{children}</div>
-    </div>
-  );
-};
 
 const BorderRadius = ({ style, setStyle }) => {
   return (
@@ -231,7 +216,7 @@ const BorderRadius = ({ style, setStyle }) => {
               className={`rounded-lg px-2 pb-1 pt-2 transition-colors duration-300 hover:bg-background-secondary ${style.borderRadius === borderRadius ? 'bg-background-secondary' : ''}`}
               onClick={() => setStyle({ ...style, borderRadius })}
             >
-              <div className='relative mx-auto h-8 w-8 overflow-hidden rounded-md border border-border bg-background-secondary'>
+              <div className='relative mx-auto h-8 w-8 overflow-hidden rounded-md border-2 border-border bg-background-secondary'>
                 <div
                   className={`absolute -bottom-3 -left-3 h-full w-full ${className} border-2 border-text-primary`}
                 ></div>
@@ -256,7 +241,7 @@ const BorderStyle = ({ style, setStyle }) => {
             className={`rounded-lg px-2 pb-1 pt-2 transition-colors duration-300 hover:bg-background-secondary ${style.borderStyle === borderStyle ? 'bg-background-secondary' : ''}`}
             onClick={() => setStyle({ ...style, borderStyle })}
           >
-            <div className='relative mx-auto h-8 w-8 overflow-hidden rounded-md border border-border bg-background-secondary'>
+            <div className='relative mx-auto h-8 w-8 overflow-hidden rounded-md border-2 border-border bg-background-secondary'>
               <div
                 className='absolute -bottom-3 -left-3 h-full w-full border-2 border-text-primary'
                 style={{ borderStyle }}
@@ -325,6 +310,51 @@ const Width = ({ style, setStyle }) => {
           </button>
         ))}
       </div>
+    </div>
+  );
+};
+
+const Section = ({ children, title, isExpanded = true }) => {
+  const [expanded, setExpanded] = useState(isExpanded);
+
+  return (
+    <div className={`rounded-lg border border-border p-1.5 ${expanded ? 'pb-3' : ''}`}>
+      <Button
+        display='with-icon'
+        type='transparent'
+        className='w-full justify-between hover:bg-background-secondary'
+        onClick={() => setExpanded((prev) => !prev)}
+      >
+        <h4 className='font-semibold text-text-primary'>{title}</h4>
+        <IoChevronDownOutline className={`transition-transform duration-300 ${expanded ? 'rotate-180' : 'rotate-0'}`} />
+      </Button>
+      <div className={`overflow-hidden px-3 ${expanded ? 'h-auto' : 'h-0 pb-0'}`}>{children}</div>
+    </div>
+  );
+};
+
+export const Announcement = ({ announcement, onClose, preview, previewVisible }) => {
+  return (
+    <div
+      className={
+        preview
+          ? `fixed left-1/2 z-[99999] w-full -translate-x-1/2 transition-[top] duration-500 ${previewVisible ? 'top-0' : '-top-10'}`
+          : 'relative'
+      }
+    >
+      <div
+        className='mx-auto'
+        style={announcement.styles || {}}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(announcement.content) }}
+      />
+      {announcement.styles?.closeButton && (
+        <button
+          className='absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full p-1 text-text-primary transition-colors duration-300 hover:bg-white/30'
+          onClick={() => onClose?.()}
+        >
+          <PiX />
+        </button>
+      )}
     </div>
   );
 };

@@ -30,7 +30,7 @@ export const routes = [
   {
     path: '/contact',
     label: 'Contact',
-  }
+  },
 ];
 
 export const PAGE_LIMIT = 10;
@@ -65,7 +65,7 @@ export const RULES = {
   },
 };
 
-export const DEFAULT_STYLES=  {
+export const DEFAULT_STYLES = {
   backgroundColor: '#FF6B6B',
   borderRadius: 0,
   borderWidth: 0,
@@ -75,5 +75,6 @@ export const DEFAULT_STYLES=  {
   paddingRight: 0,
   paddingLeft: 0,
   paddingBottom: 0,
-  width : '100%',
-}
+  width: '100%',
+  closeButton: false,
+};

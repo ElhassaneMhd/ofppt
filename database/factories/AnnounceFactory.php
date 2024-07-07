@@ -21,6 +21,7 @@ class AnnounceFactory extends Factory
             'paddingRight' => 15,
             'paddingBottom' => 15,
             'paddingLeft' => 15,
+            'width' => '100%',
         ];
 
         return [
